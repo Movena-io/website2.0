@@ -44,7 +44,7 @@ export default function Header() {
       }`}
     >
       <div className="h-16 grid grid-cols-3 items-center">
-        <div className="pl-[50px]">
+        <div className="pl-4 sm:pl-[50px]">
           <a href="/" className="flex items-center">
             <span className="text-[18px] font-extrabold tracking-[-0.025em] text-[#0B1F3B]">Movena</span>
           </a>

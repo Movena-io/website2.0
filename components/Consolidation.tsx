@@ -68,10 +68,10 @@ export default function Consolidation() {
             <span className="text-[11px] font-semibold uppercase tracking-[0.1em] text-[#1D4ED8]">{t.consolidation.label}</span>
             <div className="h-px w-12 bg-gradient-to-l from-transparent to-[#1D4ED8]/30" />
           </div>
-          <h2 className="text-[36px] lg:text-[44px] font-bold tracking-[-0.02em] text-[#0B1F3B] leading-[1.2]">
+          <h2 className="text-[28px] sm:text-[34px] lg:text-[44px] font-bold tracking-[-0.02em] text-[#0B1F3B] leading-[1.2]">
             {t.consolidation.headline} <span className="text-[#F97316]">{t.consolidation.highlight}</span>
           </h2>
-          <p className="mt-4 text-[18px] font-normal text-[#475569] max-w-[540px] mx-auto leading-[1.7]">
+          <p className="mt-4 text-[16px] sm:text-[18px] font-normal text-[#475569] max-w-[540px] mx-auto leading-[1.7]">
             {t.consolidation.subheadline}
           </p>
         </motion.div>

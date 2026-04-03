@@ -27,7 +27,7 @@ export default function FinalCTA() {
           <span className="text-[11px] font-semibold uppercase tracking-[0.1em] text-[#1D4ED8]">{t.finalCta.label}</span>
           <div className="h-px w-12 bg-gradient-to-l from-transparent to-[#1D4ED8]/30" />
         </div>
-        <h2 className="text-[32px] lg:text-[42px] font-extrabold leading-[1.15] tracking-[-0.02em] text-[#0B1F3B]">
+        <h2 className="text-[26px] sm:text-[32px] lg:text-[42px] font-extrabold leading-[1.15] tracking-[-0.02em] text-[#0B1F3B]">
           {t.finalCta.headline} <span className="text-[#F97316]">{t.finalCta.highlight}</span>
         </h2>
         <p className="mt-4 text-[17px] font-normal leading-[1.7] text-[#475569] max-w-xl mx-auto">
@@ -39,7 +39,7 @@ export default function FinalCTA() {
             href={TYPEFORM_URL}
             target="_blank"
             rel="noopener noreferrer"
-            className="btn-gradient inline-flex items-center justify-center gap-2 h-12 px-7 rounded-xl text-white text-[15px] font-semibold shadow-sm"
+            className="btn-gradient inline-flex items-center justify-center gap-2 h-12 px-7 rounded-xl text-white text-[15px] font-semibold shadow-sm w-full sm:w-auto"
           >
             {t.finalCta.button}
             <ArrowRight size={15} strokeWidth={2} />

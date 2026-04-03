@@ -28,10 +28,10 @@ export default function PainPoints() {
             <span className="text-[11px] font-semibold uppercase tracking-[0.1em] text-[#1D4ED8]">{t.painPoints.label}</span>
             <div className="h-px w-12 bg-gradient-to-l from-transparent to-[#1D4ED8]/40" />
           </div>
-          <h2 className="text-[36px] lg:text-[44px] font-bold tracking-[-0.02em] text-[#0B1F3B] leading-[1.2]">
+          <h2 className="text-[28px] sm:text-[34px] lg:text-[44px] font-bold tracking-[-0.02em] text-[#0B1F3B] leading-[1.2]">
             {t.painPoints.headline} <span className="text-[#F97316]">{t.painPoints.highlight}</span>
           </h2>
-          <p className="mt-4 text-[18px] font-normal text-[#475569] max-w-[520px] mx-auto leading-[1.7]">
+          <p className="mt-4 text-[16px] sm:text-[18px] font-normal text-[#475569] max-w-[520px] mx-auto leading-[1.7]">
             {t.painPoints.subheadline}
           </p>
         </div>
@@ -40,7 +40,7 @@ export default function PainPoints() {
           {t.painPoints.items.map(({ title, description }, i) => (
             <div
               key={i}
-              className={`reveal py-10 px-8 ${
+              className={`reveal py-8 px-5 sm:px-8 ${
                 i % 2 === 0 ? 'md:pr-16' : 'md:pl-16'
               } ${
                 i < 2 ? 'border-b border-[#BFDBFE]' : ''

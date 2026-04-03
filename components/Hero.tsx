@@ -198,7 +198,7 @@ export default function Hero() {
         }}
       />
 
-      <div className="max-w-[1200px] mx-auto px-6 py-20 lg:py-28">
+      <div className="max-w-[1200px] mx-auto px-4 sm:px-6 py-12 sm:py-20 lg:py-28">
         <div className="grid grid-cols-1 lg:grid-cols-[2fr_3fr] gap-12 lg:gap-16 items-center">
 
           {/* Left — text */}
@@ -216,11 +216,11 @@ export default function Hero() {
                 <div className="h-px w-12 bg-gradient-to-l from-transparent to-[#1D4ED8]/40" />
               </div>
 
-              <h1 className="text-[42px] lg:text-[56px] font-extrabold leading-[1.05] tracking-[-0.03em] text-[#0B1F3B]" style={{ textWrap: 'balance' } as React.CSSProperties}>
+              <h1 className="text-[30px] sm:text-[38px] lg:text-[56px] font-extrabold leading-[1.05] tracking-[-0.03em] text-[#0B1F3B]" style={{ textWrap: 'balance' } as React.CSSProperties}>
                 {t.hero.headline} <span className="text-[#F97316]">{t.hero.highlight}</span>
               </h1>
 
-              <p className="mt-5 text-[18px] font-normal leading-[1.65] text-[#1E3A5F]/70 max-w-[480px]">
+              <p className="mt-5 text-[16px] sm:text-[18px] font-normal leading-[1.65] text-[#1E3A5F]/70 max-w-[480px]">
                 {t.hero.subheadline}
               </p>
             </AnimatedGroup>
@@ -239,19 +239,19 @@ export default function Hero() {
                 href={TYPEFORM_URL}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="btn-gradient inline-flex items-center justify-center gap-2 h-12 px-7 rounded-xl text-white text-[15px] font-semibold"
+                className="btn-gradient inline-flex items-center justify-center gap-2 h-12 px-7 rounded-xl text-white text-[15px] font-semibold w-full sm:w-auto"
               >
                 {t.hero.primaryCta}
                 <ArrowRight size={15} strokeWidth={2} />
               </a>
 
               <div
-                className="rounded-[14px] p-0.5"
+                className="rounded-[14px] p-0.5 w-full sm:w-auto"
                 style={{ background: 'linear-gradient(135deg, #93C5FD, #1D4ED8, #0B1F3B)' }}
               >
                 <a
                   href="/#how-it-works"
-                  className="inline-flex items-center justify-center h-12 px-7 rounded-xl bg-white/90 backdrop-blur-sm text-[#0B1F3B] text-[15px] font-semibold hover:bg-white transition-colors duration-150"
+                  className="inline-flex items-center justify-center h-12 px-7 rounded-xl bg-white/90 backdrop-blur-sm text-[#0B1F3B] text-[15px] font-semibold hover:bg-white transition-colors duration-150 w-full"
                 >
                   {t.hero.secondaryCta}
                 </a>

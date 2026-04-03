@@ -44,7 +44,7 @@ export default function FAQ() {
               <span className="text-[11px] font-semibold uppercase tracking-[0.1em] text-[#1D4ED8]">{t.faq.label}</span>
               <div className="h-px w-8 bg-gradient-to-l from-transparent to-[#1D4ED8]/30" />
             </div>
-            <h2 className="text-[36px] font-bold leading-[1.2] tracking-[-0.02em] text-[#0B1F3B]">
+            <h2 className="text-[28px] sm:text-[36px] font-bold leading-[1.2] tracking-[-0.02em] text-[#0B1F3B]">
               {t.faq.headline}
             </h2>
             <p className="mt-4 text-[16px] font-normal leading-[1.6] text-[#475569]">

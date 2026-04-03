@@ -327,10 +327,10 @@ export default function Features() {
             <span className="text-[11px] font-semibold uppercase tracking-[0.1em] text-[#1D4ED8]">{t.features.label}</span>
             <div className="h-px w-12 bg-gradient-to-l from-transparent to-[#1D4ED8]/30" />
           </div>
-          <h2 className="max-w-2xl text-[36px] lg:text-[44px] font-bold tracking-[-0.02em] text-[#0B1F3B] leading-[1.2]">
+          <h2 className="max-w-2xl text-[28px] sm:text-[34px] lg:text-[44px] font-bold tracking-[-0.02em] text-[#0B1F3B] leading-[1.2]">
             {t.features.headline} <span className="text-[#F97316]">{t.features.highlight}</span>{t.features.headlineEnd}
           </h2>
-          <p className="text-[18px] text-[#475569] max-w-[480px] leading-[1.7]">
+          <p className="text-[16px] sm:text-[18px] text-[#475569] max-w-[480px] leading-[1.7]">
             {t.features.subheadline}
           </p>
         </div>
@@ -367,7 +367,7 @@ export default function Features() {
                   <span className="inline-block text-[12px] font-semibold text-[#1D4ED8] bg-white border border-[#1D4ED8]/20 uppercase tracking-[0.08em] px-3 py-1 rounded-full w-fit">
                     {tab.badge}
                   </span>
-                  <h3 className="text-[28px] lg:text-[36px] font-bold tracking-[-0.02em] text-[#0B1F3B] leading-[1.2]">
+                  <h3 className="text-[22px] sm:text-[28px] lg:text-[36px] font-bold tracking-[-0.02em] text-[#0B1F3B] leading-[1.2]">
                     {tab.title}
                   </h3>
                   <p className="text-[16px] text-[#475569] leading-[1.75]">

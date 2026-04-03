@@ -157,7 +157,7 @@ function CrewMockup() {
             {/* Job card */}
             <div className="bg-white rounded-2xl border border-[#E2E8F0] p-3.5 shadow-sm">
               <div className="flex items-center justify-between mb-2">
-                <span className="text-[11px] font-bold text-[#0B1F3B]">Today's job</span>
+                <span className="text-[11px] font-bold text-[#0B1F3B]">Today&apos;s job</span>
                 <span className="text-[9px] font-semibold bg-[#1D4ED8]/10 text-[#1D4ED8] px-2 py-0.5 rounded-full">08:00</span>
               </div>
               <p className="text-[12px] font-semibold text-[#0F172A]">Larsen Familie</p>
@@ -288,33 +288,25 @@ function CustomerPortalMockup() {
 
 // ─── Features section ────────────────────────────────────────────────
 
-const tabIcons = [
-  <FileText className="h-4 w-4 shrink-0" />,
-  <CalendarDays className="h-4 w-4 shrink-0" />,
-  <Users className="h-4 w-4 shrink-0" />,
-  <CreditCard className="h-4 w-4 shrink-0" />,
-  <LayoutDashboard className="h-4 w-4 shrink-0" />,
-]
+const tabIconComponents = [FileText, CalendarDays, Users, CreditCard, LayoutDashboard]
 
 const tabValues = ['quotes', 'scheduling', 'crew', 'invoicing', 'portal']
 
-const tabMockups = [
-  <QuotesMockup />,
-  <ScheduleMockup />,
-  <CrewMockup />,
-  <InvoiceMockup />,
-  <CustomerPortalMockup />,
-]
+const tabMockupComponents = [QuotesMockup, ScheduleMockup, CrewMockup, InvoiceMockup, CustomerPortalMockup]
 
 export default function Features() {
   const { t } = useLanguage()
 
-  const tabs = t.features.tabs.map((tab, i) => ({
-    value: tabValues[i],
-    icon: tabIcons[i],
-    mockup: tabMockups[i],
-    ...tab,
-  }))
+  const tabs = t.features.tabs.map((tab, i) => {
+    const Icon = tabIconComponents[i]
+    const Mockup = tabMockupComponents[i]
+    return {
+      value: tabValues[i],
+      icon: <Icon className="h-4 w-4 shrink-0" />,
+      mockup: <Mockup />,
+      ...tab,
+    }
+  })
 
   return (
     <section id="features" className="bg-white border-t border-[#E2E8F0] py-24">

@@ -55,7 +55,7 @@ export default function Terms() {
             </Section>
 
             <Section title="8. Limitation of liability">
-              <p>Movena is provided "as is." We make no warranty that the service will be uninterrupted or error-free. To the fullest extent permitted by law, Movena ApS is not liable for indirect, incidental, or consequential damages arising from your use of the service.</p>
+              <p>Movena is provided &ldquo;as is.&rdquo; We make no warranty that the service will be uninterrupted or error-free. To the fullest extent permitted by law, Movena ApS is not liable for indirect, incidental, or consequential damages arising from your use of the service.</p>
             </Section>
 
             <Section title="9. Termination">

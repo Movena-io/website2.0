@@ -96,7 +96,7 @@ export default function WaitlistSuccess() {
           </div>
 
           <h1 className="text-[26px] font-extrabold tracking-[-0.02em] text-[#0B1F3B]">
-            You're on the list, {firstName}.
+            You&apos;re on the list, {firstName}.
           </h1>
 
           <div className="mt-6 py-6 border-t border-b border-[#F1F5F9]">
@@ -127,7 +127,7 @@ export default function WaitlistSuccess() {
             <h2 className="text-[17px] font-bold text-[#0B1F3B]">Move up the list faster</h2>
           </div>
           <p className="text-[14px] leading-[1.65] text-[#64748B] mb-5">
-            Every company you refer jumps you 50 spots. You've referred{' '}
+            Every company you refer jumps you 50 spots. You&apos;ve referred{' '}
             <span className="font-semibold text-[#0B1F3B]">{data.referralCount}</span> so far.
           </p>
 
@@ -202,7 +202,7 @@ export default function WaitlistSuccess() {
         </div>
 
         <p className="mt-6 text-center text-[13px] text-[#94A3B8]">
-          We'll email you when Movena launches. No spam, ever.
+          We&apos;ll email you when Movena launches. No spam, ever.
         </p>
       </main>
     </div>

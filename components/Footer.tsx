@@ -1,31 +1,32 @@
+'use client'
+
 import { Truck } from 'lucide-react'
-
-const TYPEFORM_URL = 'https://form.typeform.com/to/BD0lEb77'
-
-const links = {
-  Product: [
-    { label: 'Features', href: '#features' },
-    { label: 'How it works', href: '#how-it-works' },
-    { label: 'Join waitlist', href: TYPEFORM_URL, external: true },
-  ],
-  Company: [
-    { label: 'Contact', href: '/contact' },
-  ],
-  Legal: [
-    { label: 'Privacy policy', href: '/privacy' },
-    { label: 'Terms of service', href: '/terms' },
-  ],
-}
+import { TYPEFORM_URL } from '@/lib/constants'
+import { useLanguage } from '@/lib/LanguageContext'
 
 export default function Footer() {
+  const { t } = useLanguage()
+
+  const links = {
+    [t.footer.product]: [
+      { label: t.footer.links.features, href: '/#features' },
+      { label: t.footer.links.howItWorks, href: '/#how-it-works' },
+      { label: t.footer.links.joinWaitlist, href: TYPEFORM_URL, external: true },
+    ],
+    [t.footer.company]: [
+      { label: t.footer.links.contact, href: '/contact' },
+    ],
+    [t.footer.legal]: [
+      { label: t.footer.links.privacy, href: '/privacy' },
+      { label: t.footer.links.terms, href: '/terms' },
+    ],
+  }
+
   return (
     <footer className="bg-[#0B1F3B] border-t border-white/10">
       <div className="max-w-6xl mx-auto px-6 py-14">
 
-        {/* Main row */}
         <div className="flex flex-col md:flex-row justify-between gap-12">
-
-          {/* Left: logo + tagline */}
           <div className="max-w-[220px]">
             <div className="flex items-center gap-2 mb-3">
               <div className="w-7 h-7 rounded-lg bg-[#1D4ED8] flex items-center justify-center shrink-0">
@@ -34,11 +35,10 @@ export default function Footer() {
               <span className="text-[16px] font-extrabold tracking-[-0.025em] text-white">Movena</span>
             </div>
             <p className="text-[13px] leading-[1.6] text-[#64748B]">
-              All-in-one platform built for moving companies.
+              {t.footer.tagline}
             </p>
           </div>
 
-          {/* Right: link columns */}
           <div className="flex flex-wrap gap-10 sm:gap-16">
             {Object.entries(links).map(([group, items]) => (
               <div key={group}>
@@ -63,12 +63,14 @@ export default function Footer() {
           </div>
         </div>
 
-        {/* Bottom bar */}
         <div className="mt-12 pt-8 border-t border-white/10 flex flex-col sm:flex-row justify-between items-center gap-3">
           <p className="text-[12px] text-[#475569]">
-            &copy; {new Date().getFullYear()} Movena. All rights reserved.
+            &copy; {new Date().getFullYear()} {t.footer.copyright}
           </p>
-          <p className="text-[12px] text-[#475569]">Copenhagen, Denmark</p>
+          <div className="flex items-center gap-4">
+            <p className="text-[12px] text-[#475569]">{t.footer.compliance}</p>
+            <p className="text-[12px] text-[#475569]">{t.footer.location}</p>
+          </div>
         </div>
 
       </div>

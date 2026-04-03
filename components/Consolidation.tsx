@@ -2,6 +2,7 @@
 
 import { motion } from 'framer-motion'
 import { Truck, CheckCircle, ChevronDown } from 'lucide-react'
+import { useLanguage } from '@/lib/LanguageContext'
 
 // ─── Tool definitions ─────────────────────────────────────────────────
 
@@ -20,23 +21,11 @@ const tools = [
   { name: 'Dropbox', hex: '0061FF', bg: '#EFF6FF', path: 'M6 1.807L0 5.629l6 3.822 6.001-3.822L6 1.807zM18 1.807l-6 3.822 6 3.822 6-3.822-6-3.822zM0 13.274l6 3.822 6.001-3.822L6 9.452l-6 3.822zM18 9.452l-6 3.822 6 3.822 6-3.822-6-3.822zM6 18.371l6.001 3.822 6-3.822-6-3.822L6 18.371z' },
 ]
 
-// Funnel rows: widest at top, narrowing toward center
 const funnelRows = [
-  tools.slice(0, 4),  // row 1: 4 tools
-  tools.slice(4, 7),  // row 2: 3 tools
-  tools.slice(7, 9),  // row 3: 2 tools
-  tools.slice(9, 12), // row 4: 3 tools (second half — symmetric base)
-]
-
-const replacements = [
-  'Quotes & pricing',
-  'Job scheduling',
-  'Crew coordination',
-  'Customer communication',
-  'Invoicing & accounting',
-  'Time tracking',
-  'Task management',
-  'Job tracking',
+  tools.slice(0, 4),
+  tools.slice(4, 7),
+  tools.slice(7, 9),
+  tools.slice(9, 12),
 ]
 
 function ToolChip({ name, hex, bg, path, delay = 0 }: {
@@ -61,11 +50,12 @@ function ToolChip({ name, hex, bg, path, delay = 0 }: {
 }
 
 export default function Consolidation() {
+  const { t } = useLanguage()
+
   return (
     <section className="bg-[#F8FAFC] border-t border-[#E2E8F0] py-24 overflow-hidden">
       <div className="max-w-4xl mx-auto px-6">
 
-        {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -75,33 +65,27 @@ export default function Consolidation() {
         >
           <div className="flex items-center gap-4 justify-center mb-4">
             <div className="h-px w-12 bg-gradient-to-r from-transparent to-[#1D4ED8]/30" />
-            <span className="text-[11px] font-semibold uppercase tracking-[0.1em] text-[#1D4ED8]">Your current setup</span>
+            <span className="text-[11px] font-semibold uppercase tracking-[0.1em] text-[#1D4ED8]">{t.consolidation.label}</span>
             <div className="h-px w-12 bg-gradient-to-l from-transparent to-[#1D4ED8]/30" />
           </div>
           <h2 className="text-[36px] lg:text-[44px] font-bold tracking-[-0.02em] text-[#0B1F3B] leading-[1.2]">
-            Multiple tools. <span className="text-[#F97316]">Zero coordination.</span>
+            {t.consolidation.headline} <span className="text-[#F97316]">{t.consolidation.highlight}</span>
           </h2>
           <p className="mt-4 text-[18px] font-normal text-[#475569] max-w-[540px] mx-auto leading-[1.7]">
-            Moving companies stitch together WhatsApp, accounting software, spreadsheets, and project tools. And still drop the ball.
+            {t.consolidation.subheadline}
           </p>
         </motion.div>
 
-        {/* Funnel rows */}
         <div className="flex flex-col items-center gap-3">
           {funnelRows.map((row, rowIdx) => (
             <div key={rowIdx} className="flex items-center justify-center gap-3 flex-wrap">
               {row.map((tool, i) => (
-                <ToolChip
-                  key={tool.name}
-                  {...tool}
-                  delay={rowIdx * 0.08 + i * 0.05}
-                />
+                <ToolChip key={tool.name} {...tool} delay={rowIdx * 0.08 + i * 0.05} />
               ))}
             </div>
           ))}
         </div>
 
-        {/* Funnel connector */}
         <motion.div
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
@@ -112,12 +96,11 @@ export default function Consolidation() {
           <div className="w-px h-10 bg-gradient-to-b from-[#E2E8F0] to-[#1D4ED8]" />
           <div className="flex items-center gap-2 bg-[#1D4ED8]/8 border border-[#1D4ED8]/20 rounded-full px-4 py-1.5">
             <ChevronDown size={14} className="text-[#1D4ED8]" strokeWidth={2.5} />
-            <span className="text-[12px] font-semibold text-[#1D4ED8]">All of it, replaced by one</span>
+            <span className="text-[12px] font-semibold text-[#1D4ED8]">{t.consolidation.connector}</span>
           </div>
           <div className="w-px h-10 bg-gradient-to-b from-[#1D4ED8] to-[#0B1F3B]" />
         </motion.div>
 
-        {/* Movena result card */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -133,7 +116,7 @@ export default function Consolidation() {
           </div>
 
           <div className="grid grid-cols-2 gap-x-4 gap-y-2.5">
-            {replacements.map((item) => (
+            {t.consolidation.features.map((item) => (
               <div key={item} className="flex items-center gap-2">
                 <CheckCircle size={13} strokeWidth={2} className="text-[#60A5FA] shrink-0" />
                 <span className="text-[12px] font-medium text-[#CBD5E1]">{item}</span>
@@ -143,7 +126,7 @@ export default function Consolidation() {
 
           <div className="mt-5 pt-4 border-t border-white/10">
             <p className="text-[13px] font-semibold text-white/40 text-center">
-              One subscription. No duct tape.
+              {t.consolidation.subscription}
             </p>
           </div>
         </motion.div>

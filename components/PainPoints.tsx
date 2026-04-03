@@ -1,31 +1,10 @@
 'use client'
 
 import { useEffect, useRef } from 'react'
-
-const pains = [
-  {
-    title: 'Quotes from a spreadsheet',
-    description:
-      'Every job means pulling up a template, running numbers by hand, and hoping you got the pricing right. Then formatting it into an email that looks halfway professional.',
-  },
-  {
-    title: 'Scheduling in WhatsApp',
-    description:
-      'Booking a job is a thread of messages, a separate calendar invite, and a follow-up call to confirm. One miscommunication and two crews show up to the same address.',
-  },
-  {
-    title: 'Crew calls every morning',
-    description:
-      "Your team doesn't know where to be until you tell them. Every day starts with calls to make sure everyone has the right address, the right time, and the right gear.",
-  },
-  {
-    title: 'Invoices you have to chase yourself',
-    description:
-      "The job is done but the money isn't in. You have to find time to write the invoice, send it, and then follow up when it goes past due. Again.",
-  },
-]
+import { useLanguage } from '@/lib/LanguageContext'
 
 export default function PainPoints() {
+  const { t } = useLanguage()
   const sectionRef = useRef<HTMLElement>(null)
 
   useEffect(() => {
@@ -46,21 +25,21 @@ export default function PainPoints() {
         <div className="reveal text-center mb-16">
           <div className="flex items-center gap-4 justify-center mb-4">
             <div className="h-px w-12 bg-gradient-to-r from-transparent to-[#1D4ED8]/40" />
-            <span className="text-[11px] font-semibold uppercase tracking-[0.1em] text-[#1D4ED8]">The problem</span>
+            <span className="text-[11px] font-semibold uppercase tracking-[0.1em] text-[#1D4ED8]">{t.painPoints.label}</span>
             <div className="h-px w-12 bg-gradient-to-l from-transparent to-[#1D4ED8]/40" />
           </div>
           <h2 className="text-[36px] lg:text-[44px] font-bold tracking-[-0.02em] text-[#0B1F3B] leading-[1.2]">
-            Running a moving company <span className="text-[#F97316]">shouldn&apos;t feel this messy</span>
+            {t.painPoints.headline} <span className="text-[#F97316]">{t.painPoints.highlight}</span>
           </h2>
           <p className="mt-4 text-[18px] font-normal text-[#475569] max-w-[520px] mx-auto leading-[1.7]">
-            Most moving companies are running their business on a patchwork of tools that were never built for the job.
+            {t.painPoints.subheadline}
           </p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-0">
-          {pains.map(({ title, description }, i) => (
+          {t.painPoints.items.map(({ title, description }, i) => (
             <div
-              key={title}
+              key={i}
               className={`reveal py-10 px-8 ${
                 i % 2 === 0 ? 'md:pr-16' : 'md:pl-16'
               } ${

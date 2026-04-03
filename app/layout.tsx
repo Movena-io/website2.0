@@ -1,6 +1,8 @@
 import type { Metadata } from 'next'
 import { Manrope } from 'next/font/google'
 import './globals.css'
+import { LanguageProvider } from '@/lib/LanguageContext'
+import { Analytics } from '@vercel/analytics/react'
 
 const manrope = Manrope({
   subsets: ['latin'],
@@ -44,7 +46,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${manrope.variable} font-sans bg-white text-[#0F172A] antialiased`}>
-        {children}
+        <LanguageProvider>
+          {children}
+          <Analytics />
+        </LanguageProvider>
       </body>
     </html>
   )

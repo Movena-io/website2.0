@@ -1,8 +1,12 @@
-import { ArrowRight } from 'lucide-react'
+'use client'
 
-const TYPEFORM_URL = 'https://form.typeform.com/to/BD0lEb77'
+import { ArrowRight } from 'lucide-react'
+import { TYPEFORM_URL } from '@/lib/constants'
+import { useLanguage } from '@/lib/LanguageContext'
 
 export default function FinalCTA() {
+  const { t } = useLanguage()
+
   return (
     <section className="bg-[#F8FAFC] border-t border-[#E2E8F0] py-28 relative overflow-hidden" id="waitlist">
       {/* Dot grid background with radial fade */}
@@ -20,15 +24,15 @@ export default function FinalCTA() {
       <div className="relative max-w-4xl mx-auto px-6 text-center">
         <div className="flex items-center gap-4 justify-center mb-6">
           <div className="h-px w-12 bg-gradient-to-r from-transparent to-[#1D4ED8]/30" />
-          <span className="text-[11px] font-semibold uppercase tracking-[0.1em] text-[#1D4ED8]">Early access</span>
+          <span className="text-[11px] font-semibold uppercase tracking-[0.1em] text-[#1D4ED8]">{t.finalCta.label}</span>
           <div className="h-px w-12 bg-gradient-to-l from-transparent to-[#1D4ED8]/30" />
         </div>
         <h2 className="text-[32px] lg:text-[42px] font-extrabold leading-[1.15] tracking-[-0.02em] text-[#0B1F3B]">
-          Get early access <span className="text-[#F97316]">before we open to everyone</span>
+          {t.finalCta.headline} <span className="text-[#F97316]">{t.finalCta.highlight}</span>
         </h2>
         <p className="mt-4 text-[17px] font-normal leading-[1.7] text-[#475569] max-w-xl mx-auto">
-          Sign up now and we will reach out personally when access opens.{' '}
-          <strong className="font-semibold text-[#0B1F3B]">Early members get better pricing and direct support from the founders.</strong>
+          {t.finalCta.subheadline}{' '}
+          <strong className="font-semibold text-[#0B1F3B]">{t.finalCta.benefit}</strong>
         </p>
         <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-3">
           <a
@@ -37,12 +41,12 @@ export default function FinalCTA() {
             rel="noopener noreferrer"
             className="btn-gradient inline-flex items-center justify-center gap-2 h-12 px-7 rounded-xl text-white text-[15px] font-semibold shadow-sm"
           >
-            Get early access
+            {t.finalCta.button}
             <ArrowRight size={15} strokeWidth={2} />
           </a>
         </div>
         <p className="mt-4 text-[13px] font-medium text-[#94A3B8]">
-          No credit card. Free during early access.
+          {t.finalCta.disclaimer}
         </p>
       </div>
     </section>

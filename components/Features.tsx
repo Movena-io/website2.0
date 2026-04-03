@@ -1,6 +1,7 @@
 'use client'
 
 import * as TabsPrimitive from '@radix-ui/react-tabs'
+import { useLanguage } from '@/lib/LanguageContext'
 import {
   CalendarDays,
   Users,
@@ -126,38 +127,71 @@ function ScheduleMockup() {
 }
 
 function CrewMockup() {
-  const crew = [
-    { name: 'Mikkel P.', role: 'Lead mover', status: 'On job', job: 'Larsen Familie', dot: 'bg-[#16A34A]' },
-    { name: 'Jonas H.', role: 'Mover', status: 'On job', job: 'Larsen Familie', dot: 'bg-[#16A34A]' },
-    { name: 'Rasmus K.', role: 'Driver', status: 'Available', job: null, dot: 'bg-[#1D4ED8]' },
-    { name: 'Emil T.', role: 'Mover', status: 'Off today', job: null, dot: 'bg-[#475569]' },
+  const checklist = [
+    { label: 'Loading blankets (x6)', done: true },
+    { label: 'Dollies (x2)', done: true },
+    { label: 'Shrink wrap', done: false },
+    { label: 'Elevator booked', done: false },
   ]
   return (
-    <div className="w-full bg-white rounded-2xl border border-[#E2E8F0] shadow-lg overflow-hidden">
-      <div className="bg-[#0B1F3B] px-5 py-3 flex items-center gap-3">
-        <Users size={14} strokeWidth={1.5} className="text-[#60A5FA]" />
-        <span className="text-[12px] font-bold text-white">Crew — Today</span>
-        <span className="ml-auto text-[11px] text-white/40">4 members</span>
-      </div>
-      <div className="p-4 bg-[#F8FAFC] flex flex-col gap-2">
-        {crew.map(({ name, role, status, job, dot }) => (
-          <div key={name} className="bg-white rounded-xl border border-[#E2E8F0] px-4 py-3 flex items-center gap-3">
-            <div className="w-8 h-8 rounded-full bg-[#1D4ED8]/10 flex items-center justify-center shrink-0">
-              <span className="text-[11px] font-bold text-[#1D4ED8]">{name[0]}</span>
-            </div>
-            <div className="flex-1 min-w-0">
-              <p className="text-[12px] font-semibold text-[#0F172A]">{name}</p>
-              <p className="text-[10px] text-[#475569]">{role}{job ? ` · ${job}` : ''}</p>
-            </div>
-            <div className="flex items-center gap-1.5 shrink-0">
-              <span className={`w-1.5 h-1.5 rounded-full ${dot}`} />
-              <span className="text-[10px] font-medium text-[#475569]">{status}</span>
-            </div>
+    <div className="flex justify-center">
+      {/* Phone shell */}
+      <div className="w-[260px] bg-[#0B1F3B] rounded-[36px] p-2.5 shadow-2xl shadow-[#0B1F3B]/30 ring-1 ring-white/10">
+        {/* Screen */}
+        <div className="bg-[#F8FAFC] rounded-[28px] overflow-hidden">
+          {/* Status bar */}
+          <div className="bg-[#0B1F3B] px-5 pt-4 pb-3 flex items-center justify-between">
+            <span className="text-[10px] font-semibold text-white">9:41</span>
+            <div className="w-16 h-4 bg-black rounded-full" />
+            <span className="text-[10px] text-white/60">●●●</span>
           </div>
-        ))}
-        <div className="mt-1 bg-[#1D4ED8]/10 rounded-lg px-3 py-2 flex items-center gap-2">
-          <Bell size={11} strokeWidth={1.5} className="text-[#1D4ED8]" />
-          <span className="text-[11px] font-medium text-[#1D4ED8]">Rasmus notified for Hansen ApS tomorrow</span>
+          {/* App header */}
+          <div className="bg-[#0B1F3B] px-4 pb-4 flex items-center gap-2">
+            <div className="w-6 h-6 rounded-lg bg-[#1D4ED8] flex items-center justify-center">
+              <Truck size={11} strokeWidth={1.5} className="text-white" />
+            </div>
+            <span className="text-[12px] font-bold text-white">Movena</span>
+          </div>
+
+          <div className="p-4 flex flex-col gap-3">
+            {/* Job card */}
+            <div className="bg-white rounded-2xl border border-[#E2E8F0] p-3.5 shadow-sm">
+              <div className="flex items-center justify-between mb-2">
+                <span className="text-[11px] font-bold text-[#0B1F3B]">Today's job</span>
+                <span className="text-[9px] font-semibold bg-[#1D4ED8]/10 text-[#1D4ED8] px-2 py-0.5 rounded-full">08:00</span>
+              </div>
+              <p className="text-[12px] font-semibold text-[#0F172A]">Larsen Familie</p>
+              <div className="flex items-start gap-1.5 mt-1.5">
+                <MapPin size={9} strokeWidth={1.5} className="text-[#1D4ED8] mt-0.5 shrink-0" />
+                <p className="text-[10px] text-[#475569] leading-[1.4]">Vesterbrogade 48 → Nørrebrogade 22</p>
+              </div>
+              <div className="flex items-center gap-1.5 mt-2">
+                <Users size={9} strokeWidth={1.5} className="text-[#475569]" />
+                <span className="text-[10px] text-[#475569]">3 crew · 1 truck · 3-bedroom</span>
+              </div>
+            </div>
+
+            {/* Gear checklist */}
+            <div className="bg-white rounded-2xl border border-[#E2E8F0] p-3.5 shadow-sm">
+              <p className="text-[10px] font-bold text-[#0B1F3B] mb-2.5 uppercase tracking-wide">Gear checklist</p>
+              <div className="flex flex-col gap-2">
+                {checklist.map(({ label, done }) => (
+                  <div key={label} className="flex items-center gap-2">
+                    <div className={`w-4 h-4 rounded-full flex items-center justify-center shrink-0 ${done ? 'bg-[#16A34A]' : 'border border-[#E2E8F0] bg-white'}`}>
+                      {done && <CheckCircle size={10} strokeWidth={2} className="text-white" />}
+                    </div>
+                    <span className={`text-[10px] ${done ? 'text-[#475569] line-through' : 'text-[#0F172A] font-medium'}`}>{label}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Start job button */}
+            <button className="w-full h-9 bg-[#1D4ED8] text-white text-[11px] font-bold rounded-xl flex items-center justify-center gap-1.5">
+              <CheckCircle size={11} strokeWidth={2} />
+              Start job
+            </button>
+          </div>
         </div>
       </div>
     </div>
@@ -252,89 +286,36 @@ function CustomerPortalMockup() {
   )
 }
 
-// ─── Feature tabs data ───────────────────────────────────────────────
-
-const tabs = [
-  {
-    value: 'quotes',
-    icon: <FileText className="h-4 w-4 shrink-0" />,
-    label: 'Quotes',
-    badge: 'Quoting',
-    title: 'Accurate quotes, sent in minutes.',
-    description:
-      'Set your rates once and Movena builds the price automatically for every job. No spreadsheets, no guesswork. The customer gets a professional quote they can sign online.',
-    points: [
-      'Auto-calculated based on your rates',
-      'Digital signing in the customer portal',
-      'Accepted quotes flow straight to your calendar',
-    ],
-    mockup: <QuotesMockup />,
-  },
-  {
-    value: 'scheduling',
-    icon: <CalendarDays className="h-4 w-4 shrink-0" />,
-    label: 'Scheduling',
-    badge: 'Planning',
-    title: 'Every job on one calendar.',
-    description:
-      'See what is booked, what is pending, and who is available. Spot conflicts before they happen. Assign crews with a click and give everyone a clear picture of the week.',
-    points: [
-      'Drag-and-drop job scheduling',
-      'Crew availability built in',
-      'Instant conflict detection',
-    ],
-    mockup: <ScheduleMockup />,
-  },
-  {
-    value: 'crew',
-    icon: <Users className="h-4 w-4 shrink-0" />,
-    label: 'Crew',
-    badge: 'Team management',
-    title: 'Your team always knows where to be.',
-    description:
-      'Crew members get job details, addresses, and timing on their phone. No more calls to figure out the plan. Everything they need is already there.',
-    points: [
-      'Mobile app for crew members',
-      'Job notifications sent automatically',
-      'Photo and signature capture on-site',
-    ],
-    mockup: <CrewMockup />,
-  },
-  {
-    value: 'invoicing',
-    icon: <CreditCard className="h-4 w-4 shrink-0" />,
-    label: 'Invoicing',
-    badge: 'Payments',
-    title: 'Invoice the moment the job is done.',
-    description:
-      'Turn a completed job into an invoice in seconds. Everything is already filled in. Send it, track it, and collect payment without picking up the phone.',
-    points: [
-      'Auto-generated from the job details',
-      'MobilePay and card payments built in',
-      'Overdue reminders sent automatically',
-    ],
-    mockup: <InvoiceMockup />,
-  },
-  {
-    value: 'portal',
-    icon: <LayoutDashboard className="h-4 w-4 shrink-0" />,
-    label: 'Customer portal',
-    badge: 'Customer experience',
-    title: 'A professional experience for your customers.',
-    description:
-      'Customers get a dedicated page where they can track their move, sign documents, and communicate with you. It looks like you have a full team behind you.',
-    points: [
-      'Branded portal with your company name',
-      'Quote signing and payment in one place',
-      'Review request after job completion',
-    ],
-    mockup: <CustomerPortalMockup />,
-  },
-]
-
 // ─── Features section ────────────────────────────────────────────────
 
+const tabIcons = [
+  <FileText className="h-4 w-4 shrink-0" />,
+  <CalendarDays className="h-4 w-4 shrink-0" />,
+  <Users className="h-4 w-4 shrink-0" />,
+  <CreditCard className="h-4 w-4 shrink-0" />,
+  <LayoutDashboard className="h-4 w-4 shrink-0" />,
+]
+
+const tabValues = ['quotes', 'scheduling', 'crew', 'invoicing', 'portal']
+
+const tabMockups = [
+  <QuotesMockup />,
+  <ScheduleMockup />,
+  <CrewMockup />,
+  <InvoiceMockup />,
+  <CustomerPortalMockup />,
+]
+
 export default function Features() {
+  const { t } = useLanguage()
+
+  const tabs = t.features.tabs.map((tab, i) => ({
+    value: tabValues[i],
+    icon: tabIcons[i],
+    mockup: tabMockups[i],
+    ...tab,
+  }))
+
   return (
     <section id="features" className="bg-white border-t border-[#E2E8F0] py-24">
       <div className="max-w-6xl mx-auto px-6">
@@ -343,14 +324,14 @@ export default function Features() {
         <div className="flex flex-col items-center gap-3 text-center mb-10">
           <div className="flex items-center gap-4">
             <div className="h-px w-12 bg-gradient-to-r from-transparent to-[#1D4ED8]/30" />
-            <span className="text-[11px] font-semibold uppercase tracking-[0.1em] text-[#1D4ED8]">Features</span>
+            <span className="text-[11px] font-semibold uppercase tracking-[0.1em] text-[#1D4ED8]">{t.features.label}</span>
             <div className="h-px w-12 bg-gradient-to-l from-transparent to-[#1D4ED8]/30" />
           </div>
           <h2 className="max-w-2xl text-[36px] lg:text-[44px] font-bold tracking-[-0.02em] text-[#0B1F3B] leading-[1.2]">
-            One platform. <span className="text-[#F97316]">Every job</span>, start to finish.
+            {t.features.headline} <span className="text-[#F97316]">{t.features.highlight}</span>{t.features.headlineEnd}
           </h2>
           <p className="text-[18px] text-[#475569] max-w-[480px] leading-[1.7]">
-            No jumping between tools. Every step of the job lives in one place.
+            {t.features.subheadline}
           </p>
         </div>
 

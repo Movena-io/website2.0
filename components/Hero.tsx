@@ -5,9 +5,9 @@ import { gsap } from 'gsap'
 import { motion, Variants } from 'framer-motion'
 import { ArrowRight, MapPin, Clock, CheckCircle, ChevronRight, Truck } from 'lucide-react'
 import { cn } from '@/lib/utils'
+import { TYPEFORM_URL } from '@/lib/constants'
+import { useLanguage } from '@/lib/LanguageContext'
 import { ReactNode } from 'react'
-
-const TYPEFORM_URL = 'https://form.typeform.com/to/BD0lEb77'
 
 // ─── Animation helpers ────────────────────────────────────────────────
 
@@ -166,6 +166,7 @@ function ProductMockup() {
 // ─── Hero ─────────────────────────────────────────────────────────────
 
 export default function Hero() {
+  const { t } = useLanguage()
   const gradientRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -211,16 +212,16 @@ export default function Hero() {
             >
               <div className="flex items-center gap-4 mb-6">
                 <div className="h-px w-12 bg-gradient-to-r from-transparent to-[#1D4ED8]/40" />
-                <span className="text-[11px] font-semibold uppercase tracking-[0.1em] text-[#1D4ED8]">Built for moving companies</span>
+                <span className="text-[11px] font-semibold uppercase tracking-[0.1em] text-[#1D4ED8]">{t.hero.badge}</span>
                 <div className="h-px w-12 bg-gradient-to-l from-transparent to-[#1D4ED8]/40" />
               </div>
 
               <h1 className="text-[42px] lg:text-[56px] font-extrabold leading-[1.05] tracking-[-0.03em] text-[#0B1F3B]" style={{ textWrap: 'balance' } as React.CSSProperties}>
-                Run your moving company <span className="text-[#F97316]">from one place</span>
+                {t.hero.headline} <span className="text-[#F97316]">{t.hero.highlight}</span>
               </h1>
 
               <p className="mt-5 text-[18px] font-normal leading-[1.65] text-[#1E3A5F]/70 max-w-[480px]">
-                Movena takes care of the back office. Quotes, scheduling, crew coordination, and invoicing, all in one place so you can focus on the job.
+                {t.hero.subheadline}
               </p>
             </AnimatedGroup>
 
@@ -240,7 +241,7 @@ export default function Hero() {
                 rel="noopener noreferrer"
                 className="btn-gradient inline-flex items-center justify-center gap-2 h-12 px-7 rounded-xl text-white text-[15px] font-semibold"
               >
-                Join the waitlist
+                {t.hero.primaryCta}
                 <ArrowRight size={15} strokeWidth={2} />
               </a>
 
@@ -252,13 +253,13 @@ export default function Hero() {
                   href="/#how-it-works"
                   className="inline-flex items-center justify-center h-12 px-7 rounded-xl bg-white/90 backdrop-blur-sm text-[#0B1F3B] text-[15px] font-semibold hover:bg-white transition-colors duration-150"
                 >
-                  See how it works
+                  {t.hero.secondaryCta}
                 </a>
               </div>
             </AnimatedGroup>
 
             <p className="mt-4 text-[13px] font-medium text-[#1E3A5F]/50">
-              No credit card required. Free during early access.
+              {t.hero.disclaimer}
             </p>
           </div>
 

@@ -11,9 +11,6 @@ import {
   CheckCircle,
   ChevronRight,
   Truck,
-  Bell,
-  Phone,
-  Star,
   FileText,
   LayoutDashboard,
 } from 'lucide-react'
@@ -126,72 +123,50 @@ function ScheduleMockup() {
   )
 }
 
-function CrewMockup() {
-  const checklist = [
-    { label: 'Loading blankets (x6)', done: true },
-    { label: 'Dollies (x2)', done: true },
-    { label: 'Shrink wrap', done: false },
-    { label: 'Elevator booked', done: false },
+function CrmMockup() {
+  const leads = [
+    { name: 'Larsen Familie',    from: 'Vesterbro',  to: 'Nørrebro',  date: '14. apr', price: '8.200 kr',  status: 'Ny',           statusClass: 'bg-blue-100 text-blue-700 border-blue-200' },
+    { name: 'Schmidt Transport', from: 'Valby',       to: 'Taastrup',  date: '16. apr', price: '14.400 kr', status: 'Tilbud sendt', statusClass: 'bg-orange-100 text-orange-700 border-orange-200' },
+    { name: 'Hansen Bolig',      from: 'Roskilde',    to: 'Høje-T.',   date: '18. apr', price: '6.750 kr',  status: 'Planlagt',     statusClass: 'bg-purple-100 text-purple-700 border-purple-200' },
+    { name: 'Nielsen Erhverv',   from: 'Aarhus C',    to: 'Kbh. K',   date: '22. apr', price: '12.300 kr', status: 'Accepteret',   statusClass: 'bg-green-100 text-green-700 border-green-200' },
   ]
+  const filters = ['Alle', 'Ny', 'Tilbud sendt', 'Planlagt']
   return (
-    <div className="flex justify-center">
-      {/* Phone shell */}
-      <div className="w-[260px] bg-[#0B1F3B] rounded-[36px] p-2.5 shadow-2xl shadow-[#0B1F3B]/30 ring-1 ring-white/10">
-        {/* Screen */}
-        <div className="bg-[#F8FAFC] rounded-[28px] overflow-hidden">
-          {/* Status bar */}
-          <div className="bg-[#0B1F3B] px-5 pt-4 pb-3 flex items-center justify-between">
-            <span className="text-[10px] font-semibold text-white">9:41</span>
-            <div className="w-16 h-4 bg-black rounded-full" />
-            <span className="text-[10px] text-white/60">●●●</span>
-          </div>
-          {/* App header */}
-          <div className="bg-[#0B1F3B] px-4 pb-4 flex items-center gap-2">
-            <div className="w-6 h-6 rounded-lg bg-[#1D4ED8] flex items-center justify-center">
-              <Truck size={11} strokeWidth={1.5} className="text-white" />
+    <div className="w-full bg-white rounded-2xl border border-[#E2E8F0] shadow-lg overflow-hidden">
+      <div className="bg-[#0B1F3B] px-5 py-3 flex items-center gap-3">
+        <Users size={14} strokeWidth={1.5} className="text-[#60A5FA]" />
+        <span className="text-[12px] font-bold text-white">CRM — Leads</span>
+        <span className="ml-auto text-[11px] text-white/40">24 leads this month</span>
+      </div>
+      <div className="bg-[#F8FAFC]">
+        {/* Filter tabs */}
+        <div className="flex items-center gap-1 px-4 pt-3 pb-2 border-b border-[#E2E8F0]">
+          {filters.map((f, i) => (
+            <span key={f} className={`text-[10px] font-semibold px-2.5 py-1 rounded-md ${i === 0 ? 'bg-[#0B1F3B] text-white' : 'text-[#475569] hover:bg-white'}`}>{f}</span>
+          ))}
+        </div>
+        {/* Table header */}
+        <div className="grid grid-cols-[1fr_auto_auto_auto] gap-x-3 px-4 py-1.5 border-b border-[#E2E8F0]">
+          {['Lead', 'Dato', 'Pris', 'Status'].map(h => (
+            <span key={h} className="text-[9px] font-semibold uppercase tracking-wide text-[#94A3B8]">{h}</span>
+          ))}
+        </div>
+        {/* Rows */}
+        <div className="flex flex-col divide-y divide-[#F1F5F9]">
+          {leads.map(({ name, from, to, date, price, status, statusClass }) => (
+            <div key={name} className="grid grid-cols-[1fr_auto_auto_auto] gap-x-3 items-center px-4 py-2.5 bg-white hover:bg-[#F8FAFC]">
+              <div>
+                <p className="text-[11px] font-semibold text-[#0F172A]">{name}</p>
+                <div className="flex items-center gap-1 mt-0.5">
+                  <MapPin size={8} strokeWidth={1.5} className="text-[#94A3B8]" />
+                  <span className="text-[9px] text-[#94A3B8]">{from} → {to}</span>
+                </div>
+              </div>
+              <span className="text-[10px] text-[#475569] whitespace-nowrap">{date}</span>
+              <span className="text-[10px] font-semibold text-[#0F172A] whitespace-nowrap">{price}</span>
+              <span className={`text-[9px] font-semibold px-1.5 py-0.5 rounded border whitespace-nowrap ${statusClass}`}>{status}</span>
             </div>
-            <span className="text-[12px] font-bold text-white">Movena</span>
-          </div>
-
-          <div className="p-4 flex flex-col gap-3">
-            {/* Job card */}
-            <div className="bg-white rounded-2xl border border-[#E2E8F0] p-3.5 shadow-sm">
-              <div className="flex items-center justify-between mb-2">
-                <span className="text-[11px] font-bold text-[#0B1F3B]">Today&apos;s job</span>
-                <span className="text-[9px] font-semibold bg-[#1D4ED8]/10 text-[#1D4ED8] px-2 py-0.5 rounded-full">08:00</span>
-              </div>
-              <p className="text-[12px] font-semibold text-[#0F172A]">Larsen Familie</p>
-              <div className="flex items-start gap-1.5 mt-1.5">
-                <MapPin size={9} strokeWidth={1.5} className="text-[#1D4ED8] mt-0.5 shrink-0" />
-                <p className="text-[10px] text-[#475569] leading-[1.4]">Vesterbrogade 48 → Nørrebrogade 22</p>
-              </div>
-              <div className="flex items-center gap-1.5 mt-2">
-                <Users size={9} strokeWidth={1.5} className="text-[#475569]" />
-                <span className="text-[10px] text-[#475569]">3 crew · 1 truck · 3-bedroom</span>
-              </div>
-            </div>
-
-            {/* Gear checklist */}
-            <div className="bg-white rounded-2xl border border-[#E2E8F0] p-3.5 shadow-sm">
-              <p className="text-[10px] font-bold text-[#0B1F3B] mb-2.5 uppercase tracking-wide">Gear checklist</p>
-              <div className="flex flex-col gap-2">
-                {checklist.map(({ label, done }) => (
-                  <div key={label} className="flex items-center gap-2">
-                    <div className={`w-4 h-4 rounded-full flex items-center justify-center shrink-0 ${done ? 'bg-[#16A34A]' : 'border border-[#E2E8F0] bg-white'}`}>
-                      {done && <CheckCircle size={10} strokeWidth={2} className="text-white" />}
-                    </div>
-                    <span className={`text-[10px] ${done ? 'text-[#475569] line-through' : 'text-[#0F172A] font-medium'}`}>{label}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Start job button */}
-            <button className="w-full h-9 bg-[#1D4ED8] text-white text-[11px] font-bold rounded-xl flex items-center justify-center gap-1.5">
-              <CheckCircle size={11} strokeWidth={2} />
-              Start job
-            </button>
-          </div>
+          ))}
         </div>
       </div>
     </div>
@@ -241,45 +216,63 @@ function InvoiceMockup() {
   )
 }
 
-function CustomerPortalMockup() {
+function TasksMockup() {
+  const cols = [
+    {
+      name: 'Nye opgaver', stripe: 'bg-blue-600', badge: 'bg-blue-50 text-blue-700',
+      cards: [
+        { title: 'Bestil emballagematerialer til maj', cat: 'Admin', catClass: 'bg-slate-100 text-slate-600', initials: 'LP', deadline: '15. apr', priority: 'høj' },
+        { title: 'Kontakt Carlsberg vedr. storflytning', cat: 'Kunde', catClass: 'bg-purple-50 text-purple-700', initials: 'SA', deadline: '10. apr', priority: 'høj' },
+      ],
+    },
+    {
+      name: 'I gang', stripe: 'bg-orange-500', badge: 'bg-orange-50 text-orange-700',
+      cards: [
+        { title: 'Jepsen flytning — pakkedag', cat: 'Flytning', catClass: 'bg-blue-50 text-blue-700', initials: 'TN', deadline: '5. apr', priority: 'høj' },
+        { title: 'Servicetjek på Mercedes Sprinter', cat: 'Admin', catClass: 'bg-slate-100 text-slate-600', initials: 'HV', deadline: '12. apr', priority: 'lav' },
+      ],
+    },
+    {
+      name: 'Færdig', stripe: 'bg-green-500', badge: 'bg-green-50 text-green-700',
+      cards: [
+        { title: 'Nilsson flytning — afsluttet', cat: 'Flytning', catClass: 'bg-blue-50 text-blue-700', initials: 'LP', deadline: '25. mar', priority: 'lav' },
+      ],
+    },
+  ]
   return (
     <div className="w-full bg-white rounded-2xl border border-[#E2E8F0] shadow-lg overflow-hidden">
       <div className="bg-[#0B1F3B] px-5 py-3 flex items-center gap-3">
-        <Phone size={14} strokeWidth={1.5} className="text-[#60A5FA]" />
-        <span className="text-[12px] font-bold text-white">Your move — Movena</span>
-        <span className="ml-auto text-[11px] text-white/40">Customer view</span>
+        <LayoutDashboard size={14} strokeWidth={1.5} className="text-[#60A5FA]" />
+        <span className="text-[12px] font-bold text-white">Opgaver</span>
+        <span className="ml-auto text-[11px] text-white/40">10 active tasks</span>
       </div>
-      <div className="p-5 bg-[#F8FAFC] flex flex-col gap-3">
-        <div className="bg-white rounded-xl border border-[#E2E8F0] p-4 flex flex-col gap-3">
-          <div className="flex items-center justify-between">
-            <p className="text-[13px] font-bold text-[#0F172A]">Your upcoming move</p>
-            <span className="text-[10px] font-semibold bg-[#1D4ED8]/10 text-[#1D4ED8] px-2 py-0.5 rounded">Confirmed</span>
-          </div>
-          <div className="flex flex-col gap-1.5">
-            <div className="flex items-center gap-2">
-              <CalendarDays size={11} strokeWidth={1.5} className="text-[#475569]" />
-              <span className="text-[12px] text-[#475569]">Tuesday, 14 April · 08:00 – 14:00</span>
+      <div className="p-3 bg-[#F8FAFC]">
+        <div className="grid grid-cols-3 gap-2">
+          {cols.map((col) => (
+            <div key={col.name} className="flex flex-col gap-2">
+              {/* Column header */}
+              <div className="flex items-center gap-1.5">
+                <div className={`w-2 h-2 rounded-full ${col.stripe}`} />
+                <span className="text-[10px] font-bold text-[#0F172A] truncate">{col.name}</span>
+              </div>
+              {/* Cards */}
+              {col.cards.map((card) => (
+                <div key={card.title} className="bg-white rounded-lg border border-[#E2E8F0] p-2 flex flex-col gap-1.5 shadow-sm">
+                  <p className="text-[9px] font-semibold text-[#0F172A] leading-[1.3] line-clamp-2">{card.title}</p>
+                  <span className={`text-[8px] font-semibold px-1.5 py-0.5 rounded w-fit ${card.catClass}`}>{card.cat}</span>
+                  <div className="flex items-center justify-between mt-0.5">
+                    <div className="w-4 h-4 rounded-full bg-[#E2E8F0] flex items-center justify-center">
+                      <span className="text-[7px] font-bold text-[#475569]">{card.initials}</span>
+                    </div>
+                    <div className="flex items-center gap-0.5">
+                      <CalendarDays size={7} strokeWidth={1.5} className="text-[#94A3B8]" />
+                      <span className="text-[8px] text-[#94A3B8]">{card.deadline}</span>
+                    </div>
+                  </div>
+                </div>
+              ))}
             </div>
-            <div className="flex items-center gap-2">
-              <MapPin size={11} strokeWidth={1.5} className="text-[#1D4ED8]" />
-              <span className="text-[12px] text-[#475569]">Vesterbrogade 48 → Nørrebrogade 22</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <Users size={11} strokeWidth={1.5} className="text-[#475569]" />
-              <span className="text-[12px] text-[#475569]">3 crew members · 1 truck</span>
-            </div>
-          </div>
-        </div>
-        <div className="bg-white rounded-xl border border-[#E2E8F0] p-4">
-          <p className="text-[12px] font-semibold text-[#0F172A] mb-1">Quote ready to sign</p>
-          <p className="text-[11px] text-[#475569] mb-3">5.200 kr incl. VAT · Review and accept below</p>
-          <button className="w-full h-8 bg-[#1D4ED8] text-white text-[11px] font-semibold rounded-lg flex items-center justify-center gap-1.5">
-            <CheckCircle size={11} strokeWidth={1.5} /> Accept quote
-          </button>
-        </div>
-        <div className="flex items-center gap-2 bg-[#F8FAFC] rounded-lg border border-[#E2E8F0] px-3 py-2">
-          <Star size={11} strokeWidth={1.5} className="text-[#F59E0B]" />
-          <span className="text-[11px] text-[#475569]">After your move, leave a quick review</span>
+          ))}
         </div>
       </div>
     </div>
@@ -290,9 +283,9 @@ function CustomerPortalMockup() {
 
 const tabIconComponents = [FileText, CalendarDays, Users, CreditCard, LayoutDashboard]
 
-const tabValues = ['quotes', 'scheduling', 'crew', 'invoicing', 'portal']
+const tabValues = ['quotes', 'scheduling', 'crm', 'invoicing', 'tasks']
 
-const tabMockupComponents = [QuotesMockup, ScheduleMockup, CrewMockup, InvoiceMockup, CustomerPortalMockup]
+const tabMockupComponents = [QuotesMockup, ScheduleMockup, CrmMockup, InvoiceMockup, TasksMockup]
 
 export default function Features() {
   const { t } = useLanguage()

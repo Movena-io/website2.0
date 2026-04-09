@@ -3,7 +3,7 @@
 import { useEffect, useRef } from 'react'
 import { gsap } from 'gsap'
 import { motion, Variants } from 'framer-motion'
-import { ArrowRight, MapPin, Clock, CheckCircle, ChevronRight, Truck } from 'lucide-react'
+import { ArrowRight } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { TYPEFORM_URL } from '@/lib/constants'
 import { useLanguage } from '@/lib/LanguageContext'
@@ -57,6 +57,12 @@ function AnimatedGroup({
 // ─── Product mockup ───────────────────────────────────────────────────
 
 function ProductMockup() {
+  const jobs = [
+    { time: '08:00', title: 'Larsen Family',     route: 'Westside → Northgate', crew: '3 crew · Sprinter',  status: 'Active',    sc: 'bg-green-50 text-green-700', active: true  },
+    { time: '12:00', title: 'Schmidt Transport', route: 'Downtown → Eastfield', crew: '4 crew · Box truck', status: 'Scheduled', sc: 'bg-blue-50 text-blue-700',   active: false },
+    { time: '15:00', title: 'Hansen Residence',  route: 'Harbor → Midtown',     crew: '2 crew · Van',       status: 'Scheduled', sc: 'bg-blue-50 text-blue-700',   active: false },
+  ]
+
   return (
     <div className="w-full select-none">
       {/* Browser chrome */}
@@ -74,88 +80,91 @@ function ProductMockup() {
       </div>
 
       {/* App window */}
-      <div className="rounded-b-xl border border-[#334155] border-t-0 overflow-hidden bg-[#F8FAFC]">
+      <div className="rounded-b-xl border border-[#334155] border-t-0 overflow-hidden">
         <div className="flex">
+
           {/* Sidebar */}
-          <div className="w-12 bg-[#0B1F3B] flex flex-col items-center py-4 gap-3 shrink-0">
-            <div className="w-7 h-7 rounded-lg bg-[#1D4ED8] flex items-center justify-center">
-              <Truck size={13} strokeWidth={1.5} className="text-white" />
+          <aside className="w-[110px] shrink-0 bg-slate-900 flex flex-col">
+            <div className="flex items-center gap-1.5 px-3 py-3 border-b border-white/5">
+              <div className="flex h-5 w-5 shrink-0 items-center justify-center rounded bg-blue-700 text-[9px] font-bold text-white">M</div>
+              <span className="text-[10px] font-semibold tracking-[0.06em] text-white">Movena</span>
             </div>
-            {['Q', 'S', 'C', 'I'].map((l) => (
-              <div key={l} className="w-7 h-7 rounded-lg bg-white/10 flex items-center justify-center">
-                <span className="text-[10px] font-bold text-white/40">{l}</span>
+            <nav className="flex-1 px-1.5 py-2 space-y-0.5">
+              {[
+                { label: 'Dashboard',  active: true  },
+                { label: 'Tasks',      active: false },
+                { label: 'Calendar',   active: false },
+                { label: 'Quotes',     active: false },
+                { label: 'Leads',      active: false },
+                { label: 'Invoicing',  active: false },
+              ].map(item => (
+                <div key={item.label} className={`flex items-center rounded-lg border-l-[2px] py-1 pl-[7px] pr-2 text-[9px] font-medium ${item.active ? 'border-blue-700 bg-blue-700/20 text-blue-400' : 'border-transparent text-slate-400'}`}>
+                  {item.label}
+                </div>
+              ))}
+            </nav>
+            <div className="border-t border-white/5 px-1.5 pb-3 pt-2.5">
+              <div className="flex items-center gap-1.5 px-2">
+                <div className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-blue-700 text-[7px] font-bold text-white">SO</div>
+                <span className="truncate text-[9px] text-slate-500">Samuel O.</span>
               </div>
-            ))}
-          </div>
-
-          {/* Main content */}
-          <div className="flex-1 p-4 flex flex-col gap-3 min-w-0">
-            <div className="flex items-center justify-between">
-              <h3 className="text-[13px] font-bold text-[#0F172A]">Active quotes</h3>
-              <button className="bg-[#1D4ED8] text-white text-[10px] font-semibold px-3 py-1.5 rounded-lg shrink-0">
-                + New quote
-              </button>
             </div>
+          </aside>
 
-            <div className="bg-white rounded-xl border border-[#E2E8F0] p-3.5 shadow-sm">
-              <div className="flex items-start justify-between mb-2.5">
-                <div>
-                  <p className="text-[12px] font-semibold text-[#0F172A]">Larsen Familie</p>
-                  <p className="text-[11px] text-[#475569] mt-0.5">3-bedroom · 14 Apr 08:00</p>
-                </div>
-                <span className="text-[10px] font-semibold bg-[#F97316]/10 text-[#EA580C] px-2 py-0.5 rounded shrink-0">Pending</span>
-              </div>
-              <div className="flex flex-col gap-1 mb-2.5">
-                <div className="flex items-center gap-2">
-                  <MapPin size={10} strokeWidth={1.5} className="text-[#1D4ED8] shrink-0" />
-                  <span className="text-[10px] text-[#475569] truncate">48 Vesterbrogade, 1620 CPH</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <MapPin size={10} strokeWidth={1.5} className="text-[#16A34A] shrink-0" />
-                  <span className="text-[10px] text-[#475569] truncate">22 Nørrebrogade, 2200 CPH</span>
-                </div>
-              </div>
-              <div className="border-t border-[#F1F5F9] pt-2.5 flex items-center justify-between">
-                <span className="text-[12px] font-bold text-[#0F172A]">5.200 kr</span>
-                <button className="flex items-center gap-1 bg-[#1D4ED8] text-white text-[10px] font-bold px-3 py-1.5 rounded-lg">
-                  Send <ChevronRight size={9} strokeWidth={2.5} />
-                </button>
-              </div>
+          {/* Dashboard content */}
+          <div className="flex-1 bg-[#f8fafc] overflow-hidden px-4 py-4">
+
+            {/* Greeting */}
+            <div className="mb-3">
+              <h1 className="text-[13px] font-semibold" style={{ color: '#1D1D1F' }}>Good morning, Samuel</h1>
+              <p className="text-[10px] mt-0.5" style={{ color: '#6E6E73' }}>Today — 3 jobs</p>
             </div>
 
-            <div className="bg-white rounded-xl border border-[#E2E8F0] p-3.5 shadow-sm">
-              <div className="flex items-start justify-between mb-2">
-                <div>
-                  <p className="text-[12px] font-semibold text-[#0F172A]">Hansen ApS</p>
-                  <p className="text-[11px] text-[#475569] mt-0.5">Office relocation · 16 Apr</p>
+            {/* 4 metric cards */}
+            <div className="grid grid-cols-4 gap-1.5 mb-3">
+              {[
+                { label: 'Active leads',   value: '12', sub: 'in pipeline', color: undefined   },
+                { label: 'Jobs today',     value: '3',  sub: '1 active',    color: '#2563EB'   },
+                { label: 'Jobs this week', value: '11', sub: 'scheduled',   color: undefined   },
+                { label: 'Quotes pending', value: '5',  sub: 'unanswered',  color: '#FF9500'   },
+              ].map(c => (
+                <div key={c.label} className="rounded-xl bg-white border border-gray-100 px-2.5 py-2 shadow-sm">
+                  <p className="text-[7px] font-medium uppercase tracking-wide leading-tight" style={{ color: '#AEAEB2' }}>{c.label}</p>
+                  <p className="text-[18px] font-semibold leading-none mt-1" style={{ color: c.color ?? '#1D1D1F' }}>{c.value}</p>
+                  <p className="text-[7px] mt-0.5" style={{ color: '#AEAEB2' }}>{c.sub}</p>
                 </div>
-                <span className="text-[10px] font-semibold bg-[#16A34A]/10 text-[#16A34A] px-2 py-0.5 rounded shrink-0">Accepted</span>
-              </div>
-              <div className="flex items-center gap-4">
-                <div className="flex items-center gap-1.5">
-                  <Clock size={10} strokeWidth={1.5} className="text-[#475569]" />
-                  <span className="text-[10px] text-[#475569]">Est. 6h</span>
-                </div>
-                <div className="flex items-center gap-1.5">
-                  <CheckCircle size={10} strokeWidth={1.5} className="text-[#16A34A]" />
-                  <span className="text-[10px] text-[#475569]">Crew assigned</span>
-                </div>
-              </div>
-              <div className="border-t border-[#F1F5F9] mt-2.5 pt-2.5 flex items-center justify-between">
-                <span className="text-[12px] font-bold text-[#0F172A]">12.800 kr</span>
-                <button className="text-[10px] font-semibold text-[#1D4ED8]">View details</button>
-              </div>
+              ))}
             </div>
 
-            <div className="bg-white rounded-xl border border-[#E2E8F0] p-3.5 shadow-sm">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-[12px] font-semibold text-[#0F172A]">Magnusson Family</p>
-                  <p className="text-[11px] text-[#475569] mt-0.5">2-bedroom · 19 Apr 09:00</p>
-                </div>
-                <span className="text-[10px] font-semibold bg-[#1D4ED8]/10 text-[#1D4ED8] px-2 py-0.5 rounded shrink-0">Draft</span>
+            {/* Today */}
+            <div className="rounded-xl border border-gray-100 bg-white px-3 py-2.5 shadow-sm">
+              <div className="flex items-center justify-between mb-2">
+                <p className="text-[10px] font-semibold" style={{ color: '#1D1D1F' }}>Today</p>
+                <span className="text-[9px]" style={{ color: '#6E6E73' }}>09:24</span>
               </div>
+              {jobs.map((job, idx) => (
+                <div key={job.title} className="flex gap-2.5 mb-2 last:mb-0">
+                  <div className="w-8 shrink-0 pt-0.5 text-right">
+                    <span className="text-[8px]" style={{ color: '#6E6E73' }}>{job.time}</span>
+                  </div>
+                  <div className="relative flex w-2.5 flex-col items-center">
+                    <div className={`mt-0.5 h-2 w-2 rounded-full shrink-0 ${job.active ? 'bg-green-500' : 'bg-[#2563EB]'}`} />
+                    {idx < jobs.length - 1 && <div className="mt-0.5 w-px flex-1 bg-gray-200" />}
+                  </div>
+                  <div className={`flex-1 rounded-lg border-l-[2px] ${job.active ? 'border-green-500' : 'border-[#2563EB]'} bg-gray-50 px-2 py-1.5`}>
+                    <div className="flex items-start justify-between gap-1">
+                      <div className="min-w-0">
+                        <p className="text-[9px] font-medium truncate" style={{ color: '#1D1D1F' }}>{job.title}</p>
+                        <p className="text-[8px] truncate" style={{ color: '#6E6E73' }}>{job.route}</p>
+                        <p className="text-[7px]" style={{ color: '#AEAEB2' }}>{job.crew}</p>
+                      </div>
+                      <span className={`shrink-0 rounded-full px-1.5 py-0.5 text-[7px] font-medium ${job.sc}`}>{job.status}</span>
+                    </div>
+                  </div>
+                </div>
+              ))}
             </div>
+
           </div>
         </div>
       </div>
@@ -187,18 +196,18 @@ export default function Hero() {
         style={{
           backgroundImage: `
             linear-gradient(180deg,
-              #ffffff 0%,
-              #EFF6FF 30%,
-              #DBEAFE 58%,
-              #BFDBFE 78%,
-              #93C5FD 92%,
-              #60A5FA 100%
+              #60A5FA 0%,
+              #93C5FD 8%,
+              #BFDBFE 22%,
+              #DBEAFE 42%,
+              #EFF6FF 70%,
+              #ffffff 100%
             )
           `,
         }}
       />
 
-      <div className="max-w-[1200px] mx-auto px-6 py-20 lg:py-28">
+      <div className="max-w-[1200px] mx-auto px-6 py-28 lg:py-40">
         <div className="grid grid-cols-1 lg:grid-cols-[2fr_3fr] gap-12 lg:gap-16 items-center">
 
           {/* Left — text */}

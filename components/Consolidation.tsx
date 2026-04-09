@@ -53,7 +53,7 @@ export default function Consolidation() {
   const { t } = useLanguage()
 
   return (
-    <section className="bg-[#F8FAFC] border-t border-[#E2E8F0] py-24 overflow-hidden">
+    <section className="bg-[#F8FAFC] py-24 overflow-hidden">
       <div className="max-w-4xl mx-auto px-6">
 
         <motion.div

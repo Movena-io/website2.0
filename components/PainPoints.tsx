@@ -20,7 +20,7 @@ export default function PainPoints() {
   }, [])
 
   return (
-    <section ref={sectionRef} className="bg-[#EFF6FF] py-24">
+    <section ref={sectionRef} className="bg-white py-24">
       <div className="max-w-6xl mx-auto px-6">
         <div className="reveal text-center mb-16">
           <div className="flex items-center gap-4 justify-center mb-4">

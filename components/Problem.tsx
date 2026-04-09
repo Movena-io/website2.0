@@ -20,7 +20,7 @@ export default function Problem() {
   }, [])
 
   return (
-    <section id="how-it-works" ref={sectionRef} className="bg-white py-24 border-t border-[#E2E8F0]">
+    <section id="how-it-works" ref={sectionRef} className="bg-white py-24">
       <div className="max-w-6xl mx-auto px-6">
 
         <div className="reveal text-center mb-16">

@@ -11,15 +11,16 @@ export async function POST(req: NextRequest) {
 
     const resend = new Resend(process.env.RESEND_API_KEY)
     await resend.emails.send({
-      from: 'Movena Contact <onboarding@resend.dev>', // change to your verified domain later
-      to: 'hello@movena.io',
+      from: 'Movena Contact <support@mail.movena.io>',
+      to: 'support@movena.io',
       replyTo: email,
       subject: `[Contact] ${subject}`,
       text: `Name: ${name}\nEmail: ${email}\n\n${message}`,
     })
 
     return NextResponse.json({ success: true })
-  } catch {
+  } catch (err) {
+    console.error('[contact] send failed:', err)
     return NextResponse.json({ error: 'Failed to send message.' }, { status: 500 })
   }
 }

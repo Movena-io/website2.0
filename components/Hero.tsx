@@ -208,7 +208,7 @@ export default function Hero() {
       />
 
       <div className="max-w-[1200px] mx-auto px-6 py-28 lg:py-40">
-        <div className="grid grid-cols-1 lg:grid-cols-[2fr_3fr] gap-12 lg:gap-16 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-[2fr_3fr] gap-20 lg:gap-28 items-center">
 
           {/* Left — text */}
           <div>
@@ -225,11 +225,11 @@ export default function Hero() {
                 <div className="h-px w-12 bg-gradient-to-l from-transparent to-[#1D4ED8]/40" />
               </div>
 
-              <h1 className="text-[42px] lg:text-[56px] font-extrabold leading-[1.05] tracking-[-0.03em] text-[#0B1F3B]" style={{ textWrap: 'balance' } as React.CSSProperties}>
+              <h1 className="text-[36px] lg:text-[46px] font-extrabold leading-[1.05] tracking-[-0.03em] text-[#0B1F3B]" style={{ textWrap: 'balance' } as React.CSSProperties}>
                 {t.hero.headline} <span className="text-[#F97316]">{t.hero.highlight}</span>
               </h1>
 
-              <p className="mt-5 text-[18px] font-normal leading-[1.65] text-[#1E3A5F]/70 max-w-[480px]">
+              <p className="mt-5 text-[15px] font-normal leading-[1.65] text-[#1E3A5F]/70 max-w-[380px]">
                 {t.hero.subheadline}
               </p>
             </AnimatedGroup>
@@ -242,34 +242,22 @@ export default function Hero() {
                 },
                 ...transitionVariants,
               }}
-              className="mt-10 flex flex-col sm:flex-row items-start gap-3"
+              className="mt-10 flex flex-col items-start gap-3"
             >
               <a
                 href={TYPEFORM_URL}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="btn-gradient inline-flex items-center justify-center gap-2 h-12 px-7 rounded-xl text-white text-[15px] font-semibold"
+                className="btn-gradient inline-flex items-center justify-center gap-2 h-12 px-10 rounded-xl text-white text-[15px] font-semibold"
               >
                 {t.hero.primaryCta}
                 <ArrowRight size={15} strokeWidth={2} />
               </a>
 
-              <div
-                className="rounded-[14px] p-0.5"
-                style={{ background: 'linear-gradient(135deg, #93C5FD, #1D4ED8, #0B1F3B)' }}
-              >
-                <a
-                  href="/#how-it-works"
-                  className="inline-flex items-center justify-center h-12 px-7 rounded-xl bg-white/90 backdrop-blur-sm text-[#0B1F3B] text-[15px] font-semibold hover:bg-white transition-colors duration-150"
-                >
-                  {t.hero.secondaryCta}
-                </a>
-              </div>
+              <p className="text-[13px] font-medium text-[#1E3A5F]/50">
+                {t.hero.disclaimer}
+              </p>
             </AnimatedGroup>
-
-            <p className="mt-4 text-[13px] font-medium text-[#1E3A5F]/50">
-              {t.hero.disclaimer}
-            </p>
           </div>
 
           {/* Right — mockup */}
@@ -282,8 +270,10 @@ export default function Hero() {
               ...transitionVariants,
             }}
           >
-            <div className="rounded-2xl border border-white/40 shadow-2xl shadow-[#0B1F3B]/20 ring-1 ring-white/20 bg-white/10 backdrop-blur-sm p-3">
-              <ProductMockup />
+            <div className="ml-6 lg:ml-10 scale-[0.92] origin-top-left">
+              <div className="rounded-2xl border border-white/40 shadow-2xl shadow-[#0B1F3B]/20 ring-1 ring-white/20 bg-white/10 backdrop-blur-sm p-3">
+                <ProductMockup />
+              </div>
             </div>
           </AnimatedGroup>
 

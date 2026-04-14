@@ -188,28 +188,24 @@ export default function Hero() {
 
   return (
     <section className="relative overflow-hidden">
-      {/* Gradient background */}
+      {/* Background */}
       <div
         ref={gradientRef}
         className="absolute inset-x-0 -z-10"
+        style={{ top: '-100px', bottom: 0, background: '#ffffff' }}
+      />
+      <div
+        className="absolute inset-x-0 -z-10 pointer-events-none"
         style={{
           top: '-100px',
           bottom: 0,
-          backgroundImage: `
-            linear-gradient(180deg,
-              #60A5FA 0%,
-              #93C5FD 8%,
-              #BFDBFE 22%,
-              #DBEAFE 42%,
-              #EFF6FF 70%,
-              #ffffff 100%
-            )
-          `,
+          backgroundImage: `radial-gradient(circle at top right, rgba(59, 130, 246, 0.28), transparent 65%)`,
+          filter: 'blur(60px)',
         }}
       />
 
       <div className="max-w-[1200px] mx-auto px-6 py-20 lg:py-28">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-20 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-20 items-start">
 
           {/* Left — text */}
           <div>
@@ -220,11 +216,11 @@ export default function Hero() {
               }}
               className="flex flex-col items-start gap-0"
             >
-              <h1 className="text-[40px] lg:text-[52px] font-bold leading-[1.05] tracking-[-0.03em] text-[#0B1F3B]" style={{ textWrap: 'balance' } as React.CSSProperties}>
+              <h1 className="text-[40px] lg:text-[52px] font-semibold leading-[1.05] tracking-[-0.03em] text-[#0B1F3B]" style={{ textWrap: 'balance' } as React.CSSProperties}>
                 {t.hero.headline} <span className="text-[#1D4ED8]">{t.hero.highlight}</span>
               </h1>
 
-              <p className="mt-5 text-[15px] font-normal leading-[1.65] text-[#1E3A5F]/70 max-w-[380px]">
+              <p className="mt-5 text-[15px] font-normal leading-[1.65] text-[#1E3A5F]/70">
                 {t.hero.subheadline}
               </p>
             </AnimatedGroup>

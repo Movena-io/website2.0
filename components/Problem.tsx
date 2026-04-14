@@ -24,11 +24,7 @@ export default function Problem() {
       <div className="max-w-6xl mx-auto px-6">
 
         <div className="reveal text-center mb-16">
-          <div className="flex items-center gap-4 justify-center mb-4">
-            <div className="h-px w-12 bg-gradient-to-r from-transparent to-[#1D4ED8]/30" />
-            <span className="text-[11px] font-semibold uppercase tracking-[0.1em] text-[#1D4ED8]">{t.howItWorks.label}</span>
-            <div className="h-px w-12 bg-gradient-to-l from-transparent to-[#1D4ED8]/30" />
-          </div>
+          <span className="block text-[11px] font-semibold uppercase tracking-[0.1em] text-[#1D4ED8] mb-3">{t.howItWorks.label}</span>
           <h2 className="text-[36px] lg:text-[44px] font-bold tracking-[-0.02em] text-[#0B1F3B] leading-[1.2]">
             {t.howItWorks.headline}
           </h2>

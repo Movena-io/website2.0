@@ -1,13 +1,14 @@
 import type { Metadata } from 'next'
-import { Manrope } from 'next/font/google'
+import localFont from 'next/font/local'
 import './globals.css'
 import { LanguageProvider } from '@/lib/LanguageContext'
 import { Analytics } from '@vercel/analytics/react'
+import CookieConsent from '@/components/CookieConsent'
 
-const manrope = Manrope({
-  subsets: ['latin'],
-  weight: ['400', '500', '600', '700', '800'],
+const manrope = localFont({
+  src: '../public/fonts/manrope-variable.woff2',
   variable: '--font-manrope',
+  display: 'swap',
 })
 
 export const metadata: Metadata = {
@@ -49,6 +50,7 @@ export default function RootLayout({
         <LanguageProvider>
           {children}
           <Analytics />
+          <CookieConsent />
         </LanguageProvider>
       </body>
     </html>

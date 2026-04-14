@@ -12,12 +12,12 @@ export default function PrivacyPolicy() {
       <main className="bg-white">
         <div className="max-w-3xl mx-auto px-6 py-20">
           <h1 className="text-[40px] font-bold tracking-[-0.025em] text-[#0B1F3B] mb-3">Privacy Policy</h1>
-          <p className="text-[14px] text-[#475569] mb-12">Last updated: March 2026</p>
+          <p className="text-[14px] text-[#475569] mb-12">Last updated: April 2026</p>
 
           <div className="prose-custom">
 
             <Section title="1. Who we are">
-              <p>Movena is an all-in-one software platform for moving companies. We are operated by Movena ApS, based in Copenhagen, Denmark. If you have questions about this policy, contact us at <a href="mailto:hello@movena.io" className="text-[#1D4ED8] hover:underline">hello@movena.io</a>.</p>
+              <p>Movena is an all-in-one software platform for moving companies. We are operated by NewNorth I/S, based in Copenhagen, Denmark. If you have questions about this policy, contact us at <a href="mailto:hello@movena.io" className="text-[#1D4ED8] hover:underline">hello@movena.io</a>.</p>
             </Section>
 
             <Section title="2. What data we collect">

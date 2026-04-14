@@ -63,13 +63,9 @@ export default function Consolidation() {
           transition={{ duration: 0.5, ease: 'easeOut' }}
           className="text-center mb-12"
         >
-          <div className="flex items-center gap-4 justify-center mb-4">
-            <div className="h-px w-12 bg-gradient-to-r from-transparent to-[#1D4ED8]/30" />
-            <span className="text-[11px] font-semibold uppercase tracking-[0.1em] text-[#1D4ED8]">{t.consolidation.label}</span>
-            <div className="h-px w-12 bg-gradient-to-l from-transparent to-[#1D4ED8]/30" />
-          </div>
+          <span className="block text-[11px] font-semibold uppercase tracking-[0.1em] text-[#1D4ED8] mb-3">{t.consolidation.label}</span>
           <h2 className="text-[36px] lg:text-[44px] font-bold tracking-[-0.02em] text-[#0B1F3B] leading-[1.2]">
-            {t.consolidation.headline} <span className="text-[#F97316]">{t.consolidation.highlight}</span>
+            {t.consolidation.headline} {t.consolidation.highlight}
           </h2>
           <p className="mt-4 text-[18px] font-normal text-[#475569] max-w-[540px] mx-auto leading-[1.7]">
             {t.consolidation.subheadline}

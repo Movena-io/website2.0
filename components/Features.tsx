@@ -383,11 +383,7 @@ export default function Features() {
 
         {/* Header */}
         <div className="flex flex-col items-center gap-3 text-center mb-10">
-          <div className="flex items-center gap-4">
-            <div className="h-px w-12 bg-gradient-to-r from-transparent to-[#1D4ED8]/30" />
-            <span className="text-[11px] font-semibold uppercase tracking-[0.1em] text-[#1D4ED8]">{t.features.label}</span>
-            <div className="h-px w-12 bg-gradient-to-l from-transparent to-[#1D4ED8]/30" />
-          </div>
+          <span className="block text-[11px] font-semibold uppercase tracking-[0.1em] text-[#1D4ED8] mb-3">{t.features.label}</span>
           <h2 className="max-w-2xl text-[36px] lg:text-[44px] font-bold tracking-[-0.02em] text-[#0B1F3B] leading-[1.2]">
             {t.features.headline} <span className="text-[#F97316]">{t.features.highlight}</span>{t.features.headlineEnd}
           </h2>

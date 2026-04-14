@@ -39,12 +39,8 @@ export default function FAQ() {
         <div className="flex flex-col md:flex-row gap-16">
 
           <div className="md:w-[280px] flex-shrink-0">
-            <div className="flex items-center gap-4 mb-4">
-              <div className="h-px w-8 bg-gradient-to-r from-transparent to-[#1D4ED8]/30" />
-              <span className="text-[11px] font-semibold uppercase tracking-[0.1em] text-[#1D4ED8]">{t.faq.label}</span>
-              <div className="h-px w-8 bg-gradient-to-l from-transparent to-[#1D4ED8]/30" />
-            </div>
-            <h2 className="text-[36px] font-bold leading-[1.2] tracking-[-0.02em] text-[#0B1F3B]">
+            <span className="text-[11px] font-semibold uppercase tracking-[0.1em] text-[#1D4ED8]">{t.faq.label}</span>
+            <h2 className="mt-3 text-[36px] font-bold leading-[1.2] tracking-[-0.02em] text-[#0B1F3B]">
               {t.faq.headline}
             </h2>
             <p className="mt-4 text-[16px] font-normal leading-[1.6] text-[#475569]">

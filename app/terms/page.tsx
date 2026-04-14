@@ -12,7 +12,7 @@ export default function Terms() {
       <main className="bg-white">
         <div className="max-w-3xl mx-auto px-6 py-20">
           <h1 className="text-[40px] font-bold tracking-[-0.025em] text-[#0B1F3B] mb-3">Terms of Service</h1>
-          <p className="text-[14px] text-[#475569] mb-12">Last updated: March 2026</p>
+          <p className="text-[14px] text-[#475569] mb-12">Last updated: April 2026</p>
 
           <div className="flex flex-col gap-0">
 
@@ -51,11 +51,11 @@ export default function Terms() {
             </Section>
 
             <Section title="7. Intellectual property">
-              <p>Movena and all its components, design, and code are the intellectual property of Movena ApS. You may not copy, reproduce, or distribute any part of the platform without written permission.</p>
+              <p>Movena and all its components, design, and code are the intellectual property of NewNorth I/S. You may not copy, reproduce, or distribute any part of the platform without written permission.</p>
             </Section>
 
             <Section title="8. Limitation of liability">
-              <p>Movena is provided &ldquo;as is.&rdquo; We make no warranty that the service will be uninterrupted or error-free. To the fullest extent permitted by law, Movena ApS is not liable for indirect, incidental, or consequential damages arising from your use of the service.</p>
+              <p>Movena is provided &ldquo;as is.&rdquo; We make no warranty that the service will be uninterrupted or error-free. To the fullest extent permitted by law, NewNorth I/S is not liable for indirect, incidental, or consequential damages arising from your use of the service.</p>
             </Section>
 
             <Section title="9. Termination">

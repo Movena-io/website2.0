@@ -22,35 +22,30 @@ export default function PainPoints() {
   return (
     <section ref={sectionRef} className="bg-white py-24">
       <div className="max-w-6xl mx-auto px-6">
-        <div className="reveal text-center mb-16">
-          <div className="flex items-center gap-4 justify-center mb-4">
-            <div className="h-px w-12 bg-gradient-to-r from-transparent to-[#1D4ED8]/40" />
-            <span className="text-[11px] font-semibold uppercase tracking-[0.1em] text-[#1D4ED8]">{t.painPoints.label}</span>
-            <div className="h-px w-12 bg-gradient-to-l from-transparent to-[#1D4ED8]/40" />
-          </div>
-          <h2 className="text-[36px] lg:text-[44px] font-bold tracking-[-0.02em] text-[#0B1F3B] leading-[1.2]">
-            {t.painPoints.headline} <span className="text-[#F97316]">{t.painPoints.highlight}</span>
+        <div className="reveal mb-16">
+          <span className="text-[11px] font-semibold uppercase tracking-[0.1em] text-[#1D4ED8]">{t.painPoints.label}</span>
+          <h2 className="mt-3 text-[36px] lg:text-[48px] font-extrabold tracking-[-0.03em] text-[#0B1F3B] leading-[1.1] max-w-[640px]">
+            {t.painPoints.headline} {t.painPoints.highlight}
           </h2>
-          <p className="mt-4 text-[18px] font-normal text-[#475569] max-w-[520px] mx-auto leading-[1.7]">
+          <p className="mt-4 text-[18px] font-normal text-[#475569] max-w-[480px] leading-[1.7]">
             {t.painPoints.subheadline}
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-0">
+        <div className="divide-y divide-[#E2E8F0]">
           {t.painPoints.items.map(({ title, description }, i) => (
             <div
               key={i}
-              className={`reveal py-10 px-8 ${
-                i % 2 === 0 ? 'md:pr-16' : 'md:pl-16'
-              } ${
-                i < 2 ? 'border-b border-[#BFDBFE]' : ''
-              } ${
-                i % 2 === 0 ? 'md:border-r md:border-[#BFDBFE]' : ''
-              }`}
+              className="reveal flex gap-8 lg:gap-16 items-start py-10"
               style={{ transitionDelay: `${i * 80}ms` }}
             >
-              <h3 className="text-[20px] font-bold text-[#0B1F3B] mb-3 leading-[1.25]">{title}</h3>
-              <p className="text-[15px] font-normal text-[#475569] leading-[1.75]">{description}</p>
+              <span className="text-[40px] lg:text-[56px] font-extrabold text-[#E2E8F0] leading-none shrink-0 tabular-nums select-none w-12 lg:w-16 text-right">
+                {String(i + 1).padStart(2, '0')}
+              </span>
+              <div className="pt-1">
+                <h3 className="text-[20px] lg:text-[22px] font-bold text-[#0B1F3B] mb-2 leading-[1.2]">{title}</h3>
+                <p className="text-[15px] lg:text-[16px] font-normal text-[#475569] leading-[1.75]">{description}</p>
+              </div>
             </div>
           ))}
         </div>

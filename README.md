@@ -78,3 +78,14 @@ Before deploying:
 4. Replace the favicon placeholder with the actual Movena logomark
 
 See MVNA-34 in Linear for the full deployment checklist.
+
+---
+
+## Wiki
+
+- [[wiki/entities/movena]] -- The company this website represents
+- [[wiki/concepts/waitlist-strategy]] -- The waitlist mechanic and referral tiers built into this site
+- [[wiki/concepts/gdpr-compliance]] -- Cookie consent requirement driving the consent banner
+- [[wiki/entities/stripe]] -- Payment infrastructure (connected to waitlist → founding customer flow)
+- [[wiki/entities/supabase]] -- Database for waitlist storage (pre-deploy migration required)
+- [[wiki/concepts/brand-system]] -- Visual identity applied throughout this site

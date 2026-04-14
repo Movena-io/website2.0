@@ -193,8 +193,9 @@ export default function Hero() {
       <div
         ref={gradientRef}
         className="absolute inset-x-0 -z-10"
-        style={{ top: '-100px', bottom: 0 }}
         style={{
+          top: '-100px',
+          bottom: 0,
           backgroundImage: `
             linear-gradient(180deg,
               #60A5FA 0%,

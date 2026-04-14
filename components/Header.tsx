@@ -47,7 +47,7 @@ export default function Header() {
       <div className="h-16 grid grid-cols-3 items-center">
         <div className="pl-[50px]">
           <a href="/" className="flex items-center">
-            <Image src="/assets/logo.png" alt="Movena" width={192} height={48} priority />
+            <Image src="/assets/logo.png" alt="Movena" width={144} height={36} priority />
           </a>
         </div>
 

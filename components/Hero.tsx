@@ -173,18 +173,13 @@ export default function Hero() {
 
   return (
     <section className="relative overflow-hidden">
-      {/* Background */}
+      {/* Background: white left half, brand blue right half */}
       <div
         className="absolute inset-x-0 -z-10"
-        style={{ top: '-100px', bottom: 0, background: '#ffffff' }}
-      />
-      <div
-        className="absolute inset-x-0 -z-10 pointer-events-none"
         style={{
           top: '-100px',
           bottom: 0,
-          backgroundImage: `radial-gradient(circle at top right, rgba(59, 130, 246, 0.28), transparent 65%)`,
-          filter: 'blur(60px)',
+          background: 'linear-gradient(to right, #ffffff 50%, #1D4ED8 50%)',
         }}
       />
 

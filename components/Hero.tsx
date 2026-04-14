@@ -1,7 +1,5 @@
 'use client'
 
-import { useEffect, useRef } from 'react'
-import { gsap } from 'gsap'
 import { motion, Variants } from 'framer-motion'
 import { ArrowRight } from 'lucide-react'
 import Image from 'next/image'
@@ -172,22 +170,11 @@ function ProductMockup() {
 
 export default function Hero() {
   const { t } = useLanguage()
-  const gradientRef = useRef<HTMLDivElement>(null)
-
-  useEffect(() => {
-    if (!gradientRef.current) return
-    gsap.fromTo(
-      gradientRef.current,
-      { opacity: 0, y: -20 },
-      { opacity: 1, y: 0, duration: 1.6, ease: 'power3.out' }
-    )
-  }, [])
 
   return (
     <section className="relative overflow-hidden">
       {/* Background */}
       <div
-        ref={gradientRef}
         className="absolute inset-x-0 -z-10"
         style={{ top: '-100px', bottom: 0, background: '#ffffff' }}
       />

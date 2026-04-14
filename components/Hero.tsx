@@ -220,12 +220,6 @@ export default function Hero() {
               }}
               className="flex flex-col items-start gap-0"
             >
-              <div className="flex items-center gap-4 mb-6">
-                <div className="h-px w-12 bg-gradient-to-r from-transparent to-[#1D4ED8]/40" />
-                <span className="text-[11px] font-semibold uppercase tracking-[0.1em] text-[#1D4ED8]">{t.hero.badge}</span>
-                <div className="h-px w-12 bg-gradient-to-l from-transparent to-[#1D4ED8]/40" />
-              </div>
-
               <h1 className="text-[40px] lg:text-[52px] font-bold leading-[1.05] tracking-[-0.03em] text-[#0B1F3B]" style={{ textWrap: 'balance' } as React.CSSProperties}>
                 {t.hero.headline} <span className="text-[#1D4ED8]">{t.hero.highlight}</span>
               </h1>

@@ -25,7 +25,7 @@ export default function Problem() {
 
         <div className="reveal text-center mb-16">
           <span className="block text-[11px] font-semibold uppercase tracking-[0.1em] text-[#1D4ED8] mb-3">{t.howItWorks.label}</span>
-          <h2 className="text-[36px] lg:text-[44px] font-bold tracking-[-0.02em] text-[#0B1F3B] leading-[1.2]">
+          <h2 className="text-[36px] lg:text-[44px] font-semibold tracking-[-0.02em] text-[#0B1F3B] leading-[1.2]">
             {t.howItWorks.headline}
           </h2>
           <p className="mt-4 text-[18px] font-normal text-[#475569] max-w-[460px] mx-auto leading-[1.7]">
@@ -46,7 +46,7 @@ export default function Problem() {
                 <div className="w-12 h-12 rounded-full bg-white border-2 border-[#1D4ED8]/30 flex items-center justify-center mb-5 relative z-10 shrink-0">
                   <span className="text-[13px] font-extrabold text-[#1D4ED8]">{String(i + 1).padStart(2, '0')}</span>
                 </div>
-                <h3 className="text-[16px] font-bold text-[#0B1F3B] mb-2">{title}</h3>
+                <h3 className="text-[16px] font-semibold text-[#0B1F3B] mb-2">{title}</h3>
                 <p className="text-[14px] font-normal text-[#475569] leading-[1.65]">{description}</p>
               </div>
             ))}

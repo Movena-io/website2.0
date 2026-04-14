@@ -216,7 +216,7 @@ export default function Hero() {
               }}
               className="flex flex-col items-start gap-0"
             >
-              <h1 className="text-[40px] lg:text-[52px] font-semibold leading-[1.05] tracking-[-0.03em] text-[#0B1F3B]" style={{ textWrap: 'balance' } as React.CSSProperties}>
+              <h1 className="text-[40px] lg:text-[52px] font-semibold leading-[1.05] tracking-[-0.03em] text-[#0B1F3B] w-full">
                 {t.hero.headline} <span className="text-[#1D4ED8]">{t.hero.highlight}</span>
               </h1>
 

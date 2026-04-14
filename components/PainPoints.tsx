@@ -24,7 +24,7 @@ export default function PainPoints() {
       <div className="max-w-6xl mx-auto px-6">
         <div className="reveal mb-16">
           <span className="text-[11px] font-semibold uppercase tracking-[0.1em] text-[#1D4ED8]">{t.painPoints.label}</span>
-          <h2 className="mt-3 text-[36px] lg:text-[48px] font-extrabold tracking-[-0.03em] text-[#0B1F3B] leading-[1.1] max-w-[640px]">
+          <h2 className="mt-3 text-[36px] lg:text-[48px] font-semibold tracking-[-0.03em] text-[#0B1F3B] leading-[1.1] max-w-[640px]">
             {t.painPoints.headline} {t.painPoints.highlight}
           </h2>
           <p className="mt-4 text-[18px] font-normal text-[#475569] max-w-[480px] leading-[1.7]">
@@ -43,7 +43,7 @@ export default function PainPoints() {
                 {String(i + 1).padStart(2, '0')}
               </span>
               <div className="pt-1">
-                <h3 className="text-[20px] lg:text-[22px] font-bold text-[#0B1F3B] mb-2 leading-[1.2]">{title}</h3>
+                <h3 className="text-[20px] lg:text-[22px] font-semibold text-[#0B1F3B] mb-2 leading-[1.2]">{title}</h3>
                 <p className="text-[15px] lg:text-[16px] font-normal text-[#475569] leading-[1.75]">{description}</p>
               </div>
             </div>

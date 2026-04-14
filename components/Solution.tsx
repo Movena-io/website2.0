@@ -32,7 +32,7 @@ export default function Solution() {
           <span className="inline-block text-[12px] font-semibold text-[#1D4ED8] bg-[#1D4ED8]/10 uppercase tracking-[0.08em] px-3 py-1 rounded-full mb-4">
             The solution
           </span>
-          <h2 className="text-[36px] lg:text-[44px] font-bold tracking-[-0.02em] text-[#0B1F3B] leading-[1.2]" style={{ textWrap: 'balance' } as React.CSSProperties}>
+          <h2 className="text-[36px] lg:text-[44px] font-semibold tracking-[-0.02em] text-[#0B1F3B] leading-[1.2]" style={{ textWrap: 'balance' } as React.CSSProperties}>
             Movena is purpose-built for moving companies
           </h2>
           <p className="mt-4 text-[18px] font-normal text-[#475569] leading-[1.7]">

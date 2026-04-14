@@ -226,8 +226,8 @@ export default function Hero() {
                 <div className="h-px w-12 bg-gradient-to-l from-transparent to-[#1D4ED8]/40" />
               </div>
 
-              <h1 className="text-[36px] lg:text-[46px] font-extrabold leading-[1.05] tracking-[-0.03em] text-[#0B1F3B]" style={{ textWrap: 'balance' } as React.CSSProperties}>
-                {t.hero.headline} <span className="text-[#F97316]">{t.hero.highlight}</span>
+              <h1 className="text-[40px] lg:text-[52px] font-bold leading-[1.05] tracking-[-0.03em] text-[#0B1F3B]" style={{ textWrap: 'balance' } as React.CSSProperties}>
+                {t.hero.headline} <span className="text-[#1D4ED8]">{t.hero.highlight}</span>
               </h1>
 
               <p className="mt-5 text-[15px] font-normal leading-[1.65] text-[#1E3A5F]/70 max-w-[380px]">
@@ -249,15 +249,14 @@ export default function Hero() {
                 href={TYPEFORM_URL}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="btn-gradient inline-flex items-center justify-center gap-2 h-12 px-10 rounded-xl text-white text-[15px] font-semibold"
+                className="btn-gradient inline-flex items-center justify-center gap-2 h-14 px-10 rounded-xl text-white text-[15px] font-semibold"
               >
-                {t.hero.primaryCta}
+                <span className="flex flex-col items-center">
+                  <span>{t.hero.primaryCta}</span>
+                  <span className="text-[11px] font-normal opacity-80">{t.hero.disclaimer}</span>
+                </span>
                 <ArrowRight size={15} strokeWidth={2} />
               </a>
-
-              <p className="text-[13px] font-medium text-[#1E3A5F]/50">
-                {t.hero.disclaimer}
-              </p>
             </AnimatedGroup>
           </div>
 
@@ -270,9 +269,9 @@ export default function Hero() {
               },
               ...transitionVariants,
             }}
-            className="-mr-6 lg:-mr-24"
+            className="-mr-6 lg:-mr-48 scale-[1.08] origin-left"
           >
-            <div className="rounded-2xl border border-white/40 shadow-2xl shadow-[#0B1F3B]/20 ring-1 ring-white/20 bg-white/10 backdrop-blur-sm p-3">
+            <div className="shadow-2xl shadow-[#0B1F3B]/20">
               <ProductMockup />
             </div>
           </AnimatedGroup>

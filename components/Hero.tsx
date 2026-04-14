@@ -92,7 +92,7 @@ function ProductMockup() {
         {/* Sidebar */}
         <aside className="w-[48px] shrink-0 flex flex-col" style={{ backgroundColor: '#0B1F3B' }}>
           <div className="flex items-center justify-center py-3 border-b border-white/5">
-            <Image src="/assets/logo.png" alt="Movena" width={24} height={24} style={{ objectFit: 'contain' }} className="brightness-0 invert" />
+            <Image src="/assets/favicon.svg" alt="Movena" width={20} height={20} />
           </div>
           <nav className="flex-1 flex flex-col items-center py-2 gap-1">
             {[true, false, false, false, false, false].map((active, i) => (

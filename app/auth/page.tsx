@@ -1,8 +1,9 @@
 'use client'
 
 import React from 'react'
+import Image from 'next/image'
 import { motion } from 'framer-motion'
-import { AtSignIcon, ChevronLeftIcon, Truck } from 'lucide-react'
+import { AtSignIcon, ChevronLeftIcon } from 'lucide-react'
 
 function FloatingPaths({ position }: { position: number }) {
   const paths = Array.from({ length: 36 }, (_, i) => ({
@@ -75,11 +76,8 @@ export default function AuthPage() {
       <div className="relative z-10 w-full max-w-sm mx-auto px-6 py-12 space-y-5">
 
         {/* Logo */}
-        <div className="flex items-center justify-center gap-2 mb-2">
-          <div className="w-8 h-8 rounded-lg bg-[#1D4ED8] flex items-center justify-center shrink-0">
-            <Truck size={15} strokeWidth={1.5} className="text-white" />
-          </div>
-          <span className="text-[18px] font-extrabold tracking-[-0.025em] text-[#0B1F3B]">Movena</span>
+        <div className="flex items-center justify-center mb-2">
+          <Image src="/assets/logo.png" alt="Movena" width={130} height={35} priority />
         </div>
 
         {/* Heading */}

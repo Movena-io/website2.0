@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react'
 import { Menu, X, ChevronDown } from 'lucide-react'
+import Image from 'next/image'
 import { TYPEFORM_URL } from '@/lib/constants'
 import { useLanguage } from '@/lib/LanguageContext'
 import type { Locale } from '@/lib/translations'
@@ -46,7 +47,7 @@ export default function Header() {
       <div className="h-16 grid grid-cols-3 items-center">
         <div className="pl-[50px]">
           <a href="/" className="flex items-center">
-            <span className="text-[18px] font-extrabold tracking-[-0.025em] text-[#0B1F3B]">Movena</span>
+            <Image src="/assets/logo.png" alt="Movena" width={120} height={32} priority />
           </a>
         </div>
 
@@ -94,12 +95,6 @@ export default function Header() {
           </div>
 
           <a
-            href="/auth"
-            className="text-[14px] font-medium text-[#475569] hover:text-[#0F172A] transition-colors"
-          >
-            {t.nav.logIn}
-          </a>
-          <a
             href={TYPEFORM_URL}
             target="_blank"
             rel="noopener noreferrer"
@@ -126,7 +121,6 @@ export default function Header() {
           <a href="/#how-it-works" onClick={() => setMenuOpen(false)} className="text-[14px] font-medium text-[#475569]">{t.nav.howItWorks}</a>
           <a href="/#faq" onClick={() => setMenuOpen(false)} className="text-[14px] font-medium text-[#475569]">{t.nav.faq}</a>
           <a href="/contact" onClick={() => setMenuOpen(false)} className="text-[14px] font-medium text-[#475569]">{t.nav.talkToUs}</a>
-          <a href="/auth" onClick={() => setMenuOpen(false)} className="text-[14px] font-medium text-[#475569]">{t.nav.logIn}</a>
 
           {/* Mobile language toggle */}
           <div className="flex items-center gap-3">

@@ -1,6 +1,6 @@
 'use client'
 
-import { Truck } from 'lucide-react'
+import Image from 'next/image'
 import { TYPEFORM_URL } from '@/lib/constants'
 import { useLanguage } from '@/lib/LanguageContext'
 
@@ -28,11 +28,8 @@ export default function Footer() {
 
         <div className="flex flex-col md:flex-row justify-between gap-12">
           <div className="max-w-[220px]">
-            <div className="flex items-center gap-2 mb-3">
-              <div className="w-7 h-7 rounded-lg bg-[#1D4ED8] flex items-center justify-center shrink-0">
-                <Truck size={13} strokeWidth={1.5} className="text-white" />
-              </div>
-              <span className="text-[16px] font-extrabold tracking-[-0.025em] text-white">Movena</span>
+            <div className="mb-3">
+              <Image src="/assets/logo.png" alt="Movena" width={110} height={30} className="brightness-0 invert" />
             </div>
             <p className="text-[13px] leading-[1.6] text-[#64748B]">
               {t.footer.tagline}

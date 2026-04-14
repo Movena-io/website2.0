@@ -200,7 +200,7 @@ export default function Hero() {
               }}
               className="flex flex-col items-start gap-0"
             >
-              <h1 className="text-[40px] lg:text-[46px] font-semibold leading-[1.1] tracking-[-0.03em] text-[#0B1F3B] w-full">
+              <h1 className="text-[32px] sm:text-[40px] lg:text-[46px] font-semibold leading-[1.1] tracking-[-0.03em] text-[#0B1F3B] w-full">
                 {t.hero.headline} <span className="text-[#1D4ED8]">{t.hero.highlight}</span>
               </h1>
 
@@ -217,24 +217,22 @@ export default function Hero() {
                 },
                 ...transitionVariants,
               }}
-              className="mt-10 flex flex-col items-start gap-3"
+              className="mt-8 flex flex-col items-start gap-3 w-full sm:w-auto"
             >
               <a
                 href={TYPEFORM_URL}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="btn-gradient inline-flex items-center justify-center gap-2 h-14 px-10 rounded-xl text-white text-[15px] font-semibold"
+                className="btn-gradient inline-flex items-center justify-center gap-2 h-12 w-full sm:w-auto px-8 rounded-xl text-white text-[15px] font-semibold"
               >
-                <span className="flex flex-col items-center">
-                  <span>{t.hero.primaryCta}</span>
-                  <span className="text-[11px] font-normal opacity-80">{t.hero.disclaimer}</span>
-                </span>
+                <span>{t.hero.primaryCta}</span>
                 <ArrowRight size={15} strokeWidth={2} />
               </a>
+              <span className="text-[12px] text-[#64748B]">{t.hero.disclaimer}</span>
             </AnimatedGroup>
           </div>
 
-          {/* Right — mockup, overflows right edge */}
+          {/* Right — mockup, overflows right edge on desktop */}
           <AnimatedGroup
             variants={{
               container: {
@@ -243,7 +241,7 @@ export default function Hero() {
               },
               ...transitionVariants,
             }}
-            className="-mr-6 lg:-mr-48 scale-[1.08] origin-left"
+            className="w-full overflow-hidden lg:-mr-48 lg:scale-[1.08] lg:origin-left"
           >
             <ProductMockup />
           </AnimatedGroup>

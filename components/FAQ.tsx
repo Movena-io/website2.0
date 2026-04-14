@@ -34,13 +34,13 @@ export default function FAQ() {
   const { t } = useLanguage()
 
   return (
-    <section className="bg-white py-24" id="faq">
+    <section className="bg-white py-24 scroll-mt-24" id="faq">
       <div className="max-w-6xl mx-auto px-6">
         <div className="flex flex-col md:flex-row gap-16">
 
           <div className="md:w-[280px] flex-shrink-0">
             <span className="text-[11px] font-semibold uppercase tracking-[0.1em] text-[#1D4ED8]">{t.faq.label}</span>
-            <h2 className="mt-3 text-[36px] font-semibold leading-[1.2] tracking-[-0.02em] text-[#0B1F3B]">
+            <h2 className="mt-3 text-[28px] sm:text-[36px] font-semibold leading-[1.2] tracking-[-0.02em] text-[#0B1F3B]">
               {t.faq.headline}
             </h2>
             <p className="mt-4 text-[16px] font-normal leading-[1.6] text-[#475569]">

@@ -44,7 +44,7 @@ export default function Contact() {
               <span className="text-[11px] font-semibold uppercase tracking-[0.1em] text-[#1D4ED8]">{t.contact.label}</span>
               <div className="h-px w-8 bg-gradient-to-l from-transparent to-[#1D4ED8]/30" />
             </div>
-            <h1 className="text-[40px] lg:text-[52px] font-extrabold tracking-[-0.025em] text-[#0B1F3B] leading-[1.1] mb-4">
+            <h1 className="text-[28px] sm:text-[40px] lg:text-[52px] font-extrabold tracking-[-0.025em] text-[#0B1F3B] leading-[1.1] mb-4">
               {t.contact.headline}
             </h1>
             <p className="text-[18px] font-normal text-[#475569] leading-[1.7] max-w-xl">
@@ -69,7 +69,7 @@ export default function Contact() {
                 </div>
               ) : (
                 <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-                  <div className="grid grid-cols-2 gap-4">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div className="flex flex-col gap-1.5">
                       <label className="text-[13px] font-semibold text-[#0F172A]">{t.contact.nameLabel}</label>
                       <input

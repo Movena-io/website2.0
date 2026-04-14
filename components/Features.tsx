@@ -118,18 +118,17 @@ function QuotesMockup() {
           </button>
         }
       />
-      <div className="grid grid-cols-[1fr_120px_90px_80px] items-center gap-x-3 border-b border-gray-100 px-5 py-2">
-        {['Customer', 'Route', 'Price', 'Status'].map(h => (
+      <div className="grid grid-cols-[1fr_70px_72px] items-center gap-x-3 border-b border-gray-100 px-5 py-2">
+        {['Customer', 'Price', 'Status'].map(h => (
           <span key={h} className="text-[8px] font-semibold uppercase tracking-wider" style={{ color: '#AEAEB2' }}>{h}</span>
         ))}
       </div>
       {rows.map(row => (
-        <div key={row.name} className="grid grid-cols-[1fr_120px_90px_80px] items-center gap-x-3 border-b border-gray-100 last:border-0 px-5 py-2.5 hover:bg-slate-50">
+        <div key={row.name} className="grid grid-cols-[1fr_70px_72px] items-center gap-x-3 border-b border-gray-100 last:border-0 px-5 py-2.5 hover:bg-slate-50">
           <div className="min-w-0">
             <p className="truncate text-[11px] font-medium text-slate-900">{row.name}</p>
-            <p className="truncate text-[9px]" style={{ color: '#6E6E73' }}>{row.sub}</p>
+            <p className="truncate text-[9px]" style={{ color: '#6E6E73' }}>{row.route}</p>
           </div>
-          <span className="truncate text-[9px]" style={{ color: '#6E6E73' }}>{row.route}</span>
           <span className="text-[10px] font-semibold tabular-nums text-slate-800">{row.price}</span>
           <span className={`w-fit rounded-full px-2 py-0.5 text-[9px] font-medium whitespace-nowrap ${row.sc}`}>{row.status}</span>
         </div>
@@ -249,18 +248,17 @@ function CrmMockup() {
         <span className="ml-auto text-[10px]" style={{ color: '#6E6E73' }}>24 this month</span>
       </div>
       <FilterChips items={['All', 'New', 'Quote sent', 'Scheduled']} />
-      <div className="grid grid-cols-[1fr_64px_80px_80px] gap-x-3 items-center px-5 py-2 border-b border-gray-100">
-        {['Lead', 'Date', 'Price', 'Status'].map(h => (
+      <div className="grid grid-cols-[1fr_70px_72px] gap-x-3 items-center px-5 py-2 border-b border-gray-100">
+        {['Lead', 'Price', 'Status'].map(h => (
           <span key={h} className="text-[8px] font-semibold uppercase tracking-wider" style={{ color: '#AEAEB2' }}>{h}</span>
         ))}
       </div>
       {leads.map(({ name, route, date, price, status, sc }) => (
-        <div key={name} className="grid grid-cols-[1fr_64px_80px_80px] gap-x-3 items-center px-5 py-2.5 border-b border-gray-100 last:border-0 hover:bg-slate-50">
+        <div key={name} className="grid grid-cols-[1fr_70px_72px] gap-x-3 items-center px-5 py-2.5 border-b border-gray-100 last:border-0 hover:bg-slate-50">
           <div className="min-w-0">
             <p className="truncate text-[11px] font-medium text-slate-900">{name}</p>
             <p className="truncate text-[9px]" style={{ color: '#6E6E73' }}>{route}</p>
           </div>
-          <span className="text-[9px] whitespace-nowrap" style={{ color: '#6E6E73' }}>{date}</span>
           <span className="text-[10px] font-semibold tabular-nums text-slate-800">{price}</span>
           <span className={`w-fit rounded-full px-2 py-0.5 text-[9px] font-medium whitespace-nowrap ${sc}`}>{status}</span>
         </div>
@@ -330,16 +328,18 @@ function FollowUpsMockup() {
         </div>
       </div>
       <FilterChips items={['All', 'Scheduled', 'Sent', 'Pending']} />
-      <div className="grid grid-cols-[1fr_110px_90px_70px] gap-x-3 items-center px-5 py-2 border-b border-gray-100">
-        {['Recipient', 'Type', 'Scheduled', 'Status'].map(h => (
+      <div className="grid grid-cols-[1fr_110px_64px] gap-x-3 items-center px-5 py-2 border-b border-gray-100">
+        {['Recipient', 'Type', 'Status'].map(h => (
           <span key={h} className="text-[8px] font-semibold uppercase tracking-wider" style={{ color: '#AEAEB2' }}>{h}</span>
         ))}
       </div>
       {messages.map(({ name, type, scheduled, sc, status }) => (
-        <div key={name} className="grid grid-cols-[1fr_110px_90px_70px] gap-x-3 items-center px-5 py-2.5 border-b border-gray-100 last:border-0 hover:bg-slate-50">
-          <p className="truncate text-[11px] font-medium text-slate-900">{name}</p>
+        <div key={name} className="grid grid-cols-[1fr_110px_64px] gap-x-3 items-center px-5 py-2.5 border-b border-gray-100 last:border-0 hover:bg-slate-50">
+          <div className="min-w-0">
+            <p className="truncate text-[11px] font-medium text-slate-900">{name}</p>
+            <p className="truncate text-[9px]" style={{ color: '#6E6E73' }}>{scheduled}</p>
+          </div>
           <span className="text-[9px] truncate" style={{ color: '#6E6E73' }}>{type}</span>
-          <span className="text-[9px] whitespace-nowrap" style={{ color: '#6E6E73' }}>{scheduled}</span>
           <span className={`w-fit rounded-full px-2 py-0.5 text-[9px] font-medium whitespace-nowrap ${sc}`}>{status}</span>
         </div>
       ))}
@@ -378,13 +378,13 @@ export default function Features() {
   })
 
   return (
-    <section id="features" className="bg-white py-24">
+    <section id="features" className="bg-white py-24 scroll-mt-24">
       <div className="max-w-6xl mx-auto px-6">
 
         {/* Header */}
         <div className="flex flex-col items-center gap-3 text-center mb-10">
           <span className="block text-[11px] font-semibold uppercase tracking-[0.1em] text-[#1D4ED8] mb-3">{t.features.label}</span>
-          <h2 className="max-w-2xl text-[36px] lg:text-[44px] font-semibold tracking-[-0.02em] text-[#0B1F3B] leading-[1.2]">
+          <h2 className="max-w-2xl text-[28px] sm:text-[36px] lg:text-[44px] font-semibold tracking-[-0.02em] text-[#0B1F3B] leading-[1.2]">
             {t.features.headline} <span className="text-[#F97316]">{t.features.highlight}</span>{t.features.headlineEnd}
           </h2>
           <p className="text-[18px] text-[#475569] max-w-[480px] leading-[1.7]">
@@ -394,12 +394,12 @@ export default function Features() {
 
         {/* Tabs */}
         <TabsPrimitive.Root defaultValue={tabs[0].value}>
-          <TabsPrimitive.List className="flex flex-wrap items-center justify-center gap-2 sm:gap-3">
+          <TabsPrimitive.List className="flex overflow-x-auto pb-1 -mx-2 px-2 gap-2 sm:flex-wrap sm:overflow-visible sm:pb-0 sm:mx-0 sm:px-0 sm:justify-center sm:gap-3 no-scrollbar">
             {tabs.map((tab) => (
               <TabsPrimitive.Trigger
                 key={tab.value}
                 value={tab.value}
-                className="flex items-center gap-2 rounded-xl px-4 py-2.5 text-[13px] font-semibold text-[#64748B] border border-transparent transition-all
+                className="flex items-center gap-2 rounded-xl px-4 py-2.5 text-[13px] font-semibold text-[#64748B] border border-transparent transition-all whitespace-nowrap shrink-0
                   data-[state=active]:bg-[#0B1F3B] data-[state=active]:text-white data-[state=active]:border-[#0B1F3B]
                   data-[state=inactive]:hover:bg-[#F1F5F9] data-[state=inactive]:hover:text-[#0F172A]"
               >
@@ -409,36 +409,36 @@ export default function Features() {
             ))}
           </TabsPrimitive.List>
 
-          <div className="mt-6 rounded-2xl bg-[#F8FAFC] border border-[#E2E8F0] p-6 lg:p-12">
+          <div className="mt-6 rounded-2xl bg-[#F8FAFC] border border-[#E2E8F0] p-4 sm:p-6 lg:p-12 overflow-hidden">
             {tabs.map((tab) => (
               <TabsPrimitive.Content
                 key={tab.value}
                 value={tab.value}
-                className="grid place-items-center gap-12 lg:grid-cols-2 lg:gap-16 data-[state=inactive]:hidden"
+                className="grid items-start gap-6 lg:place-items-center lg:grid-cols-2 lg:gap-16 data-[state=inactive]:hidden"
               >
                 {/* Text */}
-                <div className="flex flex-col gap-4">
+                <div className="flex flex-col gap-4 min-w-0">
                   <span className="inline-block text-[12px] font-semibold text-[#1D4ED8] bg-white border border-[#1D4ED8]/20 uppercase tracking-[0.08em] px-3 py-1 rounded-full w-fit">
                     {tab.badge}
                   </span>
-                  <h3 className="text-[28px] lg:text-[36px] font-semibold tracking-[-0.02em] text-[#0B1F3B] leading-[1.2]">
+                  <h3 className="text-[20px] sm:text-[26px] lg:text-[36px] font-semibold tracking-[-0.02em] text-[#0B1F3B] leading-[1.2]">
                     {tab.title}
                   </h3>
-                  <p className="text-[16px] text-[#475569] leading-[1.75]">
+                  <p className="text-[15px] sm:text-[16px] text-[#475569] leading-[1.75]">
                     {tab.description}
                   </p>
                   <ul className="flex flex-col gap-3 mt-2">
                     {tab.points.map((point) => (
                       <li key={point} className="flex items-start gap-3">
                         <CheckCircle size={16} strokeWidth={1.5} className="text-[#1D4ED8] mt-0.5 shrink-0" />
-                        <span className="text-[15px] font-medium text-[#0F172A]">{point}</span>
+                        <span className="text-[14px] sm:text-[15px] font-medium text-[#0F172A] break-words min-w-0">{point}</span>
                       </li>
                     ))}
                   </ul>
                 </div>
 
                 {/* Mockup */}
-                <div className="w-full">
+                <div className="w-full overflow-hidden">
                   {tab.mockup}
                 </div>
               </TabsPrimitive.Content>

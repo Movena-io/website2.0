@@ -24,7 +24,7 @@ export default function PainPoints() {
       <div className="max-w-6xl mx-auto px-6">
         <div className="reveal mb-16">
           <span className="text-[11px] font-semibold uppercase tracking-[0.1em] text-[#1D4ED8]">{t.painPoints.label}</span>
-          <h2 className="mt-3 text-[36px] lg:text-[48px] font-semibold tracking-[-0.03em] text-[#0B1F3B] leading-[1.1] max-w-[640px]">
+          <h2 className="mt-3 text-[28px] sm:text-[36px] lg:text-[48px] font-semibold tracking-[-0.03em] text-[#0B1F3B] leading-[1.1] max-w-[640px]">
             {t.painPoints.headline} {t.painPoints.highlight}
           </h2>
           <p className="mt-4 text-[18px] font-normal text-[#475569] max-w-[480px] leading-[1.7]">
@@ -36,7 +36,7 @@ export default function PainPoints() {
           {t.painPoints.items.map(({ title, description }, i) => (
             <div
               key={i}
-              className="reveal flex gap-8 lg:gap-16 items-start py-10"
+              className="reveal flex gap-5 sm:gap-8 lg:gap-16 items-start py-8 sm:py-10"
               style={{ transitionDelay: `${i * 80}ms` }}
             >
               <span className="text-[40px] lg:text-[56px] font-extrabold text-[#E2E8F0] leading-none shrink-0 tabular-nums select-none w-12 lg:w-16 text-right">

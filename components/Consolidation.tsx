@@ -65,7 +65,7 @@ export default function Consolidation() {
           className="text-center mb-12"
         >
           <span className="block text-[11px] font-semibold uppercase tracking-[0.1em] text-[#1D4ED8] mb-3">{t.consolidation.label}</span>
-          <h2 className="text-[36px] lg:text-[44px] font-semibold tracking-[-0.02em] text-[#0B1F3B] leading-[1.2]">
+          <h2 className="text-[28px] sm:text-[36px] lg:text-[44px] font-semibold tracking-[-0.02em] text-[#0B1F3B] leading-[1.2]">
             {t.consolidation.headline} {t.consolidation.highlight}
           </h2>
           <p className="mt-4 text-[18px] font-normal text-[#475569] max-w-[540px] mx-auto leading-[1.7]">

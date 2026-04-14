@@ -44,10 +44,10 @@ export default function Header() {
         scrolled ? 'shadow-md' : 'shadow-sm'
       }`}
     >
-      <div className="h-16 grid grid-cols-3 items-center">
-        <div className="pl-[50px]">
+      <div className="h-16 flex items-center justify-between px-4 md:px-0 md:grid md:grid-cols-3">
+        <div className="md:pl-[50px]">
           <a href="/" className="flex items-center">
-            <Image src="/assets/logo.png" alt="Movena" width={144} height={36} priority />
+            <Image src="/assets/logo.png" alt="Movena" width={120} height={30} className="md:w-[144px] md:h-[36px]" priority />
           </a>
         </div>
 
@@ -104,7 +104,7 @@ export default function Header() {
           </a>
         </div>
 
-        <div className="md:hidden flex justify-end pr-5">
+        <div className="md:hidden">
           <button
             className="p-2 text-[#475569]"
             onClick={() => setMenuOpen(!menuOpen)}

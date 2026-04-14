@@ -13,7 +13,7 @@ export default function Stats() {
           {stats.map(({ value, label, sub }) => (
             <div key={label} className="text-center">
               {/* Orange = key stats per brand rules */}
-              <p className="text-[48px] lg:text-[56px] font-extrabold tracking-[-0.03em] text-[#F97316] leading-none mb-2">
+              <p className="text-[40px] sm:text-[48px] lg:text-[56px] font-extrabold tracking-[-0.03em] text-[#F97316] leading-none mb-2">
                 {value}
               </p>
               <p className="text-[16px] font-bold text-[#0B1F3B]">{label}</p>

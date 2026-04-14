@@ -20,12 +20,12 @@ export default function Problem() {
   }, [])
 
   return (
-    <section id="how-it-works" ref={sectionRef} className="bg-white py-24">
+    <section id="how-it-works" ref={sectionRef} className="bg-white py-24 scroll-mt-24">
       <div className="max-w-6xl mx-auto px-6">
 
         <div className="reveal text-center mb-16">
           <span className="block text-[11px] font-semibold uppercase tracking-[0.1em] text-[#1D4ED8] mb-3">{t.howItWorks.label}</span>
-          <h2 className="text-[36px] lg:text-[44px] font-semibold tracking-[-0.02em] text-[#0B1F3B] leading-[1.2]">
+          <h2 className="text-[24px] sm:text-[32px] lg:text-[44px] font-semibold tracking-[-0.02em] text-[#0B1F3B] leading-[1.2]">
             {t.howItWorks.headline}
           </h2>
           <p className="mt-4 text-[18px] font-normal text-[#475569] max-w-[460px] mx-auto leading-[1.7]">

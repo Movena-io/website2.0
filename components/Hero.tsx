@@ -13,10 +13,9 @@ import { ReactNode } from 'react'
 
 const transitionVariants: { item: Variants } = {
   item: {
-    hidden: { opacity: 0, filter: 'blur(12px)', y: 12 },
+    hidden: { opacity: 0, y: 12 },
     visible: {
       opacity: 1,
-      filter: 'blur(0px)',
       y: 0,
       transition: { type: 'spring', bounce: 0.3, duration: 1.5 },
     },
@@ -271,9 +270,9 @@ export default function Hero() {
               },
               ...transitionVariants,
             }}
-            className="-mr-6 lg:-mr-[calc(50vw-600px+24px)]"
+            className="-mr-6 lg:-mr-24"
           >
-            <div className="rounded-l-2xl border border-r-0 border-white/40 shadow-2xl shadow-[#0B1F3B]/20 ring-1 ring-white/20 bg-white/10 backdrop-blur-sm p-3 pr-0">
+            <div className="rounded-2xl border border-white/40 shadow-2xl shadow-[#0B1F3B]/20 ring-1 ring-white/20 bg-white/10 backdrop-blur-sm p-3">
               <ProductMockup />
             </div>
           </AnimatedGroup>

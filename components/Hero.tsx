@@ -92,29 +92,19 @@ function ProductMockup() {
       <div className="flex">
 
         {/* Sidebar */}
-        <aside className="w-[110px] shrink-0 bg-slate-900 flex flex-col">
-          <div className="flex items-center gap-1.5 px-3 py-3 border-b border-white/5">
-            <Image src="/assets/logo.png" alt="Movena" width={64} height={16} />
+        <aside className="w-[48px] shrink-0 flex flex-col" style={{ backgroundColor: '#0B1F3B' }}>
+          <div className="flex items-center justify-center py-3 border-b border-white/5">
+            <Image src="/assets/logo.png" alt="Movena" width={24} height={24} style={{ objectFit: 'contain' }} />
           </div>
-          <nav className="flex-1 px-1.5 py-2 space-y-0.5">
-            {[
-              { label: 'Dashboard', active: true  },
-              { label: 'Tasks',     active: false },
-              { label: 'Calendar',  active: false },
-              { label: 'Quotes',    active: false },
-              { label: 'Leads',     active: false },
-              { label: 'Invoicing', active: false },
-            ].map(item => (
-              <div key={item.label} className={`flex items-center rounded-lg border-l-[2px] py-1 pl-[7px] pr-2 text-[9px] font-medium ${item.active ? 'border-blue-700 bg-blue-700/20 text-blue-400' : 'border-transparent text-slate-400'}`}>
-                {item.label}
+          <nav className="flex-1 flex flex-col items-center py-2 gap-1">
+            {[true, false, false, false, false, false].map((active, i) => (
+              <div key={i} className={`w-6 h-6 rounded-md ${active ? 'bg-[#1D4ED8]/30' : ''} flex items-center justify-center`}>
+                <div className={`w-1.5 h-1.5 rounded-full ${active ? 'bg-[#60A5FA]' : 'bg-white/20'}`} />
               </div>
             ))}
           </nav>
-          <div className="border-t border-white/5 px-1.5 pb-3 pt-2.5">
-            <div className="flex items-center gap-1.5 px-2">
-              <div className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-blue-700 text-[7px] font-bold text-white">JD</div>
-              <span className="truncate text-[9px] text-slate-500">John D.</span>
-            </div>
+          <div className="border-t border-white/5 py-3 flex justify-center">
+            <div className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[#1D4ED8] text-[7px] font-bold text-white">JD</div>
           </div>
         </aside>
 

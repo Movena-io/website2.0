@@ -94,7 +94,7 @@ function ProductMockup() {
         {/* Sidebar */}
         <aside className="w-[110px] shrink-0 bg-slate-900 flex flex-col">
           <div className="flex items-center gap-1.5 px-3 py-3 border-b border-white/5">
-            <Image src="/assets/logo.png" alt="Movena" width={64} height={16} className="brightness-0 invert" />
+            <Image src="/assets/logo.png" alt="Movena" width={64} height={16} />
           </div>
           <nav className="flex-1 px-1.5 py-2 space-y-0.5">
             {[

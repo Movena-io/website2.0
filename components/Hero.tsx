@@ -173,13 +173,13 @@ export default function Hero() {
 
   return (
     <section className="relative overflow-hidden">
-      {/* Background: white left half, brand blue right half */}
+      {/* Background: white left, light blue right */}
       <div
         className="absolute inset-x-0 -z-10"
         style={{
           top: '-100px',
           bottom: 0,
-          background: 'linear-gradient(to right, #ffffff 50%, #1D4ED8 50%)',
+          background: 'linear-gradient(to right, #ffffff 50%, #EFF6FF 50%)',
         }}
       />
 

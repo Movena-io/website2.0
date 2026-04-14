@@ -1,7 +1,8 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { Truck, CheckCircle, ChevronDown } from 'lucide-react'
+import { CheckCircle, ChevronDown } from 'lucide-react'
+import Image from 'next/image'
 import { useLanguage } from '@/lib/LanguageContext'
 
 // ─── Tool definitions ─────────────────────────────────────────────────
@@ -104,11 +105,8 @@ export default function Consolidation() {
           transition={{ duration: 0.5, delay: 0.1, ease: 'easeOut' }}
           className="max-w-sm mx-auto bg-[#0B1F3B] rounded-2xl p-6 shadow-xl shadow-[#0B1F3B]/25 ring-1 ring-white/10"
         >
-          <div className="flex items-center gap-2.5 mb-5">
-            <div className="w-8 h-8 rounded-xl bg-[#1D4ED8] flex items-center justify-center">
-              <Truck size={15} strokeWidth={1.5} className="text-white" />
-            </div>
-            <span className="text-[17px] font-extrabold tracking-[-0.025em] text-white">Movena</span>
+          <div className="flex items-center mb-5">
+            <Image src="/assets/logo.png" alt="Movena" width={120} height={30} className="brightness-0 invert" />
           </div>
 
           <div className="grid grid-cols-2 gap-x-4 gap-y-2.5">

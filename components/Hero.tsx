@@ -4,6 +4,7 @@ import { useEffect, useRef } from 'react'
 import { gsap } from 'gsap'
 import { motion, Variants } from 'framer-motion'
 import { ArrowRight } from 'lucide-react'
+import Image from 'next/image'
 import { cn } from '@/lib/utils'
 import { TYPEFORM_URL } from '@/lib/constants'
 import { useLanguage } from '@/lib/LanguageContext'
@@ -53,6 +54,27 @@ function AnimatedGroup({
   )
 }
 
+// ─── Sparkline ────────────────────────────────────────────────────────
+
+function Sparkline({ data, color }: { data: number[]; color: string }) {
+  const max = Math.max(...data)
+  const min = Math.min(...data)
+  const h = 28
+  const w = 80
+  const pts = data.map((v, i) => {
+    const x = (i / (data.length - 1)) * w
+    const y = h - ((v - min) / (max - min || 1)) * h
+    return `${x},${y}`
+  }).join(' ')
+  const area = `0,${h} ` + pts + ` ${w},${h}`
+  return (
+    <svg width={w} height={h} viewBox={`0 0 ${w} ${h}`} fill="none">
+      <polygon points={area} fill={color} opacity="0.12" />
+      <polyline points={pts} stroke={color} strokeWidth="1.5" fill="none" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  )
+}
+
 // ─── Product mockup ───────────────────────────────────────────────────
 
 function ProductMockup() {
@@ -62,109 +84,94 @@ function ProductMockup() {
     { time: '15:00', title: 'Hansen Residence',  route: 'Harbor → Midtown',     crew: '2 crew · Van',       status: 'Scheduled', sc: 'bg-blue-50 text-blue-700',   active: false },
   ]
 
+  const revenueData = [18, 22, 19, 27, 24, 31, 28, 35, 33, 41, 38, 44]
+  const jobsData    = [8,  11, 9,  13, 12, 15, 14, 17, 15, 19, 18, 21]
+
   return (
-    <div className="w-full select-none">
-      {/* Browser chrome */}
-      <div className="rounded-t-xl bg-[#1E293B] border border-[#334155] border-b-0 px-4 py-3 flex items-center gap-2">
-        <div className="flex gap-1.5">
-          <span className="w-2.5 h-2.5 rounded-full bg-[#FF5F57]" />
-          <span className="w-2.5 h-2.5 rounded-full bg-[#FEBC2E]" />
-          <span className="w-2.5 h-2.5 rounded-full bg-[#28C840]" />
-        </div>
-        <div className="flex-1 mx-3">
-          <div className="bg-[#0F172A] rounded-md px-3 py-1 max-w-[160px] mx-auto flex items-center justify-center">
-            <span className="text-[11px] text-[#475569] font-medium">app.movena.io</span>
+    <div className="w-full select-none rounded-xl overflow-hidden shadow-2xl shadow-[#0B1F3B]/20">
+      <div className="flex">
+
+        {/* Sidebar */}
+        <aside className="w-[110px] shrink-0 bg-slate-900 flex flex-col">
+          <div className="flex items-center gap-1.5 px-3 py-3 border-b border-white/5">
+            <Image src="/assets/logo.png" alt="Movena" width={64} height={16} className="brightness-0 invert" />
           </div>
-        </div>
-      </div>
-
-      {/* App window */}
-      <div className="rounded-b-xl border border-[#334155] border-t-0 overflow-hidden">
-        <div className="flex">
-
-          {/* Sidebar */}
-          <aside className="w-[110px] shrink-0 bg-slate-900 flex flex-col">
-            <div className="flex items-center gap-1.5 px-3 py-3 border-b border-white/5">
-              <div className="flex h-5 w-5 shrink-0 items-center justify-center rounded bg-blue-700 text-[9px] font-bold text-white">M</div>
-              <span className="text-[10px] font-semibold tracking-[0.06em] text-white">Movena</span>
-            </div>
-            <nav className="flex-1 px-1.5 py-2 space-y-0.5">
-              {[
-                { label: 'Dashboard',  active: true  },
-                { label: 'Tasks',      active: false },
-                { label: 'Calendar',   active: false },
-                { label: 'Quotes',     active: false },
-                { label: 'Leads',      active: false },
-                { label: 'Invoicing',  active: false },
-              ].map(item => (
-                <div key={item.label} className={`flex items-center rounded-lg border-l-[2px] py-1 pl-[7px] pr-2 text-[9px] font-medium ${item.active ? 'border-blue-700 bg-blue-700/20 text-blue-400' : 'border-transparent text-slate-400'}`}>
-                  {item.label}
-                </div>
-              ))}
-            </nav>
-            <div className="border-t border-white/5 px-1.5 pb-3 pt-2.5">
-              <div className="flex items-center gap-1.5 px-2">
-                <div className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-blue-700 text-[7px] font-bold text-white">SO</div>
-                <span className="truncate text-[9px] text-slate-500">Samuel O.</span>
+          <nav className="flex-1 px-1.5 py-2 space-y-0.5">
+            {[
+              { label: 'Dashboard', active: true  },
+              { label: 'Tasks',     active: false },
+              { label: 'Calendar',  active: false },
+              { label: 'Quotes',    active: false },
+              { label: 'Leads',     active: false },
+              { label: 'Invoicing', active: false },
+            ].map(item => (
+              <div key={item.label} className={`flex items-center rounded-lg border-l-[2px] py-1 pl-[7px] pr-2 text-[9px] font-medium ${item.active ? 'border-blue-700 bg-blue-700/20 text-blue-400' : 'border-transparent text-slate-400'}`}>
+                {item.label}
               </div>
+            ))}
+          </nav>
+          <div className="border-t border-white/5 px-1.5 pb-3 pt-2.5">
+            <div className="flex items-center gap-1.5 px-2">
+              <div className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-blue-700 text-[7px] font-bold text-white">JD</div>
+              <span className="truncate text-[9px] text-slate-500">John D.</span>
             </div>
-          </aside>
+          </div>
+        </aside>
 
-          {/* Dashboard content */}
-          <div className="flex-1 bg-[#f8fafc] overflow-hidden px-4 py-4">
+        {/* Dashboard content */}
+        <div className="flex-1 bg-[#f8fafc] overflow-hidden px-4 py-4">
 
-            {/* Greeting */}
-            <div className="mb-3">
-              <h1 className="text-[13px] font-semibold" style={{ color: '#1D1D1F' }}>Good morning, Samuel</h1>
-              <p className="text-[10px] mt-0.5" style={{ color: '#6E6E73' }}>Today — 3 jobs</p>
+          {/* Greeting */}
+          <div className="mb-3">
+            <h1 className="text-[13px] font-semibold" style={{ color: '#1D1D1F' }}>Good morning, John</h1>
+            <p className="text-[10px] mt-0.5" style={{ color: '#6E6E73' }}>Today — 3 jobs</p>
+          </div>
+
+          {/* Stat cards + sparklines */}
+          <div className="grid grid-cols-2 gap-1.5 mb-3">
+            <div className="rounded-xl bg-white border border-gray-100 px-3 py-2.5 shadow-sm">
+              <p className="text-[7px] font-medium uppercase tracking-wide" style={{ color: '#AEAEB2' }}>Revenue this month</p>
+              <p className="text-[20px] font-semibold leading-none mt-1" style={{ color: '#1D1D1F' }}>€44,200</p>
+              <p className="text-[7px] mt-0.5 mb-2" style={{ color: '#16A34A' }}>+18% vs last month</p>
+              <Sparkline data={revenueData} color="#2563EB" />
             </div>
+            <div className="rounded-xl bg-white border border-gray-100 px-3 py-2.5 shadow-sm">
+              <p className="text-[7px] font-medium uppercase tracking-wide" style={{ color: '#AEAEB2' }}>Jobs this month</p>
+              <p className="text-[20px] font-semibold leading-none mt-1" style={{ color: '#1D1D1F' }}>21</p>
+              <p className="text-[7px] mt-0.5 mb-2" style={{ color: '#16A34A' }}>+3 vs last month</p>
+              <Sparkline data={jobsData} color="#2563EB" />
+            </div>
+          </div>
 
-            {/* 4 metric cards */}
-            <div className="grid grid-cols-4 gap-1.5 mb-3">
-              {[
-                { label: 'Active leads',   value: '12', sub: 'in pipeline', color: undefined   },
-                { label: 'Jobs today',     value: '3',  sub: '1 active',    color: '#2563EB'   },
-                { label: 'Jobs this week', value: '11', sub: 'scheduled',   color: undefined   },
-                { label: 'Quotes pending', value: '5',  sub: 'unanswered',  color: '#FF9500'   },
-              ].map(c => (
-                <div key={c.label} className="rounded-xl bg-white border border-gray-100 px-2.5 py-2 shadow-sm">
-                  <p className="text-[7px] font-medium uppercase tracking-wide leading-tight" style={{ color: '#AEAEB2' }}>{c.label}</p>
-                  <p className="text-[18px] font-semibold leading-none mt-1" style={{ color: c.color ?? '#1D1D1F' }}>{c.value}</p>
-                  <p className="text-[7px] mt-0.5" style={{ color: '#AEAEB2' }}>{c.sub}</p>
+          {/* Today */}
+          <div className="rounded-xl border border-gray-100 bg-white px-3 py-2.5 shadow-sm">
+            <div className="flex items-center justify-between mb-2">
+              <p className="text-[10px] font-semibold" style={{ color: '#1D1D1F' }}>Today</p>
+              <span className="text-[9px]" style={{ color: '#6E6E73' }}>09:24</span>
+            </div>
+            {jobs.map((job, idx) => (
+              <div key={job.title} className="flex gap-2.5 mb-2 last:mb-0">
+                <div className="w-8 shrink-0 pt-0.5 text-right">
+                  <span className="text-[8px]" style={{ color: '#6E6E73' }}>{job.time}</span>
                 </div>
-              ))}
-            </div>
-
-            {/* Today */}
-            <div className="rounded-xl border border-gray-100 bg-white px-3 py-2.5 shadow-sm">
-              <div className="flex items-center justify-between mb-2">
-                <p className="text-[10px] font-semibold" style={{ color: '#1D1D1F' }}>Today</p>
-                <span className="text-[9px]" style={{ color: '#6E6E73' }}>09:24</span>
-              </div>
-              {jobs.map((job, idx) => (
-                <div key={job.title} className="flex gap-2.5 mb-2 last:mb-0">
-                  <div className="w-8 shrink-0 pt-0.5 text-right">
-                    <span className="text-[8px]" style={{ color: '#6E6E73' }}>{job.time}</span>
-                  </div>
-                  <div className="relative flex w-2.5 flex-col items-center">
-                    <div className={`mt-0.5 h-2 w-2 rounded-full shrink-0 ${job.active ? 'bg-green-500' : 'bg-[#2563EB]'}`} />
-                    {idx < jobs.length - 1 && <div className="mt-0.5 w-px flex-1 bg-gray-200" />}
-                  </div>
-                  <div className={`flex-1 rounded-lg border-l-[2px] ${job.active ? 'border-green-500' : 'border-[#2563EB]'} bg-gray-50 px-2 py-1.5`}>
-                    <div className="flex items-start justify-between gap-1">
-                      <div className="min-w-0">
-                        <p className="text-[9px] font-medium truncate" style={{ color: '#1D1D1F' }}>{job.title}</p>
-                        <p className="text-[8px] truncate" style={{ color: '#6E6E73' }}>{job.route}</p>
-                        <p className="text-[7px]" style={{ color: '#AEAEB2' }}>{job.crew}</p>
-                      </div>
-                      <span className={`shrink-0 rounded-full px-1.5 py-0.5 text-[7px] font-medium ${job.sc}`}>{job.status}</span>
+                <div className="relative flex w-2.5 flex-col items-center">
+                  <div className={`mt-0.5 h-2 w-2 rounded-full shrink-0 ${job.active ? 'bg-green-500' : 'bg-[#2563EB]'}`} />
+                  {idx < jobs.length - 1 && <div className="mt-0.5 w-px flex-1 bg-gray-200" />}
+                </div>
+                <div className={`flex-1 rounded-lg border-l-[2px] ${job.active ? 'border-green-500' : 'border-[#2563EB]'} bg-gray-50 px-2 py-1.5`}>
+                  <div className="flex items-start justify-between gap-1">
+                    <div className="min-w-0">
+                      <p className="text-[9px] font-medium truncate" style={{ color: '#1D1D1F' }}>{job.title}</p>
+                      <p className="text-[8px] truncate" style={{ color: '#6E6E73' }}>{job.route}</p>
+                      <p className="text-[7px]" style={{ color: '#AEAEB2' }}>{job.crew}</p>
                     </div>
+                    <span className={`shrink-0 rounded-full px-1.5 py-0.5 text-[7px] font-medium ${job.sc}`}>{job.status}</span>
                   </div>
                 </div>
-              ))}
-            </div>
-
+              </div>
+            ))}
           </div>
+
         </div>
       </div>
     </div>
@@ -216,7 +223,7 @@ export default function Hero() {
               }}
               className="flex flex-col items-start gap-0"
             >
-              <h1 className="text-[44px] lg:text-[58px] font-semibold leading-[1.05] tracking-[-0.03em] text-[#0B1F3B] w-full">
+              <h1 className="text-[40px] lg:text-[46px] font-semibold leading-[1.1] tracking-[-0.03em] text-[#0B1F3B] w-full">
                 {t.hero.headline} <span className="text-[#1D4ED8]">{t.hero.highlight}</span>
               </h1>
 
@@ -261,9 +268,7 @@ export default function Hero() {
             }}
             className="-mr-6 lg:-mr-48 scale-[1.08] origin-left"
           >
-            <div className="shadow-2xl shadow-[#0B1F3B]/20">
-              <ProductMockup />
-            </div>
+            <ProductMockup />
           </AnimatedGroup>
 
         </div>

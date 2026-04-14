@@ -209,75 +209,76 @@ export default function Hero() {
         }}
       />
 
-      {/* Full-bleed flex row: text constrained left, mockup bleeds to right */}
-      <div className="flex items-center py-20 lg:py-28 overflow-hidden">
+      <div className="max-w-[1200px] mx-auto px-6 py-20 lg:py-28">
+        <div className="grid grid-cols-1 lg:grid-cols-[2fr_3fr] gap-16 lg:gap-20 items-center">
 
-        {/* Left — text, aligned to page max-width */}
-        <div className="shrink-0 w-[460px] pl-6 pr-12" style={{ marginLeft: 'max(24px, calc((100vw - 1200px) / 2))' }}>
-          <AnimatedGroup
-            variants={{
-              container: { hidden: { opacity: 0 }, visible: { opacity: 1, transition: { staggerChildren: 0.1, delayChildren: 0.1 } } },
-              ...transitionVariants,
-            }}
-            className="flex flex-col items-start gap-0"
-          >
-            <div className="flex items-center gap-4 mb-6">
-              <div className="h-px w-12 bg-gradient-to-r from-transparent to-[#1D4ED8]/40" />
-              <span className="text-[11px] font-semibold uppercase tracking-[0.1em] text-[#1D4ED8]">{t.hero.badge}</span>
-              <div className="h-px w-12 bg-gradient-to-l from-transparent to-[#1D4ED8]/40" />
-            </div>
+          {/* Left — text */}
+          <div>
+            <AnimatedGroup
+              variants={{
+                container: { hidden: { opacity: 0 }, visible: { opacity: 1, transition: { staggerChildren: 0.1, delayChildren: 0.1 } } },
+                ...transitionVariants,
+              }}
+              className="flex flex-col items-start gap-0"
+            >
+              <div className="flex items-center gap-4 mb-6">
+                <div className="h-px w-12 bg-gradient-to-r from-transparent to-[#1D4ED8]/40" />
+                <span className="text-[11px] font-semibold uppercase tracking-[0.1em] text-[#1D4ED8]">{t.hero.badge}</span>
+                <div className="h-px w-12 bg-gradient-to-l from-transparent to-[#1D4ED8]/40" />
+              </div>
 
-            <h1 className="text-[36px] lg:text-[46px] font-extrabold leading-[1.05] tracking-[-0.03em] text-[#0B1F3B]" style={{ textWrap: 'balance' } as React.CSSProperties}>
-              {t.hero.headline} <span className="text-[#F97316]">{t.hero.highlight}</span>
-            </h1>
+              <h1 className="text-[36px] lg:text-[46px] font-extrabold leading-[1.05] tracking-[-0.03em] text-[#0B1F3B]" style={{ textWrap: 'balance' } as React.CSSProperties}>
+                {t.hero.headline} <span className="text-[#F97316]">{t.hero.highlight}</span>
+              </h1>
 
-            <p className="mt-5 text-[15px] font-normal leading-[1.65] text-[#1E3A5F]/70 max-w-[380px]">
-              {t.hero.subheadline}
-            </p>
-          </AnimatedGroup>
+              <p className="mt-5 text-[15px] font-normal leading-[1.65] text-[#1E3A5F]/70 max-w-[380px]">
+                {t.hero.subheadline}
+              </p>
+            </AnimatedGroup>
 
+            <AnimatedGroup
+              variants={{
+                container: {
+                  hidden: { opacity: 0 },
+                  visible: { opacity: 1, transition: { staggerChildren: 0.08, delayChildren: 0.75 } },
+                },
+                ...transitionVariants,
+              }}
+              className="mt-10 flex flex-col items-start gap-3"
+            >
+              <a
+                href={TYPEFORM_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn-gradient inline-flex items-center justify-center gap-2 h-12 px-10 rounded-xl text-white text-[15px] font-semibold"
+              >
+                {t.hero.primaryCta}
+                <ArrowRight size={15} strokeWidth={2} />
+              </a>
+
+              <p className="text-[13px] font-medium text-[#1E3A5F]/50">
+                {t.hero.disclaimer}
+              </p>
+            </AnimatedGroup>
+          </div>
+
+          {/* Right — mockup, overflows right edge */}
           <AnimatedGroup
             variants={{
               container: {
                 hidden: { opacity: 0 },
-                visible: { opacity: 1, transition: { staggerChildren: 0.08, delayChildren: 0.75 } },
+                visible: { opacity: 1, transition: { staggerChildren: 0.05, delayChildren: 0.85 } },
               },
               ...transitionVariants,
             }}
-            className="mt-10 flex flex-col items-start gap-3"
+            className="-mr-6 lg:-mr-[calc(50vw-600px+24px)]"
           >
-            <a
-              href={TYPEFORM_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="btn-gradient inline-flex items-center justify-center gap-2 h-12 px-10 rounded-xl text-white text-[15px] font-semibold"
-            >
-              {t.hero.primaryCta}
-              <ArrowRight size={15} strokeWidth={2} />
-            </a>
-
-            <p className="text-[13px] font-medium text-[#1E3A5F]/50">
-              {t.hero.disclaimer}
-            </p>
+            <div className="rounded-l-2xl border border-r-0 border-white/40 shadow-2xl shadow-[#0B1F3B]/20 ring-1 ring-white/20 bg-white/10 backdrop-blur-sm p-3 pr-0">
+              <ProductMockup />
+            </div>
           </AnimatedGroup>
+
         </div>
-
-        {/* Right — mockup bleeds to right edge */}
-        <AnimatedGroup
-          variants={{
-            container: {
-              hidden: { opacity: 0 },
-              visible: { opacity: 1, transition: { staggerChildren: 0.05, delayChildren: 0.85 } },
-            },
-            ...transitionVariants,
-          }}
-          className="flex-1 min-w-0 pl-10"
-        >
-          <div className="rounded-l-2xl border border-r-0 border-white/40 shadow-2xl shadow-[#0B1F3B]/20 ring-1 ring-white/20 bg-white/10 backdrop-blur-sm p-3 pr-0">
-            <ProductMockup />
-          </div>
-        </AnimatedGroup>
-
       </div>
     </section>
   )

@@ -227,7 +227,7 @@ export default function Hero() {
                 {t.hero.headline} <span className="text-[#1D4ED8]">{t.hero.highlight}</span>
               </h1>
 
-              <p className="mt-5 text-[15px] font-normal leading-[1.65] text-[#1E3A5F]/70">
+              <p className="mt-5 text-[15px] font-normal leading-[1.65] text-[#1E3A5F]/70 max-w-[360px]">
                 {t.hero.subheadline}
               </p>
             </AnimatedGroup>

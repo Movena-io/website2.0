@@ -209,7 +209,7 @@ export default function Hero() {
         }}
       />
 
-      <div className="max-w-[1200px] mx-auto px-6 py-28 lg:py-40">
+      <div className="max-w-[1200px] mx-auto px-6 py-20 lg:py-28">
         <div className="grid grid-cols-1 lg:grid-cols-[2fr_3fr] gap-20 lg:gap-28 items-center">
 
           {/* Left — text */}

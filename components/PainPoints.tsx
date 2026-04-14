@@ -20,7 +20,7 @@ export default function PainPoints() {
   }, [])
 
   return (
-    <section ref={sectionRef} className="bg-white py-24">
+    <section ref={sectionRef} className="bg-white py-16">
       <div className="max-w-6xl mx-auto px-6">
         <div className="reveal mb-16">
           <span className="text-[11px] font-semibold uppercase tracking-[0.1em] text-[#1D4ED8]">{t.painPoints.label}</span>

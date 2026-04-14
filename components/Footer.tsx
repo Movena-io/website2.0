@@ -1,6 +1,5 @@
 'use client'
 
-import Image from 'next/image'
 import { TYPEFORM_URL } from '@/lib/constants'
 import { useLanguage } from '@/lib/LanguageContext'
 
@@ -28,9 +27,6 @@ export default function Footer() {
 
         <div className="flex flex-col md:flex-row justify-between gap-12">
           <div className="max-w-[220px]">
-            <div className="mb-3">
-              <Image src="/assets/logo.png" alt="Movena" width={110} height={30} className="brightness-0 invert" />
-            </div>
             <p className="text-[13px] leading-[1.6] text-[#64748B]">
               {t.footer.tagline}
             </p>

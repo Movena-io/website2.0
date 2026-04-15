@@ -38,8 +38,8 @@ export const translations = {
           description: "Your team doesn't know where to be until you tell them. Every day starts with calls to make sure everyone has the right address, the right time, and the right gear.",
         },
         {
-          title: 'Invoices you have to chase yourself',
-          description: "The job is done but the money isn't in. You have to find time to write the invoice, send it, and then follow up when it goes past due. Again.",
+          title: 'No overview of what is going on',
+          description: "When you are running three jobs at once, it is hard to know what is actually happening. Which crew is on site, which customer is waiting for an update, what went wrong on the last job.",
         },
       ],
     },
@@ -165,8 +165,8 @@ export const translations = {
           description: 'Crew gets their job details automatically. No morning calls, no messages to confirm who is going where.',
         },
         {
-          title: 'Get paid',
-          description: 'When the job is done, the customer gets a payment link. Money lands in your account. No chasing.',
+          title: 'Follow up',
+          description: 'Movena sends follow-up messages automatically. Quote reminders, job confirmations, and check-ins after the move, without you lifting a finger.',
         },
       ],
     },
@@ -186,7 +186,7 @@ export const translations = {
         },
         {
           question: 'What integrations do you support?',
-          answer: 'We are building integrations for the tools European moving companies already use: e-conomic for accounting, MobilePay and Dankort for payments, Penneo for digital signing, and Google Calendar for scheduling. Your data is stored in Europe.',
+          answer: 'We are building integrations for the tools European moving companies already use: Penneo for digital signing, Google Calendar for scheduling, and more on the way. Your data is stored in Europe.',
         },
         {
           question: 'Is my data secure?',
@@ -303,8 +303,8 @@ export const translations = {
           description: 'Dit hold ved ikke, hvor de skal være, før du fortæller dem det. Hver dag starter med opkald for at sikre, at alle har den rigtige adresse, det rigtige tidspunkt og det rigtige udstyr.',
         },
         {
-          title: 'Fakturaer du selv skal jage',
-          description: 'Jobbet er færdigt, men pengene er ikke kommet ind. Du skal finde tid til at skrive fakturaen, sende den og følge op, når den er forfalden. Igen.',
+          title: 'Intet overblik over hvad der foregår',
+          description: 'Når du kører tre jobs på én gang, er det svært at vide, hvad der egentlig sker. Hvilket hold er på adressen, hvilken kunde venter på en opdatering, hvad gik galt på det sidste job.',
         },
       ],
     },
@@ -430,8 +430,8 @@ export const translations = {
           description: 'Holdet får automatisk jobdetaljerne. Ingen morgenopkald, ingen beskeder for at bekræfte hvem der tager af sted.',
         },
         {
-          title: 'Få betaling',
-          description: 'Når jobbet er færdigt, får kunden et betalingslink. Pengene lander på din konto. Ingen jagt.',
+          title: 'Følg op',
+          description: 'Movena sender opfølgningsmails automatisk. Tilbudsrykkere, jobbekræftelser og check-ins efter flytningen, uden at du løfter en finger.',
         },
       ],
     },
@@ -451,7 +451,7 @@ export const translations = {
         },
         {
           question: 'Hvilke integrationer understøtter I?',
-          answer: 'Vi bygger integrationer til de værktøjer, danske flyttefirmaer allerede bruger: e-conomic til regnskab, MobilePay og Dankort til betalinger, Penneo til digital underskrift og Google Kalender til planlægning. Dine data gemmes i Europa.',
+          answer: 'Vi bygger integrationer til de værktøjer, danske flyttefirmaer allerede bruger: Penneo til digital underskrift, Google Kalender til planlægning og mere på vej. Dine data gemmes i Europa.',
         },
         {
           question: 'Er mine data sikre?',

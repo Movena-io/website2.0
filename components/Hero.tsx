@@ -185,9 +185,9 @@ export default function Hero() {
         }}
       />
 
-{/* Background: teal pill anchored to right edge */}
+      {/* Background: teal pill anchored to right edge — desktop only */}
       <div
-        className="absolute -z-10"
+        className="absolute -z-10 hidden lg:block"
         style={{
           top: '10%',
           bottom: '10%',

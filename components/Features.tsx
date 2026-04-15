@@ -372,6 +372,7 @@ export default function Features() {
   const { t } = useLanguage()
   const [activeIndex, setActiveIndex] = useState(0)
   const trackRef = useRef<HTMLDivElement>(null)
+  const headerRef = useRef<HTMLDivElement>(null)
   const scrollTriggerRef = useRef<ScrollTrigger | null>(null)
 
   // When a tab is clicked, scroll to the matching position in the track
@@ -403,6 +404,21 @@ export default function Features() {
         },
       })
       scrollTriggerRef.current = st
+
+      // Fade header out as it scrolls toward the pin point
+      if (headerRef.current) {
+        gsap.to(headerRef.current, {
+          opacity: 0,
+          y: -24,
+          ease: 'power1.in',
+          scrollTrigger: {
+            trigger: headerRef.current,
+            start: 'top 20%',
+            end: 'bottom top',
+            scrub: true,
+          },
+        })
+      }
     }, trackRef)
 
     const handleResize = () => ScrollTrigger.refresh()
@@ -432,7 +448,7 @@ export default function Features() {
     <section id="features" className="bg-white scroll-mt-24">
 
       {/* Header — scrolls away before pin starts */}
-      <div className="max-w-6xl mx-auto px-6 pt-16 pb-6 md:pb-8">
+      <div ref={headerRef} className="max-w-6xl mx-auto px-6 pt-16 pb-4 md:pb-6">
         <div className="flex flex-col items-center gap-2 text-center">
           <span className="block text-[11px] font-semibold uppercase tracking-[0.1em] text-[#1D4ED8] mb-1">{t.features.label}</span>
           <h2 className="max-w-2xl text-[28px] sm:text-[34px] lg:text-[38px] font-semibold tracking-[-0.02em] text-[#0B1F3B] leading-[1.2]">
@@ -446,7 +462,7 @@ export default function Features() {
 
       {/* Pinned tabs area */}
       <div ref={trackRef}>
-        <div className="bg-white md:h-screen md:flex md:flex-col md:justify-center md:overflow-hidden md:pt-10">
+        <div className="bg-white md:h-screen md:flex md:flex-col md:justify-center md:overflow-hidden md:pt-6">
           <div className="max-w-6xl mx-auto px-6 w-full py-8 md:py-0">
 
           {/* Tabs */}
@@ -530,7 +546,7 @@ export default function Features() {
                     </div>
 
                     {/* Mockup */}
-                    <div className="w-full overflow-hidden hidden lg:flex lg:items-center lg:justify-center">
+                    <div className="w-full overflow-hidden hidden lg:flex lg:items-center lg:justify-center lg:self-center">
                       {tab.mockup}
                     </div>
                   </TabsPrimitive.Content>

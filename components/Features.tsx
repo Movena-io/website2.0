@@ -12,9 +12,7 @@ import {
   Package,
   Mail,
 } from 'lucide-react'
-import { useEffect, useRef, useState } from 'react'
-import gsap from 'gsap'
-import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { useState } from 'react'
 
 // ─── Shared helpers ───────────────────────────────────────────────────────────
 
@@ -371,65 +369,6 @@ const TABS = tabValues.length
 export default function Features() {
   const { t } = useLanguage()
   const [activeIndex, setActiveIndex] = useState(0)
-  const trackRef = useRef<HTMLDivElement>(null)
-  const headerRef = useRef<HTMLDivElement>(null)
-  const scrollTriggerRef = useRef<ScrollTrigger | null>(null)
-
-  // When a tab is clicked, scroll to the matching position in the track
-  // so GSAP progress stays in sync with the active tab
-  const scrollToTab = (index: number) => {
-    const st = scrollTriggerRef.current
-    if (!st) return
-    const { start, end } = st
-    const targetScroll = start + (index / TABS) * (end - start)
-    window.scrollTo({ top: targetScroll, behavior: 'instant' })
-  }
-
-  useEffect(() => {
-    // Skip scroll-jacking on mobile
-    if (window.matchMedia('(max-width: 767px)').matches) return
-
-    gsap.registerPlugin(ScrollTrigger)
-
-    const ctx = gsap.context(() => {
-      const st = ScrollTrigger.create({
-        trigger: trackRef.current,
-        start: 'top top',
-        end: `+=${window.innerHeight * (TABS - 1)}`,
-        pin: true,
-        scrub: true,
-        onUpdate: (self) => {
-          const newIndex = Math.min(TABS - 1, Math.floor(self.progress * TABS))
-          setActiveIndex(newIndex)
-        },
-      })
-      scrollTriggerRef.current = st
-
-      // Fade header out as it scrolls toward the pin point
-      if (headerRef.current) {
-        gsap.to(headerRef.current, {
-          opacity: 0,
-          y: -24,
-          ease: 'power1.in',
-          scrollTrigger: {
-            trigger: headerRef.current,
-            start: 'top 20%',
-            end: 'bottom top',
-            scrub: true,
-          },
-        })
-      }
-    }, trackRef)
-
-    const handleResize = () => ScrollTrigger.refresh()
-    window.addEventListener('resize', handleResize)
-
-    return () => {
-      scrollTriggerRef.current = null
-      ctx.revert()
-      window.removeEventListener('resize', handleResize)
-    }
-  }, [])
 
   const tabs = t.features.tabs.map((tab, i) => {
     const Icon = tabIconComponents[i]
@@ -445,11 +384,11 @@ export default function Features() {
   const activeTab = tabValues[activeIndex]
 
   return (
-    <section id="features" className="bg-white scroll-mt-24">
+    <section id="features" className="bg-white scroll-mt-24 py-16 md:py-24">
+      <div className="max-w-6xl mx-auto px-6 w-full">
 
-      {/* Header — scrolls away before pin starts */}
-      <div ref={headerRef} className="max-w-6xl mx-auto px-6 pt-16 pb-2 md:pb-3">
-        <div className="flex flex-col items-center gap-2 text-center">
+        {/* Header */}
+        <div className="flex flex-col items-center gap-2 text-center mb-10">
           <span className="block text-[11px] font-semibold uppercase tracking-[0.1em] text-[#1D4ED8] mb-1">{t.features.label}</span>
           <h2 className="max-w-2xl text-[28px] sm:text-[34px] lg:text-[38px] font-semibold tracking-[-0.02em] text-[#0B1F3B] leading-[1.2]">
             {t.features.headline} <span className="text-[#29ABE2]">{t.features.highlight}</span>{t.features.headlineEnd}
@@ -458,24 +397,15 @@ export default function Features() {
             {t.features.subheadline}
           </p>
         </div>
-      </div>
 
-      {/* Pinned tabs area */}
-      <div ref={trackRef}>
-        <div className="bg-white md:h-screen md:flex md:flex-col md:justify-center md:overflow-hidden md:pt-6">
-          <div className="max-w-6xl mx-auto px-6 w-full py-8 md:py-0">
-
-          {/* Tabs */}
-          <TabsPrimitive.Root
-            value={activeTab}
-            onValueChange={(val) => {
-              const i = tabValues.indexOf(val)
-              if (i !== -1) {
-                setActiveIndex(i)
-                scrollToTab(i)
-              }
-            }}
-          >
+        {/* Tabs */}
+        <TabsPrimitive.Root
+          value={activeTab}
+          onValueChange={(val) => {
+            const i = tabValues.indexOf(val)
+            if (i !== -1) setActiveIndex(i)
+          }}
+        >
             {/* Mobile: horizontal scrolling tab list */}
             <TabsPrimitive.List className="md:hidden flex overflow-x-auto pb-1 -mx-2 px-2 gap-2 no-scrollbar">
               {tabs.map((tab) => (
@@ -558,10 +488,8 @@ export default function Features() {
             <p className="mt-4 text-center text-[13px] text-[#94A3B8]">
               {t.features.andMore}
             </p>
-          </TabsPrimitive.Root>
+        </TabsPrimitive.Root>
 
-          </div>
-        </div>
       </div>
     </section>
   )

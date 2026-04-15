@@ -112,7 +112,7 @@ function ProductMockup() {
           {/* Greeting */}
           <div className="mb-3">
             <h1 className="text-[13px] font-semibold" style={{ color: '#1D1D1F' }}>Good morning, John</h1>
-            <p className="text-[10px] mt-0.5" style={{ color: '#6E6E73' }}>Today — 3 jobs</p>
+            <p className="text-[10px] mt-0.5" style={{ color: '#6E6E73' }}>Today, 3 jobs</p>
           </div>
 
           {/* Stat cards + sparklines */}
@@ -185,6 +185,18 @@ export default function Hero() {
         }}
       />
 
+      {/* Background: teal radial glow */}
+      <div
+        className="absolute -z-15 pointer-events-none"
+        style={{
+          top: '-20%',
+          right: '-10%',
+          width: '60%',
+          height: '140%',
+          background: 'radial-gradient(circle at center, rgba(41,171,226,0.18) 0%, transparent 65%)',
+        }}
+      />
+
       {/* Background: teal pill anchored to right edge */}
       <div
         className="absolute -z-10"
@@ -244,14 +256,17 @@ export default function Hero() {
             </AnimatedGroup>
           </div>
 
-          {/* Right — mockup, overflows right edge on desktop */}
+          {/* Right — mockup, slides in from right */}
           <AnimatedGroup
             variants={{
               container: {
                 hidden: { opacity: 0 },
                 visible: { opacity: 1, transition: { staggerChildren: 0.05, delayChildren: 0.85 } },
               },
-              ...transitionVariants,
+              item: {
+                hidden: { opacity: 0, x: 48 },
+                visible: { opacity: 1, x: 0, transition: { type: 'spring', bounce: 0.25, duration: 1.4 } },
+              },
             }}
             className="w-full lg:-mr-[15%] lg:scale-[1.08] lg:origin-left"
           >

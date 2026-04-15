@@ -15,6 +15,16 @@ export const metadata: Metadata = {
   title: 'Movena: All-in-one platform for moving companies',
   description: 'Quotes, scheduling, and crew tracking in one place. Built for moving companies that are done managing five different tools.',
   metadataBase: new URL('https://movena.io'),
+  icons: {
+    icon: [
+      { url: '/favicon.ico', sizes: '48x48' },
+      { url: '/favicon.svg', type: 'image/svg+xml' },
+      { url: '/favicon-96x96.png', type: 'image/png', sizes: '96x96' },
+    ],
+    apple: [
+      { url: '/apple-touch-icon.png', sizes: '180x180' },
+    ],
+  },
   openGraph: {
     title: 'Movena: All-in-one platform for moving companies',
     description: 'Quotes, scheduling, and crew tracking in one place. Built for moving companies that are done managing five different tools.',

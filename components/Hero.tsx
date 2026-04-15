@@ -187,13 +187,9 @@ export default function Hero() {
 
       {/* Background: teal radial glow */}
       <div
-        className="absolute -z-15 pointer-events-none"
+        className="absolute inset-0 -z-15 pointer-events-none"
         style={{
-          top: '-20%',
-          right: '-10%',
-          width: '60%',
-          height: '140%',
-          background: 'radial-gradient(circle at center, rgba(41,171,226,0.18) 0%, transparent 65%)',
+          background: 'radial-gradient(circle at center, rgba(41,171,226,0.5) 0%, transparent 65%)',
         }}
       />
 

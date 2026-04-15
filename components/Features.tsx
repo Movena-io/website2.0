@@ -432,12 +432,12 @@ export default function Features() {
     <div ref={trackRef}>
       <section
         id="features"
-        className="bg-white scroll-mt-24 py-10 md:h-screen md:py-0 md:flex md:flex-col md:justify-center md:overflow-hidden"
+        className="bg-white scroll-mt-24 py-10 md:h-screen md:pb-0 md:pt-20 md:flex md:flex-col md:justify-center md:overflow-hidden"
       >
         <div className="max-w-6xl mx-auto px-6 w-full">
 
           {/* Header */}
-          <div className="flex flex-col items-center gap-2 text-center mb-6">
+          <div className="flex flex-col items-center gap-2 text-center mb-4">
             <span className="block text-[11px] font-semibold uppercase tracking-[0.1em] text-[#1D4ED8] mb-1">{t.features.label}</span>
             <h2 className="max-w-2xl text-[28px] sm:text-[34px] lg:text-[38px] font-semibold tracking-[-0.02em] text-[#0B1F3B] leading-[1.2]">
               {t.features.headline} <span className="text-[#29ABE2]">{t.features.highlight}</span>{t.features.headlineEnd}
@@ -494,7 +494,7 @@ export default function Features() {
               </TabsPrimitive.List>
 
               {/* Right: content panel */}
-              <div className="flex-1 rounded-2xl bg-[#F8FAFC] border border-[#E2E8F0] overflow-hidden relative h-[420px] md:h-[440px] lg:h-[460px]">
+              <div className="flex-1 rounded-2xl bg-[#F8FAFC] border border-[#E2E8F0] overflow-hidden relative h-[380px] md:h-[400px] lg:h-[420px]">
                 {tabs.map((tab) => (
                   <TabsPrimitive.Content
                     key={tab.value}

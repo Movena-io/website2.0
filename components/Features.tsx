@@ -546,7 +546,7 @@ export default function Features() {
                     </div>
 
                     {/* Mockup */}
-                    <div className="overflow-hidden hidden lg:flex lg:items-center lg:justify-center lg:w-1/2 lg:shrink-0">
+                    <div className="overflow-hidden hidden lg:flex lg:items-center lg:justify-center lg:w-1/2 lg:shrink-0 p-[25px]">
                       {tab.mockup}
                     </div>
                   </TabsPrimitive.Content>

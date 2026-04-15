@@ -381,7 +381,7 @@ export default function Features() {
     if (!st) return
     const { start, end } = st
     const targetScroll = start + (index / TABS) * (end - start)
-    window.scrollTo({ top: targetScroll, behavior: 'smooth' })
+    window.scrollTo({ top: targetScroll, behavior: 'instant' })
   }
 
   useEffect(() => {

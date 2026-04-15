@@ -372,6 +372,17 @@ export default function Features() {
   const { t } = useLanguage()
   const [activeIndex, setActiveIndex] = useState(0)
   const trackRef = useRef<HTMLDivElement>(null)
+  const scrollTriggerRef = useRef<ScrollTrigger | null>(null)
+
+  // When a tab is clicked, scroll to the matching position in the track
+  // so GSAP progress stays in sync with the active tab
+  const scrollToTab = (index: number) => {
+    const st = scrollTriggerRef.current
+    if (!st) return
+    const { start, end } = st
+    const targetScroll = start + (index / TABS) * (end - start)
+    window.scrollTo({ top: targetScroll, behavior: 'smooth' })
+  }
 
   useEffect(() => {
     // Skip scroll-jacking on mobile
@@ -380,7 +391,7 @@ export default function Features() {
     gsap.registerPlugin(ScrollTrigger)
 
     const ctx = gsap.context(() => {
-      ScrollTrigger.create({
+      const st = ScrollTrigger.create({
         trigger: trackRef.current,
         start: 'top top',
         end: `+=${window.innerHeight * (TABS - 1)}`,
@@ -391,12 +402,14 @@ export default function Features() {
           setActiveIndex(newIndex)
         },
       })
+      scrollTriggerRef.current = st
     }, trackRef)
 
     const handleResize = () => ScrollTrigger.refresh()
     window.addEventListener('resize', handleResize)
 
     return () => {
+      scrollTriggerRef.current = null
       ctx.revert()
       window.removeEventListener('resize', handleResize)
     }
@@ -439,7 +452,10 @@ export default function Features() {
             value={activeTab}
             onValueChange={(val) => {
               const i = tabValues.indexOf(val)
-              if (i !== -1) setActiveIndex(i)
+              if (i !== -1) {
+                setActiveIndex(i)
+                scrollToTab(i)
+              }
             }}
           >
             {/* Mobile: horizontal scrolling tab list */}
@@ -478,7 +494,7 @@ export default function Features() {
               </TabsPrimitive.List>
 
               {/* Right: content panel */}
-              <div className="flex-1 rounded-2xl bg-[#F8FAFC] border border-[#E2E8F0] overflow-hidden relative h-[380px] sm:h-[420px] md:h-auto md:min-h-[420px]">
+              <div className="flex-1 rounded-2xl bg-[#F8FAFC] border border-[#E2E8F0] overflow-hidden relative h-[420px] md:h-[440px] lg:h-[460px]">
                 {tabs.map((tab) => (
                   <TabsPrimitive.Content
                     key={tab.value}

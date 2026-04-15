@@ -185,15 +185,7 @@ export default function Hero() {
         }}
       />
 
-      {/* Background: teal radial glow */}
-      <div
-        className="absolute inset-0 -z-15 pointer-events-none"
-        style={{
-          background: 'radial-gradient(circle at 75% 50%, rgba(41,171,226,0.375) 0%, transparent 65%)',
-        }}
-      />
-
-      {/* Background: teal pill anchored to right edge */}
+{/* Background: teal pill anchored to right edge */}
       <div
         className="absolute -z-10"
         style={{

@@ -504,7 +504,7 @@ export default function Features() {
                       data-[state=inactive]:opacity-0 data-[state=inactive]:pointer-events-none
                       data-[state=active]:opacity-100
                       transition-opacity duration-500
-                      absolute inset-0 p-6 lg:p-10"
+                      absolute inset-0 p-6 pb-8 lg:p-10 lg:pb-12"
                   >
                     {/* Text */}
                     <div className="flex flex-col gap-4 min-w-0">

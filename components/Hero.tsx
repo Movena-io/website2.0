@@ -173,13 +173,16 @@ export default function Hero() {
 
   return (
     <section className="relative overflow-hidden">
-      {/* Background: white left, teal right */}
+      {/* Background: teal pill anchored to right edge */}
       <div
-        className="absolute inset-x-0 -z-10"
+        className="absolute -z-10"
         style={{
-          top: '-100px',
-          bottom: 0,
-          background: 'linear-gradient(to right, #ffffff 50%, #29ABE2 50%)',
+          top: '10%',
+          bottom: '10%',
+          right: 0,
+          left: '50%',
+          background: '#29ABE2',
+          borderRadius: '16px 0 0 16px',
         }}
       />
 
@@ -238,7 +241,7 @@ export default function Hero() {
               },
               ...transitionVariants,
             }}
-            className="w-full lg:-mr-[30%] lg:scale-[1.12] lg:origin-left"
+            className="w-full lg:-mr-[15%] lg:scale-[1.08] lg:origin-left"
           >
             <ProductMockup />
           </AnimatedGroup>

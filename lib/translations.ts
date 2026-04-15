@@ -193,10 +193,6 @@ export const translations = {
           answer: 'Yes. We use industry-standard encryption to ensure your customer data, pricing, and financial records are always protected.',
         },
         {
-          question: 'How much does it cost?',
-          answer: 'It is completely free during our early access period. Early members will also receive exclusive founding pricing when we launch.',
-        },
-        {
           question: 'Can I manage my team in Movena?',
           answer: 'Yes. You can manage employees, track hours, build schedules, and assign tasks directly in Movena. Everything from job assignments to time tracking is built in.',
         },
@@ -456,10 +452,6 @@ export const translations = {
         {
           question: 'Er mine data sikre?',
           answer: 'Ja. Vi bruger branchestandardkryptering for at sikre, at dine kundedata, priser og finansielle optegnelser altid er beskyttede.',
-        },
-        {
-          question: 'Hvad koster det?',
-          answer: 'Det er helt gratis i vores tidlige adgangsperiode. Tidlige medlemmer vil også modtage eksklusiv stifterpris, når vi lancerer.',
         },
         {
           question: 'Kan jeg styre mit team i Movena?',

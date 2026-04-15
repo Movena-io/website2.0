@@ -446,7 +446,7 @@ export default function Features() {
 
       {/* Pinned tabs area */}
       <div ref={trackRef}>
-        <div className="bg-white md:h-screen md:flex md:flex-col md:justify-center md:overflow-hidden">
+        <div className="bg-white md:h-screen md:flex md:flex-col md:justify-center md:overflow-hidden md:pt-20">
           <div className="max-w-6xl mx-auto px-6 w-full py-8 md:py-0">
 
           {/* Tabs */}
@@ -496,7 +496,7 @@ export default function Features() {
               </TabsPrimitive.List>
 
               {/* Right: content panel */}
-              <div className="flex-1 rounded-2xl bg-[#F8FAFC] border border-[#E2E8F0] overflow-hidden relative h-[380px] md:h-[400px] lg:h-[420px]">
+              <div className="flex-1 rounded-2xl bg-[#F8FAFC] border border-[#E2E8F0] overflow-hidden relative h-[520px] md:h-[400px] lg:h-[420px]">
                 {tabs.map((tab) => (
                   <TabsPrimitive.Content
                     key={tab.value}

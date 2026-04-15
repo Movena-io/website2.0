@@ -185,7 +185,19 @@ export default function Hero() {
         }}
       />
 
-      {/* Background: teal pill anchored to right edge — desktop only */}
+      {/* Background: teal pill anchored to right edge — mobile */}
+      <div
+        className="absolute -z-10 lg:hidden"
+        style={{
+          top: 'calc(50% + 20px)',
+          bottom: '8%',
+          right: 0,
+          left: '30%',
+          background: '#29ABE2',
+          borderRadius: '16px 0 0 16px',
+        }}
+      />
+      {/* Background: teal pill anchored to right edge — desktop */}
       <div
         className="absolute -z-10 hidden lg:block"
         style={{

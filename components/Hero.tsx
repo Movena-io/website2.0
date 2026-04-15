@@ -180,7 +180,7 @@ export default function Hero() {
           top: '10%',
           bottom: '10%',
           right: 0,
-          left: '50%',
+          left: '68%',
           background: '#29ABE2',
           borderRadius: '16px 0 0 16px',
         }}

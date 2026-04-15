@@ -17,7 +17,7 @@ interface WaitlistData {
 
 const TIERS = [
   { referrals: 1,  reward: 'Jump 50 spots on the waitlist'     },
-  { referrals: 3,  reward: 'Early access — first wave at launch' },
+  { referrals: 3,  reward: 'Early access, first wave at launch' },
   { referrals: 5,  reward: '3 months free at launch'            },
   { referrals: 10, reward: '20% lifetime discount'              },
 ]

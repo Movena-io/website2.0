@@ -14,7 +14,7 @@ export const translations = {
       badge: 'Built for moving companies',
       headline: 'Run your moving company',
       highlight: 'from one place',
-      subheadline: 'Movena takes care of the back office. Quotes, scheduling, crew coordination, and invoicing, all in one place so you can focus on the job.',
+      subheadline: 'Movena takes care of the back office. Quotes, scheduling, and crew coordination, all in one place so you can focus on the job.',
       primaryCta: 'Join the waitlist',
       secondaryCta: 'See how it works',
       disclaimer: 'No credit card required. Free during early access.',
@@ -55,7 +55,6 @@ export const translations = {
         'Job scheduling',
         'Crew coordination',
         'Customer communication',
-        'Invoicing & accounting',
         'Time tracking',
         'Task management',
         'Job tracking',
@@ -67,16 +66,16 @@ export const translations = {
       highlight: 'Every job',
       headlineEnd: ', start to finish.',
       subheadline: 'No jumping between tools. Every step of the job lives in one place.',
-      andMore: 'Also includes invoicing, task management, fleet, and more.',
+      andMore: 'Also includes task management, fleet tracking, and more.',
       tabs: [
         {
           label: 'Dashboard',
           badge: 'Overview',
           title: 'Your entire business on one screen.',
-          description: 'Start every morning knowing exactly where things stand. Active jobs, open leads, pending invoices, and team activity — all visible at a glance before the day begins.',
+          description: 'Start every morning knowing exactly where things stand. Active jobs, open leads, and team activity, all visible at a glance before the day begins.',
           points: [
             'Live status of every job running today',
-            'Open leads and overdue invoices surfaced automatically',
+            'Open leads and pending quotes surfaced automatically',
             'Weekly view so nothing catches you off guard',
           ],
         },
@@ -87,7 +86,7 @@ export const translations = {
           description: 'Set your pricing rules once. For every new job, Movena builds the price automatically based on distance, crew size, and your rates. The customer gets a professional quote they can accept online.',
           points: [
             'Price calculated automatically from your rates',
-            'Customer accepts the quote digitally — no paper needed',
+            'Customer accepts the quote digitally, no paper needed',
             'Accepted quotes flow straight into your calendar',
           ],
         },
@@ -95,7 +94,7 @@ export const translations = {
           label: 'Quote Form',
           badge: 'Customer form',
           title: 'A custom form your customers fill out themselves.',
-          description: 'Build a quote request form and embed it on your own website. Customers fill in the details — from address, date, and inventory — and the lead lands directly in your CRM. Fully customizable to match your company.',
+          description: 'Build a quote request form and embed it on your own website. Customers fill in the details (from address, date, and inventory) and the lead lands directly in your CRM. Fully customizable to match your company.',
           points: [
             'Customizable steps, fields, and branding to match your business',
             'Embed on your website or share as a direct link',
@@ -109,7 +108,7 @@ export const translations = {
           description: 'See the full week at a glance. Spot open slots, check crew availability, and assign jobs without any back-and-forth. Day, week, and month views keep the entire team on the same page.',
           points: [
             'Day, week, and month views',
-            'Crew availability built in — no manual coordination',
+            'Crew availability built in, no manual coordination',
             'Spot scheduling conflicts before they become problems',
           ],
         },
@@ -128,7 +127,7 @@ export const translations = {
           label: 'Storage',
           badge: 'Inventory',
           title: 'Know exactly what you have and where it is.',
-          description: 'Track your moving supplies — boxes, packing materials, equipment. Log what goes out on each job, what comes back, and what needs reordering. No more guessing before a job.',
+          description: 'Track your moving supplies: boxes, packing materials, equipment. Log what goes out on each job, what comes back, and what needs reordering. No more guessing before a job.',
           points: [
             'Full inventory with on-hand and lent-out counts',
             'Log items against specific jobs and customers',
@@ -139,7 +138,7 @@ export const translations = {
           label: 'Follow-ups',
           badge: 'Automation',
           title: 'Automated follow-ups that go out without lifting a finger.',
-          description: 'Schedule follow-up emails to leads and customers. Set them once and Movena sends them at the right moment — quote reminders, job confirmations, and check-ins after a move.',
+          description: 'Schedule follow-up emails to leads and customers. Set them once and Movena sends them at the right moment: quote reminders, job confirmations, and check-ins after a move.',
           points: [
             'Scheduled email queue with a weekly overview',
             'Compose, edit, and send follow-ups from one place',
@@ -167,7 +166,7 @@ export const translations = {
         },
         {
           title: 'Get paid',
-          description: 'The invoice goes out automatically when the job is done. Payments land in your account. No chasing.',
+          description: 'When the job is done, the customer gets a payment link. Money lands in your account. No chasing.',
         },
       ],
     },
@@ -232,7 +231,7 @@ export const translations = {
     contact: {
       label: 'Contact',
       headline: 'Talk to us',
-      subheadline: "We're a small team building something we care about. Reach out directly — we respond to every message.",
+      subheadline: "We're a small team building something we care about. Reach out directly. We respond to every message.",
       nameLabel: 'Name',
       namePlaceholder: 'Your name',
       emailLabel: 'Email',
@@ -251,8 +250,8 @@ export const translations = {
       locationBody: 'Copenhagen, Denmark. We operate across the Nordic market.',
       aboutLabel: 'About us',
       aboutTitle: 'Three founders, one focus.',
-      aboutBody1: "We're Samuel, Villads, and Valdemar — building Movena because we saw how unnecessarily fragmented the tools are for moving companies. No sales team, no support queue. Just us.",
-      aboutBody2: "If you run a moving company and want to talk through whether Movena is a fit, or just want to give us feedback — we genuinely want to hear from you.",
+      aboutBody1: "We're Samuel, Villads, and Valdemar. We're building Movena because we saw how unnecessarily fragmented the tools are for moving companies. No sales team, no support queue. Just us.",
+      aboutBody2: "If you run a moving company and want to talk through whether Movena is a fit, or just want to give us feedback, we genuinely want to hear from you.",
     },
     auth: {
       headline: 'Welcome back',
@@ -280,7 +279,7 @@ export const translations = {
       badge: 'Bygget til flyttefirmaer',
       headline: 'Kør dit flyttefirma',
       highlight: 'fra ét sted',
-      subheadline: 'Movena tager sig af administrationen. Tilbud, planlægning, holdkoordinering og fakturering, alt samlet ét sted, så du kan fokusere på jobbet.',
+      subheadline: 'Movena tager sig af administrationen. Tilbud, planlægning og holdkoordinering, alt samlet ét sted, så du kan fokusere på jobbet.',
       primaryCta: 'Tilmeld venteliste',
       secondaryCta: 'Se hvordan det virker',
       disclaimer: 'Intet kreditkort. Gratis under tidlig adgang.',
@@ -321,7 +320,6 @@ export const translations = {
         'Jobplanlægning',
         'Holdkoordinering',
         'Kundekommunikation',
-        'Fakturering og regnskab',
         'Tidsstyring',
         'Opgavestyring',
         'Jobsporing',
@@ -333,16 +331,16 @@ export const translations = {
       highlight: 'Hvert job',
       headlineEnd: ', fra start til slut.',
       subheadline: 'Ingen spring mellem værktøjer. Hvert trin i jobbet lever ét sted.',
-      andMore: 'Indeholder også fakturering, opgavestyring, flåde og meget mere.',
+      andMore: 'Indeholder også opgavestyring, flådesporing og meget mere.',
       tabs: [
         {
           label: 'Dashboard',
           badge: 'Overblik',
           title: 'Hele din forretning på én skærm.',
-          description: 'Start hver morgen med at vide præcis, hvor tingene står. Aktive jobs, åbne leads, ubetalte fakturaer og holdaktivitet — alt synligt på ét blik, inden dagen begynder.',
+          description: 'Start hver morgen med at vide præcis, hvor tingene står. Aktive jobs, åbne leads og holdaktivitet, alt synligt på ét blik, inden dagen begynder.',
           points: [
             'Realtidsstatus på hvert job der kører i dag',
-            'Åbne leads og forfaldne fakturaer vises automatisk',
+            'Åbne leads og ventende tilbud vises automatisk',
             'Ugeoversigt så intet overrasker dig',
           ],
         },
@@ -353,7 +351,7 @@ export const translations = {
           description: 'Indstil dine prisregler én gang. For hvert nyt job beregner Movena prisen automatisk ud fra afstand, holdstørrelse og dine satser. Kunden får et professionelt tilbud, de kan acceptere online.',
           points: [
             'Pris beregnet automatisk ud fra dine satser',
-            'Kunden accepterer tilbuddet digitalt — ingen papirer',
+            'Kunden accepterer tilbuddet digitalt, ingen papirer',
             'Accepterede tilbud går direkte ind i din kalender',
           ],
         },
@@ -361,7 +359,7 @@ export const translations = {
           label: 'Tilbudsformular',
           badge: 'Kundeformular',
           title: 'En tilpasset formular dine kunder udfylder selv.',
-          description: 'Byg en tilbudsformular og indbyg den på din egen hjemmeside. Kunderne udfylder detaljerne — adresse, dato og inventar — og leadet lander direkte i dit CRM. Fuldt tilpasset til din virksomhed.',
+          description: 'Byg en tilbudsformular og indbyg den på din egen hjemmeside. Kunderne udfylder detaljerne (adresse, dato og inventar) og leadet lander direkte i dit CRM. Fuldt tilpasset til din virksomhed.',
           points: [
             'Tilpassede steps, felter og branding til din virksomhed',
             'Indbyg på din hjemmeside eller del som direkte link',
@@ -375,7 +373,7 @@ export const translations = {
           description: 'Se hele ugen på ét blik. Spot ledige tider, tjek holdets tilgængelighed, og tildel jobs uden frem og tilbage. Dag-, uge- og månedsoversigt holder hele holdet opdateret.',
           points: [
             'Dag-, uge- og månedsoversigt',
-            'Holdets tilgængelighed er indbygget — ingen manuel koordinering',
+            'Holdets tilgængelighed er indbygget, ingen manuel koordinering',
             'Spot planlægningskonflikter, inden de bliver til problemer',
           ],
         },
@@ -394,7 +392,7 @@ export const translations = {
           label: 'Lager',
           badge: 'Inventar',
           title: 'Ved præcis, hvad du har og hvor det er.',
-          description: 'Styr dine flyttematerialer — kasser, emballagematerialer, udstyr. Log hvad der sendes ud på hvert job, hvad der kommer tilbage, og hvad der skal genbestilles. Ingen gætteri inden et job.',
+          description: 'Styr dine flyttematerialer: kasser, emballagematerialer, udstyr. Log hvad der sendes ud på hvert job, hvad der kommer tilbage, og hvad der skal genbestilles. Ingen gætteri inden et job.',
           points: [
             'Fuldt inventar med antal på lager og udlånt',
             'Log materialer mod specifikke jobs og kunder',
@@ -405,7 +403,7 @@ export const translations = {
           label: 'Opfølgning',
           badge: 'Automatisering',
           title: 'Automatiske opfølgninger der sendes af sig selv.',
-          description: 'Planlæg opfølgningsmails til leads og kunder. Indstil dem én gang, og Movena sender dem på det rigtige tidspunkt — tilbudsrykkere, jobbekræftelser og check-ins efter en flytning.',
+          description: 'Planlæg opfølgningsmails til leads og kunder. Indstil dem én gang, og Movena sender dem på det rigtige tidspunkt: tilbudsrykkere, jobbekræftelser og check-ins efter en flytning.',
           points: [
             'Planlagt mailkø med ugeoversigt',
             'Skriv, redigér og send opfølgninger ét sted fra',
@@ -433,7 +431,7 @@ export const translations = {
         },
         {
           title: 'Få betaling',
-          description: 'Fakturaen sendes automatisk, når jobbet er færdigt. Betalingen lander på din konto. Ingen jagt.',
+          description: 'Når jobbet er færdigt, får kunden et betalingslink. Pengene lander på din konto. Ingen jagt.',
         },
       ],
     },
@@ -498,7 +496,7 @@ export const translations = {
     contact: {
       label: 'Kontakt',
       headline: 'Kontakt os',
-      subheadline: 'Vi er et lille hold, der bygger noget, vi brænder for. Kontakt os direkte — vi svarer på alle henvendelser.',
+      subheadline: 'Vi er et lille hold, der bygger noget, vi brænder for. Kontakt os direkte. Vi svarer på alle henvendelser.',
       nameLabel: 'Navn',
       namePlaceholder: 'Dit navn',
       emailLabel: 'E-mail',
@@ -517,8 +515,8 @@ export const translations = {
       locationBody: 'København, Danmark. Vi opererer på det nordiske marked.',
       aboutLabel: 'Om os',
       aboutTitle: 'Tre stiftere, ét fokus.',
-      aboutBody1: 'Vi er Samuel, Villads og Valdemar — vi bygger Movena, fordi vi så, hvor unødvendigt fragmenterede værktøjerne er for flyttefirmaer. Intet salgsteam, ingen supportkø. Bare os.',
-      aboutBody2: 'Hvis du driver et flyttefirma og vil tale om, hvorvidt Movena passer til dig, eller bare vil give os feedback — vi vil meget gerne høre fra dig.',
+      aboutBody1: 'Vi er Samuel, Villads og Valdemar. Vi bygger Movena, fordi vi så, hvor unødvendigt fragmenterede værktøjerne er for flyttefirmaer. Intet salgsteam, ingen supportkø. Bare os.',
+      aboutBody2: 'Hvis du driver et flyttefirma og vil tale om, hvorvidt Movena passer til dig, eller bare vil give os feedback, vil vi meget gerne høre fra dig.',
     },
     auth: {
       headline: 'Velkommen tilbage',

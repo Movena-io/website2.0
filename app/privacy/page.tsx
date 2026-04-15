@@ -2,7 +2,7 @@ import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 
 export const metadata = {
-  title: 'Privacy Policy — Movena',
+  title: 'Privacy Policy: Movena',
 }
 
 export default function PrivacyPolicy() {
@@ -43,9 +43,9 @@ export default function PrivacyPolicy() {
             <Section title="4. Legal basis (GDPR)">
               <p>We process your personal data on the following legal bases:</p>
               <ul>
-                <li><strong>Consent</strong> — when you sign up for the waitlist or contact us</li>
-                <li><strong>Legitimate interest</strong> — to operate and improve our service</li>
-                <li><strong>Legal obligation</strong> — where required by law</li>
+                <li><strong>Consent</strong>:when you sign up for the waitlist or contact us</li>
+                <li><strong>Legitimate interest</strong>:to operate and improve our service</li>
+                <li><strong>Legal obligation</strong>:where required by law</li>
               </ul>
             </Section>
 

@@ -314,7 +314,7 @@ function FollowUpsMockup() {
   const messages = [
     { name: 'Larsen Family',     type: 'Quote reminder',   scheduled: 'Today 14:00',    sc: 'bg-blue-50 text-blue-700',   status: 'Scheduled' },
     { name: 'Schmidt Transport', type: 'Job completed',    scheduled: 'Today 16:30',    sc: 'bg-green-50 text-green-700', status: 'Ready'     },
-    { name: 'Hansen Residence',  type: 'No reply — nudge', scheduled: 'Tomorrow 10:00', sc: 'bg-blue-50 text-blue-700',   status: 'Scheduled' },
+    { name: 'Hansen Residence',  type: 'No reply, nudge',  scheduled: 'Tomorrow 10:00', sc: 'bg-blue-50 text-blue-700',   status: 'Scheduled' },
     { name: 'Nielsen Business',  type: 'Quote confirmed',  scheduled: 'Apr 15 09:00',   sc: 'bg-gray-100 text-gray-500',  status: 'Sent'      },
   ]
   return (
@@ -385,7 +385,7 @@ export default function Features() {
         <div className="flex flex-col items-center gap-3 text-center mb-10">
           <span className="block text-[11px] font-semibold uppercase tracking-[0.1em] text-[#1D4ED8] mb-3">{t.features.label}</span>
           <h2 className="max-w-2xl text-[28px] sm:text-[36px] lg:text-[44px] font-semibold tracking-[-0.02em] text-[#0B1F3B] leading-[1.2]">
-            {t.features.headline} <span className="text-[#F97316]">{t.features.highlight}</span>{t.features.headlineEnd}
+            {t.features.headline} <span className="text-[#29ABE2]">{t.features.highlight}</span>{t.features.headlineEnd}
           </h2>
           <p className="text-[18px] text-[#475569] max-w-[480px] leading-[1.7]">
             {t.features.subheadline}

@@ -2,7 +2,7 @@ import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 
 export const metadata = {
-  title: 'Terms of Service — Movena',
+  title: 'Terms of Service: Movena',
 }
 
 export default function Terms() {
@@ -21,7 +21,7 @@ export default function Terms() {
             </Section>
 
             <Section title="2. The service">
-              <p>Movena provides software tools for moving companies, including quoting, scheduling, crew coordination, invoicing, and customer communication. The platform is provided as a subscription service (SaaS).</p>
+              <p>Movena provides software tools for moving companies, including quoting, scheduling, crew coordination, and customer communication. The platform is provided as a subscription service (SaaS).</p>
               <p>We reserve the right to modify, suspend, or discontinue any part of the service at any time with reasonable notice.</p>
             </Section>
 

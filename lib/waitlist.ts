@@ -38,7 +38,7 @@ export interface WaitlistData {
 
 export const REFERRAL_TIERS = [
   { referrals: 1,  reward: 'Jump 50 spots on the waitlist',     spotsJumped: 50  },
-  { referrals: 3,  reward: 'Early access — first wave at launch', spotsJumped: 150 },
+  { referrals: 3,  reward: 'Early access, first wave at launch', spotsJumped: 150 },
   { referrals: 5,  reward: '3 months free at launch',            spotsJumped: 250 },
   { referrals: 10, reward: '20% lifetime discount',              spotsJumped: 500 },
 ] as const

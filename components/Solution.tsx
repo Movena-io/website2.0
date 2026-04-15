@@ -1,13 +1,13 @@
 'use client'
 
 import { useEffect, useRef } from 'react'
-import { FileText, CalendarDays, Users, CreditCard, LayoutDashboard } from 'lucide-react'
+import { FileText, CalendarDays, Users, LayoutDashboard, Mail } from 'lucide-react'
 
 const capabilities = [
   { icon: FileText, label: 'Instant quotes', desc: 'Built from your rates automatically' },
   { icon: CalendarDays, label: 'Job scheduling', desc: 'One calendar, zero conflicts' },
   { icon: Users, label: 'Crew coordination', desc: 'Everyone knows the plan' },
-  { icon: CreditCard, label: 'Invoicing & payments', desc: 'Sent and collected automatically' },
+  { icon: Mail, label: 'Follow-ups', desc: 'Automated at the right moment' },
   { icon: LayoutDashboard, label: 'Customer portal', desc: 'Professional from first contact' },
 ]
 
@@ -36,7 +36,7 @@ export default function Solution() {
             Movena is purpose-built for moving companies
           </h2>
           <p className="mt-4 text-[18px] font-normal text-[#475569] leading-[1.7]">
-            Not generic business software with a moving-company skin on it. Built from scratch around the way moving jobs actually work — quotes, crews, jobs, invoices.
+            Not generic business software with a moving-company skin on it. Built from scratch around the way moving jobs actually work: quotes, crews, scheduling, and customer communication.
           </p>
         </div>
 

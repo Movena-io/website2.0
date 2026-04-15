@@ -173,6 +173,18 @@ export default function Hero() {
 
   return (
     <section className="relative overflow-hidden">
+      {/* Background: subtle grid overlay across full section */}
+      <div
+        className="absolute inset-0 -z-20 pointer-events-none"
+        style={{
+          backgroundImage: `
+            linear-gradient(to right, rgba(71,85,105,0.07) 1px, transparent 1px),
+            linear-gradient(to bottom, rgba(71,85,105,0.07) 1px, transparent 1px)
+          `,
+          backgroundSize: '32px 32px',
+        }}
+      />
+
       {/* Background: teal pill anchored to right edge */}
       <div
         className="absolute -z-10"

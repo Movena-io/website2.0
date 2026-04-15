@@ -106,7 +106,7 @@ export default function Consolidation() {
           className="max-w-sm mx-auto bg-[#0B1F3B] rounded-2xl p-6 shadow-xl shadow-[#0B1F3B]/25 ring-1 ring-white/10"
         >
           <div className="flex items-center mb-5">
-            <Image src="/assets/logo.png" alt="Movena" width={120} height={30} className="brightness-0 invert" />
+            <Image src="/assets/dark-favicon.png" alt="Movena" width={28} height={28} />
           </div>
 
           <div className="grid grid-cols-2 gap-x-4 gap-y-2.5">

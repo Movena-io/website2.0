@@ -350,35 +350,6 @@ function FollowUpsMockup() {
   )
 }
 
-// ─── Progress dots ─────────────────────────────────────────────────────────────
-
-function ProgressDots({
-  activeIndex,
-  total,
-  onDotClick,
-}: {
-  activeIndex: number
-  total: number
-  onDotClick: (i: number) => void
-}) {
-  return (
-    <div className="flex items-center justify-center gap-2 mt-5">
-      {Array.from({ length: total }).map((_, i) => (
-        <button
-          key={i}
-          onClick={() => onDotClick(i)}
-          aria-label={`Go to feature ${i + 1}`}
-          className={`rounded-full transition-all duration-300 ${
-            i === activeIndex
-              ? 'w-6 h-2 bg-[#1D4ED8]'
-              : 'w-2 h-2 bg-[#CBD5E1] hover:bg-[#94A3B8]'
-          }`}
-        />
-      ))}
-    </div>
-  )
-}
-
 // ─── Features section ─────────────────────────────────────────────────────────
 
 const tabIconComponents = [LayoutDashboard, FileText, Wand2, CalendarDays, Users, Package, Mail]
@@ -453,12 +424,12 @@ export default function Features() {
         <div className="max-w-6xl mx-auto px-6 w-full">
 
           {/* Header */}
-          <div className="flex flex-col items-center gap-3 text-center mb-8">
+          <div className="flex flex-col items-center gap-2 text-center mb-6">
             <span className="block text-[11px] font-semibold uppercase tracking-[0.1em] text-[#1D4ED8] mb-1">{t.features.label}</span>
-            <h2 className="max-w-2xl text-[28px] sm:text-[36px] lg:text-[40px] font-semibold tracking-[-0.02em] text-[#0B1F3B] leading-[1.2]">
+            <h2 className="max-w-2xl text-[28px] sm:text-[34px] lg:text-[38px] font-semibold tracking-[-0.02em] text-[#0B1F3B] leading-[1.2]">
               {t.features.headline} <span className="text-[#29ABE2]">{t.features.highlight}</span>{t.features.headlineEnd}
             </h2>
-            <p className="text-[16px] text-[#475569] max-w-[480px] leading-[1.7]">
+            <p className="text-[15px] text-[#475569] max-w-[480px] leading-[1.7]">
               {t.features.subheadline}
             </p>
           </div>
@@ -471,7 +442,8 @@ export default function Features() {
               if (i !== -1) setActiveIndex(i)
             }}
           >
-            <TabsPrimitive.List className="flex overflow-x-auto pb-1 -mx-2 px-2 gap-2 sm:flex-wrap sm:overflow-visible sm:pb-0 sm:mx-0 sm:px-0 sm:justify-center sm:gap-3 no-scrollbar">
+            {/* Mobile: horizontal scrolling tab list */}
+            <TabsPrimitive.List className="md:hidden flex overflow-x-auto pb-1 -mx-2 px-2 gap-2 no-scrollbar">
               {tabs.map((tab) => (
                 <TabsPrimitive.Trigger
                   key={tab.value}
@@ -486,53 +458,67 @@ export default function Features() {
               ))}
             </TabsPrimitive.List>
 
-            <div className="mt-5 rounded-2xl bg-[#F8FAFC] border border-[#E2E8F0] overflow-hidden relative h-[380px] sm:h-[420px] lg:h-[440px]">
-              {tabs.map((tab) => (
-                <TabsPrimitive.Content
-                  key={tab.value}
-                  value={tab.value}
-                  forceMount
-                  className="grid items-start gap-6 lg:place-items-center lg:grid-cols-2 lg:gap-16
-                    data-[state=inactive]:opacity-0 data-[state=inactive]:pointer-events-none
-                    data-[state=active]:opacity-100
-                    transition-opacity duration-300
-                    absolute inset-0 p-4 sm:p-6 lg:p-10"
-                >
-                  {/* Text */}
-                  <div className="flex flex-col gap-4 min-w-0">
-                    <span className="inline-block text-[12px] font-semibold text-[#1D4ED8] bg-white border border-[#1D4ED8]/20 uppercase tracking-[0.08em] px-3 py-1 rounded-full w-fit">
-                      {tab.badge}
-                    </span>
-                    <h3 className="text-[20px] sm:text-[26px] lg:text-[32px] font-semibold tracking-[-0.02em] text-[#0B1F3B] leading-[1.2]">
-                      {tab.title}
-                    </h3>
-                    <p className="text-[15px] sm:text-[16px] text-[#475569] leading-[1.75]">
-                      {tab.description}
-                    </p>
-                    <ul className="flex flex-col gap-3 mt-2">
-                      {tab.points.map((point) => (
-                        <li key={point} className="flex items-start gap-3">
-                          <CheckCircle size={16} strokeWidth={1.5} className="text-[#1D4ED8] mt-0.5 shrink-0" />
-                          <span className="text-[14px] sm:text-[15px] font-medium text-[#0F172A] break-words min-w-0">{point}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
+            {/* Desktop: vertical tabs left + content right */}
+            <div className="mt-4 md:mt-0 flex flex-col md:flex-row gap-4 md:gap-6 md:items-stretch">
 
-                  {/* Mockup */}
-                  <div className="w-full overflow-hidden">
-                    {tab.mockup}
-                  </div>
-                </TabsPrimitive.Content>
-              ))}
+              {/* Left: vertical tab list (desktop only) */}
+              <TabsPrimitive.List className="hidden md:flex flex-col gap-1 shrink-0 w-48 justify-center">
+                {tabs.map((tab, i) => (
+                  <TabsPrimitive.Trigger
+                    key={tab.value}
+                    value={tab.value}
+                    className="flex items-center gap-3 rounded-xl px-4 py-3 text-[13px] font-semibold text-[#64748B] border border-transparent transition-all text-left w-full
+                      data-[state=active]:bg-[#0B1F3B] data-[state=active]:text-white data-[state=active]:border-[#0B1F3B]
+                      data-[state=inactive]:hover:bg-[#F1F5F9] data-[state=inactive]:hover:text-[#0F172A]"
+                  >
+                    {tab.icon}
+                    {tab.label}
+                  </TabsPrimitive.Trigger>
+                ))}
+              </TabsPrimitive.List>
+
+              {/* Right: content panel */}
+              <div className="flex-1 rounded-2xl bg-[#F8FAFC] border border-[#E2E8F0] overflow-hidden relative h-[380px] sm:h-[420px] md:h-auto md:min-h-[420px]">
+                {tabs.map((tab) => (
+                  <TabsPrimitive.Content
+                    key={tab.value}
+                    value={tab.value}
+                    forceMount
+                    className="grid items-center gap-6 lg:grid-cols-2 lg:gap-12
+                      data-[state=inactive]:opacity-0 data-[state=inactive]:pointer-events-none
+                      data-[state=active]:opacity-100
+                      transition-opacity duration-500
+                      absolute inset-0 p-6 lg:p-10"
+                  >
+                    {/* Text */}
+                    <div className="flex flex-col gap-4 min-w-0">
+                      <span className="inline-block text-[12px] font-semibold text-[#1D4ED8] bg-white border border-[#1D4ED8]/20 uppercase tracking-[0.08em] px-3 py-1 rounded-full w-fit">
+                        {tab.badge}
+                      </span>
+                      <h3 className="text-[22px] lg:text-[30px] font-semibold tracking-[-0.02em] text-[#0B1F3B] leading-[1.2]">
+                        {tab.title}
+                      </h3>
+                      <p className="text-[15px] text-[#475569] leading-[1.75]">
+                        {tab.description}
+                      </p>
+                      <ul className="flex flex-col gap-2.5 mt-1">
+                        {tab.points.map((point) => (
+                          <li key={point} className="flex items-start gap-3">
+                            <CheckCircle size={15} strokeWidth={1.5} className="text-[#1D4ED8] mt-0.5 shrink-0" />
+                            <span className="text-[14px] font-medium text-[#0F172A] break-words min-w-0">{point}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+
+                    {/* Mockup */}
+                    <div className="w-full overflow-hidden hidden lg:block">
+                      {tab.mockup}
+                    </div>
+                  </TabsPrimitive.Content>
+                ))}
+              </div>
             </div>
-
-            {/* Progress dots */}
-            <ProgressDots
-              activeIndex={activeIndex}
-              total={tabs.length}
-              onDotClick={setActiveIndex}
-            />
 
             {/* And more */}
             <p className="mt-4 text-center text-[13px] text-[#94A3B8]">

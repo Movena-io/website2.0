@@ -217,17 +217,17 @@ export default function Hero() {
               }}
               className="mt-8 flex flex-col items-start gap-3 w-full sm:w-auto"
             >
-              <div className="flex flex-col items-start gap-1.5">
+              <div className="inline-flex flex-col items-stretch gap-1.5">
                 <a
                   href={TYPEFORM_URL}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="btn-gradient inline-flex items-center justify-center gap-2 h-12 w-full sm:w-auto px-10 rounded-xl text-white text-[15px] font-semibold"
+                  className="btn-gradient inline-flex items-center justify-center gap-2 h-12 rounded-xl text-white text-[15px] font-semibold"
                 >
                   <span>{t.hero.primaryCta}</span>
                   <ArrowRight size={15} strokeWidth={2} />
                 </a>
-                <span className="text-[12px] text-[#64748B]">{t.hero.disclaimer}</span>
+                <span className="text-[12px] text-[#64748B] text-center">{t.hero.disclaimer}</span>
               </div>
             </AnimatedGroup>
           </div>

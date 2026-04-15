@@ -93,7 +93,7 @@ export const translations = {
         {
           label: 'Quote Form',
           badge: 'Customer form',
-          title: 'A custom form your customers fill out themselves.',
+          title: 'Your customers fill out their own quote form.',
           description: 'Build a quote request form and embed it on your own website. Customers fill in the details (from address, date, and inventory) and the lead lands directly in your CRM. Fully customizable to match your company.',
           points: [
             'Customizable steps, fields, and branding to match your business',

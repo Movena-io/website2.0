@@ -448,7 +448,7 @@ export default function Features() {
     <section id="features" className="bg-white scroll-mt-24">
 
       {/* Header — scrolls away before pin starts */}
-      <div ref={headerRef} className="max-w-6xl mx-auto px-6 pt-16 pb-4 md:pb-6">
+      <div ref={headerRef} className="max-w-6xl mx-auto px-6 pt-16 pb-2 md:pb-3">
         <div className="flex flex-col items-center gap-2 text-center">
           <span className="block text-[11px] font-semibold uppercase tracking-[0.1em] text-[#1D4ED8] mb-1">{t.features.label}</span>
           <h2 className="max-w-2xl text-[28px] sm:text-[34px] lg:text-[38px] font-semibold tracking-[-0.02em] text-[#0B1F3B] leading-[1.2]">
@@ -518,11 +518,11 @@ export default function Features() {
                     key={tab.value}
                     value={tab.value}
                     forceMount
-                    className="grid items-center gap-6 lg:grid-cols-2 lg:gap-12
+                    className="grid gap-6 lg:grid-cols-2 lg:gap-12
                       data-[state=inactive]:opacity-0 data-[state=inactive]:pointer-events-none
                       data-[state=active]:opacity-100
                       transition-opacity duration-500
-                      absolute inset-0 p-6 pb-8 lg:p-10 lg:pb-12"
+                      absolute inset-0 p-6 pb-8 lg:p-10 lg:pb-12 lg:items-center"
                   >
                     {/* Text */}
                     <div className="flex flex-col gap-4 min-w-0">
@@ -546,7 +546,7 @@ export default function Features() {
                     </div>
 
                     {/* Mockup */}
-                    <div className="w-full overflow-hidden hidden lg:flex lg:items-center lg:justify-center lg:self-center">
+                    <div className="w-full overflow-hidden hidden lg:flex lg:items-center lg:justify-center self-center">
                       {tab.mockup}
                     </div>
                   </TabsPrimitive.Content>

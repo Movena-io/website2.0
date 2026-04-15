@@ -189,7 +189,7 @@ export default function Hero() {
       <div
         className="absolute inset-0 -z-15 pointer-events-none"
         style={{
-          background: 'radial-gradient(circle at center, rgba(41,171,226,0.5) 0%, transparent 65%)',
+          background: 'radial-gradient(circle at 75% 50%, rgba(41,171,226,0.375) 0%, transparent 65%)',
         }}
       />
 

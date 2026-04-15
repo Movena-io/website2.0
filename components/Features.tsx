@@ -518,14 +518,14 @@ export default function Features() {
                     key={tab.value}
                     value={tab.value}
                     forceMount
-                    className="grid gap-6 lg:grid-cols-2 lg:gap-12
+                    className="flex flex-col lg:flex-row lg:gap-12 gap-6 items-center
                       data-[state=inactive]:opacity-0 data-[state=inactive]:pointer-events-none
                       data-[state=active]:opacity-100
                       transition-opacity duration-500
-                      absolute inset-0 p-6 pb-8 lg:p-10 lg:pb-12 lg:items-center"
+                      absolute inset-0 p-6 pb-8 lg:p-10 lg:pb-12"
                   >
                     {/* Text */}
-                    <div className="flex flex-col gap-4 min-w-0">
+                    <div className="flex flex-col gap-4 min-w-0 lg:w-1/2 lg:shrink-0">
                       <span className="inline-block text-[12px] font-semibold text-[#1D4ED8] bg-white border border-[#1D4ED8]/20 uppercase tracking-[0.08em] px-3 py-1 rounded-full w-fit">
                         {tab.badge}
                       </span>
@@ -546,7 +546,7 @@ export default function Features() {
                     </div>
 
                     {/* Mockup */}
-                    <div className="w-full overflow-hidden hidden lg:flex lg:items-center lg:justify-center self-center">
+                    <div className="overflow-hidden hidden lg:flex lg:items-center lg:justify-center lg:w-1/2 lg:shrink-0">
                       {tab.mockup}
                     </div>
                   </TabsPrimitive.Content>

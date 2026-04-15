@@ -429,23 +429,25 @@ export default function Features() {
   const activeTab = tabValues[activeIndex]
 
   return (
-    <div ref={trackRef}>
-      <section
-        id="features"
-        className="bg-white scroll-mt-24 py-10 md:h-screen md:pb-0 md:pt-20 md:flex md:flex-col md:justify-center md:overflow-hidden"
-      >
-        <div className="max-w-6xl mx-auto px-6 w-full">
+    <section id="features" className="bg-white scroll-mt-24">
 
-          {/* Header */}
-          <div className="flex flex-col items-center gap-2 text-center mb-4">
-            <span className="block text-[11px] font-semibold uppercase tracking-[0.1em] text-[#1D4ED8] mb-1">{t.features.label}</span>
-            <h2 className="max-w-2xl text-[28px] sm:text-[34px] lg:text-[38px] font-semibold tracking-[-0.02em] text-[#0B1F3B] leading-[1.2]">
-              {t.features.headline} <span className="text-[#29ABE2]">{t.features.highlight}</span>{t.features.headlineEnd}
-            </h2>
-            <p className="text-[15px] text-[#475569] max-w-[480px] leading-[1.7]">
-              {t.features.subheadline}
-            </p>
-          </div>
+      {/* Header — scrolls away before pin starts */}
+      <div className="max-w-6xl mx-auto px-6 pt-16 pb-10 md:pb-12">
+        <div className="flex flex-col items-center gap-2 text-center">
+          <span className="block text-[11px] font-semibold uppercase tracking-[0.1em] text-[#1D4ED8] mb-1">{t.features.label}</span>
+          <h2 className="max-w-2xl text-[28px] sm:text-[34px] lg:text-[38px] font-semibold tracking-[-0.02em] text-[#0B1F3B] leading-[1.2]">
+            {t.features.headline} <span className="text-[#29ABE2]">{t.features.highlight}</span>{t.features.headlineEnd}
+          </h2>
+          <p className="text-[15px] text-[#475569] max-w-[480px] leading-[1.7]">
+            {t.features.subheadline}
+          </p>
+        </div>
+      </div>
+
+      {/* Pinned tabs area */}
+      <div ref={trackRef}>
+        <div className="bg-white md:h-screen md:flex md:flex-col md:justify-center md:overflow-hidden">
+          <div className="max-w-6xl mx-auto px-6 w-full py-8 md:py-0">
 
           {/* Tabs */}
           <TabsPrimitive.Root
@@ -542,8 +544,9 @@ export default function Features() {
             </p>
           </TabsPrimitive.Root>
 
+          </div>
         </div>
-      </section>
-    </div>
+      </div>
+    </section>
   )
 }

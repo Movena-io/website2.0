@@ -1,8 +1,13 @@
+import type { Metadata } from 'next'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 
-export const metadata = {
-  title: 'Privacy Policy: Movena',
+export const metadata: Metadata = {
+  title: 'Privacy Policy — Movena',
+  description: 'How Movena collects, uses, and protects data for moving companies. GDPR-compliant and built on EU infrastructure.',
+  alternates: {
+    canonical: '/privacy',
+  },
 }
 
 export default function PrivacyPolicy() {

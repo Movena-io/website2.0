@@ -27,7 +27,7 @@ function Card({ children }: { children: React.ReactNode }) {
 function PageHeader({ title, action }: { title: string; action?: React.ReactNode }) {
   return (
     <div className="flex items-center justify-between px-5 pt-4 pb-3 border-b border-gray-100">
-      <h2 className="text-[13px] font-semibold text-slate-900">{title}</h2>
+      <p className="text-[13px] font-semibold text-slate-900">{title}</p>
       {action}
     </div>
   )
@@ -54,7 +54,7 @@ function DashboardMockup() {
   return (
     <Card>
       <div className="flex items-center justify-between px-5 pt-4 pb-3 border-b border-gray-100">
-        <h2 className="text-[13px] font-semibold text-slate-900">Good morning, Samuel</h2>
+        <p className="text-[13px] font-semibold text-slate-900">Good morning, Samuel</p>
         <span className="text-[10px]" style={{ color: '#6E6E73' }}>Today</span>
       </div>
       {/* Metrics */}
@@ -211,7 +211,7 @@ function CalendarMockup() {
   return (
     <Card>
       <div className="flex items-center justify-between px-5 pt-4 pb-3 border-b border-gray-100">
-        <h2 className="text-[13px] font-semibold text-slate-900">Calendar — Week 15</h2>
+        <p className="text-[13px] font-semibold text-slate-900">Calendar — Week 15</p>
         <span className="text-[10px]" style={{ color: '#6E6E73' }}>7 jobs</span>
       </div>
       <div className="p-4">
@@ -245,7 +245,7 @@ function CrmMockup() {
   return (
     <Card>
       <div className="flex items-center px-5 pt-4 pb-3 border-b border-gray-100">
-        <h2 className="text-[13px] font-semibold text-slate-900">Leads</h2>
+        <p className="text-[13px] font-semibold text-slate-900">Leads</p>
         <span className="ml-auto text-[10px]" style={{ color: '#6E6E73' }}>24 this month</span>
       </div>
       <FilterChips items={['All', 'New', 'Quote sent', 'Scheduled']} />
@@ -321,7 +321,7 @@ function FollowUpsMockup() {
   return (
     <Card>
       <div className="flex items-center justify-between px-5 pt-4 pb-3 border-b border-gray-100">
-        <h2 className="text-[13px] font-semibold text-slate-900">Follow-ups</h2>
+        <p className="text-[13px] font-semibold text-slate-900">Follow-ups</p>
         <div className="flex items-center gap-1.5">
           <span className="text-[11px] text-slate-400">←</span>
           <span className="text-[10px] font-semibold text-slate-700">Week 15</span>

@@ -1,8 +1,13 @@
+import type { Metadata } from 'next'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 
-export const metadata = {
-  title: 'Terms of Service: Movena',
+export const metadata: Metadata = {
+  title: 'Terms of Service — Movena',
+  description: 'The terms governing use of the Movena platform and waitlist. Operated by NewNorth I/S in Copenhagen, Denmark.',
+  alternates: {
+    canonical: '/terms',
+  },
 }
 
 export default function Terms() {

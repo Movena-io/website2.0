@@ -111,7 +111,7 @@ function ProductMockup() {
 
           {/* Greeting */}
           <div className="mb-3">
-            <h1 className="text-[13px] font-semibold" style={{ color: '#1D1D1F' }}>Good morning, John</h1>
+            <p className="text-[13px] font-semibold" style={{ color: '#1D1D1F' }}>Good morning, John</p>
             <p className="text-[10px] mt-0.5" style={{ color: '#6E6E73' }}>Today, 3 jobs</p>
           </div>
 

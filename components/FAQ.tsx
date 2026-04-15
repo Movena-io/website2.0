@@ -33,8 +33,25 @@ function FAQItem({ question, answer }: { question: string; answer: string }) {
 export default function FAQ() {
   const { t } = useLanguage()
 
+  const faqSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: t.faq.items.map((item) => ({
+      '@type': 'Question',
+      name: item.question,
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: item.answer,
+      },
+    })),
+  }
+
   return (
     <section className="bg-white py-24 scroll-mt-24" id="faq">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+      />
       <div className="max-w-6xl mx-auto px-6">
         <div className="flex flex-col md:flex-row gap-16">
 

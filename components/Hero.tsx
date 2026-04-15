@@ -189,8 +189,8 @@ export default function Hero() {
       <div
         className="absolute -z-10 lg:hidden"
         style={{
-          top: '62%',
-          bottom: '18%',
+          top: '59%',
+          bottom: '15%',
           right: 0,
           left: '30%',
           background: '#29ABE2',

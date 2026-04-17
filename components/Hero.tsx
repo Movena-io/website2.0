@@ -5,6 +5,7 @@ import { ArrowRight } from 'lucide-react'
 import Image from 'next/image'
 import { cn } from '@/lib/utils'
 import { TYPEFORM_URL } from '@/lib/constants'
+import { trackWaitlistClick } from '@/lib/tracking'
 import { useLanguage } from '@/lib/LanguageContext'
 import { ReactNode } from 'react'
 
@@ -246,6 +247,7 @@ export default function Hero() {
                   href={TYPEFORM_URL}
                   target="_blank"
                   rel="noopener noreferrer"
+                  onClick={() => trackWaitlistClick('hero')}
                   className="btn-gradient inline-flex items-center justify-center gap-2 h-12 rounded-xl text-white text-[15px] font-semibold"
                 >
                   <span>{t.hero.primaryCta}</span>

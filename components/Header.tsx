@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from 'react'
 import { Menu, X, ChevronDown } from 'lucide-react'
 import Image from 'next/image'
 import { TYPEFORM_URL } from '@/lib/constants'
+import { trackWaitlistClick } from '@/lib/tracking'
 import { useLanguage } from '@/lib/LanguageContext'
 import type { Locale } from '@/lib/translations'
 
@@ -98,6 +99,7 @@ export default function Header() {
             href={TYPEFORM_URL}
             target="_blank"
             rel="noopener noreferrer"
+            onClick={() => trackWaitlistClick('header')}
             className="btn-gradient inline-flex items-center justify-center h-10 px-5 rounded-lg text-white text-[14px] font-semibold"
           >
             {t.nav.joinWaitlist}
@@ -144,7 +146,7 @@ export default function Header() {
             href={TYPEFORM_URL}
             target="_blank"
             rel="noopener noreferrer"
-            onClick={() => setMenuOpen(false)}
+            onClick={() => { trackWaitlistClick('header_mobile'); setMenuOpen(false) }}
             className="btn-gradient inline-flex items-center justify-center h-10 px-4 rounded-lg text-white text-[14px] font-semibold w-full"
           >
             {t.nav.joinWaitlist}

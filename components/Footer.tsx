@@ -1,6 +1,7 @@
 'use client'
 
 import { TYPEFORM_URL } from '@/lib/constants'
+import { trackWaitlistClick } from '@/lib/tracking'
 import { useLanguage } from '@/lib/LanguageContext'
 
 export default function Footer() {
@@ -44,6 +45,7 @@ export default function Footer() {
                       <a
                         href={href}
                         {...(external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+                        onClick={external ? () => trackWaitlistClick('footer') : undefined}
                         className="text-[13px] text-[#94A3B8] hover:text-white transition-colors"
                       >
                         {label}

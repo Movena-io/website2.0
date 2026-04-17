@@ -15,8 +15,13 @@ export async function POST(request: Request) {
     const email = emailAnswer?.email ?? 'unknown'
 
     // Send server-side event to GA4 via Measurement Protocol
-    if (GA_API_SECRET) {
-      await fetch(
+    if (!GA_API_SECRET) {
+      console.error('[typeform webhook] GA_API_SECRET not set')
+      return NextResponse.json({ ok: true, warning: 'GA_API_SECRET not configured' })
+    }
+
+    {
+      const gaRes = await fetch(
         `https://www.google-analytics.com/mp/collect?measurement_id=${GA_MEASUREMENT_ID}&api_secret=${GA_API_SECRET}`,
         {
           method: 'POST',
@@ -34,6 +39,7 @@ export async function POST(request: Request) {
           }),
         }
       )
+      console.log('[typeform webhook] GA4 response:', gaRes.status)
     }
 
     return NextResponse.json({ ok: true })

@@ -39,7 +39,15 @@ export default function WaitlistSuccess() {
     if (!code) { setLoading(false); return }
     fetch(`/api/waitlist/${code}`)
       .then((r) => r.json())
-      .then((d) => { setData(d); setLoading(false) })
+      .then((d) => {
+        setData(d)
+        setLoading(false)
+        if (typeof window !== 'undefined' && typeof window.gtag === 'function') {
+          window.gtag('event', 'sign_up', {
+            method: 'waitlist',
+          })
+        }
+      })
       .catch(() => setLoading(false))
   }, [code])
 

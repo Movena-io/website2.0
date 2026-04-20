@@ -9,8 +9,8 @@ import { useLanguage } from '@/lib/LanguageContext'
 import type { Locale } from '@/lib/translations'
 
 const LANGUAGES: { code: Locale; label: string; flag: string }[] = [
-  { code: 'en', label: 'EN', flag: '🇬🇧' },
-  { code: 'da', label: 'DA', flag: '🇩🇰' },
+  { code: 'en', label: 'EN', flag: '\u{1F1EC}\u{1F1E7}' },
+  { code: 'da', label: 'DA', flag: '\u{1F1E9}\u{1F1F0}' },
 ]
 
 export default function Header() {
@@ -18,6 +18,8 @@ export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false)
   const [langOpen, setLangOpen] = useState(false)
   const langRef = useRef<HTMLDivElement>(null)
+  const mobileMenuRef = useRef<HTMLDivElement>(null)
+  const hamburgerRef = useRef<HTMLButtonElement>(null)
   const { locale, setLocale, t } = useLanguage()
   const currentLang = LANGUAGES.find(l => l.code === locale)!
 
@@ -36,6 +38,36 @@ export default function Header() {
     document.addEventListener('mousedown', handleClickOutside)
     return () => document.removeEventListener('mousedown', handleClickOutside)
   }, [])
+
+  useEffect(() => {
+    if (!menuOpen) return
+
+    function handleKeyDown(e: KeyboardEvent) {
+      if (e.key === 'Escape') {
+        setMenuOpen(false)
+        hamburgerRef.current?.focus()
+        return
+      }
+      if (e.key === 'Tab' && mobileMenuRef.current) {
+        const focusable = mobileMenuRef.current.querySelectorAll<HTMLElement>(
+          'a, button, input, [tabindex]:not([tabindex="-1"])'
+        )
+        if (focusable.length === 0) return
+        const first = focusable[0]
+        const last = focusable[focusable.length - 1]
+        if (e.shiftKey && document.activeElement === first) {
+          e.preventDefault()
+          last.focus()
+        } else if (!e.shiftKey && document.activeElement === last) {
+          e.preventDefault()
+          first.focus()
+        }
+      }
+    }
+
+    document.addEventListener('keydown', handleKeyDown)
+    return () => document.removeEventListener('keydown', handleKeyDown)
+  }, [menuOpen])
 
   return (
     <header
@@ -60,10 +92,15 @@ export default function Header() {
         </nav>
 
         <div className="hidden md:flex items-center justify-end gap-4 pr-[50px]">
+          <a href="/auth" className="text-[14px] font-medium text-[#475569] hover:text-[#0F172A] transition-colors">
+            {t.nav.logIn}
+          </a>
+
           {/* Language dropdown */}
           <div className="relative" ref={langRef}>
             <button
               onClick={() => setLangOpen(!langOpen)}
+              aria-label="Change language"
               className="flex items-center gap-1.5 text-[13px] font-semibold text-[#475569] hover:text-[#0B1F3B] transition-colors"
             >
               <span className="text-[16px] leading-none">{currentLang.flag}</span>
@@ -108,6 +145,7 @@ export default function Header() {
 
         <div className="md:hidden">
           <button
+            ref={hamburgerRef}
             className="p-2 text-[#475569]"
             onClick={() => setMenuOpen(!menuOpen)}
             aria-label="Toggle menu"
@@ -118,11 +156,12 @@ export default function Header() {
       </div>
 
       {menuOpen && (
-        <div className="md:hidden bg-white/75 border-t border-[#E2E8F0] px-6 py-4 flex flex-col gap-4 rounded-b-2xl">
+        <div ref={mobileMenuRef} className="md:hidden bg-white/75 border-t border-[#E2E8F0] px-6 py-4 flex flex-col gap-4 rounded-b-2xl">
           <a href="/#features" onClick={() => setMenuOpen(false)} className="text-[14px] font-medium text-[#475569]">{t.nav.features}</a>
           <a href="/#how-it-works" onClick={() => setMenuOpen(false)} className="text-[14px] font-medium text-[#475569]">{t.nav.howItWorks}</a>
           <a href="/#faq" onClick={() => setMenuOpen(false)} className="text-[14px] font-medium text-[#475569]">{t.nav.faq}</a>
           <a href="/contact" onClick={() => setMenuOpen(false)} className="text-[14px] font-medium text-[#475569]">{t.nav.talkToUs}</a>
+          <a href="/auth" onClick={() => setMenuOpen(false)} className="text-[14px] font-medium text-[#475569]">{t.nav.logIn}</a>
 
           {/* Mobile language toggle */}
           <div className="flex items-center gap-3">

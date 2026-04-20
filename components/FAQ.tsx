@@ -4,15 +4,19 @@ import { useState } from 'react'
 import { ChevronDown } from 'lucide-react'
 import { useLanguage } from '@/lib/LanguageContext'
 
-function FAQItem({ question, answer }: { question: string; answer: string }) {
+function FAQItem({ question, answer, index }: { question: string; answer: string; index: number }) {
   const [open, setOpen] = useState(false)
+  const questionId = `faq-question-${index}`
+  const answerId = `faq-answer-${index}`
 
   return (
     <div className="border-b border-[#E2E8F0]">
       <button
+        id={questionId}
         onClick={() => setOpen(!open)}
         className="w-full flex items-center justify-between py-5 text-left gap-4"
         aria-expanded={open}
+        aria-controls={answerId}
       >
         <span className="text-[16px] font-semibold text-[#0F172A]">{question}</span>
         <ChevronDown
@@ -22,9 +26,11 @@ function FAQItem({ question, answer }: { question: string; answer: string }) {
         />
       </button>
       {open && (
-        <p className="text-[16px] font-normal text-[#475569] leading-[1.6] pb-5">
-          {answer}
-        </p>
+        <div id={answerId} role="region" aria-labelledby={questionId}>
+          <p className="text-[16px] font-normal text-[#475569] leading-[1.6] pb-5">
+            {answer}
+          </p>
+        </div>
       )}
     </div>
   )
@@ -72,8 +78,8 @@ export default function FAQ() {
           </div>
 
           <div className="flex-1 border-t border-[#E2E8F0]">
-            {t.faq.items.map((faq) => (
-              <FAQItem key={faq.question} question={faq.question} answer={faq.answer} />
+            {t.faq.items.map((faq, i) => (
+              <FAQItem key={faq.question} question={faq.question} answer={faq.answer} index={i} />
             ))}
           </div>
 

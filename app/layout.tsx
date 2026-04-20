@@ -4,6 +4,7 @@ import './globals.css'
 import { LanguageProvider } from '@/lib/LanguageContext'
 import { Analytics } from '@vercel/analytics/react'
 import CookieConsent from '@/components/CookieConsent'
+import GoogleAnalytics from '@/components/GoogleAnalytics'
 
 const manrope = localFont({
   src: '../public/fonts/manrope-variable.woff2',
@@ -81,12 +82,6 @@ const softwareSchema = {
   operatingSystem: 'Web',
   description: 'All-in-one platform for moving companies: quoting, dispatch optimization, crew mobile app, customer tracking, and Nordic accounting integrations.',
   url: 'https://movena.io',
-  offers: {
-    '@type': 'Offer',
-    price: '2500',
-    priceCurrency: 'DKK',
-    description: 'Starter plan from 2,500 DKK/month',
-  },
   provider: {
     '@type': 'Organization',
     name: 'Movena',
@@ -102,12 +97,6 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        <script async src="https://www.googletagmanager.com/gtag/js?id=G-S0J0F29PP9" />
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-S0J0F29PP9');`,
-          }}
-        />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
@@ -121,6 +110,7 @@ export default function RootLayout({
         <LanguageProvider>
           {children}
           <Analytics />
+          <GoogleAnalytics />
           <CookieConsent />
         </LanguageProvider>
       </body>

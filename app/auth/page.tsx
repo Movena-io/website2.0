@@ -3,7 +3,8 @@
 import React from 'react'
 import Image from 'next/image'
 import { motion } from 'framer-motion'
-import { AtSignIcon, ChevronLeftIcon } from 'lucide-react'
+import { ChevronLeftIcon } from 'lucide-react'
+import { useLanguage } from '@/lib/LanguageContext'
 
 function FloatingPaths({ position }: { position: number }) {
   const paths = Array.from({ length: 36 }, (_, i) => ({
@@ -47,17 +48,13 @@ function FloatingPaths({ position }: { position: number }) {
   )
 }
 
-const GoogleIcon = (props: React.ComponentProps<'svg'>) => (
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" {...props}>
-    <path d="M12.479,14.265v-3.279h11.049c0.108,0.571,0.164,1.247,0.164,1.979c0,2.46-0.672,5.502-2.84,7.669C18.744,22.829,16.051,24,12.483,24C5.869,24,0.308,18.613,0.308,12S5.869,0,12.483,0c3.659,0,6.265,1.436,8.223,3.307L18.392,5.62c-1.404-1.317-3.307-2.341-5.913-2.341C7.65,3.279,3.873,7.171,3.873,12s3.777,8.721,8.606,8.721c3.132,0,4.916-1.258,6.059-2.401c0.927-0.927,1.537-2.251,1.777-4.059L12.479,14.265z" />
-  </svg>
-)
-
 export default function AuthPage() {
+  const { t } = useLanguage()
+
   return (
     <main className="relative min-h-screen flex items-center justify-center bg-white overflow-hidden">
 
-      {/* Animated paths — full page background */}
+      {/* Animated paths -- full page background */}
       <div className="absolute inset-0">
         <FloatingPaths position={1} />
         <FloatingPaths position={-1} />
@@ -69,7 +66,7 @@ export default function AuthPage() {
         className="absolute top-7 left-6 inline-flex items-center text-[14px] font-medium text-[#475569] hover:text-[#0F172A] transition-colors z-10"
       >
         <ChevronLeftIcon size={16} className="mr-1.5" />
-        Home
+        {t.auth.backHome}
       </a>
 
       {/* Card */}
@@ -83,64 +80,20 @@ export default function AuthPage() {
         {/* Heading */}
         <div className="text-center space-y-1">
           <h1 className="text-[26px] font-extrabold tracking-[-0.025em] text-[#0B1F3B]">
-            Sign in or create account
+            {t.auth.comingSoon}
           </h1>
           <p className="text-[15px] text-[#64748B]">
-            Access your Movena workspace.
+            {t.auth.comingSoonBody}
           </p>
         </div>
 
-        {/* Google SSO */}
-        <button
-          type="button"
-          className="w-full h-11 flex items-center justify-center gap-2.5 rounded-lg border border-[#E2E8F0] bg-white text-[14px] font-semibold text-[#0F172A] hover:bg-[#F8FAFC] transition-colors shadow-sm"
+        {/* Back to home button */}
+        <a
+          href="/"
+          className="inline-flex items-center justify-center w-full h-11 rounded-lg bg-[#0B1F3B] hover:bg-[#1D4ED8] text-white text-[14px] font-semibold transition-colors"
         >
-          <GoogleIcon className="w-4 h-4" />
-          Continue with Google
-        </button>
-
-        {/* OR separator */}
-        <div className="flex w-full items-center gap-3">
-          <div className="h-px w-full bg-[#E2E8F0]" />
-          <span className="text-[12px] text-[#94A3B8] whitespace-nowrap">OR</span>
-          <div className="h-px w-full bg-[#E2E8F0]" />
-        </div>
-
-        {/* Email form */}
-        <form className="space-y-2">
-          <p className="text-[13px] text-[#64748B]">
-            Enter your email to sign in or create an account
-          </p>
-          <div className="relative">
-            <input
-              type="email"
-              placeholder="your.email@example.com"
-              className="w-full h-10 rounded-lg border border-[#E2E8F0] bg-white pl-9 pr-3 text-[14px] text-[#0F172A] placeholder:text-[#94A3B8] focus:outline-none focus:ring-2 focus:ring-[#1D4ED8]/20 focus:border-[#1D4ED8] transition-colors"
-            />
-            <AtSignIcon
-              size={15}
-              className="absolute left-3 top-1/2 -translate-y-1/2 text-[#94A3B8] pointer-events-none"
-            />
-          </div>
-          <button
-            type="submit"
-            className="w-full h-11 rounded-lg bg-[#0B1F3B] hover:bg-[#1D4ED8] text-white text-[14px] font-semibold transition-colors"
-          >
-            Continue with email
-          </button>
-        </form>
-
-        {/* Legal */}
-        <p className="text-[13px] text-[#94A3B8] text-center">
-          By continuing, you agree to our{' '}
-          <a href="/terms" className="text-[#64748B] hover:text-[#0F172A] underline underline-offset-4 transition-colors">
-            Terms of Service
-          </a>{' '}
-          and{' '}
-          <a href="/privacy" className="text-[#64748B] hover:text-[#0F172A] underline underline-offset-4 transition-colors">
-            Privacy Policy
-          </a>.
-        </p>
+          {t.auth.backHome}
+        </a>
       </div>
 
     </main>

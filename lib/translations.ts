@@ -14,10 +14,10 @@ export const translations = {
       badge: 'Built for moving companies',
       headline: 'Run your moving company',
       highlight: 'from one place',
-      subheadline: 'Movena takes care of the back office. Quotes, scheduling, and crew coordination, all in one place so you can focus on the job.',
+      subheadline: 'Movena runs your quotes, schedule, and crew coordination. You run the jobs.',
       primaryCta: 'Join the waitlist',
       secondaryCta: 'See how it works',
-      disclaimer: 'No credit card required. Free during early access.',
+      disclaimer: 'Free during early access. We reach out personally when access opens.',
     },
     painPoints: {
       label: 'The problem',
@@ -45,9 +45,9 @@ export const translations = {
     },
     consolidation: {
       label: 'Your current setup',
-      headline: 'Multiple tools.',
-      highlight: 'Zero coordination.',
-      subheadline: 'Moving companies stitch together WhatsApp, accounting software, spreadsheets, and project tools. And still drop the ball.',
+      headline: 'Six tools.',
+      highlight: 'Nothing talks.',
+      subheadline: 'Moving companies stitch together WhatsApp, e-conomic, spreadsheets, and a shared calendar. And still drop the ball.',
       connector: 'All of it, replaced by one',
       subscription: 'One subscription. No duct tape.',
       features: [
@@ -62,17 +62,17 @@ export const translations = {
     },
     features: {
       label: 'Features',
-      headline: 'One platform.',
-      highlight: 'Every job',
-      headlineEnd: ', start to finish.',
-      subheadline: 'No jumping between tools. Every step of the job lives in one place.',
-      andMore: 'Also includes task management, fleet tracking, and more.',
+      headline: 'One place for',
+      highlight: 'every job',
+      headlineEnd: ', from the first call to the final invoice.',
+      subheadline: 'No more switching between WhatsApp, a spreadsheet, and a calendar invite to run a single job.',
+      andMore: 'Also includes task management, fleet tracking, time tracking, and customer portal.',
       tabs: [
         {
           label: 'Dashboard',
           badge: 'Overview',
-          title: 'Your entire business on one screen.',
-          description: 'Start every morning knowing exactly where things stand. Active jobs, open leads, and team activity, all visible at a glance before the day begins.',
+          title: 'Every job, every lead, every crew on one screen.',
+          description: 'Open Movena at 7am. You see every active job, every open quote, and where your crews are. Before the first call of the day.',
           points: [
             'Live status of every job running today',
             'Open leads and pending quotes surfaced automatically',
@@ -82,7 +82,7 @@ export const translations = {
         {
           label: 'Quoting',
           badge: 'Automatic quoting',
-          title: 'Accurate quotes, sent in minutes.',
+          title: 'Quotes that match your real pricing, sent in minutes.',
           description: 'Set your pricing rules once. For every new job, Movena builds the price automatically based on distance, crew size, and your rates. The customer gets a professional quote they can accept online.',
           points: [
             'Price calculated automatically from your rates',
@@ -115,7 +115,7 @@ export const translations = {
         {
           label: 'CRM',
           badge: 'Lead management',
-          title: 'Every lead tracked, nothing slips.',
+          title: 'Every inquiry tracked from the first email to the signed quote.',
           description: 'See every inquiry in one place. Follow the lead from first contact to signed quote to completed job. Filter by status and know exactly where each customer stands.',
           points: [
             'Lead pipeline with real-time status',
@@ -149,12 +149,12 @@ export const translations = {
     },
     howItWorks: {
       label: 'How it works',
-      headline: 'Up and running in an afternoon',
-      subheadline: 'No long setup, no training sessions. Movena is built to be picked up fast.',
+      headline: 'Set up between two jobs',
+      subheadline: 'No long setup, no training sessions. If you get stuck, one of the founders will walk you through it.',
       steps: [
         {
           title: 'Set up your company',
-          description: 'Add your services, pricing rules, and team. Takes about 15 minutes. No onboarding call required.',
+          description: 'Add your services, pricing rules, and team. Takes about 15 minutes.',
         },
         {
           title: 'Send your first quote',
@@ -178,11 +178,11 @@ export const translations = {
       items: [
         {
           question: 'When is Movena launching?',
-          answer: 'We are currently in early access. Join the waitlist and you will get a personal invite when we open.',
+          answer: 'We are opening access gradually through summer 2026. Join the waitlist and we will reach out personally when your spot comes up.',
         },
         {
           question: 'How long does getting set up take?',
-          answer: 'About 15 minutes. You add your services, pricing rules, and team. No onboarding call required.',
+          answer: 'About 15 minutes. You add your services, pricing rules, and team. If you get stuck, one of the founders will walk you through it.',
         },
         {
           question: 'What integrations do you support?',
@@ -190,11 +190,11 @@ export const translations = {
         },
         {
           question: 'Is my data secure?',
-          answer: 'Yes. We use industry-standard encryption to ensure your customer data, pricing, and financial records are always protected.',
+          answer: 'Yes. All data is encrypted in transit and at rest, stored on EU servers, and only accessed by the three founders. We are GDPR-compliant by default because we are based in Copenhagen and it is simpler that way.',
         },
         {
           question: 'Can I manage my team in Movena?',
-          answer: 'Yes. You can manage employees, track hours, build schedules, and assign tasks directly in Movena. Everything from job assignments to time tracking is built in.',
+          answer: 'Yes. You can manage employees, track hours, build schedules, and assign tasks directly in Movena.',
         },
       ],
     },
@@ -202,13 +202,13 @@ export const translations = {
       label: 'Early access',
       headline: 'Get early access',
       highlight: 'before we open to everyone',
-      subheadline: 'Sign up now and we will reach out personally when access opens.',
-      benefit: 'Early members get better pricing and direct support from the founders.',
+      subheadline: 'Sign up now. Samuel or Villads will reach out personally when access opens.',
+      benefit: 'Early members get direct support from the founders and better pricing at launch.',
       button: 'Get early access',
-      disclaimer: 'No credit card required. Free during early access.',
+      disclaimer: 'Free during early access.',
     },
     footer: {
-      tagline: 'All-in-one platform built for moving companies.',
+      tagline: 'The back office for moving companies.',
       product: 'Product',
       company: 'Company',
       legal: 'Legal',
@@ -227,7 +227,7 @@ export const translations = {
     contact: {
       label: 'Contact',
       headline: 'Talk to us',
-      subheadline: "We're a small team building something we care about. Reach out directly. We respond to every message.",
+      subheadline: "We're three people building Movena. Reach out directly. We respond to every message, usually the same day.",
       nameLabel: 'Name',
       namePlaceholder: 'Your name',
       emailLabel: 'Email',
@@ -259,6 +259,40 @@ export const translations = {
       backHome: 'Back to home',
       terms: 'Terms',
       privacy: 'Privacy',
+      comingSoon: 'Coming soon',
+      comingSoonBody: 'Sign-in is not available yet. We will notify you when it is ready.',
+    },
+    solution: {
+      badge: 'The solution',
+      headline: 'Movena is purpose-built for moving companies',
+      subheadline: 'Not generic business software with a moving-company skin on it. Built from scratch around the way moving jobs actually work: quotes, crews, scheduling, and customer communication.',
+      capabilities: [
+        { label: 'Instant quotes', desc: 'Built from your rates automatically' },
+        { label: 'Job scheduling', desc: 'One calendar, zero conflicts' },
+        { label: 'Crew coordination', desc: 'Everyone knows the plan' },
+        { label: 'Follow-ups', desc: 'Automated at the right moment' },
+        { label: 'Customer portal', desc: 'Professional from first contact' },
+      ],
+    },
+    cookieConsent: {
+      message: 'We use cookies to analyse traffic and improve your experience. By continuing you agree to our',
+      privacyLink: 'Privacy Policy',
+      accept: 'Accept',
+      decline: 'Decline',
+    },
+    waitlist: {
+      getEarlyAccess: 'Get early access',
+      lastStep: 'Last step: tell us who you are.',
+      joinWaitlist: 'Join the waitlist',
+      back: 'Back',
+      reserving: 'Reserving your spot...',
+      namePlaceholder: 'Your name',
+      companyPlaceholder: 'Company name',
+      emailPlaceholder: 'your@company.com',
+      invalidEmail: 'Enter a valid email address.',
+      missingName: 'Enter your name.',
+      missingCompany: 'Enter your company name.',
+      networkError: 'Network error. Please check your connection and try again.',
     },
   },
 
@@ -275,10 +309,10 @@ export const translations = {
       badge: 'Bygget til flyttefirmaer',
       headline: 'Kør dit flyttefirma',
       highlight: 'fra ét sted',
-      subheadline: 'Movena tager sig af administrationen. Tilbud, planlægning og holdkoordinering, alt samlet ét sted, så du kan fokusere på jobbet.',
+      subheadline: 'Movena styrer dine tilbud, din kalender og holdkoordinering. Du styrer jobbene.',
       primaryCta: 'Tilmeld venteliste',
       secondaryCta: 'Se hvordan det virker',
-      disclaimer: 'Intet kreditkort. Gratis under tidlig adgang.',
+      disclaimer: 'Gratis under tidlig adgang. Vi kontakter dig personligt, når adgangen åbner.',
     },
     painPoints: {
       label: 'Problemet',
@@ -306,9 +340,9 @@ export const translations = {
     },
     consolidation: {
       label: 'Dit nuværende setup',
-      headline: 'Mange værktøjer.',
-      highlight: 'Nul koordinering.',
-      subheadline: 'Flyttefirmaer syr WhatsApp, regnskabssoftware, regneark og projektstyringsværktøjer sammen. Og slipper stadig bolden.',
+      headline: 'Seks værktøjer.',
+      highlight: 'Intet hænger sammen.',
+      subheadline: 'Flyttefirmaer syr WhatsApp, e-conomic, regneark og en delt kalender sammen. Og slipper stadig bolden.',
       connector: 'Alt det, erstattet af ét',
       subscription: 'Ét abonnement. Ingen tape.',
       features: [
@@ -323,17 +357,17 @@ export const translations = {
     },
     features: {
       label: 'Funktioner',
-      headline: 'Én platform.',
-      highlight: 'Hvert job',
-      headlineEnd: ', fra start til slut.',
-      subheadline: 'Ingen spring mellem værktøjer. Hvert trin i jobbet lever ét sted.',
-      andMore: 'Indeholder også opgavestyring, flådesporing og meget mere.',
+      headline: 'Ét sted for',
+      highlight: 'hvert job',
+      headlineEnd: ', fra det første opkald til den sidste faktura.',
+      subheadline: 'Ikke mere skift mellem WhatsApp, et regneark og en kalenderinvitation for at køre et enkelt job.',
+      andMore: 'Indeholder også opgavestyring, flådesporing, tidsstyring og kundeportal.',
       tabs: [
         {
           label: 'Dashboard',
           badge: 'Overblik',
-          title: 'Hele din forretning på én skærm.',
-          description: 'Start hver morgen med at vide præcis, hvor tingene står. Aktive jobs, åbne leads og holdaktivitet, alt synligt på ét blik, inden dagen begynder.',
+          title: 'Hvert job, hvert lead, hvert hold på én skærm.',
+          description: 'Åbn Movena kl. 7. Du ser hvert aktivt job, hvert åbent tilbud og hvor dine hold er. Inden dagens første opkald.',
           points: [
             'Realtidsstatus på hvert job der kører i dag',
             'Åbne leads og ventende tilbud vises automatisk',
@@ -343,7 +377,7 @@ export const translations = {
         {
           label: 'Tilbud',
           badge: 'Automatisk tilbudsgivning',
-          title: 'Præcise tilbud, sendt på minutter.',
+          title: 'Tilbud der matcher dine reelle priser, sendt på minutter.',
           description: 'Indstil dine prisregler én gang. For hvert nyt job beregner Movena prisen automatisk ud fra afstand, holdstørrelse og dine satser. Kunden får et professionelt tilbud, de kan acceptere online.',
           points: [
             'Pris beregnet automatisk ud fra dine satser',
@@ -376,7 +410,7 @@ export const translations = {
         {
           label: 'CRM',
           badge: 'Leadstyring',
-          title: 'Alle leads tracked, intet glider igennem.',
+          title: 'Hver henvendelse tracked fra den første e-mail til det underskrevne tilbud.',
           description: 'Se alle henvendelser ét sted. Følg leadet fra første kontakt til underskrevet tilbud til afsluttet job. Filtrer efter status og ved præcis, hvor hver kunde befinder sig.',
           points: [
             'Lead-pipeline med realtidsstatus',
@@ -410,12 +444,12 @@ export const translations = {
     },
     howItWorks: {
       label: 'Sådan virker det',
-      headline: 'Kørende på en eftermiddag',
-      subheadline: 'Ingen lang opsætning, ingen træningssessioner. Movena er bygget til at blive taget i brug hurtigt.',
+      headline: 'Sat op mellem to jobs',
+      subheadline: 'Ingen lang opsætning, ingen træningssessioner. Sidder du fast, guider en af stifterne dig igennem.',
       steps: [
         {
           title: 'Opsæt dit firma',
-          description: 'Tilføj dine ydelser, prisregler og hold. Tager ca. 15 minutter. Ingen onboarding-opkald kræves.',
+          description: 'Tilføj dine ydelser, prisregler og hold. Tager ca. 15 minutter.',
         },
         {
           title: 'Send dit første tilbud',
@@ -439,11 +473,11 @@ export const translations = {
       items: [
         {
           question: 'Hvornår lancerer Movena?',
-          answer: 'Vi er i øjeblikket i tidlig adgang. Tilmeld ventelisten og du vil få en personlig invitation, når vi åbner.',
+          answer: 'Vi åbner adgang gradvist i løbet af sommeren 2026. Tilmeld ventelisten, og vi kontakter dig personligt, når din plads kommer op.',
         },
         {
           question: 'Hvor lang tid tager opsætningen?',
-          answer: 'Cirka 15 minutter. Du tilføjer dine ydelser, prisregler og hold. Intet onboarding-opkald kræves.',
+          answer: 'Cirka 15 minutter. Du tilføjer dine ydelser, prisregler og hold. Sidder du fast, guider en af stifterne dig igennem.',
         },
         {
           question: 'Hvilke integrationer understøtter I?',
@@ -451,11 +485,11 @@ export const translations = {
         },
         {
           question: 'Er mine data sikre?',
-          answer: 'Ja. Vi bruger branchestandardkryptering for at sikre, at dine kundedata, priser og finansielle optegnelser altid er beskyttede.',
+          answer: 'Ja. Al data er krypteret under overførsel og i hvile, gemt på EU-servere, og kun tilgået af de tre stiftere. Vi er GDPR-kompatible som standard, fordi vi er baseret i København, og det er enklere sådan.',
         },
         {
           question: 'Kan jeg styre mit team i Movena?',
-          answer: 'Ja. Du kan administrere medarbejdere, spore timer, bygge vagtplaner og tildele opgaver direkte i Movena. Alt fra jobopgaver til tidsstyring er indbygget.',
+          answer: 'Ja. Du kan administrere medarbejdere, spore timer, bygge vagtplaner og tildele opgaver direkte i Movena.',
         },
       ],
     },
@@ -463,13 +497,13 @@ export const translations = {
       label: 'Tidlig adgang',
       headline: 'Få tidlig adgang',
       highlight: 'inden vi åbner for alle',
-      subheadline: 'Tilmeld dig nu, og vi kontakter dig personligt, når adgangen åbner.',
-      benefit: 'Tidlige medlemmer får bedre priser og direkte support fra stifterne.',
+      subheadline: 'Tilmeld dig nu. Samuel eller Villads kontakter dig personligt, når adgangen åbner.',
+      benefit: 'Tidlige medlemmer får direkte support fra stifterne og bedre priser ved lancering.',
       button: 'Få tidlig adgang',
-      disclaimer: 'Intet kreditkort. Gratis under tidlig adgang.',
+      disclaimer: 'Gratis under tidlig adgang.',
     },
     footer: {
-      tagline: 'Alt-i-én platform bygget til flyttefirmaer.',
+      tagline: 'Administrationen for flyttefirmaer.',
       product: 'Produkt',
       company: 'Firma',
       legal: 'Juridisk',
@@ -488,7 +522,7 @@ export const translations = {
     contact: {
       label: 'Kontakt',
       headline: 'Kontakt os',
-      subheadline: 'Vi er et lille hold, der bygger noget, vi brænder for. Kontakt os direkte. Vi svarer på alle henvendelser.',
+      subheadline: 'Vi er tre mennesker, der bygger Movena. Kontakt os direkte. Vi svarer på alle henvendelser, som regel samme dag.',
       nameLabel: 'Navn',
       namePlaceholder: 'Dit navn',
       emailLabel: 'E-mail',
@@ -520,6 +554,40 @@ export const translations = {
       backHome: 'Tilbage til forsiden',
       terms: 'Vilkår',
       privacy: 'Privatliv',
+      comingSoon: 'Kommer snart',
+      comingSoonBody: 'Log ind er ikke tilgængeligt endnu. Vi giver dig besked, når det er klar.',
+    },
+    solution: {
+      badge: 'Løsningen',
+      headline: 'Movena er bygget specifikt til flyttefirmaer',
+      subheadline: 'Ikke generisk virksomhedssoftware med et flyttefirma-skin. Bygget fra bunden omkring den måde, flyttejobs faktisk fungerer: tilbud, hold, planlægning og kundekommunikation.',
+      capabilities: [
+        { label: 'Øjeblikkelige tilbud', desc: 'Bygget ud fra dine satser automatisk' },
+        { label: 'Jobplanlægning', desc: 'Én kalender, nul konflikter' },
+        { label: 'Holdkoordinering', desc: 'Alle kender planen' },
+        { label: 'Opfølgninger', desc: 'Automatiseret på det rigtige tidspunkt' },
+        { label: 'Kundeportal', desc: 'Professionelt fra første kontakt' },
+      ],
+    },
+    cookieConsent: {
+      message: 'Vi bruger cookies til at analysere trafik og forbedre din oplevelse. Ved at fortsætte accepterer du vores',
+      privacyLink: 'Privatlivspolitik',
+      accept: 'Accepter',
+      decline: 'Afvis',
+    },
+    waitlist: {
+      getEarlyAccess: 'Få tidlig adgang',
+      lastStep: 'Sidste trin: fortæl os, hvem du er.',
+      joinWaitlist: 'Tilmeld venteliste',
+      back: 'Tilbage',
+      reserving: 'Reserverer din plads...',
+      namePlaceholder: 'Dit navn',
+      companyPlaceholder: 'Firmanavn',
+      emailPlaceholder: 'din@virksomhed.com',
+      invalidEmail: 'Indtast en gyldig e-mailadresse.',
+      missingName: 'Indtast dit navn.',
+      missingCompany: 'Indtast dit firmanavn.',
+      networkError: 'Netværksfejl. Tjek din forbindelse og prøv igen.',
     },
   },
 }

@@ -4,6 +4,7 @@ import { useState, useRef, useEffect } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { ArrowRight, Loader2 } from 'lucide-react'
 import { cn } from '@/lib/utils'
+import { useLanguage } from '@/lib/LanguageContext'
 
 type Step = 'email' | 'details' | 'submitting'
 
@@ -15,6 +16,7 @@ export default function WaitlistForm({ variant = 'hero' }: Props) {
   const router = useRouter()
   const searchParams = useSearchParams()
   const referredBy = searchParams?.get('ref') ?? undefined
+  const { t } = useLanguage()
 
   const [step, setStep] = useState<Step>('email')
   const [email, setEmail] = useState('')
@@ -37,7 +39,7 @@ export default function WaitlistForm({ variant = 'hero' }: Props) {
     e.preventDefault()
     setError(null)
     if (!validateEmail(email)) {
-      setError('Enter a valid email address.')
+      setError(t.waitlist.invalidEmail)
       return
     }
     setStep('details')
@@ -46,8 +48,8 @@ export default function WaitlistForm({ variant = 'hero' }: Props) {
   async function handleDetailsSubmit(e: React.FormEvent) {
     e.preventDefault()
     setError(null)
-    if (!name.trim()) { setError('Enter your name.'); return }
-    if (!company.trim()) { setError('Enter your company name.'); return }
+    if (!name.trim()) { setError(t.waitlist.missingName); return }
+    if (!company.trim()) { setError(t.waitlist.missingCompany); return }
 
     setStep('submitting')
 
@@ -69,13 +71,13 @@ export default function WaitlistForm({ variant = 'hero' }: Props) {
       router.push(`/waitlist/success?code=${data.code}`)
     } catch {
       setStep('details')
-      setError('Network error. Please check your connection and try again.')
+      setError(t.waitlist.networkError)
     }
   }
 
   const isHero = variant === 'hero'
 
-  // ─── Email step ──────────────────────────────────────────────────────────
+  // --- Email step ---
 
   if (step === 'email') {
     return (
@@ -85,7 +87,7 @@ export default function WaitlistForm({ variant = 'hero' }: Props) {
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            placeholder="your@company.com"
+            placeholder={t.waitlist.emailPlaceholder}
             required
             autoComplete="email"
             className={cn(
@@ -104,7 +106,7 @@ export default function WaitlistForm({ variant = 'hero' }: Props) {
                 : 'bg-[#1D4ED8] hover:bg-[#1E40AF] text-white'
             )}
           >
-            Get early access
+            {t.waitlist.getEarlyAccess}
             <ArrowRight size={15} strokeWidth={2} />
           </button>
         </form>
@@ -115,7 +117,7 @@ export default function WaitlistForm({ variant = 'hero' }: Props) {
     )
   }
 
-  // ─── Details step ────────────────────────────────────────────────────────
+  // --- Details step ---
 
   if (step === 'details') {
     return (
@@ -125,14 +127,14 @@ export default function WaitlistForm({ variant = 'hero' }: Props) {
             'text-[13px] font-medium mb-1',
             isHero ? 'text-[#1E3A5F]/60' : 'text-[#64748B]'
           )}>
-            Last step: tell us who you are.
+            {t.waitlist.lastStep}
           </p>
           <input
             ref={nameRef}
             type="text"
             value={name}
             onChange={(e) => setName(e.target.value)}
-            placeholder="Your name"
+            placeholder={t.waitlist.namePlaceholder}
             required
             autoComplete="name"
             className={cn(
@@ -146,7 +148,7 @@ export default function WaitlistForm({ variant = 'hero' }: Props) {
             type="text"
             value={company}
             onChange={(e) => setCompany(e.target.value)}
-            placeholder="Company name"
+            placeholder={t.waitlist.companyPlaceholder}
             required
             autoComplete="organization"
             className={cn(
@@ -167,7 +169,7 @@ export default function WaitlistForm({ variant = 'hero' }: Props) {
                   : 'bg-transparent border-[#E2E8F0] text-[#64748B] hover:bg-[#F8FAFC]'
               )}
             >
-              Back
+              {t.waitlist.back}
             </button>
             <button
               type="submit"
@@ -178,7 +180,7 @@ export default function WaitlistForm({ variant = 'hero' }: Props) {
                   : 'bg-[#1D4ED8] hover:bg-[#1E40AF] text-white'
               )}
             >
-              Join the waitlist
+              {t.waitlist.joinWaitlist}
               <ArrowRight size={15} strokeWidth={2} />
             </button>
           </div>
@@ -190,7 +192,7 @@ export default function WaitlistForm({ variant = 'hero' }: Props) {
     )
   }
 
-  // ─── Submitting ──────────────────────────────────────────────────────────
+  // --- Submitting ---
 
   return (
     <div className="w-full max-w-md">
@@ -199,7 +201,7 @@ export default function WaitlistForm({ variant = 'hero' }: Props) {
         isHero ? 'bg-[#0B1F3B]/60 text-white/70' : 'bg-[#1D4ED8]/60 text-white/70'
       )}>
         <Loader2 size={16} className="animate-spin" />
-        Reserving your spot...
+        {t.waitlist.reserving}
       </div>
     </div>
   )

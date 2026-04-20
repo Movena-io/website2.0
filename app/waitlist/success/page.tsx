@@ -2,8 +2,10 @@
 
 import { useEffect, useState } from 'react'
 import { useSearchParams } from 'next/navigation'
-import { Check, Copy, Users, Truck } from 'lucide-react'
+import { Check, Copy, Users } from 'lucide-react'
 import { cn } from '@/lib/utils'
+import Header from '@/components/Header'
+import Footer from '@/components/Footer'
 
 interface WaitlistData {
   name: string
@@ -61,41 +63,41 @@ export default function WaitlistSuccess() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-[#F8FAFC] flex items-center justify-center">
-        <div className="w-8 h-8 rounded-full border-2 border-[#1D4ED8] border-t-transparent animate-spin" />
-      </div>
+      <>
+        <Header />
+        <div className="min-h-screen bg-[#F8FAFC] flex items-center justify-center">
+          <div className="w-8 h-8 rounded-full border-2 border-[#1D4ED8] border-t-transparent animate-spin" />
+        </div>
+        <Footer />
+      </>
     )
   }
 
   if (!data || !code) {
     return (
-      <div className="min-h-screen bg-[#F8FAFC] flex items-center justify-center px-6">
-        <div className="text-center max-w-sm">
-          <p className="text-[17px] font-semibold text-[#0B1F3B]">Something went wrong.</p>
-          <p className="mt-2 text-[15px] text-[#64748B]">Your signup may not have saved. Try again from the home page.</p>
-          <a href="/" className="mt-6 inline-block text-[14px] font-semibold text-[#1D4ED8] hover:underline">
-            Back to home
-          </a>
+      <>
+        <Header />
+        <div className="min-h-screen bg-[#F8FAFC] flex items-center justify-center px-6">
+          <div className="text-center max-w-sm">
+            <p className="text-[17px] font-semibold text-[#0B1F3B]">Something went wrong.</p>
+            <p className="mt-2 text-[15px] text-[#64748B]">Your signup may not have saved. Try again from the home page.</p>
+            <a href="/" className="mt-6 inline-block text-[14px] font-semibold text-[#1D4ED8] hover:underline">
+              Back to home
+            </a>
+          </div>
         </div>
-      </div>
+        <Footer />
+      </>
     )
   }
 
   const firstName = data.name.split(' ')[0]
 
   return (
-    <div className="min-h-screen bg-[#F8FAFC]">
-      {/* Header */}
-      <header className="border-b border-[#E2E8F0] bg-white h-16 flex items-center px-6">
-        <a href="/" className="flex items-center gap-2">
-          <div className="w-7 h-7 rounded-lg bg-[#1D4ED8] flex items-center justify-center shrink-0">
-            <Truck size={13} strokeWidth={1.5} className="text-white" />
-          </div>
-          <span className="text-[16px] font-extrabold tracking-[-0.025em] text-[#0B1F3B]">Movena</span>
-        </a>
-      </header>
-
-      <main className="max-w-xl mx-auto px-6 py-16">
+    <>
+      <Header />
+      <div className="min-h-screen bg-[#F8FAFC]">
+        <main className="max-w-xl mx-auto px-6 py-16">
 
         {/* Position card */}
         <div className="bg-white rounded-2xl border border-[#E2E8F0] p-8 text-center shadow-sm">
@@ -212,7 +214,9 @@ export default function WaitlistSuccess() {
         <p className="mt-6 text-center text-[13px] text-[#94A3B8]">
           We&apos;ll email you when Movena launches. No spam, ever.
         </p>
-      </main>
-    </div>
+        </main>
+      </div>
+      <Footer />
+    </>
   )
 }

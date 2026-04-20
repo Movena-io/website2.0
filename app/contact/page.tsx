@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
-import { MapPin, ArrowRight } from 'lucide-react'
+import { ArrowRight } from 'lucide-react'
 import { useLanguage } from '@/lib/LanguageContext'
 
 export default function Contact() {
@@ -52,9 +52,9 @@ export default function Contact() {
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 gap-10 items-start">
+          <div className="max-w-xl">
 
-            {/* Left: contact form */}
+            {/* Contact form */}
             <div>
               {status === 'sent' ? (
                 <div className="bg-[#F0FDF4] border border-[#BBF7D0] rounded-2xl p-8">
@@ -71,8 +71,9 @@ export default function Contact() {
                 <form onSubmit={handleSubmit} className="flex flex-col gap-4">
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div className="flex flex-col gap-1.5">
-                      <label className="text-[13px] font-semibold text-[#0F172A]">{t.contact.nameLabel}</label>
+                      <label htmlFor="contact-name" className="text-[13px] font-semibold text-[#0F172A]">{t.contact.nameLabel}</label>
                       <input
+                        id="contact-name"
                         type="text"
                         required
                         placeholder={t.contact.namePlaceholder}
@@ -82,8 +83,9 @@ export default function Contact() {
                       />
                     </div>
                     <div className="flex flex-col gap-1.5">
-                      <label className="text-[13px] font-semibold text-[#0F172A]">{t.contact.emailLabel}</label>
+                      <label htmlFor="contact-email" className="text-[13px] font-semibold text-[#0F172A]">{t.contact.emailLabel}</label>
                       <input
+                        id="contact-email"
                         type="email"
                         required
                         placeholder={t.contact.emailPlaceholder}
@@ -95,8 +97,9 @@ export default function Contact() {
                   </div>
 
                   <div className="flex flex-col gap-1.5">
-                    <label className="text-[13px] font-semibold text-[#0F172A]">{t.contact.subjectLabel}</label>
+                    <label htmlFor="contact-subject" className="text-[13px] font-semibold text-[#0F172A]">{t.contact.subjectLabel}</label>
                     <input
+                      id="contact-subject"
                       type="text"
                       required
                       placeholder={t.contact.subjectPlaceholder}
@@ -107,8 +110,9 @@ export default function Contact() {
                   </div>
 
                   <div className="flex flex-col gap-1.5">
-                    <label className="text-[13px] font-semibold text-[#0F172A]">{t.contact.messageLabel}</label>
+                    <label htmlFor="contact-message" className="text-[13px] font-semibold text-[#0F172A]">{t.contact.messageLabel}</label>
                     <textarea
+                      id="contact-message"
                       required
                       rows={5}
                       placeholder={t.contact.messagePlaceholder}
@@ -135,44 +139,6 @@ export default function Contact() {
                   </button>
                 </form>
               )}
-            </div>
-
-            {/* Right: info panels */}
-            <div className="flex flex-col gap-5">
-              {/* Location */}
-              <div className="flex items-start gap-4 rounded-2xl p-6 border border-[#E2E8F0]">
-                <div className="w-10 h-10 rounded-xl bg-[#1D4ED8]/10 flex items-center justify-center shrink-0 mt-0.5">
-                  <MapPin size={18} strokeWidth={1.5} className="text-[#1D4ED8]" />
-                </div>
-                <div>
-                  <p className="text-[16px] font-bold text-[#0B1F3B] mb-1">{t.contact.locationLabel}</p>
-                  <p className="text-[14px] font-normal text-[#475569] leading-[1.6]">
-                    {t.contact.locationBody}
-                  </p>
-                </div>
-              </div>
-
-              {/* About */}
-              <div className="bg-[#F8FAFC] border border-[#E2E8F0] rounded-2xl p-8">
-                <p className="text-[13px] font-semibold uppercase tracking-[0.08em] text-[#64748B] mb-4">{t.contact.aboutLabel}</p>
-                <p className="text-[18px] font-bold text-[#0B1F3B] leading-[1.4] mb-4">
-                  {t.contact.aboutTitle}
-                </p>
-                <p className="text-[15px] font-normal text-[#475569] leading-[1.75] mb-4">
-                  {t.contact.aboutBody1}
-                </p>
-                <p className="text-[15px] font-normal text-[#475569] leading-[1.75]">
-                  {t.contact.aboutBody2}
-                </p>
-                <div className="mt-6 pt-6 border-t border-[#E2E8F0]">
-                  <a
-                    href="mailto:hello@movena.io"
-                    className="text-[14px] font-semibold text-[#1D4ED8] hover:text-[#1E40AF] transition-colors"
-                  >
-                    hello@movena.io
-                  </a>
-                </div>
-              </div>
             </div>
 
           </div>

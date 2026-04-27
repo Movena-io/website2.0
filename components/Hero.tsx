@@ -93,7 +93,7 @@ function ProductMockup() {
       aria-label="Movena dashboard preview showing today's three moving jobs, monthly revenue chart, and crew schedule"
     >
       <figcaption className="sr-only">
-        A preview of the Movena moving company software dashboard. The view shows the current day's jobs (Larsen Family at 08:00, Schmidt Transport at 12:00, Hansen Residence at 15:00), each with route, crew size, vehicle assignment, and live status. Two stat cards at the top track monthly revenue and total jobs with twelve-month sparklines.
+        A preview of the Movena moving company software dashboard. The view shows the current day&apos;s jobs (Larsen Family at 08:00, Schmidt Transport at 12:00, Hansen Residence at 15:00), each with route, crew size, vehicle assignment, and live status. Two stat cards at the top track monthly revenue and total jobs with twelve-month sparklines.
       </figcaption>
       <div className="flex">
 

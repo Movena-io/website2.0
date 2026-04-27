@@ -6,6 +6,7 @@ import { Check, Copy, Users } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
+import { useLocalizedHref } from '@/lib/LanguageContext'
 
 interface WaitlistData {
   name: string
@@ -27,6 +28,7 @@ const TIERS = [
 export default function WaitlistSuccess() {
   const searchParams = useSearchParams()
   const code = searchParams?.get('code')
+  const href = useLocalizedHref()
 
   const [data, setData] = useState<WaitlistData | null>(null)
   const [loading, setLoading] = useState(true)
@@ -81,7 +83,7 @@ export default function WaitlistSuccess() {
           <div className="text-center max-w-sm">
             <p className="text-[17px] font-semibold text-[#0B1F3B]">Something went wrong.</p>
             <p className="mt-2 text-[15px] text-[#64748B]">Your signup may not have saved. Try again from the home page.</p>
-            <a href="/" className="mt-6 inline-block text-[14px] font-semibold text-[#1D4ED8] hover:underline">
+            <a href={href('/')} className="mt-6 inline-block text-[14px] font-semibold text-[#1D4ED8] hover:underline">
               Back to home
             </a>
           </div>

@@ -11,7 +11,7 @@ export const translations = {
       joinWaitlist: 'Join the waitlist',
     },
     hero: {
-      badge: 'Built for moving companies',
+      badge: 'All-in-one software for Nordic moving companies',
       headline: 'Run your moving company',
       highlight: 'from one place',
       subheadline: 'Movena runs your quotes, schedule, and crew coordination. You run the jobs.',
@@ -306,7 +306,7 @@ export const translations = {
       joinWaitlist: 'Tilmeld venteliste',
     },
     hero: {
-      badge: 'Bygget til flyttefirmaer',
+      badge: 'Alt-i-ét software til nordiske flyttefirmaer',
       headline: 'Kør dit flyttefirma',
       highlight: 'fra ét sted',
       subheadline: 'Movena styrer dine tilbud, din kalender og holdkoordinering. Du styrer jobbene.',

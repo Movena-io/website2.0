@@ -4,7 +4,7 @@ import { useState, useRef, useEffect } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { ArrowRight, Loader2 } from 'lucide-react'
 import { cn } from '@/lib/utils'
-import { useLanguage } from '@/lib/LanguageContext'
+import { useLanguage, useLocalizedHref } from '@/lib/LanguageContext'
 
 type Step = 'email' | 'details' | 'submitting'
 
@@ -17,6 +17,7 @@ export default function WaitlistForm({ variant = 'hero' }: Props) {
   const searchParams = useSearchParams()
   const referredBy = searchParams?.get('ref') ?? undefined
   const { t } = useLanguage()
+  const localizedHref = useLocalizedHref()
 
   const [step, setStep] = useState<Step>('email')
   const [email, setEmail] = useState('')
@@ -68,7 +69,7 @@ export default function WaitlistForm({ variant = 'hero' }: Props) {
         return
       }
 
-      router.push(`/waitlist/success?code=${data.code}`)
+      router.push(`${localizedHref('/waitlist/success')}?code=${data.code}`)
     } catch {
       setStep('details')
       setError(t.waitlist.networkError)

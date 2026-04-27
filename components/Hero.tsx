@@ -87,7 +87,14 @@ function ProductMockup() {
   const jobsData    = [8,  11, 9,  13, 12, 15, 14, 17, 15, 19, 18, 21]
 
   return (
-    <div className="w-full select-none rounded-xl overflow-hidden shadow-2xl shadow-[#0B1F3B]/20">
+    <figure
+      className="w-full select-none rounded-xl overflow-hidden shadow-2xl shadow-[#0B1F3B]/20"
+      role="img"
+      aria-label="Movena dashboard preview showing today's three moving jobs, monthly revenue chart, and crew schedule"
+    >
+      <figcaption className="sr-only">
+        A preview of the Movena moving company software dashboard. The view shows the current day's jobs (Larsen Family at 08:00, Schmidt Transport at 12:00, Hansen Residence at 15:00), each with route, crew size, vehicle assignment, and live status. Two stat cards at the top track monthly revenue and total jobs with twelve-month sparklines.
+      </figcaption>
       <div className="flex">
 
         {/* Sidebar */}
@@ -163,7 +170,7 @@ function ProductMockup() {
 
         </div>
       </div>
-    </div>
+    </figure>
   )
 }
 
@@ -223,6 +230,10 @@ export default function Hero() {
               }}
               className="flex flex-col items-start gap-0"
             >
+              <p className="mb-4 inline-flex items-center rounded-full bg-[#1D4ED8]/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.08em] text-[#1D4ED8]">
+                {t.hero.badge}
+              </p>
+
               <h1 className="text-[32px] sm:text-[40px] lg:text-[46px] font-semibold leading-[1.1] tracking-[-0.03em] text-[#0B1F3B] w-full">
                 {t.hero.headline} <span className="text-[#1D4ED8]">{t.hero.highlight}</span>
               </h1>

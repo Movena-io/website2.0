@@ -4,7 +4,7 @@ import React from 'react'
 import Image from 'next/image'
 import { motion } from 'framer-motion'
 import { ChevronLeftIcon } from 'lucide-react'
-import { useLanguage } from '@/lib/LanguageContext'
+import { useLanguage, useLocalizedHref } from '@/lib/LanguageContext'
 
 function FloatingPaths({ position }: { position: number }) {
   const paths = Array.from({ length: 36 }, (_, i) => ({
@@ -50,6 +50,7 @@ function FloatingPaths({ position }: { position: number }) {
 
 export default function AuthPage() {
   const { t } = useLanguage()
+  const href = useLocalizedHref()
 
   return (
     <main className="relative min-h-screen flex items-center justify-center bg-white overflow-hidden">
@@ -62,7 +63,7 @@ export default function AuthPage() {
 
       {/* Back to home */}
       <a
-        href="/"
+        href={href('/')}
         className="absolute top-7 left-6 inline-flex items-center text-[14px] font-medium text-[#475569] hover:text-[#0F172A] transition-colors z-10"
       >
         <ChevronLeftIcon size={16} className="mr-1.5" />
@@ -89,7 +90,7 @@ export default function AuthPage() {
 
         {/* Back to home button */}
         <a
-          href="/"
+          href={href('/')}
           className="inline-flex items-center justify-center w-full h-11 rounded-lg bg-[#0B1F3B] hover:bg-[#1D4ED8] text-white text-[14px] font-semibold transition-colors"
         >
           {t.auth.backHome}

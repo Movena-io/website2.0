@@ -1,13 +1,25 @@
 import type { Metadata } from 'next'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
+import { isLocale } from '@/lib/locales'
 
-export const metadata: Metadata = {
-  title: 'Terms of Service — Movena',
-  description: 'The terms governing use of the Movena platform and waitlist. Operated by NewNorth I/S in Copenhagen, Denmark.',
-  alternates: {
-    canonical: '/terms',
-  },
+export async function generateMetadata({
+  params,
+}: {
+  params: { locale: string }
+}): Promise<Metadata> {
+  if (!isLocale(params.locale)) return {}
+  return {
+    title: 'Terms of Service: Movena',
+    description: 'The terms governing use of the Movena platform and waitlist. Operated by NewNorth I/S in Copenhagen, Denmark.',
+    alternates: {
+      canonical: '/en/terms',
+      languages: {
+        en: '/en/terms',
+        'x-default': '/en/terms',
+      },
+    },
+  }
 }
 
 export default function Terms() {
@@ -46,7 +58,7 @@ export default function Terms() {
             </Section>
 
             <Section title="5. Your data">
-              <p>You retain ownership of all data you enter into Movena (customer records, job details, etc.). We do not claim any rights to your data. See our <a href="/privacy" className="text-[#1D4ED8] hover:underline">Privacy Policy</a> for details on how we handle it.</p>
+              <p>You retain ownership of all data you enter into Movena (customer records, job details, etc.). We do not claim any rights to your data. See our <a href="/en/privacy" className="text-[#1D4ED8] hover:underline">Privacy Policy</a> for details on how we handle it.</p>
               <p>You are responsible for ensuring that the data you enter complies with applicable laws, including GDPR obligations toward your own customers.</p>
             </Section>
 

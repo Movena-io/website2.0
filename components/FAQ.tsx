@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { ChevronDown } from 'lucide-react'
-import { useLanguage } from '@/lib/LanguageContext'
+import { useLanguage, useLocalizedHref } from '@/lib/LanguageContext'
 
 function FAQItem({ question, answer, index }: { question: string; answer: string; index: number }) {
   const [open, setOpen] = useState(false)
@@ -38,6 +38,7 @@ function FAQItem({ question, answer, index }: { question: string; answer: string
 
 export default function FAQ() {
   const { t } = useLanguage()
+  const href = useLocalizedHref()
 
   const faqSchema = {
     '@context': 'https://schema.org',
@@ -70,7 +71,7 @@ export default function FAQ() {
               {t.faq.subheadline}
             </p>
             <a
-              href="/contact"
+              href={href('/contact')}
               className="inline-flex items-center mt-6 text-[14px] font-semibold text-[#1D4ED8] hover:text-[#1E40AF] transition-colors"
             >
               {t.faq.contactLink}

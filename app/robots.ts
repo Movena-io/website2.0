@@ -6,7 +6,7 @@ export default function robots(): MetadataRoute.Robots {
       {
         userAgent: '*',
         allow: '/',
-        disallow: ['/api/', '/auth/', '/waitlist/success'],
+        disallow: ['/api/', '/en/auth', '/da/auth', '/en/waitlist/success', '/da/waitlist/success'],
       },
     ],
     sitemap: 'https://movena.io/sitemap.xml',

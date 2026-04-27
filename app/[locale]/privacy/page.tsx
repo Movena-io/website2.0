@@ -1,13 +1,25 @@
 import type { Metadata } from 'next'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
+import { isLocale } from '@/lib/locales'
 
-export const metadata: Metadata = {
-  title: 'Privacy Policy — Movena',
-  description: 'How Movena collects, uses, and protects data for moving companies. GDPR-compliant and built on EU infrastructure.',
-  alternates: {
-    canonical: '/privacy',
-  },
+export async function generateMetadata({
+  params,
+}: {
+  params: { locale: string }
+}): Promise<Metadata> {
+  if (!isLocale(params.locale)) return {}
+  return {
+    title: 'Privacy Policy: Movena',
+    description: 'How Movena collects, uses, and protects data for moving companies. GDPR-compliant and built on EU infrastructure.',
+    alternates: {
+      canonical: '/en/privacy',
+      languages: {
+        en: '/en/privacy',
+        'x-default': '/en/privacy',
+      },
+    },
+  }
 }
 
 export default function PrivacyPolicy() {

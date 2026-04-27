@@ -2,23 +2,24 @@
 
 import { TYPEFORM_URL } from '@/lib/constants'
 import { trackWaitlistClick } from '@/lib/tracking'
-import { useLanguage } from '@/lib/LanguageContext'
+import { useLanguage, useLocalizedHref } from '@/lib/LanguageContext'
 
 export default function Footer() {
   const { t } = useLanguage()
+  const href = useLocalizedHref()
 
   const links = {
     [t.footer.product]: [
-      { label: t.footer.links.features, href: '/#features' },
-      { label: t.footer.links.howItWorks, href: '/#how-it-works' },
+      { label: t.footer.links.features, href: href('/#features') },
+      { label: t.footer.links.howItWorks, href: href('/#how-it-works') },
       { label: t.footer.links.joinWaitlist, href: TYPEFORM_URL, external: true },
     ],
     [t.footer.company]: [
-      { label: t.footer.links.contact, href: '/contact' },
+      { label: t.footer.links.contact, href: href('/contact') },
     ],
     [t.footer.legal]: [
-      { label: t.footer.links.privacy, href: '/privacy' },
-      { label: t.footer.links.terms, href: '/terms' },
+      { label: t.footer.links.privacy, href: '/en/privacy' },
+      { label: t.footer.links.terms, href: '/en/terms' },
     ],
   }
 

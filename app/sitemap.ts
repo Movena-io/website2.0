@@ -41,26 +41,22 @@ export default function sitemap(): MetadataRoute.Sitemap {
     }))
   })
 
+  // Each post exists in exactly one language (the locale set in its
+  // frontmatter), so we emit one canonical URL per post and skip hreflang
+  // alternates. This avoids the duplicate-content trap where Google sees the
+  // same post under both /en/blog/... and /da/blog/...
   const posts = getAllPosts()
-  const postUrls: MetadataRoute.Sitemap = posts.flatMap((post) => {
+  const postUrls: MetadataRoute.Sitemap = posts.map((post) => {
     const lastModified = (() => {
       const d = new Date(post.date)
       return Number.isNaN(d.getTime()) ? now : d
     })()
-    // Each post is generated under both /en and /da (same content unless a Danish post is added).
-    return LOCALES.map((locale) => ({
-      url: `${BASE}/${locale}/blog/${post.slug}`,
+    return {
+      url: `${BASE}/${post.locale}/blog/${post.slug}`,
       lastModified,
       changeFrequency: 'monthly' as const,
       priority: 0.6,
-      alternates: {
-        languages: {
-          en: `${BASE}/en/blog/${post.slug}`,
-          da: `${BASE}/da/blog/${post.slug}`,
-          'x-default': `${BASE}/en/blog/${post.slug}`,
-        },
-      },
-    }))
+    }
   })
 
   return [...staticUrls, ...postUrls]

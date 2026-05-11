@@ -11,10 +11,13 @@ import { LOCALES, isLocale, type Locale } from '@/lib/locales'
 const SITE = 'https://movena.io'
 
 export function generateStaticParams() {
-  const slugs = getAllSlugs()
-  return LOCALES.flatMap((locale) =>
-    slugs.map((slug) => ({ locale, slug })),
-  )
+  // Each post is generated under its own locale only. Requesting a Danish
+  // post at /en/blog/{slug} (or vice versa) returns 404, so Google only sees
+  // one canonical URL per post and we avoid duplicate-content issues.
+  return getAllPosts().map((post) => ({
+    locale: post.locale,
+    slug: post.slug,
+  }))
 }
 
 export async function generateMetadata({
@@ -24,9 +27,12 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   if (!isLocale(params.locale)) return {}
   const post = getPostBySlug(params.slug)
-  if (!post) return {}
+  if (!post || post.locale !== params.locale) return {}
 
-  const path = `/${params.locale}/blog/${post.slug}`
+  // A post exists in exactly one language. Canonical points to that locale,
+  // and we deliberately omit hreflang alternates because there is no
+  // translated counterpart (which would otherwise mislead Google).
+  const path = `/${post.locale}/blog/${post.slug}`
   const ogImage = post.image.startsWith('http') ? post.image : `${SITE}${post.image}`
 
   return {
@@ -34,11 +40,6 @@ export async function generateMetadata({
     description: post.metaDescription,
     alternates: {
       canonical: path,
-      languages: {
-        en: `/en/blog/${post.slug}`,
-        da: `/da/blog/${post.slug}`,
-        'x-default': `/en/blog/${post.slug}`,
-      },
     },
     openGraph: {
       title: post.metaTitle,
@@ -77,7 +78,7 @@ export default function BlogPost({
   if (!isLocale(params.locale)) notFound()
   const locale = params.locale as Locale
   const post = getPostBySlug(params.slug)
-  if (!post) notFound()
+  if (!post || post.locale !== locale) notFound()
   const t = translations[locale].blog
 
   // Author is Movena (the organization) -- we don't surface individual bylines.

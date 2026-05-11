@@ -1,0 +1,4 @@
+# Blog content uses YAML frontmatter delimited by `---`. Prettier rewrites
+# those to `***` and escapes square brackets in YAML lists, which breaks
+# gray-matter's frontmatter parser. Keep markdown blog content unformatted.
+content/blog/**/*.md

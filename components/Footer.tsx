@@ -15,6 +15,7 @@ export default function Footer() {
       { label: t.footer.links.joinWaitlist, href: TYPEFORM_URL, external: true },
     ],
     [t.footer.company]: [
+      { label: t.footer.links.blog, href: href('/blog') },
       { label: t.footer.links.contact, href: href('/contact') },
     ],
     [t.footer.legal]: [

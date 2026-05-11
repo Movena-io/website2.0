@@ -8,8 +8,8 @@ Short version for Villads. Detailed reference is in `content/blog/README.md`.
 
 ## Publish a new article in 5 steps
 
-1. **Copy** an existing post in `content/blog/` (e.g. `six-tools-one-job.md`) and rename it to your slug, e.g. `quoting-without-spreadsheets.md`. The filename becomes the URL.
-2. **Edit the frontmatter** at the top (title, date, excerpt, image, etc.). All fields documented in `content/blog/README.md`.
+1. **Create** a new file in `content/blog/`, named after your slug, e.g. `quoting-without-spreadsheets.md`. The filename becomes the URL.
+2. **Paste the template** from `content/blog/README.md` (Template section) and fill in the frontmatter (title, date, excerpt, image, etc.).
 3. **Add a cover image** to `public/blog/` (1600x900 JPG/PNG, under 300KB). Reference it as `/blog/your-image.jpg` in the frontmatter.
 4. **Write the body** in markdown below the closing `---`. Headings, lists, links, blockquotes all work.
 5. **Commit and push** to `main`. Vercel deploys, sitemap regenerates automatically.

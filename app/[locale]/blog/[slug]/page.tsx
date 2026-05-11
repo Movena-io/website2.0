@@ -47,7 +47,6 @@ export async function generateMetadata({
       siteName: 'Movena',
       type: 'article',
       publishedTime: post.date,
-      authors: [post.author],
       tags: post.tags,
       images: [{ url: ogImage, width: 1200, height: 627, alt: post.imageAlt }],
     },
@@ -81,6 +80,9 @@ export default function BlogPost({
   if (!post) notFound()
   const t = translations[locale].blog
 
+  // Author is Movena (the organization) -- we don't surface individual bylines.
+  // Schema.org Article accepts Organization as @type for author; this satisfies
+  // Google's structured-data requirement for an attributed author.
   const articleSchema = {
     '@context': 'https://schema.org',
     '@type': 'Article',
@@ -90,8 +92,9 @@ export default function BlogPost({
     datePublished: post.date,
     dateModified: post.date,
     author: {
-      '@type': 'Person',
-      name: post.author,
+      '@type': 'Organization',
+      name: 'Movena',
+      url: SITE,
     },
     publisher: {
       '@type': 'Organization',
@@ -172,9 +175,6 @@ export default function BlogPost({
                 {post.excerpt}
               </p>
             )}
-            <div className="mt-6 flex items-center gap-2 text-[13px] text-[#94A3B8]">
-              <span className="text-[#475569] font-medium">{post.author}</span>
-            </div>
           </header>
 
           {post.image && (

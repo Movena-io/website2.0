@@ -122,8 +122,7 @@ export default function BlogIndex({ params }: { params: { locale: string } }) {
                     <p className="text-[14px] text-[#475569] leading-[1.6] mb-5 line-clamp-3">
                       {post.excerpt}
                     </p>
-                    <div className="mt-auto flex items-center justify-between text-[12px] text-[#94A3B8]">
-                      <span>{post.author}</span>
+                    <div className="mt-auto flex items-center justify-end text-[12px] text-[#94A3B8]">
                       <span>
                         {post.readingMinutes} {t.readingTime}
                       </span>

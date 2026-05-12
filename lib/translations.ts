@@ -48,9 +48,9 @@ export const translations = {
     },
     consolidation: {
       label: 'Your current setup',
-      headline: 'Six tools.',
+      headline: 'Multiple tools.',
       highlight: 'Nothing talks.',
-      subheadline: 'Moving companies stitch together WhatsApp, e-conomic, spreadsheets, and a shared calendar. And still drop the ball.',
+      subheadline: 'Moving companies stitch together WhatsApp, spreadsheets, a shared calendar, and a stack of other apps. And still drop the ball.',
       connector: 'All of it, replaced by one',
       subscription: 'One subscription. No duct tape.',
       features: [
@@ -69,7 +69,7 @@ export const translations = {
       highlight: 'every job',
       headlineEnd: ', from the first inquiry to the final follow-up.',
       subheadline: 'Fifteen built-in modules, one workspace. No more switching between WhatsApp, a spreadsheet, and a calendar invite to run a single job.',
-      andMore: 'Also includes tasks, reports, audit log, email delivery, team management, and integrations with MobilePay, Stripe, e-conomic, Google Calendar, and Twilio.',
+      andMore: 'Also includes tasks, reports, audit log, email delivery, and team management.',
       tabs: [
         {
           label: 'Dashboard',
@@ -189,19 +189,19 @@ export const translations = {
       includedTitle: 'Included in every account',
       included: [
         'White-label quote form embed',
-        'MobilePay, Stripe, e-conomic, Google Calendar, Twilio',
+        'All 15 modules unlocked',
         'EU-hosted data, GDPR-compliant by default',
         'Direct support from the founders',
       ],
     },
     howItWorks: {
       label: 'How it works',
-      headline: 'Set up between two jobs',
-      subheadline: 'No long setup, no training sessions. If you get stuck, one of the founders will walk you through it.',
+      headline: 'Up and running in a day',
+      subheadline: 'Setup takes about a day. We help you through it for free, so the move from your current tools is as smooth as possible.',
       steps: [
         {
           title: 'Set up your company',
-          description: 'Add your services, pricing rules, and team. Takes about 15 minutes.',
+          description: 'Add your services, pricing rules, and team. We help you through this part for free.',
         },
         {
           title: 'Send your first quote',
@@ -229,11 +229,7 @@ export const translations = {
         },
         {
           question: 'How long does getting set up take?',
-          answer: 'About 15 minutes. You add your services, pricing rules, and team. If you get stuck, one of the founders will walk you through it.',
-        },
-        {
-          question: 'What integrations do you support?',
-          answer: 'MobilePay, Stripe, and e-conomic for payments and accounting. Google Calendar for scheduling. Twilio for SMS. Penneo is on the roadmap for digital signing. Your data is stored in Europe.',
+          answer: 'About a day. You add your services, pricing rules, and team. We help you through it for free so the move from your current tools is as smooth as possible.',
         },
         {
           question: 'Is my data secure?',
@@ -408,9 +404,9 @@ export const translations = {
     },
     consolidation: {
       label: 'Dit nuværende setup',
-      headline: 'Seks værktøjer.',
+      headline: 'Flere værktøjer.',
       highlight: 'Intet hænger sammen.',
-      subheadline: 'Flyttefirmaer syr WhatsApp, e-conomic, regneark og en delt kalender sammen. Og slipper stadig bolden.',
+      subheadline: 'Flyttefirmaer syr WhatsApp, regneark, en delt kalender og en stak andre apps sammen. Og slipper stadig bolden.',
       connector: 'Alt det, erstattet af ét',
       subscription: 'Ét abonnement. Ingen tape.',
       features: [
@@ -429,7 +425,7 @@ export const translations = {
       highlight: 'hvert job',
       headlineEnd: ', fra første henvendelse til sidste opfølgning.',
       subheadline: 'Femten indbyggede moduler, ét arbejdsområde. Ikke mere skift mellem WhatsApp, et regneark og en kalenderinvitation for at køre et enkelt job.',
-      andMore: 'Indeholder også opgaver, rapporter, revisionsspor, e-mail-levering, holdadministration og integrationer med MobilePay, Stripe, e-conomic, Google Kalender og Twilio.',
+      andMore: 'Indeholder også opgaver, rapporter, revisionsspor, e-mail-levering og holdadministration.',
       tabs: [
         {
           label: 'Dashboard',
@@ -549,19 +545,19 @@ export const translations = {
       includedTitle: 'Inkluderet på alle konti',
       included: [
         'White-label tilbudsformular til indbygning',
-        'MobilePay, Stripe, e-conomic, Google Kalender, Twilio',
+        'Alle 15 moduler åbnet',
         'EU-hosted data, GDPR-kompatibel som standard',
         'Direkte support fra stifterne',
       ],
     },
     howItWorks: {
       label: 'Sådan virker det',
-      headline: 'Sat op mellem to jobs',
-      subheadline: 'Ingen lang opsætning, ingen træningssessioner. Sidder du fast, guider en af stifterne dig igennem.',
+      headline: 'Oppe at køre på en dag',
+      subheadline: 'Opsætningen tager ca. en dag. Vi hjælper dig gennem den gratis, så skiftet fra dine nuværende værktøjer bliver så glat som muligt.',
       steps: [
         {
           title: 'Opsæt dit firma',
-          description: 'Tilføj dine ydelser, prisregler og hold. Tager ca. 15 minutter.',
+          description: 'Tilføj dine ydelser, prisregler og hold. Vi hjælper dig gennem den del gratis.',
         },
         {
           title: 'Send dit første tilbud',
@@ -589,11 +585,7 @@ export const translations = {
         },
         {
           question: 'Hvor lang tid tager opsætningen?',
-          answer: 'Cirka 15 minutter. Du tilføjer dine ydelser, prisregler og hold. Sidder du fast, guider en af stifterne dig igennem.',
-        },
-        {
-          question: 'Hvilke integrationer understøtter I?',
-          answer: 'MobilePay, Stripe og e-conomic til betaling og bogføring. Google Kalender til planlægning. Twilio til SMS. Penneo er på roadmappet til digital underskrift. Dine data gemmes i Europa.',
+          answer: 'Cirka en dag. Du tilføjer dine ydelser, prisregler og hold. Vi hjælper dig gennem det gratis, så skiftet fra dine nuværende værktøjer bliver så glat som muligt.',
         },
         {
           question: 'Er mine data sikre?',

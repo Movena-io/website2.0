@@ -4,13 +4,13 @@ import * as TabsPrimitive from '@radix-ui/react-tabs'
 import { useLanguage } from '@/lib/LanguageContext'
 import {
   CalendarDays,
-  Users,
+  Briefcase,
   CheckCircle,
   FileText,
   LayoutDashboard,
   Wand2,
   Package,
-  Mail,
+  Zap,
 } from 'lucide-react'
 import { useState } from 'react'
 
@@ -24,10 +24,15 @@ function Card({ children }: { children: React.ReactNode }) {
   )
 }
 
-function PageHeader({ title, action }: { title: string; action?: React.ReactNode }) {
+function PageHeader({ title, action, subtitle }: { title: string; action?: React.ReactNode; subtitle?: string }) {
   return (
     <div className="flex items-center justify-between px-5 pt-4 pb-3 border-b border-gray-100">
-      <p className="text-[13px] font-semibold text-slate-900">{title}</p>
+      <div className="min-w-0">
+        <p className="text-[13px] font-semibold text-slate-900">{title}</p>
+        {subtitle && (
+          <p className="text-[10px] mt-0.5" style={{ color: '#6E6E73' }}>{subtitle}</p>
+        )}
+      </div>
       {action}
     </div>
   )
@@ -37,44 +42,63 @@ function FilterChips({ items }: { items: string[] }) {
   return (
     <div className="flex items-center gap-1 px-5 py-2 border-b border-gray-100">
       {items.map((f, i) => (
-        <span key={f} className={`text-[9px] font-semibold px-2.5 py-1 rounded-lg ${i === 0 ? 'bg-slate-900 text-white' : 'text-slate-500'}`}>{f}</span>
+        <span
+          key={f}
+          className={`text-[9px] font-semibold px-2.5 py-1 rounded-lg ${
+            i === 0 ? 'bg-slate-900 text-white' : 'text-slate-500'
+          }`}
+        >
+          {f}
+        </span>
       ))}
     </div>
   )
 }
 
-// ─── Dashboard mockup ─────────────────────────────────────────────────────────
+// ─── 0. Dashboard mockup ──────────────────────────────────────────────────────
+//
+// Mirrors the real /index dashboard: greeting · KPI row · today's jobs
+// timeline · alerts & deadlines.
 
 function DashboardMockup() {
   const jobs = [
-    { time: '08:00', title: 'Larsen Family',     route: 'Westside → Northgate',  status: 'Active',    active: true  },
-    { time: '12:00', title: 'Schmidt Transport', route: 'Valby → Taastrup',      status: 'Scheduled', active: false },
-    { time: '15:00', title: 'Hansen Residence',  route: 'Roskilde → Høje-T.',    status: 'Scheduled', active: false },
+    { time: '08:00', title: 'Larsen Family',     route: 'Vesterbro → Nørrebro',  crew: '3 crew · DUH 12 345',  status: 'In progress', sc: 'bg-green-50 text-green-700', active: true  },
+    { time: '12:00', title: 'Schmidt Transport', route: 'Valby → Taastrup',      crew: '4 crew · DUH 33 211',  status: 'Scheduled',   sc: 'bg-blue-50 text-blue-700',   active: false },
+    { time: '15:00', title: 'Hansen Residence',  route: 'Roskilde → Høje-T.',    crew: '2 crew · DUH 09 102',  status: 'Scheduled',   sc: 'bg-blue-50 text-blue-700',   active: false },
+  ]
+  const alerts = [
+    { text: 'Q-1042 sent 8 days ago, no reply' },
+    { text: 'Berg Office cold for 14 days' },
   ]
   return (
     <Card>
       <div className="flex items-center justify-between px-5 pt-4 pb-3 border-b border-gray-100">
-        <p className="text-[13px] font-semibold text-slate-900">Good morning, Samuel</p>
-        <span className="text-[10px]" style={{ color: '#6E6E73' }}>Today</span>
+        <div>
+          <p className="text-[13px] font-semibold text-slate-900">Good morning, Samuel</p>
+          <p className="text-[10px] mt-0.5" style={{ color: '#6E6E73' }}>Tuesday · 3 jobs today</p>
+        </div>
+        <span className="text-[10px]" style={{ color: '#6E6E73' }}>09:24</span>
       </div>
-      {/* Metrics */}
+
+      {/* KPI row */}
       <div className="grid grid-cols-4 gap-1.5 px-4 py-3 border-b border-gray-100">
         {[
-          { label: 'Active leads',   value: '12', sub: 'in pipeline', color: undefined    },
-          { label: 'Jobs today',     value: '3',  sub: '1 active',    color: '#2563EB'    },
-          { label: 'Jobs this week', value: '11', sub: 'scheduled',   color: undefined    },
-          { label: 'Quotes pending', value: '5',  sub: 'unanswered',  color: '#FF9500'    },
+          { label: 'Pipeline',       value: '12',   sub: 'open leads', color: undefined },
+          { label: 'Quotes',         value: '5',    sub: 'awaiting',   color: '#FF9500' },
+          { label: 'Jobs this week', value: '11',   sub: 'scheduled',  color: undefined },
+          { label: 'Revenue · MTD',  value: '142k', sub: 'kr',         color: '#1D4ED8' },
         ].map(c => (
           <div key={c.label} className="rounded-lg bg-gray-50 px-2 py-1.5">
             <p className="text-[7px] font-medium uppercase tracking-wide leading-tight" style={{ color: '#AEAEB2' }}>{c.label}</p>
-            <p className="text-[16px] font-semibold leading-none mt-1" style={{ color: c.color ?? '#1D1D1F' }}>{c.value}</p>
+            <p className="text-[15px] font-semibold leading-none mt-1" style={{ color: c.color ?? '#1D1D1F' }}>{c.value}</p>
             <p className="text-[7px] mt-0.5" style={{ color: '#AEAEB2' }}>{c.sub}</p>
           </div>
         ))}
       </div>
-      {/* Today */}
-      <div className="px-5 py-3">
-        <p className="text-[10px] font-semibold mb-2" style={{ color: '#1D1D1F' }}>Today</p>
+
+      {/* Today's jobs */}
+      <div className="px-5 py-3 border-b border-gray-100">
+        <p className="text-[10px] font-semibold mb-2" style={{ color: '#1D1D1F' }}>Today&apos;s jobs</p>
         {jobs.map((job, idx) => (
           <div key={job.title} className="flex gap-2.5 mb-2 last:mb-0">
             <div className="w-8 shrink-0 pt-0.5 text-right">
@@ -89,142 +113,23 @@ function DashboardMockup() {
                 <div className="min-w-0">
                   <p className="text-[9px] font-medium truncate" style={{ color: '#1D1D1F' }}>{job.title}</p>
                   <p className="text-[8px] truncate" style={{ color: '#6E6E73' }}>{job.route}</p>
+                  <p className="text-[7px] truncate" style={{ color: '#AEAEB2' }}>{job.crew}</p>
                 </div>
-                <span className={`shrink-0 rounded-full px-1.5 py-0.5 text-[7px] font-medium ${job.active ? 'bg-green-50 text-green-700' : 'bg-blue-50 text-blue-700'}`}>{job.status}</span>
+                <span className={`shrink-0 rounded-full px-1.5 py-0.5 text-[7px] font-medium ${job.sc}`}>{job.status}</span>
               </div>
             </div>
           </div>
         ))}
       </div>
-    </Card>
-  )
-}
 
-// ─── Quotes mockup ─────────────────────────────────────────────────────────────
-
-function QuotesMockup() {
-  const rows = [
-    { name: 'Larsen Family',     sub: 'lars@gmail.com',    route: 'Westside → Northgate', price: '€1,100',  sc: 'bg-orange-50 text-orange-700', status: 'Pending'  },
-    { name: 'Schmidt Transport', sub: 'info@schmidt.dk',   route: 'Valby → Taastrup',     price: '€1,940',  sc: 'bg-blue-50 text-blue-700',     status: 'Draft'    },
-    { name: 'Hansen Residence',  sub: 'h.bolig@mail.dk',   route: 'Roskilde → Høje-T.',   price: '€905',    sc: 'bg-green-50 text-green-700',   status: 'Accepted' },
-    { name: 'Nielsen Business',  sub: 'n.erhverv@mail.dk', route: 'Aarhus → Copenhagen',  price: '€1,650',  sc: 'bg-orange-50 text-orange-700', status: 'Pending'  },
-  ]
-  return (
-    <Card>
-      <PageHeader
-        title="Quotes"
-        action={
-          <button className="rounded-lg bg-blue-600 px-3 py-1.5 text-[10px] font-semibold text-white">
-            + New quote
-          </button>
-        }
-      />
-      <div className="grid grid-cols-[1fr_70px_72px] items-center gap-x-3 border-b border-gray-100 px-5 py-2">
-        {['Customer', 'Price', 'Status'].map(h => (
-          <span key={h} className="text-[8px] font-semibold uppercase tracking-wider" style={{ color: '#AEAEB2' }}>{h}</span>
-        ))}
-      </div>
-      {rows.map(row => (
-        <div key={row.name} className="grid grid-cols-[1fr_70px_72px] items-center gap-x-3 border-b border-gray-100 last:border-0 px-5 py-2.5 hover:bg-slate-50">
-          <div className="min-w-0">
-            <p className="truncate text-[11px] font-medium text-slate-900">{row.name}</p>
-            <p className="truncate text-[9px]" style={{ color: '#6E6E73' }}>{row.route}</p>
-          </div>
-          <span className="text-[10px] font-semibold tabular-nums text-slate-800">{row.price}</span>
-          <span className={`w-fit rounded-full px-2 py-0.5 text-[9px] font-medium whitespace-nowrap ${row.sc}`}>{row.status}</span>
-        </div>
-      ))}
-    </Card>
-  )
-}
-
-// ─── Quote form mockup ────────────────────────────────────────────────────────
-
-function QuoteFormMockup() {
-  const steps = ['From / To', 'Date & Time', 'Inventory', 'Contact']
-  return (
-    <Card>
-      <PageHeader
-        title="Quote Form"
-        action={
-          <span className="rounded-full border border-blue-200 bg-blue-50 px-2.5 py-0.5 text-[9px] font-semibold text-blue-700">Customized</span>
-        }
-      />
-      {/* Step indicator */}
-      <div className="flex items-center px-5 py-3 border-b border-gray-100">
-        {steps.map((step, i) => (
-          <div key={step} className="flex items-center">
-            <div className={`flex items-center gap-1.5 rounded-lg px-2 py-1 ${i === 0 ? 'bg-[#2563EB]' : ''}`}>
-              <span className={`flex h-4 w-4 shrink-0 items-center justify-center rounded-full text-[8px] font-bold ${i === 0 ? 'bg-white text-[#2563EB]' : 'bg-gray-100 text-slate-500'}`}>{i + 1}</span>
-              <span className={`text-[9px] font-medium ${i === 0 ? 'text-white' : 'text-slate-400'}`}>{step}</span>
-            </div>
-            {i < steps.length - 1 && <span className="px-1 text-[11px] text-slate-300">›</span>}
-          </div>
-        ))}
-      </div>
-      {/* Form fields */}
-      <div className="px-5 py-4 space-y-3">
-        <div>
-          <label className="block text-[9px] font-semibold uppercase tracking-wide mb-1" style={{ color: '#AEAEB2' }}>From address</label>
-          <div className="rounded-lg border border-gray-200 px-3 py-2 bg-gray-50">
-            <span className="text-[10px]" style={{ color: '#6E6E73' }}>14 Elm Street, Westside</span>
-          </div>
-        </div>
-        <div>
-          <label className="block text-[9px] font-semibold uppercase tracking-wide mb-1" style={{ color: '#AEAEB2' }}>To address</label>
-          <div className="rounded-lg border border-gray-200 px-3 py-2">
-            <span className="text-[10px] text-gray-300">45 Oak Avenue, Northgate...</span>
-          </div>
-        </div>
-        <div className="flex justify-end">
-          <button className="rounded-lg bg-[#2563EB] px-4 py-1.5 text-[10px] font-semibold text-white">
-            Next →
-          </button>
-        </div>
-      </div>
-      {/* Branding footer */}
-      <div className="border-t border-gray-100 px-5 py-2 flex items-center justify-between">
-        <div className="flex items-center gap-1.5">
-          <div className="h-3 w-3 rounded-full bg-[#2563EB]" />
-          <span className="text-[9px] font-medium text-slate-600">#2563EB</span>
-          <span className="text-[9px]" style={{ color: '#AEAEB2' }}>· Custom color</span>
-        </div>
-        <span className="text-[9px]" style={{ color: '#6E6E73' }}>Hansen Moving Co.</span>
-      </div>
-    </Card>
-  )
-}
-
-// ─── Calendar mockup ───────────────────────────────────────────────────────────
-
-function CalendarMockup() {
-  const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri']
-  const jobs = [
-    { day: 0, title: 'Larsen Family',   time: '08:00', color: 'bg-blue-50 border-blue-200 text-blue-800'       },
-    { day: 0, title: 'Thomsen Private', time: '13:00', color: 'bg-blue-50 border-blue-200 text-blue-800'       },
-    { day: 1, title: 'Hansen Ltd.',     time: '07:00', color: 'bg-green-50 border-green-200 text-green-800'    },
-    { day: 2, title: 'Magnusson',       time: '09:00', color: 'bg-orange-50 border-orange-200 text-orange-800' },
-    { day: 2, title: 'Berg Office',     time: '14:00', color: 'bg-purple-50 border-purple-200 text-purple-800' },
-    { day: 3, title: 'Schmidt Trans.',  time: '08:30', color: 'bg-blue-50 border-blue-200 text-blue-800'       },
-    { day: 4, title: 'Nielsen Move.',   time: '10:00', color: 'bg-green-50 border-green-200 text-green-800'    },
-  ]
-  return (
-    <Card>
-      <div className="flex items-center justify-between px-5 pt-4 pb-3 border-b border-gray-100">
-        <p className="text-[13px] font-semibold text-slate-900">Calendar — Week 15</p>
-        <span className="text-[10px]" style={{ color: '#6E6E73' }}>7 jobs</span>
-      </div>
-      <div className="p-4">
-        <div className="grid grid-cols-5 gap-2">
-          {days.map((day, i) => (
-            <div key={day} className="flex flex-col gap-1.5">
-              <p className="text-center text-[10px] font-semibold mb-0.5" style={{ color: '#AEAEB2' }}>{day}</p>
-              {jobs.filter(j => j.day === i).map(job => (
-                <div key={job.title + job.time} className={`rounded-lg border px-2 py-1.5 ${job.color}`}>
-                  <p className="text-[9px] font-semibold leading-tight truncate">{job.title}</p>
-                  <p className="text-[8px] opacity-70 mt-0.5">{job.time}</p>
-                </div>
-              ))}
+      {/* Alerts */}
+      <div className="px-5 py-3">
+        <p className="text-[10px] font-semibold mb-2" style={{ color: '#1D1D1F' }}>Alerts &amp; deadlines</p>
+        <div className="flex flex-col gap-1.5">
+          {alerts.map(a => (
+            <div key={a.text} className="flex items-start gap-2 rounded-lg bg-orange-50 border border-orange-100 px-2.5 py-1.5">
+              <div className="mt-1 h-1.5 w-1.5 rounded-full bg-orange-500 shrink-0" />
+              <p className="text-[9px] font-medium text-orange-900">{a.text}</p>
             </div>
           ))}
         </div>
@@ -233,75 +138,340 @@ function CalendarMockup() {
   )
 }
 
-// ─── CRM mockup ────────────────────────────────────────────────────────────────
+// ─── 1. Quoting mockup ────────────────────────────────────────────────────────
+//
+// Mirrors /quotes: status KPIs (Draft / Sent / Accepted / Rejected /
+// Expired) and a list of recent quotes with the three pricing engines.
 
-function CrmMockup() {
-  const leads = [
-    { name: 'Larsen Family',     route: 'Westside → Northgate', date: 'Apr 14', price: '€1,100', status: 'New',         sc: 'bg-blue-50 text-blue-700'     },
-    { name: 'Schmidt Transport', route: 'Valby → Taastrup',     date: 'Apr 16', price: '€1,940', status: 'Quote sent',  sc: 'bg-orange-50 text-orange-700' },
-    { name: 'Hansen Residence',  route: 'Roskilde → Høje-T.',   date: 'Apr 18', price: '€905',   status: 'Scheduled',  sc: 'bg-purple-50 text-purple-700' },
-    { name: 'Nielsen Business',  route: 'Aarhus → Copenhagen',  date: 'Apr 22', price: '€1,650', status: 'Accepted',   sc: 'bg-green-50 text-green-700'   },
+function QuotingMockup() {
+  const rows = [
+    { id: 'Q-1046', name: 'Larsen Family',     route: 'Vesterbro → Nørrebro', engine: 'm²',     total: '14.800 kr', status: 'Sent',     sc: 'bg-blue-50 text-blue-700'    },
+    { id: 'Q-1045', name: 'Schmidt Transport', route: 'Valby → Taastrup',     engine: 'Hourly', total: '9.940 kr',  status: 'Accepted', sc: 'bg-green-50 text-green-700'  },
+    { id: 'Q-1044', name: 'Hansen Residence',  route: 'Roskilde → Høje-T.',   engine: 'Manual', total: '6.500 kr',  status: 'Draft',    sc: 'bg-gray-100 text-gray-600'   },
+    { id: 'Q-1043', name: 'Nielsen Business',  route: 'Aarhus → Copenhagen',  engine: 'm²',     total: '22.100 kr', status: 'Sent',     sc: 'bg-blue-50 text-blue-700'    },
   ]
   return (
     <Card>
-      <div className="flex items-center px-5 pt-4 pb-3 border-b border-gray-100">
-        <p className="text-[13px] font-semibold text-slate-900">Leads</p>
-        <span className="ml-auto text-[10px]" style={{ color: '#6E6E73' }}>24 this month</span>
+      <PageHeader
+        title="Quotes"
+        subtitle="42 quotes · 18 accepted this month"
+        action={
+          <button className="rounded-lg bg-blue-600 px-3 py-1.5 text-[10px] font-semibold text-white">
+            + New quote
+          </button>
+        }
+      />
+
+      {/* Status KPIs */}
+      <div className="grid grid-cols-5 gap-1 px-4 py-2.5 border-b border-gray-100">
+        {[
+          { label: 'Draft',    value: '3'  },
+          { label: 'Sent',     value: '12' },
+          { label: 'Accepted', value: '18' },
+          { label: 'Rejected', value: '4'  },
+          { label: 'Expired',  value: '5'  },
+        ].map(k => (
+          <div key={k.label} className="text-center">
+            <p className="text-[7px] font-medium uppercase tracking-wide" style={{ color: '#AEAEB2' }}>{k.label}</p>
+            <p className="text-[12px] font-semibold mt-0.5" style={{ color: '#1D1D1F' }}>{k.value}</p>
+          </div>
+        ))}
       </div>
-      <FilterChips items={['All', 'New', 'Quote sent', 'Scheduled']} />
-      <div className="grid grid-cols-[1fr_70px_72px] gap-x-3 items-center px-5 py-2 border-b border-gray-100">
-        {['Lead', 'Price', 'Status'].map(h => (
+
+      <div className="grid grid-cols-[36px_1fr_56px_62px_62px] items-center gap-x-2 border-b border-gray-100 px-5 py-2">
+        {['No.', 'Customer', 'Engine', 'Total', 'Status'].map(h => (
           <span key={h} className="text-[8px] font-semibold uppercase tracking-wider" style={{ color: '#AEAEB2' }}>{h}</span>
         ))}
       </div>
-      {leads.map(({ name, route, date, price, status, sc }) => (
-        <div key={name} className="grid grid-cols-[1fr_70px_72px] gap-x-3 items-center px-5 py-2.5 border-b border-gray-100 last:border-0 hover:bg-slate-50">
+      {rows.map(row => (
+        <div key={row.id} className="grid grid-cols-[36px_1fr_56px_62px_62px] items-center gap-x-2 border-b border-gray-100 last:border-0 px-5 py-2 hover:bg-slate-50">
+          <span className="text-[9px] font-mono tabular-nums" style={{ color: '#6E6E73' }}>{row.id}</span>
           <div className="min-w-0">
-            <p className="truncate text-[11px] font-medium text-slate-900">{name}</p>
-            <p className="truncate text-[9px]" style={{ color: '#6E6E73' }}>{route}</p>
+            <p className="truncate text-[11px] font-medium text-slate-900">{row.name}</p>
+            <p className="truncate text-[9px]" style={{ color: '#6E6E73' }}>{row.route}</p>
           </div>
-          <span className="text-[10px] font-semibold tabular-nums text-slate-800">{price}</span>
-          <span className={`w-fit rounded-full px-2 py-0.5 text-[9px] font-medium whitespace-nowrap ${sc}`}>{status}</span>
+          <span className="text-[9px] font-medium" style={{ color: '#475569' }}>{row.engine}</span>
+          <span className="text-[10px] font-semibold tabular-nums text-slate-800">{row.total}</span>
+          <span className={`w-fit rounded-full px-2 py-0.5 text-[9px] font-medium whitespace-nowrap ${row.sc}`}>{row.status}</span>
         </div>
       ))}
     </Card>
   )
 }
 
-// ─── Storage mockup ────────────────────────────────────────────────────────────
+// ─── 2. Quote form mockup ─────────────────────────────────────────────────────
+//
+// Mirrors the public /tilbud/<slug> form: branded header, private/business
+// tabs, step indicator, addresses + distance + floor fields.
 
-function StorageMockup() {
+function QuoteFormMockup() {
+  const steps = ['Addresses', 'Date', 'Inventory', 'Estimate', 'Contact']
+  return (
+    <Card>
+      {/* Branded header band */}
+      <div className="px-5 pt-4 pb-3 border-b border-gray-100 bg-gradient-to-r from-[#1D4ED8] to-[#2563EB]">
+        <div className="flex items-center justify-between">
+          <p className="text-[12px] font-semibold text-white">Hansen Moving · Get a quote</p>
+          <span className="rounded-full bg-white/20 border border-white/30 px-2 py-0.5 text-[8px] font-semibold text-white">
+            Embedded
+          </span>
+        </div>
+      </div>
+
+      {/* Private / Business tabs */}
+      <div className="flex items-center gap-1 px-5 py-2 border-b border-gray-100 bg-gray-50">
+        <span className="text-[9px] font-semibold px-2.5 py-1 rounded-lg bg-white text-slate-900 border border-slate-200">Private</span>
+        <span className="text-[9px] font-semibold px-2.5 py-1 rounded-lg text-slate-500">Business</span>
+      </div>
+
+      {/* Step indicator */}
+      <div className="flex items-center px-5 py-3 border-b border-gray-100">
+        {steps.map((step, i) => (
+          <div key={step} className="flex items-center">
+            <div className={`flex items-center gap-1.5 rounded-lg px-2 py-1 ${i === 0 ? 'bg-[#1D4ED8]' : ''}`}>
+              <span className={`flex h-4 w-4 shrink-0 items-center justify-center rounded-full text-[8px] font-bold ${i === 0 ? 'bg-white text-[#1D4ED8]' : 'bg-gray-100 text-slate-500'}`}>{i + 1}</span>
+              <span className={`text-[9px] font-medium ${i === 0 ? 'text-white' : 'text-slate-400'}`}>{step}</span>
+            </div>
+            {i < steps.length - 1 && <span className="px-0.5 text-[11px] text-slate-300">›</span>}
+          </div>
+        ))}
+      </div>
+
+      {/* Form body */}
+      <div className="px-5 py-4 space-y-3">
+        <div>
+          <label className="block text-[9px] font-semibold uppercase tracking-wide mb-1" style={{ color: '#AEAEB2' }}>From address</label>
+          <div className="rounded-lg border border-gray-200 px-3 py-2 bg-gray-50">
+            <span className="text-[10px]" style={{ color: '#1D1D1F' }}>Vesterbrogade 14, 1620 København V</span>
+          </div>
+        </div>
+        <div>
+          <label className="block text-[9px] font-semibold uppercase tracking-wide mb-1" style={{ color: '#AEAEB2' }}>To address</label>
+          <div className="rounded-lg border border-gray-200 px-3 py-2">
+            <span className="text-[10px] text-gray-300">Street, number, postal code...</span>
+          </div>
+        </div>
+        <div className="grid grid-cols-2 gap-2">
+          <div>
+            <label className="block text-[9px] font-semibold uppercase tracking-wide mb-1" style={{ color: '#AEAEB2' }}>Distance</label>
+            <div className="rounded-lg border border-gray-200 px-3 py-2 bg-gray-50">
+              <span className="text-[10px]" style={{ color: '#475569' }}>3.4 km · auto</span>
+            </div>
+          </div>
+          <div>
+            <label className="block text-[9px] font-semibold uppercase tracking-wide mb-1" style={{ color: '#AEAEB2' }}>Floor</label>
+            <div className="rounded-lg border border-gray-200 px-3 py-2 bg-gray-50">
+              <span className="text-[10px]" style={{ color: '#475569' }}>3 · with lift</span>
+            </div>
+          </div>
+        </div>
+        <div className="flex justify-end pt-1">
+          <button className="rounded-lg bg-[#1D4ED8] px-4 py-1.5 text-[10px] font-semibold text-white">
+            Continue →
+          </button>
+        </div>
+      </div>
+    </Card>
+  )
+}
+
+// ─── 3. Leads & jobs mockup ───────────────────────────────────────────────────
+//
+// Mirrors /leads kanban: stage columns with cards showing move-specific
+// metadata (route, m², date, value).
+
+function LeadsJobsMockup() {
+  const cols = [
+    {
+      stage: 'New',
+      count: 5,
+      tone: 'bg-blue-50 text-blue-700',
+      cards: [
+        { name: 'Larsen Family',    sub: 'Vesterbro → Nørrebro',     meta: '85 m² · Apr 28',  value: '14.800 kr' },
+        { name: 'Magnusson AB',     sub: 'Aarhus → Copenhagen',      meta: '60 m² · May 02',  value: '12.200 kr' },
+      ],
+    },
+    {
+      stage: 'Quote sent',
+      count: 4,
+      tone: 'bg-orange-50 text-orange-700',
+      cards: [
+        { name: 'Schmidt Transport', sub: 'Valby → Taastrup',        meta: '120 m² · Apr 30', value: '22.100 kr' },
+        { name: 'Berg Office',       sub: 'Frederiksberg → Hørsholm', meta: '210 m² · May 06', value: '38.400 kr' },
+      ],
+    },
+    {
+      stage: 'Won',
+      count: 6,
+      tone: 'bg-green-50 text-green-700',
+      cards: [
+        { name: 'Hansen Residence',  sub: 'Roskilde → Høje-T.',      meta: '70 m² · May 04',  value: '9.940 kr' },
+      ],
+    },
+  ]
+  return (
+    <Card>
+      <PageHeader title="Leads" subtitle="24 leads · 12 in pipeline · 5 new" action={
+        <button className="rounded-lg bg-blue-600 px-3 py-1.5 text-[10px] font-semibold text-white">
+          + New lead
+        </button>
+      } />
+
+      <div className="grid grid-cols-3 gap-2 px-4 py-3">
+        {cols.map(c => (
+          <div key={c.stage} className="flex flex-col gap-1.5">
+            <div className="flex items-center justify-between px-1">
+              <span className={`text-[9px] font-semibold rounded-full px-2 py-0.5 ${c.tone}`}>{c.stage}</span>
+              <span className="text-[8px] tabular-nums" style={{ color: '#94A3B8' }}>{c.count}</span>
+            </div>
+            {c.cards.map(card => (
+              <div key={card.name} className="rounded-lg border border-slate-200 bg-white px-2 py-1.5 shadow-sm">
+                <p className="text-[10px] font-medium truncate" style={{ color: '#1D1D1F' }}>{card.name}</p>
+                <p className="text-[8px] truncate mt-0.5" style={{ color: '#6E6E73' }}>{card.sub}</p>
+                <p className="text-[7px] truncate mt-0.5" style={{ color: '#AEAEB2' }}>{card.meta}</p>
+                <p className="text-[9px] font-semibold tabular-nums mt-1" style={{ color: '#1D4ED8' }}>{card.value}</p>
+              </div>
+            ))}
+            <button className="rounded-md border border-dashed border-slate-200 px-2 py-1 text-[8px] font-medium" style={{ color: '#94A3B8' }}>+ Add</button>
+          </div>
+        ))}
+      </div>
+    </Card>
+  )
+}
+
+// ─── 4. Calendar & crew mockup ────────────────────────────────────────────────
+//
+// Mirrors /calendar week view with crew availability strip and an
+// unscheduled-jobs nudge underneath.
+
+function CalendarCrewMockup() {
+  const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri']
+  const jobs = [
+    { day: 0, title: 'Larsen Family',   time: '08:00', sc: 'bg-blue-50 border-blue-200 text-blue-800'       },
+    { day: 0, title: 'Thomsen',         time: '13:00', sc: 'bg-blue-50 border-blue-200 text-blue-800'       },
+    { day: 1, title: 'Hansen Ltd.',     time: '07:00', sc: 'bg-green-50 border-green-200 text-green-800'    },
+    { day: 2, title: 'Magnusson',       time: '09:00', sc: 'bg-orange-50 border-orange-200 text-orange-800' },
+    { day: 2, title: 'Berg Office',     time: '14:00', sc: 'bg-purple-50 border-purple-200 text-purple-800' },
+    { day: 3, title: 'Schmidt Trans.',  time: '08:30', sc: 'bg-blue-50 border-blue-200 text-blue-800'       },
+    { day: 4, title: 'Nielsen',         time: '10:00', sc: 'bg-green-50 border-green-200 text-green-800'    },
+  ]
+  const crew = [
+    { name: 'Team A', avail: [true, true, true, true, true],  color: '#1D4ED8' },
+    { name: 'Team B', avail: [true, false, true, true, true], color: '#16A34A' },
+    { name: 'Team C', avail: [false, true, true, false, true], color: '#F97316' },
+  ]
+  return (
+    <Card>
+      <PageHeader title="Calendar — Week 17" subtitle="7 jobs · 2 teams free" />
+
+      {/* Day strip */}
+      <div className="p-3 border-b border-gray-100">
+        <div className="grid grid-cols-5 gap-1.5">
+          {days.map((day, i) => (
+            <div key={day} className="flex flex-col gap-1">
+              <p className="text-center text-[9px] font-semibold" style={{ color: '#AEAEB2' }}>{day}</p>
+              <div className="flex flex-col gap-1 min-h-[60px]">
+                {jobs.filter(j => j.day === i).map(job => (
+                  <div key={job.title + job.time} className={`rounded-md border px-1.5 py-1 ${job.sc}`}>
+                    <p className="text-[8px] font-semibold leading-tight truncate">{job.title}</p>
+                    <p className="text-[7px] opacity-70 mt-0.5">{job.time}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Crew availability */}
+      <div className="px-4 py-2.5 border-b border-gray-100">
+        <p className="text-[9px] font-semibold mb-1.5" style={{ color: '#475569' }}>Crew availability</p>
+        {crew.map(c => (
+          <div key={c.name} className="grid grid-cols-[60px_1fr] items-center gap-2 mb-1 last:mb-0">
+            <div className="flex items-center gap-1.5">
+              <div className="h-1.5 w-1.5 rounded-full" style={{ backgroundColor: c.color }} />
+              <span className="text-[9px] font-medium" style={{ color: '#1D1D1F' }}>{c.name}</span>
+            </div>
+            <div className="grid grid-cols-5 gap-1.5">
+              {c.avail.map((ok, i) => (
+                <div
+                  key={i}
+                  className="h-3 rounded-sm"
+                  style={{
+                    backgroundColor: ok ? c.color + '33' : '#F1F5F9',
+                    border: ok ? `1px solid ${c.color}66` : '1px solid #E2E8F0',
+                  }}
+                />
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* Unscheduled */}
+      <div className="px-5 py-2 flex items-center justify-between">
+        <div className="flex items-center gap-1.5">
+          <div className="h-1.5 w-1.5 rounded-full bg-orange-500" />
+          <span className="text-[9px] font-medium" style={{ color: '#1D1D1F' }}>Unscheduled jobs</span>
+        </div>
+        <span className="rounded-full bg-orange-50 px-2 py-0.5 text-[8px] font-semibold text-orange-700">3 to dispatch</span>
+      </div>
+    </Card>
+  )
+}
+
+// ─── 5. Operations mockup ─────────────────────────────────────────────────────
+//
+// Mirrors /inventory: KPI row, tabs ribbon (Stock / Equipment / Vehicle
+// kits / Log), item list with reorder-threshold status.
+
+function OperationsMockup() {
   const items = [
-    { name: 'Medium boxes',    unit: 'pcs',  paa_lager: 48, udlaant: 12, sc: 'bg-orange-50 text-orange-700', status: 'Low'      },
-    { name: 'Large boxes',     unit: 'pcs',  paa_lager: 80, udlaant: 0,  sc: 'bg-green-50 text-green-700',   status: 'OK'       },
-    { name: 'Bubble wrap',     unit: 'm',    paa_lager: 3,  udlaant: 5,  sc: 'bg-red-50 text-red-700',       status: 'Critical' },
-    { name: 'Floor cover',     unit: 'pcs',  paa_lager: 28, udlaant: 4,  sc: 'bg-green-50 text-green-700',   status: 'OK'       },
-    { name: 'Tape (24-pack)',  unit: 'pack', paa_lager: 15, udlaant: 0,  sc: 'bg-orange-50 text-orange-700', status: 'Low'      },
+    { name: 'Medium box',        category: 'Boxes',     stock: 48, min: 60, unit: 'pcs',   status: 'Low'      , sc: 'bg-orange-50 text-orange-700' },
+    { name: 'Large box',         category: 'Boxes',     stock: 80, min: 40, unit: 'pcs',   status: 'OK'       , sc: 'bg-green-50 text-green-700'   },
+    { name: 'Bubble wrap',       category: 'Packing',   stock: 3,  min: 10, unit: 'rolls', status: 'Critical' , sc: 'bg-red-50 text-red-700'       },
+    { name: 'Furniture blanket', category: 'Equipment', stock: 28, min: 20, unit: 'pcs',   status: 'OK'       , sc: 'bg-green-50 text-green-700'   },
+    { name: 'Tape (24-pack)',    category: 'Packing',   stock: 15, min: 12, unit: 'pack',  status: 'OK'       , sc: 'bg-green-50 text-green-700'   },
   ]
   return (
     <Card>
       <PageHeader
-        title="Storage"
-        action={
-          <button className="rounded-lg bg-blue-600 px-3 py-1.5 text-[10px] font-semibold text-white">
-            + Add item
-          </button>
-        }
+        title="Inventory"
+        subtitle="Stock, equipment and vehicle kits"
+        action={<button className="rounded-lg bg-blue-600 px-3 py-1.5 text-[10px] font-semibold text-white">+ Add item</button>}
       />
-      <FilterChips items={['Inventory', 'Transactions', 'Log']} />
-      <div className="grid grid-cols-[1fr_60px_60px_80px] gap-x-3 items-center px-5 py-2 border-b border-gray-100">
-        {['Item', 'In stock', 'On loan', 'Status'].map(h => (
+
+      {/* KPI row */}
+      <div className="grid grid-cols-4 gap-1.5 px-4 py-2.5 border-b border-gray-100">
+        {[
+          { label: 'Total SKUs',      value: '42' },
+          { label: 'Low stock',       value: '3',  color: '#FF9500' },
+          { label: 'Open rentals',    value: '7' },
+          { label: 'Overdue rentals', value: '1',  color: '#EF4444' },
+        ].map(k => (
+          <div key={k.label} className="rounded-lg bg-gray-50 px-2 py-1.5">
+            <p className="text-[7px] font-medium uppercase tracking-wide" style={{ color: '#AEAEB2' }}>{k.label}</p>
+            <p className="text-[14px] font-semibold leading-none mt-1" style={{ color: k.color ?? '#1D1D1F' }}>{k.value}</p>
+          </div>
+        ))}
+      </div>
+
+      <FilterChips items={['Stock', 'Equipment', 'Vehicle kits', 'Log']} />
+
+      <div className="grid grid-cols-[1fr_56px_56px_64px] gap-x-3 items-center px-5 py-2 border-b border-gray-100">
+        {['Item', 'Stock', 'Min', 'Status'].map(h => (
           <span key={h} className="text-[8px] font-semibold uppercase tracking-wider" style={{ color: '#AEAEB2' }}>{h}</span>
         ))}
       </div>
       {items.map(item => (
-        <div key={item.name} className="grid grid-cols-[1fr_60px_60px_80px] gap-x-3 items-center px-5 py-2.5 border-b border-gray-100 last:border-0 hover:bg-slate-50">
+        <div key={item.name} className="grid grid-cols-[1fr_56px_56px_64px] gap-x-3 items-center px-5 py-2 border-b border-gray-100 last:border-0 hover:bg-slate-50">
           <div className="min-w-0">
             <p className="truncate text-[11px] font-medium text-slate-900">{item.name}</p>
-            <p className="text-[9px]" style={{ color: '#6E6E73' }}>{item.unit}</p>
+            <p className="truncate text-[9px]" style={{ color: '#6E6E73' }}>{item.category} · {item.unit}</p>
           </div>
-          <span className="text-[10px] font-semibold tabular-nums text-slate-800">{item.paa_lager}</span>
-          <span className="text-[10px] tabular-nums" style={{ color: '#6E6E73' }}>{item.udlaant}</span>
+          <span className="text-[10px] font-semibold tabular-nums text-slate-800">{item.stock}</span>
+          <span className="text-[10px] tabular-nums" style={{ color: '#6E6E73' }}>{item.min}</span>
           <span className={`w-fit rounded-full px-2 py-0.5 text-[9px] font-medium whitespace-nowrap ${item.sc}`}>{item.status}</span>
         </div>
       ))}
@@ -309,39 +479,46 @@ function StorageMockup() {
   )
 }
 
-// ─── Follow-ups mockup ─────────────────────────────────────────────────────────
+// ─── 6. Automations mockup ────────────────────────────────────────────────────
+//
+// Mirrors /automations: flow list with trigger pills, timing, channel,
+// run-count, and active/paused state. Triggers match real i18n keys.
 
-function FollowUpsMockup() {
-  const messages = [
-    { name: 'Larsen Family',     type: 'Quote reminder',   scheduled: 'Today 14:00',    sc: 'bg-blue-50 text-blue-700',   status: 'Scheduled' },
-    { name: 'Schmidt Transport', type: 'Job completed',    scheduled: 'Today 16:30',    sc: 'bg-green-50 text-green-700', status: 'Ready'     },
-    { name: 'Hansen Residence',  type: 'No reply, nudge',  scheduled: 'Tomorrow 10:00', sc: 'bg-blue-50 text-blue-700',   status: 'Scheduled' },
-    { name: 'Nielsen Business',  type: 'Quote confirmed',  scheduled: 'Apr 15 09:00',   sc: 'bg-gray-100 text-gray-500',  status: 'Sent'      },
+function AutomationsMockup() {
+  const flows = [
+    { name: 'Quote follow-up',     trigger: 'Quote sent',      timing: '3 days after', channel: 'Email', active: true,  runs: 84,  sc: 'bg-blue-50 text-blue-700'    },
+    { name: 'Job confirmation',    trigger: 'Job scheduled',   timing: 'Immediately',  channel: 'Email', active: true,  runs: 132, sc: 'bg-purple-50 text-purple-700' },
+    { name: 'Day-before reminder', trigger: 'Job reminder',    timing: '24h before',   channel: 'Email', active: true,  runs: 128, sc: 'bg-orange-50 text-orange-700' },
+    { name: 'Review request',      trigger: 'Job completed',   timing: '2 days after', channel: 'Email', active: true,  runs: 76,  sc: 'bg-green-50 text-green-700'   },
+    { name: 'Storage renewal',     trigger: 'Storage renewal', timing: '7 days before',channel: 'Email', active: false, runs: 14,  sc: 'bg-gray-100 text-gray-600'    },
   ]
   return (
     <Card>
-      <div className="flex items-center justify-between px-5 pt-4 pb-3 border-b border-gray-100">
-        <p className="text-[13px] font-semibold text-slate-900">Follow-ups</p>
-        <div className="flex items-center gap-1.5">
-          <span className="text-[11px] text-slate-400">←</span>
-          <span className="text-[10px] font-semibold text-slate-700">Week 15</span>
-          <span className="text-[11px] text-slate-400">→</span>
-        </div>
-      </div>
-      <FilterChips items={['All', 'Scheduled', 'Sent', 'Pending']} />
-      <div className="grid grid-cols-[1fr_110px_64px] gap-x-3 items-center px-5 py-2 border-b border-gray-100">
-        {['Recipient', 'Type', 'Status'].map(h => (
+      <PageHeader
+        title="Automation flows"
+        subtitle="13 trigger types · runs every 15 min"
+        action={<button className="rounded-lg bg-blue-600 px-3 py-1.5 text-[10px] font-semibold text-white">+ New sequence</button>}
+      />
+
+      <div className="grid grid-cols-[1fr_84px_50px_56px] gap-x-3 items-center px-5 py-2 border-b border-gray-100">
+        {['Sequence', 'Trigger', 'Runs', 'Status'].map(h => (
           <span key={h} className="text-[8px] font-semibold uppercase tracking-wider" style={{ color: '#AEAEB2' }}>{h}</span>
         ))}
       </div>
-      {messages.map(({ name, type, scheduled, sc, status }) => (
-        <div key={name} className="grid grid-cols-[1fr_110px_64px] gap-x-3 items-center px-5 py-2.5 border-b border-gray-100 last:border-0 hover:bg-slate-50">
+      {flows.map(f => (
+        <div key={f.name} className="grid grid-cols-[1fr_84px_50px_56px] gap-x-3 items-center px-5 py-2 border-b border-gray-100 last:border-0 hover:bg-slate-50">
           <div className="min-w-0">
-            <p className="truncate text-[11px] font-medium text-slate-900">{name}</p>
-            <p className="truncate text-[9px]" style={{ color: '#6E6E73' }}>{scheduled}</p>
+            <p className="truncate text-[11px] font-medium text-slate-900">{f.name}</p>
+            <p className="truncate text-[9px]" style={{ color: '#6E6E73' }}>{f.timing} · {f.channel}</p>
           </div>
-          <span className="text-[9px] truncate" style={{ color: '#6E6E73' }}>{type}</span>
-          <span className={`w-fit rounded-full px-2 py-0.5 text-[9px] font-medium whitespace-nowrap ${sc}`}>{status}</span>
+          <span className={`w-fit rounded-full px-2 py-0.5 text-[9px] font-medium whitespace-nowrap ${f.sc}`}>{f.trigger}</span>
+          <span className="text-[10px] font-semibold tabular-nums text-slate-800">{f.runs}</span>
+          <div className="flex items-center gap-1.5">
+            <div className={`h-1.5 w-1.5 rounded-full ${f.active ? 'bg-green-500' : 'bg-gray-300'}`} />
+            <span className="text-[9px] font-medium" style={{ color: f.active ? '#16A34A' : '#94A3B8' }}>
+              {f.active ? 'Active' : 'Paused'}
+            </span>
+          </div>
         </div>
       ))}
     </Card>
@@ -350,21 +527,19 @@ function FollowUpsMockup() {
 
 // ─── Features section ─────────────────────────────────────────────────────────
 
-const tabIconComponents = [LayoutDashboard, FileText, Wand2, CalendarDays, Users, Package, Mail]
+const tabIconComponents = [LayoutDashboard, FileText, Wand2, Briefcase, CalendarDays, Package, Zap]
 
-const tabValues = ['dashboard', 'quoting', 'quote-form', 'calendar', 'crm', 'storage', 'follow-ups']
+const tabValues = ['dashboard', 'quoting', 'quote-form', 'leads-jobs', 'calendar', 'operations', 'automations']
 
 const tabMockupComponents = [
   DashboardMockup,
-  QuotesMockup,
+  QuotingMockup,
   QuoteFormMockup,
-  CalendarMockup,
-  CrmMockup,
-  StorageMockup,
-  FollowUpsMockup,
+  LeadsJobsMockup,
+  CalendarCrewMockup,
+  OperationsMockup,
+  AutomationsMockup,
 ]
-
-const TABS = tabValues.length
 
 export default function Features() {
   const { t } = useLanguage()
@@ -427,7 +602,7 @@ export default function Features() {
 
               {/* Left: vertical tab list (desktop only) */}
               <TabsPrimitive.List className="hidden md:flex flex-col gap-1 shrink-0 w-48 justify-center">
-                {tabs.map((tab, i) => (
+                {tabs.map((tab) => (
                   <TabsPrimitive.Trigger
                     key={tab.value}
                     value={tab.value}
@@ -442,7 +617,7 @@ export default function Features() {
               </TabsPrimitive.List>
 
               {/* Right: content panel */}
-              <div className="flex-1 rounded-2xl bg-[#F8FAFC] border border-[#E2E8F0] overflow-hidden relative h-[520px] md:h-[400px] lg:h-[420px]">
+              <div className="flex-1 rounded-2xl bg-[#F8FAFC] border border-[#E2E8F0] overflow-hidden relative h-[520px] md:h-[440px] lg:h-[460px]">
                 {tabs.map((tab) => (
                   <TabsPrimitive.Content
                     key={tab.value}

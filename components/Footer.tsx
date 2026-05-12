@@ -1,7 +1,7 @@
 'use client'
 
-import { TYPEFORM_URL } from '@/lib/constants'
-import { trackWaitlistClick } from '@/lib/tracking'
+import { SIGNUP_URL } from '@/lib/constants'
+import { trackSignupClick } from '@/lib/tracking'
 import { useLanguage, useLocalizedHref } from '@/lib/LanguageContext'
 
 export default function Footer() {
@@ -11,8 +11,8 @@ export default function Footer() {
   const links = {
     [t.footer.product]: [
       { label: t.footer.links.features, href: href('/#features') },
-      { label: t.footer.links.howItWorks, href: href('/#how-it-works') },
-      { label: t.footer.links.joinWaitlist, href: TYPEFORM_URL, external: true },
+      { label: t.footer.links.pricing, href: href('/#pricing') },
+      { label: t.footer.links.startFreeTrial, href: SIGNUP_URL, external: true },
     ],
     [t.footer.company]: [
       { label: t.footer.links.blog, href: href('/blog') },
@@ -46,8 +46,7 @@ export default function Footer() {
                     <li key={label}>
                       <a
                         href={href}
-                        {...(external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
-                        onClick={external ? () => trackWaitlistClick('footer') : undefined}
+                        onClick={external ? () => trackSignupClick('footer') : undefined}
                         className="text-[13px] text-[#94A3B8] hover:text-white transition-colors"
                       >
                         {label}

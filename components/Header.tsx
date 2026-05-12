@@ -3,8 +3,8 @@
 import { useState, useEffect, useRef } from 'react'
 import { Menu, X, ChevronDown } from 'lucide-react'
 import Image from 'next/image'
-import { TYPEFORM_URL } from '@/lib/constants'
-import { trackWaitlistClick } from '@/lib/tracking'
+import { SIGNUP_URL, LOGIN_URL } from '@/lib/constants'
+import { trackSignupClick, trackLoginClick } from '@/lib/tracking'
 import { useLanguage, useLocalizedHref } from '@/lib/LanguageContext'
 import type { Locale } from '@/lib/translations'
 
@@ -87,14 +87,18 @@ export default function Header() {
 
         <nav className="hidden md:flex items-center justify-center gap-8">
           <a href={href('/#features')} className="text-[14px] font-medium text-[#475569] hover:text-[#0F172A] transition-colors">{t.nav.features}</a>
-          <a href={href('/#how-it-works')} className="text-[14px] font-medium text-[#475569] hover:text-[#0F172A] transition-colors">{t.nav.howItWorks}</a>
+          <a href={href('/#pricing')} className="text-[14px] font-medium text-[#475569] hover:text-[#0F172A] transition-colors">{t.nav.pricing}</a>
           <a href={href('/#faq')} className="text-[14px] font-medium text-[#475569] hover:text-[#0F172A] transition-colors">{t.nav.faq}</a>
           <a href={href('/blog')} className="text-[14px] font-medium text-[#475569] hover:text-[#0F172A] transition-colors">{t.nav.blog}</a>
           <a href={href('/contact')} className="text-[14px] font-medium text-[#475569] hover:text-[#0F172A] transition-colors">{t.nav.talkToUs}</a>
         </nav>
 
         <div className="hidden md:flex items-center justify-end gap-4 pr-[50px]">
-          <a href={href('/auth')} className="text-[14px] font-medium text-[#475569] hover:text-[#0F172A] transition-colors">
+          <a
+            href={LOGIN_URL}
+            onClick={() => trackLoginClick('header')}
+            className="text-[14px] font-medium text-[#475569] hover:text-[#0F172A] transition-colors"
+          >
             {t.nav.logIn}
           </a>
 
@@ -135,13 +139,11 @@ export default function Header() {
           </div>
 
           <a
-            href={TYPEFORM_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            onClick={() => trackWaitlistClick('header')}
+            href={SIGNUP_URL}
+            onClick={() => trackSignupClick('header')}
             className="btn-gradient inline-flex items-center justify-center h-10 px-5 rounded-lg text-white text-[14px] font-semibold"
           >
-            {t.nav.joinWaitlist}
+            {t.nav.startFreeTrial}
           </a>
         </div>
 
@@ -160,11 +162,17 @@ export default function Header() {
       {menuOpen && (
         <div ref={mobileMenuRef} className="md:hidden bg-white/75 border-t border-[#E2E8F0] px-6 py-4 flex flex-col gap-4 rounded-b-2xl">
           <a href={href('/#features')} onClick={() => setMenuOpen(false)} className="text-[14px] font-medium text-[#475569]">{t.nav.features}</a>
-          <a href={href('/#how-it-works')} onClick={() => setMenuOpen(false)} className="text-[14px] font-medium text-[#475569]">{t.nav.howItWorks}</a>
+          <a href={href('/#pricing')} onClick={() => setMenuOpen(false)} className="text-[14px] font-medium text-[#475569]">{t.nav.pricing}</a>
           <a href={href('/#faq')} onClick={() => setMenuOpen(false)} className="text-[14px] font-medium text-[#475569]">{t.nav.faq}</a>
           <a href={href('/blog')} onClick={() => setMenuOpen(false)} className="text-[14px] font-medium text-[#475569]">{t.nav.blog}</a>
           <a href={href('/contact')} onClick={() => setMenuOpen(false)} className="text-[14px] font-medium text-[#475569]">{t.nav.talkToUs}</a>
-          <a href={href('/auth')} onClick={() => setMenuOpen(false)} className="text-[14px] font-medium text-[#475569]">{t.nav.logIn}</a>
+          <a
+            href={LOGIN_URL}
+            onClick={() => { trackLoginClick('header_mobile'); setMenuOpen(false) }}
+            className="text-[14px] font-medium text-[#475569]"
+          >
+            {t.nav.logIn}
+          </a>
 
           {/* Mobile language toggle */}
           <div className="flex items-center gap-3">
@@ -185,13 +193,11 @@ export default function Header() {
           </div>
 
           <a
-            href={TYPEFORM_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            onClick={() => { trackWaitlistClick('header_mobile'); setMenuOpen(false) }}
+            href={SIGNUP_URL}
+            onClick={() => { trackSignupClick('header_mobile'); setMenuOpen(false) }}
             className="btn-gradient inline-flex items-center justify-center h-10 px-4 rounded-lg text-white text-[14px] font-semibold w-full"
           >
-            {t.nav.joinWaitlist}
+            {t.nav.startFreeTrial}
           </a>
         </div>
       )}

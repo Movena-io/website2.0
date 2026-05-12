@@ -194,28 +194,6 @@ export const translations = {
         'Direct support from the founders',
       ],
     },
-    foundingCustomer: {
-      label: 'Founding customer program',
-      headline: 'Use Movena free.',
-      highlight: 'Pay nothing until it runs your business.',
-      lead: "We're looking for two or three moving companies to use Movena as co-developers. You use it in real work, give us continuous feedback, and we ship against it. You pay nothing until you can run your business fully on Movena and you're genuinely happy with it. Then you pay full list price.",
-      bullets: [
-        {
-          title: 'Full product access',
-          description: 'Every module unlocked. No usage caps, no feature gates, no hidden trial limits.',
-        },
-        {
-          title: 'Founder support',
-          description: 'Direct line to Samuel, Villads, and Valdemar. We respond same-day, every day.',
-        },
-        {
-          title: 'Free until you are running on it',
-          description: "You only start paying the day you've fully replaced your old software and you're happy. No deadlines, no pressure.",
-        },
-      ],
-      cta: 'Apply as a founding customer',
-      ctaSecondary: 'Read more first',
-    },
     howItWorks: {
       label: 'How it works',
       headline: 'Set up between two jobs',
@@ -268,10 +246,6 @@ export const translations = {
         {
           question: 'Can I embed the quote form on my own website?',
           answer: 'Yes. The quote form is fully white-label and embeddable as an iframe. Match your colors, logo, and steps. Customers submit and the lead lands in your CRM with addresses, dates, inventory, and a price estimate.',
-        },
-        {
-          question: 'What is the founding customer program?',
-          answer: "We're looking for two or three moving companies to use Movena as co-developers. You use it in real work, give continuous feedback, and pay nothing until you can run your business fully on Movena. Then you pay full list price.",
         },
       ],
     },
@@ -580,28 +554,6 @@ export const translations = {
         'Direkte support fra stifterne',
       ],
     },
-    foundingCustomer: {
-      label: 'Founding customer-program',
-      headline: 'Brug Movena gratis.',
-      highlight: 'Betal intet, før det driver din forretning.',
-      lead: 'Vi leder efter to eller tre flyttefirmaer, der vil bruge Movena som med-udviklere. I bruger det i rigtigt arbejde, giver os løbende feedback, og vi shipper på det. I betaler intet, før I kan drive jeres forretning fuldt ud på Movena og I er ægte tilfredse. Så betaler I fuld listepris.',
-      bullets: [
-        {
-          title: 'Fuld produktadgang',
-          description: 'Hvert modul åbnet. Ingen brugslofter, ingen funktionsspærringer, ingen skjulte prøvegrænser.',
-        },
-        {
-          title: 'Founder-support',
-          description: 'Direkte linje til Samuel, Villads og Valdemar. Vi svarer samme dag, hver dag.',
-        },
-        {
-          title: 'Gratis indtil I kører på det',
-          description: 'I begynder først at betale den dag, I fuldt har erstattet jeres gamle software og er glade. Ingen deadlines, intet pres.',
-        },
-      ],
-      cta: 'Ansøg som founding customer',
-      ctaSecondary: 'Læs mere først',
-    },
     howItWorks: {
       label: 'Sådan virker det',
       headline: 'Sat op mellem to jobs',
@@ -654,10 +606,6 @@ export const translations = {
         {
           question: 'Kan jeg indbygge tilbudsformularen på min egen hjemmeside?',
           answer: 'Ja. Tilbudsformularen er fuldt white-label og kan indbygges som iframe. Match dine farver, logo og steps. Kunder indsender, og leadet lander i dit CRM med adresser, datoer, inventar og prisoverslag.',
-        },
-        {
-          question: 'Hvad er founding customer-programmet?',
-          answer: 'Vi leder efter to eller tre flyttefirmaer, der vil bruge Movena som med-udviklere. I bruger det i rigtigt arbejde, giver løbende feedback, og betaler intet, før I kan drive jeres forretning fuldt ud på Movena. Så betaler I fuld listepris.',
         },
       ],
     },

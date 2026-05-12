@@ -81,7 +81,7 @@ export default function Header() {
       <div className="h-16 flex items-center justify-between px-4 md:px-0 md:grid md:grid-cols-3">
         <div className="md:pl-[50px]">
           <a href={href('/')} className="flex items-center">
-            <Image src="/assets/logo.png" alt="Movena" width={120} height={30} className="md:w-[144px] md:h-[36px]" priority />
+            <Image src="/assets/movena-horizontal-primary.svg" alt="Movena" width={120} height={30} className="md:w-[144px] md:h-[36px]" priority />
           </a>
         </div>
 

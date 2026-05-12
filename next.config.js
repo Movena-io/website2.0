@@ -7,6 +7,16 @@ const nextConfig = {
     ignoreDuringBuilds: true,
   },
 
+  // The brand SVGs in /public/assets/ are loaded through next/image. Next
+  // refuses to serve SVG through the optimizer by default for XSS safety,
+  // so this opts in. Safe here because we only ever serve our own SVGs
+  // from /public, never user-supplied content.
+  images: {
+    dangerouslyAllowSVG: true,
+    contentDispositionType: 'attachment',
+    contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
+  },
+
   async redirects() {
     return [
       // The marketing site no longer hosts auth — everything lives in the

@@ -1,5 +1,6 @@
 'use client'
 
+import Image from 'next/image'
 import { SIGNUP_URL } from '@/lib/constants'
 import { trackSignupClick } from '@/lib/tracking'
 import { useLanguage, useLocalizedHref } from '@/lib/LanguageContext'
@@ -29,7 +30,15 @@ export default function Footer() {
       <div className="max-w-6xl mx-auto px-6 py-14">
 
         <div className="flex flex-col md:flex-row justify-between gap-12">
-          <div className="max-w-[220px]">
+          <div className="max-w-[220px] flex flex-col gap-4">
+            <a href={href('/')} className="inline-flex items-center w-fit">
+              <Image
+                src="/assets/movena-horizontal-inverse.svg"
+                alt="Movena"
+                width={130}
+                height={32}
+              />
+            </a>
             <p className="text-[13px] leading-[1.6] text-[#64748B]">
               {t.footer.tagline}
             </p>

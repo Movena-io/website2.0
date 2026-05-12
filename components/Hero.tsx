@@ -100,7 +100,7 @@ function ProductMockup() {
         {/* Sidebar */}
         <aside className="w-[48px] shrink-0 flex flex-col" style={{ backgroundColor: '#0B1F3B' }}>
           <div className="flex items-center justify-center py-3 border-b border-white/5">
-            <Image src="/assets/dark-favicon.png" alt="Movena" width={20} height={20} />
+            <Image src="/assets/movena-mark-inverse.svg" alt="Movena" width={20} height={20} />
           </div>
           <nav className="flex-1 flex flex-col items-center py-2 gap-1">
             {[true, false, false, false, false, false].map((active, i) => (
@@ -230,10 +230,6 @@ export default function Hero() {
               }}
               className="flex flex-col items-start gap-0"
             >
-              <p className="mb-4 inline-flex items-center rounded-full bg-[#1D4ED8]/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.08em] text-[#1D4ED8]">
-                {t.hero.badge}
-              </p>
-
               <h1 className="text-[32px] sm:text-[40px] lg:text-[46px] font-semibold leading-[1.1] tracking-[-0.03em] text-[#0B1F3B] w-full">
                 {t.hero.headline} <span className="text-[#1D4ED8]">{t.hero.highlight}</span>
               </h1>

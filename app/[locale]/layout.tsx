@@ -20,15 +20,15 @@ export function generateStaticParams() {
 
 const META_BY_LOCALE: Record<Locale, { title: string; description: string; ogLocale: string }> = {
   en: {
-    title: 'Movena: All-in-one software for Nordic moving companies',
+    title: 'Movena: All-in-one software for moving companies',
     description:
-      'Moving company software built for the Nordics. Quotes, scheduling, crew coordination, and invoicing in one platform for Danish, Swedish, and Norwegian movers done managing five different tools.',
+      'Software for moving companies. Quotes, scheduling, crew coordination, and customer follow-ups in one platform. Built for movers done managing a stack of disconnected tools.',
     ogLocale: 'en_US',
   },
   da: {
-    title: 'Movena: Alt-i-ét software til nordiske flyttefirmaer',
+    title: 'Movena: Alt-i-ét software til flyttefirmaer',
     description:
-      'Software til flyttefirmaer, bygget til Norden. Tilbud, kalender, holdkoordinering og fakturering i én platform til danske, svenske og norske flyttefirmaer, der er trætte af at jonglere fem forskellige værktøjer.',
+      'Software til flyttefirmaer. Tilbud, kalender, holdkoordinering og kundeopfølgninger i én platform. Bygget til flyttefirmaer, der er trætte af at jonglere en stak af forskellige værktøjer.',
     ogLocale: 'da_DK',
   },
 }
@@ -99,7 +99,7 @@ const organizationSchema = {
   url: 'https://movena.io',
   logo: 'https://movena.io/favicon.svg',
   description:
-    'All-in-one software platform for Nordic moving companies. Quotes, scheduling, crew coordination, and invoicing in one place. Built for movers in Denmark, Sweden, and Norway.',
+    'All-in-one software platform for moving companies. Quotes, scheduling, crew coordination, and customer follow-ups in one place.',
   email: 'hello@movena.io',
   address: {
     '@type': 'PostalAddress',
@@ -121,7 +121,7 @@ const softwareSchema = {
   applicationSubCategory: 'Moving Company Software',
   operatingSystem: 'Web',
   description:
-    'All-in-one platform for moving companies: quoting, dispatch optimization, crew mobile app, customer tracking, and Nordic accounting integrations.',
+    'All-in-one platform for moving companies: quoting, dispatch optimization, crew mobile app, and customer tracking.',
   url: 'https://movena.io',
   provider: {
     '@type': 'Organization',

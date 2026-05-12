@@ -219,26 +219,26 @@ export default function Features() {
                   <TabsPrimitive.Content
                     key={tab.value}
                     value={tab.value}
-                    className="focus:outline-none p-6 lg:p-10"
+                    className="focus:outline-none p-[25px]"
                   >
-                    <div className="flex flex-col gap-6 lg:flex-row lg:gap-10 lg:items-start">
+                    <div className="flex flex-col gap-6 lg:flex-row lg:gap-[25px] lg:items-center">
 
-                      {/* Text */}
+                      {/* Text — vertically centered against the screenshot */}
                       <div className="flex flex-col gap-4 min-w-0 lg:w-[38%] lg:shrink-0">
                         <span className="inline-block text-[12px] font-semibold text-[#1D4ED8] bg-white border border-[#1D4ED8]/20 uppercase tracking-[0.08em] px-3 py-1 rounded-full w-fit">
                           {tab.badge}
                         </span>
-                        <h3 className="text-[22px] lg:text-[28px] font-semibold tracking-[-0.02em] text-[#0B1F3B] leading-[1.2]">
+                        <h3 className="text-[22px] lg:text-[26px] font-semibold tracking-[-0.02em] text-[#0B1F3B] leading-[1.2]">
                           {tab.title}
                         </h3>
-                        <p className="text-[15px] text-[#475569] leading-[1.7]">
+                        <p className="text-[14px] lg:text-[15px] text-[#475569] leading-[1.6]">
                           {tab.description}
                         </p>
-                        <ul className="flex flex-col gap-2.5 mt-1">
+                        <ul className="flex flex-col gap-2 mt-1">
                           {tab.points.map((point) => (
-                            <li key={point} className="flex items-start gap-3">
-                              <CheckCircle size={15} strokeWidth={1.5} className="text-[#1D4ED8] mt-0.5 shrink-0" />
-                              <span className="text-[14px] font-medium text-[#0F172A] break-words min-w-0">{point}</span>
+                            <li key={point} className="flex items-start gap-2.5">
+                              <CheckCircle size={14} strokeWidth={1.5} className="text-[#1D4ED8] mt-0.5 shrink-0" />
+                              <span className="text-[13px] lg:text-[14px] font-medium text-[#0F172A] break-words min-w-0 leading-[1.4]">{point}</span>
                             </li>
                           ))}
                         </ul>

@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { LOCALES, DEFAULT_LOCALE, type Locale } from './lib/locales'
 
-const PUBLIC_FILE = /\.(?:ico|svg|png|jpg|jpeg|webp|gif|woff2?|ttf|otf|eot|js|css|map|xml|txt|webmanifest)$/i
+const PUBLIC_FILE = /\.(?:ico|svg|png|jpg|jpeg|webp|gif|avif|mp4|webm|mov|woff2?|ttf|otf|eot|js|css|map|xml|txt|webmanifest)$/i
 
 function pickLocale(acceptLanguage: string | null): Locale {
   if (!acceptLanguage) return DEFAULT_LOCALE

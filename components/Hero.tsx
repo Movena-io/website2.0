@@ -2,7 +2,6 @@
 
 import { motion, Variants } from 'framer-motion'
 import { ArrowRight } from 'lucide-react'
-import Image from 'next/image'
 import { cn } from '@/lib/utils'
 import { SIGNUP_URL } from '@/lib/constants'
 import { trackSignupClick } from '@/lib/tracking'
@@ -53,123 +52,26 @@ function AnimatedGroup({
   )
 }
 
-// ─── Sparkline ────────────────────────────────────────────────────────
+// ─── Hero video ───────────────────────────────────────────────────────
 
-function Sparkline({ data, color }: { data: number[]; color: string }) {
-  const max = Math.max(...data)
-  const min = Math.min(...data)
-  const h = 28
-  const w = 80
-  const pts = data.map((v, i) => {
-    const x = (i / (data.length - 1)) * w
-    const y = h - ((v - min) / (max - min || 1)) * h
-    return `${x},${y}`
-  }).join(' ')
-  const area = `0,${h} ` + pts + ` ${w},${h}`
-  return (
-    <svg width={w} height={h} viewBox={`0 0 ${w} ${h}`} fill="none">
-      <polygon points={area} fill={color} opacity="0.12" />
-      <polyline points={pts} stroke={color} strokeWidth="1.5" fill="none" strokeLinecap="round" strokeLinejoin="round" />
-    </svg>
-  )
-}
-
-// ─── Product mockup ───────────────────────────────────────────────────
-
-function ProductMockup() {
-  const jobs = [
-    { time: '08:00', title: 'Larsen Family',     route: 'Westside → Northgate', crew: '3 crew · Sprinter',  status: 'Active',    sc: 'bg-green-50 text-green-700', active: true  },
-    { time: '12:00', title: 'Schmidt Transport', route: 'Downtown → Eastfield', crew: '4 crew · Box truck', status: 'Scheduled', sc: 'bg-blue-50 text-blue-700',   active: false },
-    { time: '15:00', title: 'Hansen Residence',  route: 'Harbor → Midtown',     crew: '2 crew · Van',       status: 'Scheduled', sc: 'bg-blue-50 text-blue-700',   active: false },
-  ]
-
-  const revenueData = [18, 22, 19, 27, 24, 31, 28, 35, 33, 41, 38, 44]
-  const jobsData    = [8,  11, 9,  13, 12, 15, 14, 17, 15, 19, 18, 21]
-
+function HeroVideo() {
   return (
     <figure
       className="w-full select-none rounded-xl overflow-hidden shadow-2xl shadow-[#0B1F3B]/20"
       role="img"
-      aria-label="Movena dashboard preview showing today's three moving jobs, monthly revenue chart, and crew schedule"
+      aria-label="Movena product walkthrough video"
     >
-      <figcaption className="sr-only">
-        A preview of the Movena moving company software dashboard. The view shows the current day&apos;s jobs (Larsen Family at 08:00, Schmidt Transport at 12:00, Hansen Residence at 15:00), each with route, crew size, vehicle assignment, and live status. Two stat cards at the top track monthly revenue and total jobs with twelve-month sparklines.
-      </figcaption>
-      <div className="flex">
-
-        {/* Sidebar */}
-        <aside className="w-[48px] shrink-0 flex flex-col" style={{ backgroundColor: '#0B1F3B' }}>
-          <div className="flex items-center justify-center py-3 border-b border-white/5">
-            <Image src="/assets/movena-mark-inverse.svg" alt="Movena" width={20} height={20} />
-          </div>
-          <nav className="flex-1 flex flex-col items-center py-2 gap-1">
-            {[true, false, false, false, false, false].map((active, i) => (
-              <div key={i} className={`w-6 h-6 rounded-md ${active ? 'bg-[#1D4ED8]/30' : ''} flex items-center justify-center`}>
-                <div className={`w-1.5 h-1.5 rounded-full ${active ? 'bg-[#60A5FA]' : 'bg-white/20'}`} />
-              </div>
-            ))}
-          </nav>
-          <div className="border-t border-white/5 py-3 flex justify-center">
-            <div className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[#1D4ED8] text-[7px] font-bold text-white">JD</div>
-          </div>
-        </aside>
-
-        {/* Dashboard content */}
-        <div className="flex-1 bg-[#f8fafc] overflow-hidden px-4 py-4">
-
-          {/* Greeting */}
-          <div className="mb-3">
-            <p className="text-[13px] font-semibold" style={{ color: '#1D1D1F' }}>Good morning, John</p>
-            <p className="text-[10px] mt-0.5" style={{ color: '#6E6E73' }}>Today, 3 jobs</p>
-          </div>
-
-          {/* Stat cards + sparklines */}
-          <div className="grid grid-cols-2 gap-1.5 mb-3">
-            <div className="rounded-xl bg-white border border-gray-100 px-3 py-2.5 shadow-sm">
-              <p className="text-[7px] font-medium uppercase tracking-wide" style={{ color: '#AEAEB2' }}>Revenue this month</p>
-              <p className="text-[20px] font-semibold leading-none mt-1" style={{ color: '#1D1D1F' }}>€44,200</p>
-              <p className="text-[7px] mt-0.5 mb-2" style={{ color: '#16A34A' }}>+18% vs last month</p>
-              <Sparkline data={revenueData} color="#2563EB" />
-            </div>
-            <div className="rounded-xl bg-white border border-gray-100 px-3 py-2.5 shadow-sm">
-              <p className="text-[7px] font-medium uppercase tracking-wide" style={{ color: '#AEAEB2' }}>Jobs this month</p>
-              <p className="text-[20px] font-semibold leading-none mt-1" style={{ color: '#1D1D1F' }}>21</p>
-              <p className="text-[7px] mt-0.5 mb-2" style={{ color: '#16A34A' }}>+3 vs last month</p>
-              <Sparkline data={jobsData} color="#2563EB" />
-            </div>
-          </div>
-
-          {/* Today */}
-          <div className="rounded-xl border border-gray-100 bg-white px-3 py-2.5 shadow-sm">
-            <div className="flex items-center justify-between mb-2">
-              <p className="text-[10px] font-semibold" style={{ color: '#1D1D1F' }}>Today</p>
-              <span className="text-[9px]" style={{ color: '#6E6E73' }}>09:24</span>
-            </div>
-            {jobs.map((job, idx) => (
-              <div key={job.title} className="flex gap-2.5 mb-2 last:mb-0">
-                <div className="w-8 shrink-0 pt-0.5 text-right">
-                  <span className="text-[8px]" style={{ color: '#6E6E73' }}>{job.time}</span>
-                </div>
-                <div className="relative flex w-2.5 flex-col items-center">
-                  <div className={`mt-0.5 h-2 w-2 rounded-full shrink-0 ${job.active ? 'bg-green-500' : 'bg-[#2563EB]'}`} />
-                  {idx < jobs.length - 1 && <div className="mt-0.5 w-px flex-1 bg-gray-200" />}
-                </div>
-                <div className={`flex-1 rounded-lg border-l-[2px] ${job.active ? 'border-green-500' : 'border-[#2563EB]'} bg-gray-50 px-2 py-1.5`}>
-                  <div className="flex items-start justify-between gap-1">
-                    <div className="min-w-0">
-                      <p className="text-[9px] font-medium truncate" style={{ color: '#1D1D1F' }}>{job.title}</p>
-                      <p className="text-[8px] truncate" style={{ color: '#6E6E73' }}>{job.route}</p>
-                      <p className="text-[7px]" style={{ color: '#AEAEB2' }}>{job.crew}</p>
-                    </div>
-                    <span className={`shrink-0 rounded-full px-1.5 py-0.5 text-[7px] font-medium ${job.sc}`}>{job.status}</span>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-
-        </div>
-      </div>
+      <video
+        autoPlay
+        loop
+        muted
+        playsInline
+        preload="metadata"
+        poster="/assets/hero/hero-poster.jpg"
+        className="block w-full h-auto bg-white"
+      >
+        <source src="/assets/hero/hero-video.mp4" type="video/mp4" />
+      </video>
     </figure>
   )
 }
@@ -277,7 +179,7 @@ export default function Hero() {
             }}
             className="w-full lg:-mr-[15%] lg:scale-[1.08] lg:origin-left"
           >
-            <ProductMockup />
+            <HeroVideo />
           </AnimatedGroup>
 
         </div>

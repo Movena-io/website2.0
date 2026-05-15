@@ -16,7 +16,7 @@ const transitionVariants: { item: Variants } = {
     visible: {
       opacity: 1,
       y: 0,
-      transition: { type: 'spring', bounce: 0.3, duration: 1.5 },
+      transition: { type: 'spring', bounce: 0.3, duration: 1.2 },
     },
   },
 }
@@ -25,19 +25,20 @@ function AnimatedGroup({
   children,
   className,
   variants,
+  delayChildren = 0.1,
+  staggerChildren = 0.1,
 }: {
   children: ReactNode
   className?: string
   variants?: { container?: Variants; item?: Variants }
+  delayChildren?: number
+  staggerChildren?: number
 }) {
   const containerVariants: Variants = variants?.container ?? {
     hidden: { opacity: 0 },
-    visible: { opacity: 1, transition: { staggerChildren: 0.08 } },
+    visible: { opacity: 1, transition: { staggerChildren, delayChildren } },
   }
-  const itemVariants: Variants = variants?.item ?? {
-    hidden: { opacity: 0 },
-    visible: { opacity: 1 },
-  }
+  const itemVariants: Variants = variants?.item ?? transitionVariants.item
 
   return (
     <motion.div initial="hidden" animate="visible" variants={containerVariants} className={cn(className)}>
@@ -52,7 +53,44 @@ function AnimatedGroup({
   )
 }
 
-// ─── Hero video ───────────────────────────────────────────────────────
+// ─── Glow: soft radial behind the video ───────────────────────────────
+
+function Glow() {
+  return (
+    <div aria-hidden className="pointer-events-none absolute inset-x-0 top-0 -z-10 flex justify-center">
+      {/* Outer wide blue glow */}
+      <div
+        className="absolute h-[420px] w-[80%] -translate-y-[35%] rounded-[50%]"
+        style={{
+          background:
+            'radial-gradient(ellipse at center, rgba(29,78,216,0.28) 0%, rgba(29,78,216,0.12) 40%, rgba(29,78,216,0) 70%)',
+        }}
+      />
+      {/* Inner brighter teal accent */}
+      <div
+        className="absolute h-[260px] w-[55%] -translate-y-[30%] rounded-[50%]"
+        style={{
+          background:
+            'radial-gradient(ellipse at center, rgba(41,171,226,0.30) 0%, rgba(41,171,226,0) 60%)',
+        }}
+      />
+    </div>
+  )
+}
+
+// ─── Mockup frame: subtle border + tinted padding around the video ────
+
+function MockupFrame({ children }: { children: ReactNode }) {
+  return (
+    <div className="relative rounded-2xl bg-white/5 p-2 sm:p-3 shadow-2xl shadow-[#0B1F3B]/15 ring-1 ring-[#0B1F3B]/5 backdrop-blur-sm">
+      <div className="overflow-hidden rounded-xl border border-[#0B1F3B]/10 bg-white">
+        {children}
+      </div>
+    </div>
+  )
+}
+
+// ─── Hero video with mute toggle ──────────────────────────────────────
 
 function HeroVideo() {
   const videoRef = useRef<HTMLVideoElement>(null)
@@ -64,16 +102,11 @@ function HeroVideo() {
     const next = !muted
     v.muted = next
     setMuted(next)
-    // If unmuting after autoplay started, make sure we're playing
     if (!next && v.paused) v.play().catch(() => {})
   }
 
   return (
-    <figure
-      className="relative w-full select-none rounded-xl overflow-hidden shadow-2xl shadow-[#0B1F3B]/20"
-      role="img"
-      aria-label="Movena product walkthrough video"
-    >
+    <figure className="relative" role="img" aria-label="Movena product walkthrough video">
       <video
         ref={videoRef}
         autoPlay
@@ -105,93 +138,83 @@ export default function Hero() {
   const { t } = useLanguage()
 
   return (
-    <section className="relative overflow-hidden">
-      {/* Background: teal pill anchored to right edge — mobile */}
-      <div
-        className="absolute -z-10 lg:hidden"
-        style={{
-          top: '59%',
-          bottom: '15%',
-          right: 0,
-          left: '30%',
-          background: '#29ABE2',
-          borderRadius: '16px 0 0 16px',
-        }}
-      />
-      {/* Background: teal pill anchored to right edge — desktop */}
-      <div
-        className="absolute -z-10 hidden lg:block"
-        style={{
-          top: '10%',
-          bottom: '10%',
-          right: 0,
-          left: '68%',
-          background: '#29ABE2',
-          borderRadius: '16px 0 0 16px',
-        }}
-      />
+    <section className="relative overflow-hidden bg-white">
+      <div className="max-w-[1200px] mx-auto px-6 pt-16 pb-12 sm:pt-24 sm:pb-20 md:pt-28">
+        <div className="flex flex-col items-center gap-8 sm:gap-12 text-center">
 
-      <div className="max-w-[1200px] mx-auto px-6 py-20 lg:py-28">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-20 items-start">
-
-          {/* Left — text */}
-          <div>
-            <AnimatedGroup
-              variants={{
-                container: { hidden: { opacity: 0 }, visible: { opacity: 1, transition: { staggerChildren: 0.1, delayChildren: 0.1 } } },
-                ...transitionVariants,
-              }}
-              className="flex flex-col items-start gap-0"
-            >
-              <h1 className="text-[32px] sm:text-[40px] lg:text-[46px] font-semibold leading-[1.1] tracking-[-0.03em] text-[#0B1F3B] w-full">
-                {t.hero.headline} <span className="text-[#1D4ED8]">{t.hero.highlight}</span>
-              </h1>
-
-              <p className="mt-5 text-[15px] font-normal leading-[1.65] text-[#1E3A5F]/70 max-w-[360px]">
-                {t.hero.subheadline}
-              </p>
-            </AnimatedGroup>
-
-            <AnimatedGroup
-              variants={{
-                container: {
-                  hidden: { opacity: 0 },
-                  visible: { opacity: 1, transition: { staggerChildren: 0.08, delayChildren: 0.75 } },
-                },
-                ...transitionVariants,
-              }}
-              className="mt-8 flex flex-col items-start gap-3 w-full sm:w-auto"
-            >
-              <div className="inline-flex flex-col items-stretch gap-1.5">
-                <a
-                  href={SIGNUP_URL}
-                  onClick={() => trackSignupClick('hero')}
-                  className="btn-gradient inline-flex items-center justify-center gap-2 h-12 rounded-xl text-white text-[15px] font-semibold"
-                >
-                  <span>{t.hero.primaryCta}</span>
-                  <ArrowRight size={15} strokeWidth={2} />
-                </a>
-                <span className="text-[12px] text-[#64748B] text-center">{t.hero.disclaimer}</span>
-              </div>
-            </AnimatedGroup>
-          </div>
-
-          {/* Right — mockup, slides in from right */}
+          {/* Headline + subhead */}
           <AnimatedGroup
+            delayChildren={0.05}
+            staggerChildren={0.12}
+            className="flex flex-col items-center gap-5 sm:gap-7 max-w-3xl"
+          >
+            <h1 className="bg-gradient-to-b from-[#0B1F3B] via-[#0B1F3B] to-[#475569] bg-clip-text text-transparent text-[40px] sm:text-[56px] lg:text-[68px] font-semibold leading-[1.05] tracking-[-0.035em]">
+              {t.hero.headline}{' '}
+              <span className="bg-gradient-to-r from-[#1D4ED8] to-[#29ABE2] bg-clip-text text-transparent">
+                {t.hero.highlight}
+              </span>
+            </h1>
+
+            <p className="max-w-[560px] text-[16px] sm:text-[18px] text-[#475569] leading-[1.6] font-normal">
+              {t.hero.subheadline}
+            </p>
+          </AnimatedGroup>
+
+          {/* CTAs */}
+          <AnimatedGroup
+            delayChildren={0.4}
+            staggerChildren={0.08}
+            className="flex flex-col sm:flex-row items-center gap-3"
             variants={{
               container: {
                 hidden: { opacity: 0 },
-                visible: { opacity: 1, transition: { staggerChildren: 0.05, delayChildren: 0.85 } },
+                visible: { opacity: 1, transition: { staggerChildren: 0.08, delayChildren: 0.4 } },
               },
               item: {
-                hidden: { opacity: 0, x: 48 },
-                visible: { opacity: 1, x: 0, transition: { type: 'spring', bounce: 0.25, duration: 1.4 } },
+                hidden: { opacity: 0, y: 8 },
+                visible: { opacity: 1, y: 0, transition: { type: 'spring', bounce: 0.25, duration: 0.9 } },
               },
             }}
-            className="w-full lg:-mr-[15%] lg:scale-[1.08] lg:origin-left"
           >
-            <HeroVideo />
+            <a
+              href={SIGNUP_URL}
+              onClick={() => trackSignupClick('hero')}
+              className="btn-gradient inline-flex items-center justify-center gap-2 h-12 px-7 rounded-xl text-white text-[15px] font-semibold"
+            >
+              <span>{t.hero.primaryCta}</span>
+              <ArrowRight size={15} strokeWidth={2} />
+            </a>
+
+            <a
+              href="#features"
+              className="inline-flex items-center justify-center gap-2 h-12 px-6 rounded-xl text-[15px] font-semibold text-[#0B1F3B] bg-white border border-[#E2E8F0] hover:border-[#1D4ED8]/40 hover:bg-[#F8FAFC] transition-colors"
+            >
+              <span>{t.hero.secondaryCta}</span>
+            </a>
           </AnimatedGroup>
+
+          {/* Disclaimer */}
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.7, duration: 0.6 }}
+            className="text-[13px] text-[#64748B] -mt-2"
+          >
+            {t.hero.disclaimer}
+          </motion.p>
+
+          {/* Video with glow */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.96 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 0.55, duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
+            className="relative w-full max-w-[1100px] mt-2 sm:mt-4"
+          >
+            <Glow />
+            <MockupFrame>
+              <HeroVideo />
+            </MockupFrame>
+          </motion.div>
 
         </div>
       </div>

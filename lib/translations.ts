@@ -162,16 +162,16 @@ export const translations = {
       subheadline: 'We know it can be overwhelming to change systems, so we offer free onboarding help to make the process as quick and smooth as possible.',
       steps: [
         {
-          title: 'Book a call',
-          description: 'A 30-minute call to walk through how you work and what you need.',
+          title: 'A call, if you want one',
+          description: 'We can hop on a call to understand your business and what would help most.',
         },
         {
-          title: 'We do the setup',
-          description: 'We add your services, pricing rules, team, and templates while you focus on running your business.',
+          title: 'Setup, done for you',
+          description: "Hand us the details. We'll add your services, pricing rules, team, and templates so you don't have to.",
         },
         {
-          title: 'Your team gets trained',
-          description: "Live training so everyone knows how to use it from day one. We don't leave until it works.",
+          title: 'Training for your team',
+          description: 'Live training so everyone knows how to use Movena. As light or thorough as you want.',
         },
       ],
     },
@@ -550,16 +550,16 @@ export const translations = {
       subheadline: 'Vi ved, det kan være overvældende at skifte system, så vi tilbyder gratis onboarding-hjælp for at gøre processen så hurtig og glat som muligt.',
       steps: [
         {
-          title: 'Book et opkald',
-          description: 'Et 30-minutters opkald hvor vi forstår, hvordan du arbejder, og hvad du har brug for.',
+          title: 'Et opkald, hvis du vil',
+          description: 'Vi kan tage et opkald for at forstå din forretning og hvad der vil hjælpe mest.',
         },
         {
-          title: 'Vi laver opsætningen',
-          description: 'Vi tilføjer dine ydelser, prisregler, hold og skabeloner, mens du holder fokus på at køre din forretning.',
+          title: 'Opsætning, lavet for dig',
+          description: 'Giv os detaljerne. Vi tilføjer dine ydelser, prisregler, hold og skabeloner, så du ikke skal.',
         },
         {
-          title: 'Dit hold bliver trænet',
-          description: 'Live-træning så alle ved, hvordan det bruges fra dag ét. Vi går ikke før alt virker.',
+          title: 'Træning til dit hold',
+          description: 'Live-træning så alle ved, hvordan Movena bruges. Så let eller grundig som du vil.',
         },
       ],
     },

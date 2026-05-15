@@ -34,13 +34,8 @@ export default function Setup() {
                 key={step.title}
                 className="flex flex-col rounded-2xl border border-[#E2E8F0] bg-white p-7 shadow-sm"
               >
-                <div className="flex items-center gap-3 mb-4">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#1D4ED8]/10">
-                    <Icon size={18} strokeWidth={1.75} className="text-[#1D4ED8]" />
-                  </div>
-                  <span className="text-[12px] font-semibold uppercase tracking-[0.08em] text-[#94A3B8]">
-                    {String(i + 1).padStart(2, '0')}
-                  </span>
+                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#1D4ED8]/10 mb-4">
+                  <Icon size={18} strokeWidth={1.75} className="text-[#1D4ED8]" />
                 </div>
                 <h3 className="text-[18px] font-semibold tracking-[-0.01em] text-[#0B1F3B] leading-[1.3] mb-2">
                   {step.title}

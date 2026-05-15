@@ -12,7 +12,7 @@ export default function AnnouncementBar() {
     <a
       href={SIGNUP_URL}
       onClick={() => trackSignupClick('announcement_bar')}
-      className="group block w-full bg-[#1D4ED8] text-white hover:bg-[#0a1d36] transition-colors"
+      className="group block w-full bg-[#1D4ED8] text-white"
     >
       <div className="max-w-6xl mx-auto px-4 py-2 flex items-center justify-center gap-2 text-[12px] sm:text-[13px] font-medium leading-tight">
         <Sparkles size={13} strokeWidth={2} className="text-[#60A5FA] shrink-0" />

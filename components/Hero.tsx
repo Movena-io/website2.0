@@ -155,7 +155,7 @@ export default function Hero() {
           <AnimatedGroup
             delayChildren={0.05}
             staggerChildren={0.12}
-            className="flex flex-col items-center gap-5 sm:gap-7 max-w-3xl"
+            className="relative z-10 flex flex-col items-center gap-5 sm:gap-7 max-w-3xl"
           >
             <h1 className="bg-gradient-to-b from-[#0B1F3B] via-[#0B1F3B] to-[#475569] bg-clip-text text-transparent text-[40px] sm:text-[56px] lg:text-[68px] font-semibold leading-[1.05] tracking-[-0.035em]">
               {t.hero.headline}{' '}
@@ -173,7 +173,7 @@ export default function Hero() {
           <AnimatedGroup
             delayChildren={0.4}
             staggerChildren={0.08}
-            className="flex flex-col sm:flex-row items-center gap-3"
+            className="relative z-10 flex flex-col sm:flex-row items-center gap-3"
             variants={{
               container: {
                 hidden: { opacity: 0 },

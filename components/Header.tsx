@@ -7,6 +7,7 @@ import { SIGNUP_URL, LOGIN_URL } from '@/lib/constants'
 import { trackSignupClick, trackLoginClick } from '@/lib/tracking'
 import { useLanguage, useLocalizedHref } from '@/lib/LanguageContext'
 import type { Locale } from '@/lib/translations'
+import AnnouncementBar from './AnnouncementBar'
 
 const LANGUAGES: { code: Locale; label: string; flag: string }[] = [
   { code: 'en', label: 'EN', flag: '\u{1F1EC}\u{1F1E7}' },
@@ -71,7 +72,9 @@ export default function Header() {
   }, [menuOpen])
 
   return (
-    <header
+    <>
+      <AnnouncementBar />
+      <header
       className={`sticky top-5 z-50 mx-5 transition-all duration-200 ${
         menuOpen ? 'rounded-t-2xl' : 'rounded-2xl'
       } bg-white/75 backdrop-blur-md border border-[#E2E8F0] ${
@@ -202,5 +205,6 @@ export default function Header() {
         </div>
       )}
     </header>
+    </>
   )
 }

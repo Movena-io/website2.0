@@ -2,6 +2,11 @@ export type Locale = 'en' | 'da'
 
 export const translations = {
   en: {
+    announcement: {
+      text: 'Only a few',
+      highlight: 'FREE lifetime access',
+      tail: 'spots left',
+    },
     nav: {
       features: 'Features',
       howItWorks: 'How it works',
@@ -10,15 +15,15 @@ export const translations = {
       blog: 'Blog',
       talkToUs: 'Talk to us',
       logIn: 'Log in',
-      startFreeTrial: 'Start free trial',
-      joinWaitlist: 'Start free trial',
+      startFreeTrial: 'Get FREE LIFETIME Access',
+      joinWaitlist: 'Get FREE LIFETIME Access',
     },
     hero: {
       badge: 'All-in-one software for moving companies',
       headline: 'Run your moving company',
       highlight: 'from one place',
       subheadline: 'Movena runs your quotes, jobs, calendar, crew, and customer follow-ups. You run the jobs.',
-      primaryCta: 'Start free trial',
+      primaryCta: 'Get FREE LIFETIME Access',
       secondaryCta: 'See how it works',
       disclaimer: '14-day free trial. No card required. Cancel anytime.',
     },
@@ -162,7 +167,7 @@ export const translations = {
       perUser: 'per user',
       currencyNote: 'Billed in DKK or EUR. USD shown for reference.',
       finePrint: '14-day free trial. No card required. Cancel anytime. No per-quote fees, no minimums.',
-      ctaPrimary: 'Start free trial',
+      ctaPrimary: 'Get FREE LIFETIME Access',
       ctaSecondary: 'Talk to us',
       tiers: {
         admin: {
@@ -246,12 +251,12 @@ export const translations = {
       ],
     },
     finalCta: {
-      label: 'Start free trial',
+      label: 'Get FREE LIFETIME Access',
       headline: 'Start your free trial',
       highlight: 'in two minutes',
       subheadline: '14 days, full access, no card required.',
       benefit: 'If you get stuck, one of the founders will walk you through it.',
-      button: 'Start free trial',
+      button: 'Get FREE LIFETIME Access',
       disclaimer: 'Cancel anytime. No per-quote fees.',
     },
     footer: {
@@ -263,8 +268,8 @@ export const translations = {
         features: 'Features',
         howItWorks: 'How it works',
         pricing: 'Pricing',
-        startFreeTrial: 'Start free trial',
-        joinWaitlist: 'Start free trial',
+        startFreeTrial: 'Get FREE LIFETIME Access',
+        joinWaitlist: 'Get FREE LIFETIME Access',
         blog: 'Blog',
         contact: 'Contact',
         privacy: 'Privacy policy',
@@ -342,9 +347,9 @@ export const translations = {
       decline: 'Decline',
     },
     waitlist: {
-      getEarlyAccess: 'Start free trial',
+      getEarlyAccess: 'Get FREE LIFETIME Access',
       lastStep: 'Last step: tell us who you are.',
-      joinWaitlist: 'Start free trial',
+      joinWaitlist: 'Get FREE LIFETIME Access',
       back: 'Back',
       reserving: 'Reserving your spot...',
       namePlaceholder: 'Your name',
@@ -358,6 +363,11 @@ export const translations = {
   },
 
   da: {
+    announcement: {
+      text: 'Kun få',
+      highlight: 'GRATIS livstidsadgang-pladser',
+      tail: 'tilbage',
+    },
     nav: {
       features: 'Funktioner',
       howItWorks: 'Sådan virker det',
@@ -366,15 +376,15 @@ export const translations = {
       blog: 'Blog',
       talkToUs: 'Kontakt os',
       logIn: 'Log ind',
-      startFreeTrial: 'Start gratis prøveperiode',
-      joinWaitlist: 'Start gratis prøveperiode',
+      startFreeTrial: 'Få GRATIS LIVSTIDS Adgang',
+      joinWaitlist: 'Få GRATIS LIVSTIDS Adgang',
     },
     hero: {
       badge: 'Alt-i-ét software til flyttefirmaer',
       headline: 'Kør dit flyttefirma',
       highlight: 'fra ét sted',
       subheadline: 'Movena styrer dine tilbud, jobs, kalender, crew og kundeopfølgninger. Du styrer flytningerne.',
-      primaryCta: 'Start gratis prøveperiode',
+      primaryCta: 'Få GRATIS LIVSTIDS Adgang',
       secondaryCta: 'Se hvordan det virker',
       disclaimer: '14 dages gratis prøveperiode. Ingen kortoplysninger. Opsig når som helst.',
     },
@@ -518,7 +528,7 @@ export const translations = {
       perUser: 'pr. bruger',
       currencyNote: 'Faktureres i DKK eller EUR. USD vises til reference.',
       finePrint: '14 dages gratis prøveperiode. Ingen kortoplysninger. Opsig når som helst. Ingen pris pr. tilbud, intet minimum.',
-      ctaPrimary: 'Start gratis prøveperiode',
+      ctaPrimary: 'Få GRATIS LIVSTIDS Adgang',
       ctaSecondary: 'Kontakt os',
       tiers: {
         admin: {
@@ -602,12 +612,12 @@ export const translations = {
       ],
     },
     finalCta: {
-      label: 'Start gratis prøveperiode',
+      label: 'Få GRATIS LIVSTIDS Adgang',
       headline: 'Start din gratis prøveperiode',
       highlight: 'på to minutter',
       subheadline: '14 dage, fuld adgang, ingen kortoplysninger.',
       benefit: 'Sidder du fast, guider en af stifterne dig igennem.',
-      button: 'Start gratis prøveperiode',
+      button: 'Få GRATIS LIVSTIDS Adgang',
       disclaimer: 'Opsig når som helst. Ingen pris pr. tilbud.',
     },
     footer: {
@@ -619,8 +629,8 @@ export const translations = {
         features: 'Funktioner',
         howItWorks: 'Sådan virker det',
         pricing: 'Priser',
-        startFreeTrial: 'Start gratis prøveperiode',
-        joinWaitlist: 'Start gratis prøveperiode',
+        startFreeTrial: 'Få GRATIS LIVSTIDS Adgang',
+        joinWaitlist: 'Få GRATIS LIVSTIDS Adgang',
         blog: 'Blog',
         contact: 'Kontakt',
         privacy: 'Privatlivspolitik',
@@ -698,9 +708,9 @@ export const translations = {
       decline: 'Afvis',
     },
     waitlist: {
-      getEarlyAccess: 'Start gratis prøveperiode',
+      getEarlyAccess: 'Få GRATIS LIVSTIDS Adgang',
       lastStep: 'Sidste trin: fortæl os, hvem du er.',
-      joinWaitlist: 'Start gratis prøveperiode',
+      joinWaitlist: 'Få GRATIS LIVSTIDS Adgang',
       back: 'Tilbage',
       reserving: 'Reserverer din plads...',
       namePlaceholder: 'Dit navn',

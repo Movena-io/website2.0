@@ -53,25 +53,25 @@ function AnimatedGroup({
   )
 }
 
-// ─── Glow: soft radial behind the video ───────────────────────────────
+// ─── Glow: soft radial that wraps around and sits above the video ─────
 
 function Glow() {
   return (
-    <div aria-hidden className="pointer-events-none absolute inset-x-0 top-0 -z-10 flex justify-center">
-      {/* Outer wide blue glow */}
+    <div aria-hidden className="pointer-events-none absolute inset-x-0 top-0 -z-10 overflow-visible">
+      {/* Outer wide blue ambient — extends well above + outside the video */}
       <div
-        className="absolute h-[420px] w-[80%] -translate-y-[35%] rounded-[50%]"
+        className="absolute left-1/2 -translate-x-1/2 -top-24 sm:-top-40 h-[640px] w-[140%] max-w-[1500px] rounded-[50%]"
         style={{
           background:
-            'radial-gradient(ellipse at center, rgba(29,78,216,0.28) 0%, rgba(29,78,216,0.12) 40%, rgba(29,78,216,0) 70%)',
+            'radial-gradient(ellipse at center, rgba(29,78,216,0.30) 0%, rgba(29,78,216,0.10) 35%, rgba(29,78,216,0) 65%)',
         }}
       />
-      {/* Inner brighter teal accent */}
+      {/* Inner brighter teal accent — halo around the top of the video */}
       <div
-        className="absolute h-[260px] w-[55%] -translate-y-[30%] rounded-[50%]"
+        className="absolute left-1/2 -translate-x-1/2 -top-16 sm:-top-28 h-[400px] w-[80%] max-w-[900px] rounded-[50%]"
         style={{
           background:
-            'radial-gradient(ellipse at center, rgba(41,171,226,0.30) 0%, rgba(41,171,226,0) 60%)',
+            'radial-gradient(ellipse at center, rgba(41,171,226,0.35) 0%, rgba(41,171,226,0) 60%)',
         }}
       />
     </div>
@@ -204,17 +204,23 @@ export default function Hero() {
           </motion.p>
 
           {/* Video with glow */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.96 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 0.55, duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
-            className="relative w-full max-w-[1100px] mt-2 sm:mt-4"
-          >
+          {/*
+            Glow lives OUTSIDE the motion.div so it stays at full opacity
+            after the entry animation finishes. The motion.div only animates
+            the mockup itself, not the surrounding light.
+          */}
+          <div className="relative w-full max-w-[1100px] -mt-[10px]">
             <Glow />
-            <MockupFrame>
-              <HeroVideo />
-            </MockupFrame>
-          </motion.div>
+            <motion.div
+              initial={{ opacity: 0, scale: 0.96 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 0.55, duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
+            >
+              <MockupFrame>
+                <HeroVideo />
+              </MockupFrame>
+            </motion.div>
+          </div>
 
         </div>
       </div>

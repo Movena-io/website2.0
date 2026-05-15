@@ -6,6 +6,7 @@ import { LanguageProvider } from '@/lib/LanguageContext'
 import { Analytics } from '@vercel/analytics/react'
 import CookieConsent from '@/components/CookieConsent'
 import GoogleAnalytics from '@/components/GoogleAnalytics'
+import MetaPixel from '@/components/MetaPixel'
 import { LOCALES, isLocale, type Locale } from '@/lib/locales'
 
 const manrope = localFont({
@@ -158,6 +159,7 @@ export default function LocaleLayout({
           {children}
           <Analytics />
           <GoogleAnalytics />
+          <MetaPixel />
           <CookieConsent />
         </LanguageProvider>
       </body>

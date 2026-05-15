@@ -62,7 +62,7 @@ function AnimatedGroup({
 
 function Glow() {
   return (
-    <div aria-hidden className="pointer-events-none absolute inset-x-0 top-0 overflow-visible">
+    <div aria-hidden className="pointer-events-none absolute inset-x-0 top-0 overflow-visible opacity-90">
       {/* Wide outer ambient — bright center sits in the gap above the video */}
       <div
         className="absolute left-1/2 -translate-x-1/2 h-[720px] w-[140%] max-w-[1600px] rounded-[50%]"
@@ -207,8 +207,13 @@ export default function Hero() {
             Glow lives OUTSIDE the motion.div so it stays at full opacity
             after the entry animation finishes. The motion.div only animates
             the mockup itself, not the surrounding light.
+
+            `isolate` on this wrapper creates a new stacking context so the
+            Glow (which extends upward into the area above the wrapper) is
+            confined inside it. Without this, the absolutely-positioned Glow
+            paints OVER the sibling CTA group above it.
           */}
-          <div className="relative w-full max-w-[1100px] -mt-[10px]">
+          <div className="relative isolate w-full max-w-[1100px] -mt-[10px]">
             <Glow />
             <motion.div
               initial={{ opacity: 0, scale: 0.96 }}

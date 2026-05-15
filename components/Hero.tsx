@@ -1,12 +1,12 @@
 'use client'
 
 import { motion, Variants } from 'framer-motion'
-import { ArrowRight } from 'lucide-react'
+import { ArrowRight, Volume2, VolumeX } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { SIGNUP_URL } from '@/lib/constants'
 import { trackSignupClick } from '@/lib/tracking'
 import { useLanguage } from '@/lib/LanguageContext'
-import { ReactNode } from 'react'
+import { ReactNode, useRef, useState } from 'react'
 
 // ─── Animation helpers ────────────────────────────────────────────────
 
@@ -55,13 +55,27 @@ function AnimatedGroup({
 // ─── Hero video ───────────────────────────────────────────────────────
 
 function HeroVideo() {
+  const videoRef = useRef<HTMLVideoElement>(null)
+  const [muted, setMuted] = useState(true)
+
+  function toggleMuted() {
+    const v = videoRef.current
+    if (!v) return
+    const next = !muted
+    v.muted = next
+    setMuted(next)
+    // If unmuting after autoplay started, make sure we're playing
+    if (!next && v.paused) v.play().catch(() => {})
+  }
+
   return (
     <figure
-      className="w-full select-none rounded-xl overflow-hidden shadow-2xl shadow-[#0B1F3B]/20"
+      className="relative w-full select-none rounded-xl overflow-hidden shadow-2xl shadow-[#0B1F3B]/20"
       role="img"
       aria-label="Movena product walkthrough video"
     >
       <video
+        ref={videoRef}
         autoPlay
         loop
         muted
@@ -72,6 +86,15 @@ function HeroVideo() {
       >
         <source src="/assets/hero/hero-video.mp4" type="video/mp4" />
       </video>
+
+      <button
+        type="button"
+        onClick={toggleMuted}
+        aria-label={muted ? 'Unmute video' : 'Mute video'}
+        className="absolute bottom-3 right-3 inline-flex items-center justify-center h-9 w-9 rounded-full bg-[#0B1F3B]/80 backdrop-blur text-white hover:bg-[#0B1F3B] transition-colors"
+      >
+        {muted ? <VolumeX size={16} strokeWidth={2} /> : <Volume2 size={16} strokeWidth={2} />}
+      </button>
     </figure>
   )
 }

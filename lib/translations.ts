@@ -156,22 +156,22 @@ export const translations = {
       ],
     },
     setup: {
-      label: 'Free onboarding',
-      headline: 'We set it up with you.',
-      highlight: 'Free of charge.',
-      subheadline: "You don't have time to learn new software. We come in, set everything up with you, and train your team. We don't leave until you're live and running.",
+      label: 'Free onboarding help',
+      headline: "We'll set it up for you,",
+      highlight: 'if you want.',
+      subheadline: "Most owners can sign up and start using Movena the same day. If you'd rather have us do the setup with you and train your team, that's available, too. Free of charge.",
       steps: [
         {
-          title: 'A quick call',
-          description: 'A 30-minute call to understand your business, your services, and how you price your jobs.',
+          title: 'Book a call',
+          description: 'A 30-minute call to walk through how you work and what you need.',
         },
         {
-          title: 'We build it with you',
-          description: 'We add your services, pricing rules, team, and templates together. You stay focused on running your moves.',
+          title: 'We do the setup',
+          description: 'We add your services, pricing rules, team, and templates while you focus on running your business.',
         },
         {
-          title: 'Live and trained',
-          description: "We train your team on how to use Movena day-to-day. We don't leave until everything works.",
+          title: 'Your team gets trained',
+          description: "Live training so everyone knows how to use it from day one. We don't leave until it works.",
         },
       ],
     },
@@ -215,7 +215,7 @@ export const translations = {
       },
       includedTitle: 'Included in every account',
       included: [
-        'Hands-on setup with our team, free',
+        'Free hands-on setup, if you want it',
         'White-label quote form embed',
         'All 15 modules unlocked',
         'EU-hosted data, GDPR-compliant by default',
@@ -261,7 +261,7 @@ export const translations = {
         },
         {
           question: 'How long does getting set up take?',
-          answer: "We do it with you, for free. We get on a call, build your account together, and train your team. Usually about a day end-to-end. You don't have to figure it out alone.",
+          answer: "Most owners do it themselves in a few hours. If you'd rather have us do the setup with you and train your team, that's available too, free of charge. Usually about a day end-to-end. Either way works.",
         },
         {
           question: 'Is my data secure?',
@@ -544,22 +544,22 @@ export const translations = {
       ],
     },
     setup: {
-      label: 'Gratis onboarding',
-      headline: 'Vi sætter det op med dig.',
-      highlight: 'Gratis.',
-      subheadline: 'Du har ikke tid til at lære nyt software. Vi kommer ind, sætter det hele op sammen med dig og træner dit hold. Vi går ikke før alt kører.',
+      label: 'Gratis onboarding-hjælp',
+      headline: 'Vi sætter det op for dig,',
+      highlight: 'hvis du vil.',
+      subheadline: 'De fleste kan tilmelde sig og bruge Movena samme dag. Vil du hellere have os til at lave opsætningen med dig og træne dit hold, så er det også muligt. Gratis.',
       steps: [
         {
-          title: 'Et kort opkald',
-          description: 'Et 30-minutters opkald for at forstå din forretning, dine ydelser og hvordan du priser dine jobs.',
+          title: 'Book et opkald',
+          description: 'Et 30-minutters opkald hvor vi forstår, hvordan du arbejder, og hvad du har brug for.',
         },
         {
-          title: 'Vi bygger det med dig',
-          description: 'Vi tilføjer dine ydelser, prisregler, hold og skabeloner sammen. Du holder fokus på at køre dine flytninger.',
+          title: 'Vi laver opsætningen',
+          description: 'Vi tilføjer dine ydelser, prisregler, hold og skabeloner, mens du holder fokus på at køre din forretning.',
         },
         {
-          title: 'I gang og trænet',
-          description: 'Vi træner dit hold i at bruge Movena til hverdag. Vi går ikke før alt virker.',
+          title: 'Dit hold bliver trænet',
+          description: 'Live-træning så alle ved, hvordan det bruges fra dag ét. Vi går ikke før alt virker.',
         },
       ],
     },
@@ -603,7 +603,7 @@ export const translations = {
       },
       includedTitle: 'Inkluderet på alle konti',
       included: [
-        'Hands-on opsætning med vores team, gratis',
+        'Gratis hands-on opsætning, hvis du vil have hjælp',
         'White-label tilbudsformular til indbygning',
         'Alle 15 moduler åbnet',
         'EU-hosted data, GDPR-kompatibel som standard',
@@ -649,7 +649,7 @@ export const translations = {
         },
         {
           question: 'Hvor lang tid tager opsætningen?',
-          answer: 'Vi gør det sammen med dig, gratis. Vi tager et opkald, bygger din konto sammen og træner dit hold. Som regel på cirka en dag. Du skal ikke finde ud af det alene.',
+          answer: 'De fleste laver det selv på et par timer. Vil du hellere have os til at gøre det med dig og træne dit hold, er det også muligt, gratis. Som regel på cirka en dag. Begge dele virker.',
         },
         {
           question: 'Er mine data sikre?',

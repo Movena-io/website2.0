@@ -53,29 +53,34 @@ function AnimatedGroup({
   )
 }
 
-// ─── Glow: ambient halo whose bright centers sit ABOVE the video ──────
+// ─── Glow: ambient halo above + behind the video ──────────────────────
+//
+// IMPORTANT: no negative z-index here. The section's bg-white is at the
+// root stacking context, and a negative z-index would push the glow
+// BEHIND that white background (invisible). The glow is positioned BEFORE
+// the video in DOM order, so painting order naturally puts it behind.
 
 function Glow() {
   return (
-    <div aria-hidden className="pointer-events-none absolute inset-x-0 top-0 -z-10 overflow-visible">
-      {/* Wide outer ambient — bright center ~150px above the video top */}
+    <div aria-hidden className="pointer-events-none absolute inset-x-0 top-0 overflow-visible">
+      {/* Wide outer ambient — bright center sits in the gap above the video */}
       <div
         className="absolute left-1/2 -translate-x-1/2 h-[720px] w-[140%] max-w-[1600px] rounded-[50%]"
         style={{
-          top: '-510px',
+          top: '-400px',
           background:
             'radial-gradient(ellipse at center, rgba(29,78,216,0.55) 0%, rgba(29,78,216,0.22) 35%, rgba(29,78,216,0) 65%)',
-          filter: 'blur(24px)',
+          filter: 'blur(28px)',
         }}
       />
-      {/* Brighter teal core — closer to the video top edge */}
+      {/* Brighter teal core — sits just above the video top edge */}
       <div
-        className="absolute left-1/2 -translate-x-1/2 h-[440px] w-[80%] max-w-[950px] rounded-[50%]"
+        className="absolute left-1/2 -translate-x-1/2 h-[460px] w-[85%] max-w-[1000px] rounded-[50%]"
         style={{
-          top: '-280px',
+          top: '-220px',
           background:
             'radial-gradient(ellipse at center, rgba(41,171,226,0.65) 0%, rgba(41,171,226,0) 60%)',
-          filter: 'blur(18px)',
+          filter: 'blur(20px)',
         }}
       />
     </div>

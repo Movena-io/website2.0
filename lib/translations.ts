@@ -157,9 +157,9 @@ export const translations = {
     },
     setup: {
       label: 'Free onboarding help',
-      headline: "We'll set it up for you,",
-      highlight: 'if you want.',
-      subheadline: "Most owners can sign up and start using Movena the same day. If you'd rather have us do the setup with you and train your team, that's available, too. Free of charge.",
+      headline: 'Switching systems can be a lot.',
+      highlight: 'We help you through it.',
+      subheadline: 'We know it can be overwhelming to change systems, so we offer free onboarding help to make the process as quick and smooth as possible.',
       steps: [
         {
           title: 'Book a call',
@@ -545,9 +545,9 @@ export const translations = {
     },
     setup: {
       label: 'Gratis onboarding-hjælp',
-      headline: 'Vi sætter det op for dig,',
-      highlight: 'hvis du vil.',
-      subheadline: 'De fleste kan tilmelde sig og bruge Movena samme dag. Vil du hellere have os til at lave opsætningen med dig og træne dit hold, så er det også muligt. Gratis.',
+      headline: 'At skifte system kan være meget.',
+      highlight: 'Vi hjælper dig igennem.',
+      subheadline: 'Vi ved, det kan være overvældende at skifte system, så vi tilbyder gratis onboarding-hjælp for at gøre processen så hurtig og glat som muligt.',
       steps: [
         {
           title: 'Book et opkald',

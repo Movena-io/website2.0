@@ -53,25 +53,29 @@ function AnimatedGroup({
   )
 }
 
-// ─── Glow: soft radial that wraps around and sits above the video ─────
+// ─── Glow: ambient halo whose bright centers sit ABOVE the video ──────
 
 function Glow() {
   return (
     <div aria-hidden className="pointer-events-none absolute inset-x-0 top-0 -z-10 overflow-visible">
-      {/* Outer wide blue ambient — extends well above + outside the video */}
+      {/* Wide outer ambient — bright center ~150px above the video top */}
       <div
-        className="absolute left-1/2 -translate-x-1/2 -top-24 sm:-top-40 h-[640px] w-[140%] max-w-[1500px] rounded-[50%]"
+        className="absolute left-1/2 -translate-x-1/2 h-[720px] w-[140%] max-w-[1600px] rounded-[50%]"
         style={{
+          top: '-510px',
           background:
-            'radial-gradient(ellipse at center, rgba(29,78,216,0.30) 0%, rgba(29,78,216,0.10) 35%, rgba(29,78,216,0) 65%)',
+            'radial-gradient(ellipse at center, rgba(29,78,216,0.55) 0%, rgba(29,78,216,0.22) 35%, rgba(29,78,216,0) 65%)',
+          filter: 'blur(24px)',
         }}
       />
-      {/* Inner brighter teal accent — halo around the top of the video */}
+      {/* Brighter teal core — closer to the video top edge */}
       <div
-        className="absolute left-1/2 -translate-x-1/2 -top-16 sm:-top-28 h-[400px] w-[80%] max-w-[900px] rounded-[50%]"
+        className="absolute left-1/2 -translate-x-1/2 h-[440px] w-[80%] max-w-[950px] rounded-[50%]"
         style={{
+          top: '-280px',
           background:
-            'radial-gradient(ellipse at center, rgba(41,171,226,0.35) 0%, rgba(41,171,226,0) 60%)',
+            'radial-gradient(ellipse at center, rgba(41,171,226,0.65) 0%, rgba(41,171,226,0) 60%)',
+          filter: 'blur(18px)',
         }}
       />
     </div>

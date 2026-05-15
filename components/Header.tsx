@@ -75,7 +75,7 @@ export default function Header() {
     <>
       <AnnouncementBar />
       <header
-      className={`sticky top-5 z-50 mx-5 transition-all duration-200 ${
+      className={`sticky top-5 z-50 mx-5 mt-[5px] transition-all duration-200 ${
         menuOpen ? 'rounded-t-2xl' : 'rounded-2xl'
       } bg-white/75 backdrop-blur-md border border-[#E2E8F0] ${
         scrolled ? 'shadow-md' : 'shadow-sm'

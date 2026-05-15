@@ -28,9 +28,6 @@ export default function FinalCTA() {
             <ArrowRight size={15} strokeWidth={2} />
           </a>
         </div>
-        <p className="mt-4 text-[13px] font-medium text-white/30">
-          {t.finalCta.disclaimer}
-        </p>
       </div>
     </section>
   )

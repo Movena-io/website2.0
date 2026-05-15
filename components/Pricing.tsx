@@ -60,6 +60,7 @@ function PriceCard({
   interval,
   perMonthLabel,
   perUserLabel,
+  lifetimeLabel,
   ctaLabel,
   ctaLocation,
 }: {
@@ -71,6 +72,7 @@ function PriceCard({
   interval: PricingInterval
   perMonthLabel: string
   perUserLabel: string
+  lifetimeLabel: string
   ctaLabel: string
   ctaLocation: string
 }) {
@@ -89,18 +91,26 @@ function PriceCard({
       <p className="text-[15px] font-semibold text-[#0B1F3B]">{name}</p>
       <p className="mt-1 text-[13px] text-[#64748B] leading-[1.5]">{tagline}</p>
 
-      <div className="mt-6 flex items-baseline gap-1.5">
-        <span className="text-[40px] font-semibold tracking-[-0.02em] text-[#0B1F3B]">
+      {/* Original price — struck through, muted */}
+      <div className="mt-6 flex items-baseline gap-1.5 opacity-60">
+        <span className="text-[22px] font-medium tracking-[-0.01em] text-[#64748B] line-through decoration-2 decoration-[#94A3B8]">
           {CURRENCY_SYMBOLS[currency]}{display}
         </span>
-        <span className="text-[14px] font-medium text-[#64748B]">{perMonthLabel}</span>
+        <span className="text-[12px] font-medium text-[#94A3B8] line-through">{perMonthLabel}</span>
+      </div>
+
+      {/* Actual lifetime offer price */}
+      <div className="mt-1 flex items-baseline gap-2">
+        <span className="text-[40px] font-bold tracking-[-0.02em] bg-gradient-to-r from-[#1D4ED8] to-[#29ABE2] bg-clip-text text-transparent">
+          {CURRENCY_SYMBOLS[currency]}0
+        </span>
+        <span className="text-[14px] font-bold uppercase tracking-[0.06em] text-[#1D4ED8]">{lifetimeLabel}</span>
       </div>
       <p className="mt-1 text-[12px] text-[#94A3B8]">
         {perUserLabel}
         {interval === 'year' && (
           <>
-            {' · '}
-            {CURRENCY_SYMBOLS[currency]}{amount} {interval === 'year' ? '/year' : ''}
+            {' · '}was {CURRENCY_SYMBOLS[currency]}{amount}{interval === 'year' ? '/year' : ''}
           </>
         )}
       </p>
@@ -143,7 +153,7 @@ export default function Pricing() {
       <div className="max-w-5xl mx-auto px-6">
 
         {/* Header */}
-        <div className="flex flex-col items-center gap-3 text-center mb-10">
+        <div className="flex flex-col items-center gap-3 text-center mb-6">
           <span className="block text-[11px] font-semibold uppercase tracking-[0.1em] text-[#1D4ED8]">
             {t.pricing.label}
           </span>
@@ -153,6 +163,16 @@ export default function Pricing() {
           <p className="text-[15px] text-[#475569] max-w-[520px] leading-[1.7]">
             {t.pricing.subheadline}
           </p>
+        </div>
+
+        {/* Lifetime offer scarcity callout */}
+        <div className="flex justify-center mb-10">
+          <div className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-[#1D4ED8]/10 to-[#29ABE2]/10 border border-[#1D4ED8]/20 px-4 py-2">
+            <span className="h-2 w-2 rounded-full bg-[#1D4ED8] animate-pulse" />
+            <span className="text-[12px] sm:text-[13px] font-semibold text-[#0B1F3B]">
+              {t.pricing.scarcityCallout}
+            </span>
+          </div>
         </div>
 
         {/* Toggles */}
@@ -194,6 +214,7 @@ export default function Pricing() {
             interval={interval}
             perMonthLabel={t.pricing.perMonth}
             perUserLabel={t.pricing.perUser}
+            lifetimeLabel={t.pricing.lifetimeLabel}
             ctaLabel={t.pricing.ctaPrimary}
             ctaLocation="pricing_admin"
           />
@@ -206,6 +227,7 @@ export default function Pricing() {
             interval={interval}
             perMonthLabel={t.pricing.perMonth}
             perUserLabel={t.pricing.perUser}
+            lifetimeLabel={t.pricing.lifetimeLabel}
             ctaLabel={t.pricing.ctaPrimary}
             ctaLocation="pricing_crew"
           />

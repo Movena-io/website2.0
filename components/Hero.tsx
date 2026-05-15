@@ -197,16 +197,6 @@ export default function Hero() {
             </a>
           </AnimatedGroup>
 
-          {/* Disclaimer */}
-          <motion.p
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.7, duration: 0.6 }}
-            className="text-[13px] text-[#64748B] -mt-2"
-          >
-            {t.hero.disclaimer}
-          </motion.p>
-
           {/* Video with glow */}
           {/*
             Glow lives OUTSIDE the motion.div so it stays at full opacity

@@ -4,10 +4,11 @@ import { useEffect, useState } from 'react'
 import { usePathname } from 'next/navigation'
 import Script from 'next/script'
 
-// Set NEXT_PUBLIC_META_PIXEL_ID in Vercel project settings (and locally in
-// .env.local). Without it the component renders nothing, so the site keeps
-// working in dev / pre-launch.
-const PIXEL_ID = process.env.NEXT_PUBLIC_META_PIXEL_ID
+// Movena production pixel. NEXT_PUBLIC_* values ship in the client bundle
+// regardless, so the ID is public — keeping it in code avoids a Vercel
+// dashboard step on every environment. Override with NEXT_PUBLIC_META_PIXEL_ID
+// if a different pixel is needed (e.g. staging).
+const PIXEL_ID = process.env.NEXT_PUBLIC_META_PIXEL_ID || '1288249336730331'
 
 declare global {
   interface Window {

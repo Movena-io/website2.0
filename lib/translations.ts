@@ -155,6 +155,26 @@ export const translations = {
         },
       ],
     },
+    setup: {
+      label: 'Free onboarding',
+      headline: 'We set it up with you.',
+      highlight: 'Free of charge.',
+      subheadline: "You don't have time to learn new software. We come in, set everything up with you, and train your team. We don't leave until you're live and running.",
+      steps: [
+        {
+          title: 'A quick call',
+          description: 'A 30-minute call to understand your business, your services, and how you price your jobs.',
+        },
+        {
+          title: 'We build it with you',
+          description: 'We add your services, pricing rules, team, and templates together. You stay focused on running your moves.',
+        },
+        {
+          title: 'Live and trained',
+          description: "We train your team on how to use Movena day-to-day. We don't leave until everything works.",
+        },
+      ],
+    },
     pricing: {
       label: 'Pricing',
       headline: 'Free for early adopters.',
@@ -195,6 +215,7 @@ export const translations = {
       },
       includedTitle: 'Included in every account',
       included: [
+        'Hands-on setup with our team, free',
         'White-label quote form embed',
         'All 15 modules unlocked',
         'EU-hosted data, GDPR-compliant by default',
@@ -240,7 +261,7 @@ export const translations = {
         },
         {
           question: 'How long does getting set up take?',
-          answer: 'About a day. You add your services, pricing rules, and team. We help you through it for free so the move from your current tools is as smooth as possible.',
+          answer: "We do it with you, for free. We get on a call, build your account together, and train your team. Usually about a day end-to-end. You don't have to figure it out alone.",
         },
         {
           question: 'Is my data secure?',
@@ -522,6 +543,26 @@ export const translations = {
         },
       ],
     },
+    setup: {
+      label: 'Gratis onboarding',
+      headline: 'Vi sætter det op med dig.',
+      highlight: 'Gratis.',
+      subheadline: 'Du har ikke tid til at lære nyt software. Vi kommer ind, sætter det hele op sammen med dig og træner dit hold. Vi går ikke før alt kører.',
+      steps: [
+        {
+          title: 'Et kort opkald',
+          description: 'Et 30-minutters opkald for at forstå din forretning, dine ydelser og hvordan du priser dine jobs.',
+        },
+        {
+          title: 'Vi bygger det med dig',
+          description: 'Vi tilføjer dine ydelser, prisregler, hold og skabeloner sammen. Du holder fokus på at køre dine flytninger.',
+        },
+        {
+          title: 'I gang og trænet',
+          description: 'Vi træner dit hold i at bruge Movena til hverdag. Vi går ikke før alt virker.',
+        },
+      ],
+    },
     pricing: {
       label: 'Priser',
       headline: 'Gratis for tidlige kunder.',
@@ -562,6 +603,7 @@ export const translations = {
       },
       includedTitle: 'Inkluderet på alle konti',
       included: [
+        'Hands-on opsætning med vores team, gratis',
         'White-label tilbudsformular til indbygning',
         'Alle 15 moduler åbnet',
         'EU-hosted data, GDPR-kompatibel som standard',
@@ -607,7 +649,7 @@ export const translations = {
         },
         {
           question: 'Hvor lang tid tager opsætningen?',
-          answer: 'Cirka en dag. Du tilføjer dine ydelser, prisregler og hold. Vi hjælper dig gennem det gratis, så skiftet fra dine nuværende værktøjer bliver så glat som muligt.',
+          answer: 'Vi gør det sammen med dig, gratis. Vi tager et opkald, bygger din konto sammen og træner dit hold. Som regel på cirka en dag. Du skal ikke finde ud af det alene.',
         },
         {
           question: 'Er mine data sikre?',

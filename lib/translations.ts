@@ -2,30 +2,23 @@ export type Locale = 'en' | 'da'
 
 export const translations = {
   en: {
-    announcement: {
-      text: 'Only a few',
-      highlight: 'FREE lifetime access',
-      tail: 'spots left',
-    },
     nav: {
       features: 'Features',
       howItWorks: 'How it works',
-      pricing: 'Pricing',
       faq: 'FAQ',
       blog: 'Blog',
       talkToUs: 'Talk to us',
       logIn: 'Log in',
-      startFreeTrial: 'Get FREE Lifetime Access',
-      joinWaitlist: 'Get FREE Lifetime Access',
+      bookDemo: 'Book a demo',
     },
     hero: {
       badge: 'All-in-one software for moving companies',
       headline: 'Run your moving company',
       highlight: 'from one place',
       subheadline: 'Movena runs your quotes, jobs, calendar, crew, and customer follow-ups. You run the jobs.',
-      primaryCta: 'Get FREE Lifetime Access',
+      primaryCta: 'Book a demo',
       secondaryCta: 'See how it works',
-      disclaimer: '14-day free trial. No card required. Cancel anytime.',
+      disclaimer: '',
     },
     painPoints: {
       label: 'The problem',
@@ -175,53 +168,6 @@ export const translations = {
         },
       ],
     },
-    pricing: {
-      label: 'Pricing',
-      headline: 'Free for early adopters.',
-      highlight: 'Lifetime.',
-      subheadline: 'Normally per-user pricing. For our first customers, the entire platform is free, forever — Admin and Crew seats included. No card. No catch.',
-      scarcityCallout: 'Only a few free lifetime spots left',
-      monthlyLabel: 'Monthly',
-      annualLabel: 'Annual',
-      annualSavings: 'Save 17%',
-      perMonth: '/month',
-      perUser: 'per user',
-      lifetimeLabel: 'Lifetime',
-      currencyNote: 'Original prices shown in DKK or EUR. USD for reference.',
-      finePrint: 'When the spots are gone, prices return to normal. Lock in lifetime now.',
-      ctaPrimary: 'Get FREE Lifetime Access',
-      ctaSecondary: 'Talk to us',
-      tiers: {
-        admin: {
-          name: 'Admin',
-          tagline: 'Full access to every module.',
-          features: [
-            'Leads, quotes, jobs, calendar',
-            'Customers, contacts, automations',
-            'Pricing rules, branding, integrations',
-            'Reports, audit log, team management',
-          ],
-        },
-        crew: {
-          name: 'Crew',
-          tagline: 'Mobile access for movers on the road.',
-          features: [
-            'Today\'s assigned jobs',
-            'Customer details and addresses',
-            'Inventory and time tracking',
-            'Time off requests',
-          ],
-        },
-      },
-      includedTitle: 'Included in every account',
-      included: [
-        'Free hands-on setup, if you want it',
-        'White-label quote form embed',
-        'All 15 modules unlocked',
-        'EU-hosted data, GDPR-compliant by default',
-        'Direct support from the founders',
-      ],
-    },
     howItWorks: {
       label: 'How it works',
       headline: 'Up and running in a day',
@@ -252,12 +198,8 @@ export const translations = {
       contactLink: 'Contact us',
       items: [
         {
-          question: 'What does Movena cost right now?',
-          answer: 'For our first customers, the entire platform is free — forever. Both admin and crew seats. No card, no time limit. Once the early-customer spots are gone, prices return to the regular per-user model (279 DKK per admin / 149 DKK per crew per month). If you sign up while spots are still open, you keep free lifetime access.',
-        },
-        {
-          question: 'What is the catch with free lifetime access?',
-          answer: 'No catch. We are early in the market and want a small group of moving companies running their business on Movena and giving us feedback. In exchange, you keep the platform free forever. We are limiting the number of free lifetime spots so we can support each one personally.',
+          question: 'What does Movena cost?',
+          answer: 'Pricing is per user and depends on the size of your team. We walk through the exact numbers on the demo call so we can match the right plan to your business.',
         },
         {
           question: 'How long does getting set up take?',
@@ -278,12 +220,12 @@ export const translations = {
       ],
     },
     finalCta: {
-      label: 'Free lifetime access',
-      headline: 'Claim your free lifetime spot',
-      highlight: 'before they run out',
-      subheadline: 'A handful of free lifetime spots remain.',
-      benefit: 'If you get stuck, one of the founders will walk you through setup personally.',
-      button: 'Get FREE Lifetime Access',
+      label: 'Book a demo',
+      headline: 'See Movena in action',
+      highlight: 'on a 30-minute call',
+      subheadline: 'Pick a time that works for you. One of the founders will walk you through Movena and show how it fits the way your team already runs jobs.',
+      benefit: 'Every question welcome, including pricing.',
+      button: 'Book a demo',
       disclaimer: '',
     },
     footer: {
@@ -294,9 +236,7 @@ export const translations = {
       links: {
         features: 'Features',
         howItWorks: 'How it works',
-        pricing: 'Pricing',
-        startFreeTrial: 'Get FREE Lifetime Access',
-        joinWaitlist: 'Get FREE Lifetime Access',
+        bookDemo: 'Book a demo',
         blog: 'Blog',
         contact: 'Contact',
         privacy: 'Privacy policy',
@@ -390,30 +330,23 @@ export const translations = {
   },
 
   da: {
-    announcement: {
-      text: 'Kun få',
-      highlight: 'GRATIS livstidsadgang-pladser',
-      tail: 'tilbage',
-    },
     nav: {
       features: 'Funktioner',
       howItWorks: 'Sådan virker det',
-      pricing: 'Priser',
       faq: 'FAQ',
       blog: 'Blog',
       talkToUs: 'Kontakt os',
       logIn: 'Log ind',
-      startFreeTrial: 'Få GRATIS Livstids Adgang',
-      joinWaitlist: 'Få GRATIS Livstids Adgang',
+      bookDemo: 'Book en demo',
     },
     hero: {
       badge: 'Alt-i-ét software til flyttefirmaer',
       headline: 'Kør dit flyttefirma',
       highlight: 'fra ét sted',
       subheadline: 'Movena styrer dine tilbud, jobs, kalender, crew og kundeopfølgninger. Du styrer flytningerne.',
-      primaryCta: 'Få GRATIS Livstids Adgang',
+      primaryCta: 'Book en demo',
       secondaryCta: 'Se hvordan det virker',
-      disclaimer: '14 dages gratis prøveperiode. Ingen kortoplysninger. Opsig når som helst.',
+      disclaimer: '',
     },
     painPoints: {
       label: 'Problemet',
@@ -563,53 +496,6 @@ export const translations = {
         },
       ],
     },
-    pricing: {
-      label: 'Priser',
-      headline: 'Gratis for tidlige kunder.',
-      highlight: 'Livstid.',
-      subheadline: 'Normalt pris pr. bruger. For vores første kunder er hele platformen gratis, for evigt — både Admin og Crew. Ingen kortoplysninger. Ingen smutter.',
-      scarcityCallout: 'Kun få gratis livstidspladser tilbage',
-      monthlyLabel: 'Månedlig',
-      annualLabel: 'Årlig',
-      annualSavings: 'Spar 17%',
-      perMonth: '/måned',
-      perUser: 'pr. bruger',
-      lifetimeLabel: 'Livstid',
-      currencyNote: 'Oprindelige priser vises i DKK eller EUR. USD til reference.',
-      finePrint: 'Når pladserne er væk, vender priserne tilbage til normalt. Lås livstid ind nu.',
-      ctaPrimary: 'Få GRATIS Livstids Adgang',
-      ctaSecondary: 'Kontakt os',
-      tiers: {
-        admin: {
-          name: 'Admin',
-          tagline: 'Fuld adgang til hvert modul.',
-          features: [
-            'Leads, tilbud, jobs, kalender',
-            'Kunder, kontakter, automatiseringer',
-            'Prisregler, branding, integrationer',
-            'Rapporter, revisionsspor, holdadministration',
-          ],
-        },
-        crew: {
-          name: 'Crew',
-          tagline: 'Mobil adgang for flyttefolk på farten.',
-          features: [
-            'Dagens tildelte jobs',
-            'Kundeoplysninger og adresser',
-            'Materialer og tidsregistrering',
-            'Anmodning om fri',
-          ],
-        },
-      },
-      includedTitle: 'Inkluderet på alle konti',
-      included: [
-        'Gratis hands-on opsætning, hvis du vil have hjælp',
-        'White-label tilbudsformular til indbygning',
-        'Alle 15 moduler åbnet',
-        'EU-hosted data, GDPR-kompatibel som standard',
-        'Direkte support fra stifterne',
-      ],
-    },
     howItWorks: {
       label: 'Sådan virker det',
       headline: 'Oppe at køre på en dag',
@@ -640,12 +526,8 @@ export const translations = {
       contactLink: 'Kontakt os',
       items: [
         {
-          question: 'Hvad koster Movena lige nu?',
-          answer: 'For vores første kunder er hele platformen gratis — for altid. Både admin og crew. Ingen kortoplysninger, ingen tidsbegrænsning. Når pladserne for tidlige kunder er væk, vender priserne tilbage til den normale pris-pr.-bruger model (279 DKK pr. admin / 149 DKK pr. crew pr. måned). Tilmelder du dig mens pladserne er åbne, beholder du gratis livstidsadgang.',
-        },
-        {
-          question: 'Hvad er smutter ved gratis livstidsadgang?',
-          answer: 'Ingen smutter. Vi er tidligt i markedet og ønsker en lille gruppe flyttefirmaer, der driver deres forretning på Movena og giver os feedback. Til gengæld beholder I platformen gratis for altid. Vi begrænser antallet af gratis livstidspladser, så vi kan støtte hver enkelt personligt.',
+          question: 'Hvad koster Movena?',
+          answer: 'Prisen er pr. bruger og afhænger af holdets størrelse. Vi gennemgår de eksakte tal på demo-opkaldet, så vi kan matche den rigtige plan til din forretning.',
         },
         {
           question: 'Hvor lang tid tager opsætningen?',
@@ -666,12 +548,12 @@ export const translations = {
       ],
     },
     finalCta: {
-      label: 'Gratis livstidsadgang',
-      headline: 'Sikr din gratis livstidsplads',
-      highlight: 'før de er væk',
-      subheadline: 'Få gratis livstidspladser tilbage.',
-      benefit: 'Sidder du fast, guider en af stifterne dig personligt gennem opsætningen.',
-      button: 'Få GRATIS Livstids Adgang',
+      label: 'Book en demo',
+      headline: 'Se Movena i aktion',
+      highlight: 'på et 30-minutters opkald',
+      subheadline: 'Vælg et tidspunkt der passer dig. En af stifterne viser dig Movena og hvordan det passer til den måde, dit hold allerede kører jobs på.',
+      benefit: 'Alle spørgsmål er velkomne, også om pris.',
+      button: 'Book en demo',
       disclaimer: '',
     },
     footer: {
@@ -682,9 +564,7 @@ export const translations = {
       links: {
         features: 'Funktioner',
         howItWorks: 'Sådan virker det',
-        pricing: 'Priser',
-        startFreeTrial: 'Få GRATIS Livstids Adgang',
-        joinWaitlist: 'Få GRATIS Livstids Adgang',
+        bookDemo: 'Book en demo',
         blog: 'Blog',
         contact: 'Kontakt',
         privacy: 'Privatlivspolitik',

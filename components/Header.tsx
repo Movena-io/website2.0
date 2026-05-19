@@ -3,11 +3,10 @@
 import { useState, useEffect, useRef } from 'react'
 import { Menu, X, ChevronDown } from 'lucide-react'
 import Image from 'next/image'
-import { SIGNUP_URL, LOGIN_URL } from '@/lib/constants'
-import { trackSignupClick, trackLoginClick } from '@/lib/tracking'
+import { DEMO_URL, LOGIN_URL } from '@/lib/constants'
+import { trackDemoClick, trackLoginClick } from '@/lib/tracking'
 import { useLanguage, useLocalizedHref } from '@/lib/LanguageContext'
 import type { Locale } from '@/lib/translations'
-import AnnouncementBar from './AnnouncementBar'
 
 const LANGUAGES: { code: Locale; label: string; flag: string }[] = [
   { code: 'en', label: 'EN', flag: '\u{1F1EC}\u{1F1E7}' },
@@ -72,9 +71,7 @@ export default function Header() {
   }, [menuOpen])
 
   return (
-    <>
-      <AnnouncementBar />
-      <header
+    <header
       className={`sticky top-5 z-50 mx-5 mt-[5px] transition-all duration-200 ${
         menuOpen ? 'rounded-t-2xl' : 'rounded-2xl'
       } bg-white/75 backdrop-blur-md border border-[#E2E8F0] ${
@@ -90,7 +87,6 @@ export default function Header() {
 
         <nav className="hidden md:flex items-center justify-center gap-8">
           <a href={href('/#features')} className="text-[14px] font-medium text-[#475569] hover:text-[#0F172A] transition-colors">{t.nav.features}</a>
-          <a href={href('/#pricing')} className="text-[14px] font-medium text-[#475569] hover:text-[#0F172A] transition-colors">{t.nav.pricing}</a>
           <a href={href('/#faq')} className="text-[14px] font-medium text-[#475569] hover:text-[#0F172A] transition-colors">{t.nav.faq}</a>
           <a href={href('/blog')} className="text-[14px] font-medium text-[#475569] hover:text-[#0F172A] transition-colors">{t.nav.blog}</a>
           <a href={href('/contact')} className="text-[14px] font-medium text-[#475569] hover:text-[#0F172A] transition-colors">{t.nav.talkToUs}</a>
@@ -142,11 +138,13 @@ export default function Header() {
           </div>
 
           <a
-            href={SIGNUP_URL}
-            onClick={() => trackSignupClick('header')}
+            href={DEMO_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={() => trackDemoClick('header')}
             className="btn-gradient inline-flex items-center justify-center h-10 px-5 rounded-lg text-white text-[14px] font-semibold"
           >
-            {t.nav.startFreeTrial}
+            {t.nav.bookDemo}
           </a>
         </div>
 
@@ -165,7 +163,6 @@ export default function Header() {
       {menuOpen && (
         <div ref={mobileMenuRef} className="md:hidden bg-white/75 border-t border-[#E2E8F0] px-6 py-4 flex flex-col gap-4 rounded-b-2xl">
           <a href={href('/#features')} onClick={() => setMenuOpen(false)} className="text-[14px] font-medium text-[#475569]">{t.nav.features}</a>
-          <a href={href('/#pricing')} onClick={() => setMenuOpen(false)} className="text-[14px] font-medium text-[#475569]">{t.nav.pricing}</a>
           <a href={href('/#faq')} onClick={() => setMenuOpen(false)} className="text-[14px] font-medium text-[#475569]">{t.nav.faq}</a>
           <a href={href('/blog')} onClick={() => setMenuOpen(false)} className="text-[14px] font-medium text-[#475569]">{t.nav.blog}</a>
           <a href={href('/contact')} onClick={() => setMenuOpen(false)} className="text-[14px] font-medium text-[#475569]">{t.nav.talkToUs}</a>
@@ -196,15 +193,16 @@ export default function Header() {
           </div>
 
           <a
-            href={SIGNUP_URL}
-            onClick={() => { trackSignupClick('header_mobile'); setMenuOpen(false) }}
+            href={DEMO_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={() => { trackDemoClick('header_mobile'); setMenuOpen(false) }}
             className="btn-gradient inline-flex items-center justify-center h-10 px-4 rounded-lg text-white text-[14px] font-semibold w-full"
           >
-            {t.nav.startFreeTrial}
+            {t.nav.bookDemo}
           </a>
         </div>
       )}
     </header>
-    </>
   )
 }

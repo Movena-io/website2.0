@@ -4,17 +4,16 @@ export function trackWaitlistClick(location: string) {
   }
 }
 
-export function trackSignupClick(location: string) {
+export function trackDemoClick(location: string) {
   if (typeof window === 'undefined') return
 
   if (typeof window.gtag === 'function') {
-    window.gtag('event', 'signup_click', { location })
+    window.gtag('event', 'demo_click', { location })
   }
 
-  // Meta Pixel: signup intent. The actual CompleteRegistration event
-  // fires from the Lovable app on successful account creation.
+  // Meta Pixel: demo booking intent. Final Schedule event fires from Cal.com.
   if (typeof window.fbq === 'function') {
-    window.fbq('track', 'Lead', { source: location })
+    window.fbq('track', 'Schedule', { source: location })
   }
 }
 

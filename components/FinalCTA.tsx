@@ -1,8 +1,8 @@
 'use client'
 
 import { ArrowRight } from 'lucide-react'
-import { SIGNUP_URL } from '@/lib/constants'
-import { trackSignupClick } from '@/lib/tracking'
+import { DEMO_URL } from '@/lib/constants'
+import { trackDemoClick } from '@/lib/tracking'
 import { useLanguage } from '@/lib/LanguageContext'
 
 export default function FinalCTA() {
@@ -20,8 +20,10 @@ export default function FinalCTA() {
         </p>
         <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-3">
           <a
-            href={SIGNUP_URL}
-            onClick={() => trackSignupClick('final_cta')}
+            href={DEMO_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={() => trackDemoClick('final_cta')}
             className="inline-flex items-center justify-center gap-2 h-12 px-7 rounded-xl bg-white text-[#0B1F3B] text-[15px] font-semibold hover:bg-white/90 transition-colors"
           >
             {t.finalCta.button}

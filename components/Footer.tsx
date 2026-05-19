@@ -1,8 +1,8 @@
 'use client'
 
 import Image from 'next/image'
-import { SIGNUP_URL } from '@/lib/constants'
-import { trackSignupClick } from '@/lib/tracking'
+import { DEMO_URL } from '@/lib/constants'
+import { trackDemoClick } from '@/lib/tracking'
 import { useLanguage, useLocalizedHref } from '@/lib/LanguageContext'
 
 export default function Footer() {
@@ -12,8 +12,7 @@ export default function Footer() {
   const links = {
     [t.footer.product]: [
       { label: t.footer.links.features, href: href('/#features') },
-      { label: t.footer.links.pricing, href: href('/#pricing') },
-      { label: t.footer.links.startFreeTrial, href: SIGNUP_URL, external: true },
+      { label: t.footer.links.bookDemo, href: DEMO_URL, external: true },
     ],
     [t.footer.company]: [
       { label: t.footer.links.blog, href: href('/blog') },
@@ -55,7 +54,9 @@ export default function Footer() {
                     <li key={label}>
                       <a
                         href={href}
-                        onClick={external ? () => trackSignupClick('footer') : undefined}
+                        target={external ? '_blank' : undefined}
+                        rel={external ? 'noopener noreferrer' : undefined}
+                        onClick={external ? () => trackDemoClick('footer') : undefined}
                         className="text-[13px] text-[#94A3B8] hover:text-white transition-colors"
                       >
                         {label}

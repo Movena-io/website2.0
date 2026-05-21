@@ -38,6 +38,7 @@ function sanitizeInputs(raw: unknown): CalculatorInputs {
     reviewsPerMonth: num(r.reviewsPerMonth),
     sendsReviewRequest: bool(r.sendsReviewRequest),
     extraReviewsPerMonth: num(r.extraReviewsPerMonth),
+    reviewMinutesPerMonth: num(r.reviewMinutesPerMonth),
     doesMessaging: bool(r.doesMessaging),
     messagingHoursPerWeek: num(r.messagingHoursPerWeek),
     tracksInventory: bool(r.tracksInventory),
@@ -81,25 +82,35 @@ export async function POST(req: NextRequest) {
     status.attio = `error:${err instanceof Error ? err.message : 'unknown'}`
   }
 
-  // 2 + 3. Emails (visitor report + team summary)
+  // 2 + 3. Emails (visitor report + team summary). NOTE: resend.emails.send does
+  // NOT throw on API errors (bad key, unverified domain, rejected recipient) — it
+  // returns { error }. So we must inspect the response, not just catch throws.
   if (process.env.RESEND_API_KEY) {
     const resend = new Resend(process.env.RESEND_API_KEY)
 
-    try {
-      const v = buildVisitorEmail(payload)
-      await resend.emails.send({ from: FROM, to: email, replyTo: TEAM_TO, subject: v.subject, html: v.html, text: v.text })
-      status.visitorEmail = 'ok'
-    } catch (err) {
-      status.visitorEmail = `error:${err instanceof Error ? err.message : 'unknown'}`
+    const send = async (
+      to: string,
+      replyTo: string,
+      mail: { subject: string; html: string; text: string },
+    ): Promise<string> => {
+      try {
+        const { error } = await resend.emails.send({
+          from: FROM,
+          to,
+          replyTo,
+          subject: mail.subject,
+          html: mail.html,
+          text: mail.text,
+        })
+        if (error) return `error:${error.name ?? ''} ${error.message ?? JSON.stringify(error)}`.trim()
+        return 'ok'
+      } catch (err) {
+        return `throw:${err instanceof Error ? err.message : 'unknown'}`
+      }
     }
 
-    try {
-      const tm = buildTeamEmail(payload)
-      await resend.emails.send({ from: FROM, to: TEAM_TO, replyTo: email, subject: tm.subject, html: tm.html, text: tm.text })
-      status.teamEmail = 'ok'
-    } catch (err) {
-      status.teamEmail = `error:${err instanceof Error ? err.message : 'unknown'}`
-    }
+    status.visitorEmail = await send(email, TEAM_TO, buildVisitorEmail(payload))
+    status.teamEmail = await send(TEAM_TO, email, buildTeamEmail(payload))
   } else {
     status.visitorEmail = status.teamEmail = 'skipped:no_resend_key'
   }
@@ -107,9 +118,9 @@ export async function POST(req: NextRequest) {
   // 4. Local store (best-effort safety net)
   await appendLead(payload)
 
-  if (Object.values(status).some((s) => s.startsWith('error'))) {
-    console.error('[calculator/submit] partial failure:', status)
-  }
+  // Always log the outcome so a submission is diagnosable from the runtime logs,
+  // not just on failure. (No PII beyond company + the email we were given.)
+  console.log('[calculator/submit]', JSON.stringify({ company, email, status }))
 
   return NextResponse.json({ success: true, status })
 }

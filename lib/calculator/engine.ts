@@ -41,6 +41,7 @@ export interface CalculatorInputs {
   reviewsPerMonth: number
   sendsReviewRequest: boolean
   extraReviewsPerMonth: number // used only when sendsReviewRequest === false
+  reviewMinutesPerMonth: number // used only when sendsReviewRequest === true
 
   // Automation flows (manual customer messaging, time only)
   doesMessaging: boolean
@@ -68,6 +69,7 @@ export const EMPTY_INPUTS: CalculatorInputs = {
   reviewsPerMonth: 0,
   sendsReviewRequest: false,
   extraReviewsPerMonth: 0,
+  reviewMinutesPerMonth: 0,
   doesMessaging: false,
   messagingHoursPerWeek: 0,
   tracksInventory: false,
@@ -79,7 +81,7 @@ export const EMPTY_INPUTS: CalculatorInputs = {
 // One row in the transparent breakdown. `formula` is a human-readable trace of
 // exactly how the number was reached, so a skeptical mover can poke at it.
 export interface BreakdownRow {
-  key: 'planning' | 'quoting' | 'followup' | 'messaging' | 'inventoryTime' | 'inventoryMoney'
+  key: 'planning' | 'quoting' | 'followup' | 'reviewsTime' | 'messaging' | 'inventoryTime' | 'inventoryMoney'
   hoursSavedPerMonth: number
   moneySavedPerMonth: number // direct DKK not derived from hours (inventory recovery)
   formula: string
@@ -151,6 +153,17 @@ export function computeSavings(input: CalculatorInputs): CalculatorResult {
       hoursSavedPerMonth: round(hrs),
       moneySavedPerMonth: 0,
       formula: `${input.leadsPerMonth} leads/mo × ${input.minutesPerFollowup} min × ${MULTIPLIERS.followup * 100}% ÷ 60`,
+    })
+  }
+
+  // Reviews — time saved automating the review request they already send by hand
+  if (input.sendsReviewRequest && input.reviewMinutesPerMonth > 0) {
+    const hrs = (input.reviewMinutesPerMonth * MULTIPLIERS.automation) / 60
+    rows.push({
+      key: 'reviewsTime',
+      hoursSavedPerMonth: round(hrs),
+      moneySavedPerMonth: 0,
+      formula: `${input.reviewMinutesPerMonth} min/mo × ${MULTIPLIERS.automation * 100}% ÷ 60`,
     })
   }
 

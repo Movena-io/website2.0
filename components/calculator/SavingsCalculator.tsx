@@ -236,7 +236,17 @@ export default function SavingsCalculator() {
                     no={c.no}
                     onChange={(v) => set('sendsReviewRequest', v)}
                   />
-                  {!inputs.sendsReviewRequest && (
+                  {inputs.sendsReviewRequest ? (
+                    <Reveal>
+                      <NumberField
+                        label={c.reviews.sendsTimeLabel}
+                        help={c.reviews.sendsTimeHelp}
+                        suffix={c.units.minutes}
+                        value={inputs.reviewMinutesPerMonth}
+                        onChange={(v) => set('reviewMinutesPerMonth', v)}
+                      />
+                    </Reveal>
+                  ) : (
                     <Reveal>
                       <p className="text-[13px] font-semibold uppercase tracking-[0.08em] text-[#1D4ED8] mb-1">
                         {c.reviews.extraTitle}

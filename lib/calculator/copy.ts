@@ -61,6 +61,8 @@ export interface CalculatorCopy {
     currentTitle: string
     currentLabel: string
     sendsEntry: string
+    sendsTimeLabel: string
+    sendsTimeHelp: string
     extraTitle: string
     extraLabel: string
     extraHelp: string
@@ -107,11 +109,11 @@ export interface CalculatorCopy {
     exposureNote: string // "About {value} {cur}/month..."
     assumptions: string
     rowLabels: Record<
-      'planning' | 'quoting' | 'followup' | 'messaging' | 'inventoryTime' | 'inventoryMoney',
+      'planning' | 'quoting' | 'followup' | 'reviewsTime' | 'messaging' | 'inventoryTime' | 'inventoryMoney',
       string
     >
     rowInfo: Record<
-      'planning' | 'quoting' | 'followup' | 'messaging' | 'inventoryTime' | 'inventoryMoney',
+      'planning' | 'quoting' | 'followup' | 'reviewsTime' | 'messaging' | 'inventoryTime' | 'inventoryMoney',
       string
     >
     ctaTitle: string
@@ -194,6 +196,8 @@ const en: CalculatorCopy = {
     currentTitle: 'Reviews',
     currentLabel: 'How many reviews do you get per month right now?',
     sendsEntry: 'Do you send a review request after each job?',
+    sendsTimeLabel: 'How many minutes a month do you spend sending those requests?',
+    sendsTimeHelp: 'A rough total. Movena sends them automatically after every job.',
     extraTitle: 'If you asked every time',
     extraLabel: 'How many extra reviews do you think you’d get per month?',
     extraHelp: 'Your best estimate. An automatic request after every completed job.',
@@ -241,6 +245,7 @@ const en: CalculatorCopy = {
       planning: 'Faster job planning',
       quoting: 'Faster quoting',
       followup: 'Automated lead follow-up',
+      reviewsTime: 'Automated review requests',
       messaging: 'Automated customer messaging',
       inventoryTime: 'Less time chasing lost boxes',
       inventoryMoney: 'Fewer boxes lost for good',
@@ -252,6 +257,8 @@ const en: CalculatorCopy = {
         'With Movena the customer fills in the move details and the quote builds itself. Some movers still go out to inspect, so we only count 50% of the quoting time saved, not all of it.',
       followup:
         'Movena runs your lead follow-up automatically with timed sequences. We assume it takes over 85% of the manual follow-up time, leaving you to handle the live replies.',
+      reviewsTime:
+        'Movena sends a review request automatically after every completed job. We assume it removes 90% of the time you currently spend sending them by hand.',
       messaging:
         'Booking confirmations, reminders, on-the-way texts and post-move messages get automated. We assume 90% of the time you spend on them today disappears.',
       inventoryTime:
@@ -338,6 +345,8 @@ const da: CalculatorCopy = {
     currentTitle: 'Anmeldelser',
     currentLabel: 'Hvor mange anmeldelser får I om måneden lige nu?',
     sendsEntry: 'Sender I en anmodning om anmeldelse efter hver opgave?',
+    sendsTimeLabel: 'Hvor mange minutter om måneden bruger I på at sende dem?',
+    sendsTimeHelp: 'Et groft samlet tal. Movena sender dem automatisk efter hver opgave.',
     extraTitle: 'Hvis I spurgte hver gang',
     extraLabel: 'Hvor mange ekstra anmeldelser tror du, I ville få om måneden?',
     extraHelp: 'Dit bedste skøn. En automatisk anmodning efter hver afsluttet opgave.',
@@ -385,6 +394,7 @@ const da: CalculatorCopy = {
       planning: 'Hurtigere planlægning',
       quoting: 'Hurtigere tilbud',
       followup: 'Automatisk opfølgning på leads',
+      reviewsTime: 'Automatiske anmodninger om anmeldelser',
       messaging: 'Automatisk kundekommunikation',
       inventoryTime: 'Mindre tid på at jagte mistede kasser',
       inventoryMoney: 'Færre kasser tabt for altid',
@@ -396,6 +406,8 @@ const da: CalculatorCopy = {
         'Med Movena udfylder kunden flyttedetaljerne, og tilbuddet bygger sig selv. Nogle flyttefirmaer kører stadig ud for at se det, så vi regner kun 50% af tilbudstiden sparet, ikke det hele.',
       followup:
         'Movena kører jeres opfølgning automatisk med tidsstyrede sekvenser. Vi antager, at den overtager 85% af den manuelle opfølgningstid, så I kun håndterer de aktive svar.',
+      reviewsTime:
+        'Movena sender automatisk en anmodning om anmeldelse efter hver afsluttet opgave. Vi antager, at det fjerner 90% af den tid, I bruger på at sende dem i hånden.',
       messaging:
         'Bekræftelser, påmindelser, på-vej-beskeder og beskeder efter flytning bliver automatiseret. Vi antager, at 90% af den tid, I bruger på dem i dag, forsvinder.',
       inventoryTime:

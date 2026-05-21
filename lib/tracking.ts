@@ -31,6 +31,11 @@ function trackCalcEvent(event: string, params: Record<string, unknown> = {}) {
   }
 }
 
+// Click on a "free estimator" link/button from the homepage (nav, hero, section, CTA).
+export function trackEstimatorClick(location: string) {
+  trackCalcEvent('estimator_click', { location })
+}
+
 export function trackCalculatorStart() {
   trackCalcEvent('calculator_start')
 }

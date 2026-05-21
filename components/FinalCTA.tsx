@@ -2,11 +2,12 @@
 
 import { ArrowRight } from 'lucide-react'
 import { DEMO_URL } from '@/lib/constants'
-import { trackDemoClick } from '@/lib/tracking'
-import { useLanguage } from '@/lib/LanguageContext'
+import { trackDemoClick, trackEstimatorClick } from '@/lib/tracking'
+import { useLanguage, useLocalizedHref } from '@/lib/LanguageContext'
 
 export default function FinalCTA() {
   const { t } = useLanguage()
+  const href = useLocalizedHref()
 
   return (
     <section className="bg-[#0B1F3B] py-28" id="waitlist">
@@ -27,6 +28,14 @@ export default function FinalCTA() {
             className="inline-flex items-center justify-center gap-2 h-12 px-7 rounded-xl bg-white text-[#0B1F3B] text-[15px] font-semibold hover:bg-white/90 transition-colors"
           >
             {t.finalCta.button}
+            <ArrowRight size={15} strokeWidth={2} />
+          </a>
+          <a
+            href={href('/savings-calculator')}
+            onClick={() => trackEstimatorClick('final_cta')}
+            className="inline-flex items-center justify-center gap-2 h-12 px-7 rounded-xl border border-white/25 text-white text-[15px] font-semibold hover:bg-white/10 transition-colors"
+          >
+            {t.finalCta.secondaryButton}
             <ArrowRight size={15} strokeWidth={2} />
           </a>
         </div>

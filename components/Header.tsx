@@ -4,7 +4,7 @@ import { useState, useEffect, useRef } from 'react'
 import { Menu, X, ChevronDown } from 'lucide-react'
 import Image from 'next/image'
 import { DEMO_URL, LOGIN_URL } from '@/lib/constants'
-import { trackDemoClick, trackLoginClick } from '@/lib/tracking'
+import { trackDemoClick, trackLoginClick, trackEstimatorClick } from '@/lib/tracking'
 import { useLanguage, useLocalizedHref } from '@/lib/LanguageContext'
 import type { Locale } from '@/lib/translations'
 
@@ -89,6 +89,13 @@ export default function Header() {
           <a href={href('/#features')} className="text-[14px] font-medium text-[#475569] hover:text-[#0F172A] transition-colors">{t.nav.features}</a>
           <a href={href('/#faq')} className="text-[14px] font-medium text-[#475569] hover:text-[#0F172A] transition-colors">{t.nav.faq}</a>
           <a href={href('/blog')} className="text-[14px] font-medium text-[#475569] hover:text-[#0F172A] transition-colors">{t.nav.blog}</a>
+          <a
+            href={href('/savings-calculator')}
+            onClick={() => trackEstimatorClick('header')}
+            className="text-[14px] font-semibold text-[#1D4ED8] hover:text-[#1E40AF] transition-colors"
+          >
+            {t.nav.estimator}
+          </a>
           <a href={href('/contact')} className="text-[14px] font-medium text-[#475569] hover:text-[#0F172A] transition-colors">{t.nav.talkToUs}</a>
         </nav>
 
@@ -165,6 +172,13 @@ export default function Header() {
           <a href={href('/#features')} onClick={() => setMenuOpen(false)} className="text-[14px] font-medium text-[#475569]">{t.nav.features}</a>
           <a href={href('/#faq')} onClick={() => setMenuOpen(false)} className="text-[14px] font-medium text-[#475569]">{t.nav.faq}</a>
           <a href={href('/blog')} onClick={() => setMenuOpen(false)} className="text-[14px] font-medium text-[#475569]">{t.nav.blog}</a>
+          <a
+            href={href('/savings-calculator')}
+            onClick={() => { trackEstimatorClick('header_mobile'); setMenuOpen(false) }}
+            className="text-[14px] font-semibold text-[#1D4ED8]"
+          >
+            {t.nav.estimator}
+          </a>
           <a href={href('/contact')} onClick={() => setMenuOpen(false)} className="text-[14px] font-medium text-[#475569]">{t.nav.talkToUs}</a>
           <a
             href={LOGIN_URL}

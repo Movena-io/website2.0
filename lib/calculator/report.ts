@@ -5,7 +5,7 @@
 import type { Locale } from '@/lib/locales'
 import { DEMO_URL } from '@/lib/constants'
 import { getCalculatorCopy, fill } from './copy'
-import { roundNice, type CalculatorInputs, type CalculatorResult } from './engine'
+import { type CalculatorInputs, type CalculatorResult } from './engine'
 
 export interface LeadPayload {
   name: string
@@ -22,7 +22,7 @@ function nf(locale: Locale, n: number): string {
   }).format(n)
 }
 
-const money = (locale: Locale, n: number) => nf(locale, roundNice(n))
+const money = (locale: Locale, n: number) => nf(locale, Math.round(n))
 const hours = (locale: Locale, n: number) => nf(locale, Math.round(n))
 
 // ── Visitor report (their locale) ────────────────────────────────────────────

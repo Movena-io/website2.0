@@ -15,7 +15,6 @@ import { getCalculatorCopy, fill, type CalculatorCopy } from '@/lib/calculator/c
 import { CURRENCIES, DEFAULT_CURRENCY, getCurrency } from '@/lib/calculator/currency'
 import {
   computeSavings,
-  roundNice,
   EMPTY_INPUTS,
   type CalculatorInputs,
   type BreakdownRow as BreakdownRowData,
@@ -61,7 +60,8 @@ export default function SavingsCalculator() {
     () => new Intl.NumberFormat(locale === 'da' ? 'da-DK' : 'en-US', { maximumFractionDigits: 0 }),
     [locale],
   )
-  const money = (n: number) => nf.format(roundNice(n))
+  // Exact whole-currency display so every number equals the formula shown beside it.
+  const money = (n: number) => nf.format(Math.round(n))
   const hours = (n: number) => nf.format(Math.round(n))
   const fc = (tmpl: string) => fill(tmpl, { cur })
 
@@ -386,7 +386,6 @@ function Intro({ c, onStart }: { c: CalculatorCopy; onStart: () => void }) {
         {c.intro.start}
         <ArrowRight size={16} strokeWidth={2} />
       </button>
-      <p className="mt-5 text-[12px] text-[#94A3B8] max-w-sm mx-auto">{c.intro.privacy}</p>
     </div>
   )
 }

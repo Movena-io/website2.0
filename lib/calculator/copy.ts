@@ -17,7 +17,6 @@ export interface CalculatorCopy {
     subtitle: string
     timeNote: string
     start: string
-    privacy: string
   }
 
   nav: { back: string; next: string; seeResults: string }
@@ -151,10 +150,9 @@ const en: CalculatorCopy = {
     eyebrow: 'Savings calculator',
     title: 'See what Movena could save you',
     subtitle:
-      'Answer a few questions about how you run jobs today. We will show you, with the math behind it, how much time and money Movena could give back, and where you might be leaving revenue on the table.',
-    timeNote: 'Takes about 2 to 3 minutes. No exact figures needed, your best estimate is fine.',
+      'Answer a few questions about how you run your business today and get a breakdown of how you could optimize it.',
+    timeNote: 'Takes about 2-3 minutes.',
     start: 'Start',
-    privacy: 'We only ask for your email at the end, to send you the full breakdown.',
   },
   nav: { back: 'Back', next: 'Next', seeResults: 'See my savings' },
   progress: 'Step {n} of {total}',
@@ -300,10 +298,9 @@ const da: CalculatorCopy = {
     eyebrow: 'Besparelsesberegner',
     title: 'Se hvad Movena kan spare dig',
     subtitle:
-      'Svar på nogle få spørgsmål om, hvordan I kører opgaver i dag. Vi viser dig, med regnestykket bag, hvor meget tid og penge Movena kan give tilbage, og hvor du måske går glip af omsætning.',
-    timeNote: 'Tager omkring 2 til 3 minutter. Du behøver ikke præcise tal, dit bedste skøn er fint.',
+      'Besvar nogle få spørgsmål om, hvordan I driver jeres forretning i dag, og få en gennemgang af, hvordan den kan optimeres.',
+    timeNote: 'Tager omkring 2-3 minutter.',
     start: 'Start',
-    privacy: 'Vi beder først om din e-mail til sidst, for at sende dig hele beregningen.',
   },
   nav: { back: 'Tilbage', next: 'Næste', seeResults: 'Se min besparelse' },
   progress: 'Trin {n} af {total}',

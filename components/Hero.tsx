@@ -4,8 +4,8 @@ import { motion, Variants } from 'framer-motion'
 import { ArrowRight, Volume2, VolumeX } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { DEMO_URL } from '@/lib/constants'
-import { trackDemoClick } from '@/lib/tracking'
-import { useLanguage } from '@/lib/LanguageContext'
+import { trackDemoClick, trackEstimatorClick } from '@/lib/tracking'
+import { useLanguage, useLocalizedHref } from '@/lib/LanguageContext'
 import { ReactNode, useRef, useState } from 'react'
 
 // ─── Animation helpers ────────────────────────────────────────────────
@@ -145,6 +145,7 @@ function HeroVideo() {
 
 export default function Hero() {
   const { t } = useLanguage()
+  const href = useLocalizedHref()
 
   return (
     <section className="relative overflow-hidden bg-white">
@@ -197,7 +198,8 @@ export default function Hero() {
             </a>
 
             <a
-              href="#features"
+              href={href('/savings-calculator')}
+              onClick={() => trackEstimatorClick('hero')}
               className="inline-flex items-center justify-center gap-2 h-12 px-6 rounded-xl text-[15px] font-semibold text-[#0B1F3B] bg-white border border-[#E2E8F0] hover:border-[#1D4ED8]/40 hover:bg-[#F8FAFC] transition-colors"
             >
               <span>{t.hero.secondaryCta}</span>

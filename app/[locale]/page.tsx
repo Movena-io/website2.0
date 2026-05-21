@@ -5,6 +5,7 @@ import Consolidation from '@/components/Consolidation'
 import Features from '@/components/Features'
 import Setup from '@/components/Setup'
 import Problem from '@/components/Problem'
+import EstimatorCTA from '@/components/EstimatorCTA'
 import FAQ from '@/components/FAQ'
 import FinalCTA from '@/components/FinalCTA'
 import Footer from '@/components/Footer'
@@ -18,6 +19,7 @@ export default function Home() {
         <PainPoints />
         <Consolidation />
         <Features />
+        <EstimatorCTA />
         <Setup />
         <Problem />
         <FAQ />

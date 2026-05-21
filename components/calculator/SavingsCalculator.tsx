@@ -2,7 +2,7 @@
 
 import { useMemo, useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
-import { ArrowRight, ArrowLeft, Check, Lock, Clock, Coins, TrendingUp, Star } from 'lucide-react'
+import { ArrowRight, ArrowLeft, Check, Lock, Clock, TrendingUp, Star, Info } from 'lucide-react'
 import { useLanguage } from '@/lib/LanguageContext'
 import { DEMO_URL } from '@/lib/constants'
 import {
@@ -11,13 +11,14 @@ import {
   trackCalculatorComplete,
   trackCalculatorUnlock,
 } from '@/lib/tracking'
-import { getCalculatorCopy, fill } from '@/lib/calculator/copy'
+import { getCalculatorCopy, fill, type CalculatorCopy } from '@/lib/calculator/copy'
+import { CURRENCIES, DEFAULT_CURRENCY, getCurrency } from '@/lib/calculator/currency'
 import {
   computeSavings,
   roundNice,
   EMPTY_INPUTS,
-  DEFAULT_HOURLY_COST,
   type CalculatorInputs,
+  type BreakdownRow as BreakdownRowData,
 } from '@/lib/calculator/engine'
 
 type Screen =
@@ -49,10 +50,12 @@ export default function SavingsCalculator() {
   const [direction, setDirection] = useState(1)
   const [inputs, setInputs] = useState<CalculatorInputs>({
     ...EMPTY_INPUTS,
-    hourlyCost: DEFAULT_HOURLY_COST,
+    currency: DEFAULT_CURRENCY,
+    hourlyCost: getCurrency(DEFAULT_CURRENCY).defaultHourly,
   })
 
   const result = useMemo(() => computeSavings(inputs), [inputs])
+  const cur = inputs.currency
 
   const nf = useMemo(
     () => new Intl.NumberFormat(locale === 'da' ? 'da-DK' : 'en-US', { maximumFractionDigits: 0 }),
@@ -60,9 +63,14 @@ export default function SavingsCalculator() {
   )
   const money = (n: number) => nf.format(roundNice(n))
   const hours = (n: number) => nf.format(Math.round(n))
+  const fc = (tmpl: string) => fill(tmpl, { cur })
 
   const set = <K extends keyof CalculatorInputs>(key: K, value: CalculatorInputs[K]) =>
     setInputs((prev) => ({ ...prev, [key]: value }))
+
+  // Switching currency also resets the pre-filled hourly cost to that currency's default.
+  const setCurrency = (code: string) =>
+    setInputs((prev) => ({ ...prev, currency: code, hourlyCost: getCurrency(code).defaultHourly }))
 
   const go = (to: Screen, dir: number) => {
     setDirection(dir)
@@ -111,6 +119,13 @@ export default function SavingsCalculator() {
 
               {screen === 'baseline' && (
                 <Step title={c.baseline.title} subtitle={c.baseline.subtitle}>
+                  <SelectField
+                    label={c.baseline.currencyLabel}
+                    help={c.baseline.currencyHelp}
+                    value={inputs.currency}
+                    onChange={setCurrency}
+                    options={CURRENCIES.map((x) => ({ value: x.code, label: x.label }))}
+                  />
                   <NumberField
                     label={c.baseline.movesLabel}
                     help={c.baseline.movesHelp}
@@ -120,7 +135,7 @@ export default function SavingsCalculator() {
                   <NumberField
                     label={c.baseline.hourlyLabel}
                     help={c.baseline.hourlyHelp}
-                    suffix={c.units.dkkPerHour}
+                    suffix={fc(c.units.perHour)}
                     value={inputs.hourlyCost}
                     onChange={(v) => set('hourlyCost', v)}
                   />
@@ -251,7 +266,7 @@ export default function SavingsCalculator() {
                       <NumberField
                         label={c.messaging.hoursLabel}
                         help={c.messaging.hoursHelp}
-                        suffix={c.units.hoursPerMonth.replace('/month', '/week').replace('/måned', '/uge')}
+                        suffix={c.units.hoursPerWeek}
                         value={inputs.messagingHoursPerWeek}
                         onChange={(v) => set('messagingHoursPerWeek', v)}
                       />
@@ -269,26 +284,24 @@ export default function SavingsCalculator() {
                     no={c.no}
                     onChange={(v) => set('tracksInventory', v)}
                   />
-                  {inputs.tracksInventory && (
-                    <Reveal>
-                      <NumberField
-                        label={c.inventory.itemsLabel}
-                        value={inputs.itemsLostPerMonth}
-                        onChange={(v) => set('itemsLostPerMonth', v)}
-                      />
-                      <NumberField
-                        label={c.inventory.minutesLabel}
-                        suffix={c.units.minutes}
-                        value={inputs.minutesChasingPerItem}
-                        onChange={(v) => set('minutesChasingPerItem', v)}
-                      />
-                      <NumberField
-                        label={c.inventory.costLabel}
-                        value={inputs.costPerItem}
-                        onChange={(v) => set('costPerItem', v)}
-                      />
-                    </Reveal>
-                  )}
+                  {/* Fields show regardless of yes/no — most movers can estimate this. */}
+                  <p className="text-[13px] text-[#94A3B8] leading-[1.5] -mt-1">{c.inventory.estimateNote}</p>
+                  <NumberField
+                    label={c.inventory.itemsLabel}
+                    value={inputs.itemsLostPerMonth}
+                    onChange={(v) => set('itemsLostPerMonth', v)}
+                  />
+                  <NumberField
+                    label={c.inventory.minutesLabel}
+                    suffix={c.units.minutes}
+                    value={inputs.minutesChasingPerItem}
+                    onChange={(v) => set('minutesChasingPerItem', v)}
+                  />
+                  <NumberField
+                    label={fc(c.inventory.costLabel)}
+                    value={inputs.costPerItem}
+                    onChange={(v) => set('costPerItem', v)}
+                  />
                 </Step>
               )}
 
@@ -297,10 +310,15 @@ export default function SavingsCalculator() {
                   c={c}
                   inputs={inputs}
                   result={result}
+                  cur={cur}
                   money={money}
                   hours={hours}
                   onRestart={() => {
-                    setInputs({ ...EMPTY_INPUTS, hourlyCost: DEFAULT_HOURLY_COST })
+                    setInputs({
+                      ...EMPTY_INPUTS,
+                      currency: DEFAULT_CURRENCY,
+                      hourlyCost: getCurrency(DEFAULT_CURRENCY).defaultHourly,
+                    })
                     go('intro', -1)
                   }}
                 />
@@ -334,7 +352,7 @@ export default function SavingsCalculator() {
 
 // ── Screens ──────────────────────────────────────────────────────────────────
 
-function Intro({ c, onStart }: { c: ReturnType<typeof getCalculatorCopy>; onStart: () => void }) {
+function Intro({ c, onStart }: { c: CalculatorCopy; onStart: () => void }) {
   return (
     <div className="text-center pt-6">
       <div className="flex items-center justify-center gap-4 mb-5">
@@ -387,13 +405,15 @@ function ResultView({
   c,
   inputs,
   result,
+  cur,
   money,
   hours,
   onRestart,
 }: {
-  c: ReturnType<typeof getCalculatorCopy>
+  c: CalculatorCopy
   inputs: CalculatorInputs
   result: ReturnType<typeof computeSavings>
+  cur: string
   money: (n: number) => string
   hours: (n: number) => string
   onRestart: () => void
@@ -405,6 +425,7 @@ function ResultView({
   const [status, setStatus] = useState<'idle' | 'sending' | 'unlocked' | 'error'>('idle')
   const [errorMsg, setErrorMsg] = useState('')
 
+  const fc = (tmpl: string) => fill(tmpl, { cur })
   const hasUpside = result.upside.revenuePct != null || result.upside.extraReviewsPerMonth != null
   const unlocked = status === 'unlocked'
 
@@ -447,12 +468,12 @@ function ResultView({
         <span className="text-[11px] font-semibold uppercase tracking-[0.1em] text-[#1D4ED8]">
           {c.result.eyebrow}
         </span>
-        <div className="mt-4 text-[44px] sm:text-[60px] font-extrabold tracking-[-0.03em] text-[#0B1F3B] leading-[1]">
+        <div className="mt-4 text-[40px] sm:text-[56px] font-extrabold tracking-[-0.03em] text-[#0B1F3B] leading-[1]">
           {money(result.headlineMonthly)}
-          <span className="text-[22px] sm:text-[28px] font-bold text-[#475569]"> {c.units.dkkPerMonth}</span>
+          <span className="text-[20px] sm:text-[26px] font-bold text-[#475569]"> {fc(c.units.moneyPerMonth)}</span>
         </div>
         <p className="mt-3 text-[16px] text-[#475569]">
-          {fill(c.result.perYear, { value: money(result.headlineAnnual) })}
+          {fill(c.result.perYear, { value: money(result.headlineAnnual), cur })}
         </p>
         {result.totalHoursPerMonth > 0 && (
           <p className="mt-2 inline-flex items-center gap-2 text-[15px] font-semibold text-[#0B1F3B]">
@@ -496,29 +517,12 @@ function ResultView({
         {unlocked ? (
           <div className="rounded-2xl border border-[#E2E8F0] divide-y divide-[#E2E8F0] overflow-hidden">
             {result.rows.map((row) => (
-              <div key={row.key} className="flex items-start justify-between gap-4 px-5 py-4">
-                <div>
-                  <p className="text-[15px] font-semibold text-[#0B1F3B]">{c.result.rowLabels[row.key]}</p>
-                  <p className="text-[12px] text-[#94A3B8] mt-0.5 font-mono">{row.formula}</p>
-                </div>
-                <div className="text-right shrink-0">
-                  {row.hoursSavedPerMonth > 0 && (
-                    <p className="text-[15px] font-bold text-[#0B1F3B]">
-                      {hours(row.hoursSavedPerMonth)} {c.units.hoursPerMonth}
-                    </p>
-                  )}
-                  {row.moneySavedPerMonth > 0 && (
-                    <p className="text-[15px] font-bold text-[#16A34A]">
-                      {money(row.moneySavedPerMonth)} {c.units.dkkPerMonth}
-                    </p>
-                  )}
-                </div>
-              </div>
+              <BreakdownRow key={row.key} row={row} c={c} cur={cur} money={money} hours={hours} />
             ))}
             {result.inventoryExposureMonthly != null && (
               <div className="px-5 py-4 bg-[#FEF2F2]">
                 <p className="text-[13px] text-[#991B1B]">
-                  {fill(c.result.exposureNote, { value: money(result.inventoryExposureMonthly) })}
+                  {fill(c.result.exposureNote, { value: money(result.inventoryExposureMonthly), cur })}
                 </p>
               </div>
             )}
@@ -528,52 +532,58 @@ function ResultView({
           </div>
         ) : (
           <div className="relative rounded-2xl border border-[#E2E8F0] overflow-hidden">
-            {/* blurred teaser rows */}
-            <div className="select-none pointer-events-none blur-[6px] opacity-60">
+            {/* blurred teaser background */}
+            <div
+              aria-hidden
+              className="absolute inset-0 select-none pointer-events-none blur-[6px] opacity-50"
+            >
               {result.rows.map((row) => (
-                <div key={row.key} className="flex items-center justify-between px-5 py-4 border-b border-[#E2E8F0]">
+                <div
+                  key={row.key}
+                  className="flex items-center justify-between px-5 py-4 border-b border-[#E2E8F0]"
+                >
                   <span className="text-[15px] font-semibold text-[#0B1F3B]">{c.result.rowLabels[row.key]}</span>
                   <span className="text-[15px] font-bold text-[#0B1F3B]">••••</span>
                 </div>
               ))}
             </div>
-            {/* gate overlay */}
-            <div className="absolute inset-0 flex items-center justify-center bg-white/70 backdrop-blur-[2px] p-6">
+            {/* gate form in normal flow — defines the card height, so nothing clips */}
+            <div className="relative bg-white/85 backdrop-blur-[2px] px-6 py-9">
               {status === 'sending' ? (
-                <p className="text-[15px] font-semibold text-[#475569]">{c.gate.sending}</p>
+                <p className="text-center text-[15px] font-semibold text-[#475569]">{c.gate.sending}</p>
               ) : (
-                <form onSubmit={submit} className="w-full max-w-sm">
+                <form onSubmit={submit} className="w-full">
                   <div className="flex items-center justify-center gap-2 mb-2 text-[#1D4ED8]">
                     <Lock size={16} strokeWidth={2} />
                     <p className="text-[15px] font-bold text-[#0B1F3B]">{c.result.lockedTitle}</p>
                   </div>
-                  <p className="text-[13px] text-center text-[#475569] mb-4">{c.result.lockedNote}</p>
-                  <div className="flex flex-col gap-2.5">
+                  <p className="text-[13px] text-center text-[#475569] mb-5 max-w-sm mx-auto">{c.result.lockedNote}</p>
+                  <div className="flex flex-col gap-3">
                     <input
                       type="text"
                       placeholder={c.gate.namePlaceholder}
                       value={name}
                       onChange={(e) => setName(e.target.value)}
-                      className="h-10 rounded-lg border border-[#E2E8F0] px-3 text-[14px] text-[#0F172A] placeholder:text-[#94A3B8] focus:outline-none focus:ring-2 focus:ring-[#1D4ED8]/20 focus:border-[#1D4ED8] transition-colors"
+                      className="h-12 w-full rounded-lg border border-[#E2E8F0] px-4 text-[15px] text-[#0F172A] placeholder:text-[#94A3B8] focus:outline-none focus:ring-2 focus:ring-[#1D4ED8]/20 focus:border-[#1D4ED8] transition-colors"
                     />
                     <input
                       type="text"
                       placeholder={c.gate.companyPlaceholder}
                       value={company}
                       onChange={(e) => setCompany(e.target.value)}
-                      className="h-10 rounded-lg border border-[#E2E8F0] px-3 text-[14px] text-[#0F172A] placeholder:text-[#94A3B8] focus:outline-none focus:ring-2 focus:ring-[#1D4ED8]/20 focus:border-[#1D4ED8] transition-colors"
+                      className="h-12 w-full rounded-lg border border-[#E2E8F0] px-4 text-[15px] text-[#0F172A] placeholder:text-[#94A3B8] focus:outline-none focus:ring-2 focus:ring-[#1D4ED8]/20 focus:border-[#1D4ED8] transition-colors"
                     />
                     <input
                       type="email"
                       placeholder={c.gate.emailPlaceholder}
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
-                      className="h-10 rounded-lg border border-[#E2E8F0] px-3 text-[14px] text-[#0F172A] placeholder:text-[#94A3B8] focus:outline-none focus:ring-2 focus:ring-[#1D4ED8]/20 focus:border-[#1D4ED8] transition-colors"
+                      className="h-12 w-full rounded-lg border border-[#E2E8F0] px-4 text-[15px] text-[#0F172A] placeholder:text-[#94A3B8] focus:outline-none focus:ring-2 focus:ring-[#1D4ED8]/20 focus:border-[#1D4ED8] transition-colors"
                     />
                     {status === 'error' && <p className="text-[12px] text-[#DC2626]">{errorMsg}</p>}
                     <button
                       type="submit"
-                      className="btn-gradient inline-flex items-center justify-center gap-2 h-11 rounded-lg text-white text-[14px] font-semibold mt-1"
+                      className="btn-gradient inline-flex items-center justify-center gap-2 h-12 w-full rounded-lg text-white text-[15px] font-semibold mt-1"
                     >
                       {c.gate.button}
                       <ArrowRight size={15} strokeWidth={2} />
@@ -618,12 +628,70 @@ function ResultView({
 
 // ── Pieces ───────────────────────────────────────────────────────────────────
 
+function BreakdownRow({
+  row,
+  c,
+  cur,
+  money,
+  hours,
+}: {
+  row: BreakdownRowData
+  c: CalculatorCopy
+  cur: string
+  money: (n: number) => string
+  hours: (n: number) => string
+}) {
+  const [open, setOpen] = useState(false)
+  return (
+    <div className="px-5 py-4">
+      <div className="flex items-start justify-between gap-4">
+        <div className="min-w-0">
+          <div className="flex items-center gap-1.5">
+            <p className="text-[15px] font-semibold text-[#0B1F3B]">{c.result.rowLabels[row.key]}</p>
+            <button
+              type="button"
+              onClick={() => setOpen((o) => !o)}
+              aria-label={c.result.moreInfo}
+              aria-expanded={open}
+              className={`shrink-0 rounded-full p-0.5 transition-colors ${
+                open ? 'text-[#1D4ED8]' : 'text-[#CBD5E1] hover:text-[#1D4ED8]'
+              }`}
+            >
+              <Info size={15} strokeWidth={2} />
+            </button>
+          </div>
+          <p className="text-[12px] text-[#94A3B8] mt-0.5 font-mono">{row.formula}</p>
+        </div>
+        <div className="text-right shrink-0">
+          {row.hoursSavedPerMonth > 0 && (
+            <p className="text-[15px] font-bold text-[#0B1F3B]">
+              {hours(row.hoursSavedPerMonth)} {c.units.hoursPerMonth}
+            </p>
+          )}
+          {row.moneySavedPerMonth > 0 && (
+            <p className="text-[15px] font-bold text-[#16A34A]">
+              {money(row.moneySavedPerMonth)} {fill(c.units.moneyPerMonth, { cur })}
+            </p>
+          )}
+        </div>
+      </div>
+      {open && (
+        <motion.p
+          initial={{ opacity: 0, height: 0 }}
+          animate={{ opacity: 1, height: 'auto' }}
+          className="text-[13px] text-[#475569] leading-[1.55] mt-2.5 overflow-hidden"
+        >
+          {c.result.rowInfo[row.key]}
+        </motion.p>
+      )}
+    </div>
+  )
+}
+
 function ProgressBar({ current, total, label }: { current: number; total: number; label: string }) {
   return (
     <div className="mb-10">
-      <p className="text-[12px] font-semibold text-[#94A3B8] mb-2">
-        {fill(label, { n: current, total })}
-      </p>
+      <p className="text-[12px] font-semibold text-[#94A3B8] mb-2">{fill(label, { n: current, total })}</p>
       <div className="h-1.5 w-full rounded-full bg-[#E2E8F0] overflow-hidden">
         <motion.div
           className="h-full rounded-full bg-[#1D4ED8]"
@@ -660,14 +728,61 @@ function NumberField({
           min={0}
           value={value === 0 ? '' : value}
           onChange={(e) => onChange(e.target.value === '' ? 0 : Math.max(0, Number(e.target.value)))}
-          className="h-12 w-full rounded-lg border border-[#E2E8F0] px-4 text-[16px] font-semibold text-[#0F172A] placeholder:text-[#CBD5E1] focus:outline-none focus:ring-2 focus:ring-[#1D4ED8]/20 focus:border-[#1D4ED8] transition-colors"
+          className={`h-12 w-full rounded-lg border border-[#E2E8F0] pl-4 text-[16px] font-semibold text-[#0F172A] placeholder:text-[#CBD5E1] focus:outline-none focus:ring-2 focus:ring-[#1D4ED8]/20 focus:border-[#1D4ED8] transition-colors ${
+            suffix ? 'pr-28' : 'pr-4'
+          }`}
           placeholder="0"
         />
         {suffix && (
-          <span className="absolute right-4 top-1/2 -translate-y-1/2 text-[13px] font-medium text-[#94A3B8] pointer-events-none">
+          <span className="absolute right-10 top-1/2 -translate-y-1/2 text-[13px] font-medium text-[#94A3B8] pointer-events-none">
             {suffix}
           </span>
         )}
+      </div>
+    </div>
+  )
+}
+
+function SelectField({
+  label,
+  help,
+  value,
+  onChange,
+  options,
+}: {
+  label: string
+  help?: string
+  value: string
+  onChange: (v: string) => void
+  options: { value: string; label: string }[]
+}) {
+  return (
+    <div className="flex flex-col gap-1.5">
+      <label className="text-[15px] font-semibold text-[#0B1F3B]">{label}</label>
+      {help && <p className="text-[13px] text-[#94A3B8] -mt-0.5">{help}</p>}
+      <div className="relative">
+        <select
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
+          className="h-12 w-full appearance-none rounded-lg border border-[#E2E8F0] pl-4 pr-10 text-[16px] font-semibold text-[#0F172A] bg-white focus:outline-none focus:ring-2 focus:ring-[#1D4ED8]/20 focus:border-[#1D4ED8] transition-colors cursor-pointer"
+        >
+          {options.map((o) => (
+            <option key={o.value} value={o.value}>
+              {o.label}
+            </option>
+          ))}
+        </select>
+        <svg
+          className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-[#94A3B8]"
+          width="14"
+          height="14"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2.5"
+        >
+          <path d="M6 9l6 6 6-6" />
+        </svg>
       </div>
     </div>
   )

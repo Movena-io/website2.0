@@ -19,6 +19,7 @@ export const WEEKS_PER_MONTH = 4.33
 
 export interface CalculatorInputs {
   // Baseline
+  currency: string
   movesPerMonth: number
   hourlyCost: number
 
@@ -53,6 +54,7 @@ export interface CalculatorInputs {
 }
 
 export const EMPTY_INPUTS: CalculatorInputs = {
+  currency: 'DKK',
   movesPerMonth: 0,
   hourlyCost: DEFAULT_HOURLY_COST,
   planningMinutesPerMove: 0,
@@ -163,8 +165,9 @@ export function computeSavings(input: CalculatorInputs): CalculatorResult {
     })
   }
 
-  // Inventory — time saved on chasing
-  if (input.tracksInventory && input.itemsLostPerMonth > 0 && input.minutesChasingPerItem > 0) {
+  // Inventory — time saved on chasing. Computed from the numbers regardless of
+  // whether they formally "track" inventory today (most have a good estimate).
+  if (input.itemsLostPerMonth > 0 && input.minutesChasingPerItem > 0) {
     const hrs = (input.itemsLostPerMonth * input.minutesChasingPerItem * MULTIPLIERS.inventoryChasing) / 60
     rows.push({
       key: 'inventoryTime',
@@ -176,7 +179,7 @@ export function computeSavings(input: CalculatorInputs): CalculatorResult {
 
   // Inventory — money recovered (direct DKK)
   let inventoryExposureMonthly: number | null = null
-  if (input.tracksInventory && input.itemsLostPerMonth > 0 && input.costPerItem > 0) {
+  if (input.itemsLostPerMonth > 0 && input.costPerItem > 0) {
     inventoryExposureMonthly = round(input.itemsLostPerMonth * input.costPerItem)
     const money = input.itemsLostPerMonth * input.costPerItem * MULTIPLIERS.inventoryRecovery
     rows.push({

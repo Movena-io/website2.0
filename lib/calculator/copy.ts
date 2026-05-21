@@ -3,7 +3,8 @@
 // Kept here rather than in the shared lib/translations.ts because the calculator
 // is a self-contained feature with a large string surface. Components read the
 // active locale from useLanguage() and pick copy[locale]. Tokens like {value}
-// are filled at render time via the `fill` helper.
+// and {cur} are filled at render time via the `fill` helper ({cur} = selected
+// currency code, e.g. DKK / EUR).
 
 import type { Locale } from '@/lib/locales'
 
@@ -28,6 +29,8 @@ export interface CalculatorCopy {
   baseline: {
     title: string
     subtitle: string
+    currencyLabel: string
+    currencyHelp: string
     movesLabel: string
     movesHelp: string
     hourlyLabel: string
@@ -73,36 +76,41 @@ export interface CalculatorCopy {
   inventory: {
     entry: string
     title: string
+    estimateNote: string
     itemsLabel: string
     minutesLabel: string
-    costLabel: string
+    costLabel: string // "...? ({cur})"
   }
 
   units: {
     minutes: string
     hoursPerMonth: string
-    dkkPerHour: string
-    dkkPerMonth: string
-    perMonth: string
-    perYear: string
+    hoursPerWeek: string
+    perHour: string // "{cur}/hour"
+    moneyPerMonth: string // "{cur}/month"
     reviewsPerMonth: string
   }
 
   result: {
     eyebrow: string
-    hoursLine: string // "~{hours} hours/month back to your team"
-    perYear: string // "≈ {value} DKK/year"
+    hoursLine: string // "~{hours} hours/month back"
+    perYear: string // "≈ {value} {cur} a year"
     breakdownTitle: string
     lockedTitle: string
     lockedNote: string
+    moreInfo: string // aria/label for the info toggle
     upsideTitle: string
     revenueUpside: string // "+{pct}% potential revenue"
     revenueUpsideNote: string
     reviewUpside: string // "+{count} extra reviews per month"
     reviewUpsideNote: string
-    exposureNote: string // "About {value} DKK/month is walking out the door today."
+    exposureNote: string // "About {value} {cur}/month..."
     assumptions: string
     rowLabels: Record<
+      'planning' | 'quoting' | 'followup' | 'messaging' | 'inventoryTime' | 'inventoryMoney',
+      string
+    >
+    rowInfo: Record<
       'planning' | 'quoting' | 'followup' | 'messaging' | 'inventoryTime' | 'inventoryMoney',
       string
     >
@@ -152,7 +160,9 @@ const en: CalculatorCopy = {
   no: 'No',
   baseline: {
     title: 'First, the basics',
-    subtitle: 'Two quick numbers we use across the whole calculation.',
+    subtitle: 'A few quick numbers we use across the whole calculation.',
+    currencyLabel: 'Which currency do you work in?',
+    currencyHelp: 'Every figure in the calculator will be shown in this currency.',
     movesLabel: 'How many moves do you handle per month?',
     movesHelp: 'A rough average is fine.',
     hourlyLabel: 'What does an hour of your team’s time cost?',
@@ -195,34 +205,36 @@ const en: CalculatorCopy = {
     hoursHelp: 'Confirmations, reminders, on-the-way texts, post-move follow-ups. A rough total.',
   },
   inventory: {
-    entry: 'Do you track inventory or equipment, like moving boxes?',
-    title: 'Inventory',
-    itemsLabel: 'How many items go missing per month?',
-    minutesLabel: 'How many minutes do you spend chasing one missing item?',
-    costLabel: 'What does one item cost to replace? (DKK)',
+    entry: 'Do you keep track of your moving boxes and equipment?',
+    title: 'Moving boxes and equipment',
+    estimateNote:
+      'Even if you don’t track them formally, you probably have a good sense of this. A rough estimate is all we need.',
+    itemsLabel: 'How many moving boxes go missing per month?',
+    minutesLabel: 'How many minutes do you spend chasing one missing box?',
+    costLabel: 'What does one moving box cost to replace? ({cur})',
   },
   units: {
     minutes: 'minutes',
     hoursPerMonth: 'hours/month',
-    dkkPerHour: 'DKK/hour',
-    dkkPerMonth: 'DKK/month',
-    perMonth: '/month',
-    perYear: '/year',
+    hoursPerWeek: 'hours/week',
+    perHour: '{cur}/hour',
+    moneyPerMonth: '{cur}/month',
     reviewsPerMonth: 'reviews/month',
   },
   result: {
     eyebrow: 'Your estimate',
     hoursLine: 'That is about {hours} hours a month back in your team’s hands.',
-    perYear: '≈ {value} DKK a year',
+    perYear: '≈ {value} {cur} a year',
     breakdownTitle: 'Where it comes from',
     lockedTitle: 'See the full breakdown',
     lockedNote: 'Enter your email to unlock the line-by-line math and get a copy sent to you.',
+    moreInfo: 'More info',
     upsideTitle: 'And the upside you flagged',
     revenueUpside: '+{pct}% potential revenue',
     revenueUpsideNote: 'You told us consistent lead follow-up could win this back. Movena runs it automatically.',
     reviewUpside: '+{count} extra reviews a month',
     reviewUpsideNote: 'In your own estimate, from an automatic request after every job. More reviews, more inbound.',
-    exposureNote: 'About {value} DKK a month in lost items is walking out the door today.',
+    exposureNote: 'About {value} {cur} a month in lost boxes is walking out the door today.',
     assumptions:
       'Every figure is built on your own numbers and conservative, real-world assumptions. Nothing inflated. On a call we can walk through each one.',
     rowLabels: {
@@ -230,8 +242,22 @@ const en: CalculatorCopy = {
       quoting: 'Faster quoting',
       followup: 'Automated lead follow-up',
       messaging: 'Automated customer messaging',
-      inventoryTime: 'Less time chasing lost items',
-      inventoryMoney: 'Fewer items lost for good',
+      inventoryTime: 'Less time chasing lost boxes',
+      inventoryMoney: 'Fewer boxes lost for good',
+    },
+    rowInfo: {
+      planning:
+        'Movena handles scheduling, crew and vehicle assignment, and the admin around setting a job up. We assume it removes 40% of the time you spend planning each move, a deliberately conservative figure.',
+      quoting:
+        'With Movena the customer fills in the move details and the quote builds itself. Some movers still go out to inspect, so we only count 50% of the quoting time saved, not all of it.',
+      followup:
+        'Movena runs your lead follow-up automatically with timed sequences. We assume it takes over 85% of the manual follow-up time, leaving you to handle the live replies.',
+      messaging:
+        'Booking confirmations, reminders, on-the-way texts and post-move messages get automated. We assume 90% of the time you spend on them today disappears.',
+      inventoryTime:
+        'Automatic tracking and reminders chase missing boxes for you. We assume 90% of the time you currently spend chasing them is removed.',
+      inventoryMoney:
+        'Faster, automatic chasing means more boxes come back before they are gone for good. We assume a conservative 30% of what you lose today is recovered.',
     },
     ctaTitle: 'Want to see it on your own numbers?',
     ctaSubtitle: 'Book a 20-minute call. We will walk through your result and show you Movena live.',
@@ -278,7 +304,9 @@ const da: CalculatorCopy = {
   no: 'Nej',
   baseline: {
     title: 'Først det grundlæggende',
-    subtitle: 'To hurtige tal, som vi bruger i hele beregningen.',
+    subtitle: 'Nogle få hurtige tal, som vi bruger i hele beregningen.',
+    currencyLabel: 'Hvilken valuta arbejder I i?',
+    currencyHelp: 'Alle tal i beregneren vises i denne valuta.',
     movesLabel: 'Hvor mange flytninger håndterer I om måneden?',
     movesHelp: 'Et groft gennemsnit er fint.',
     hourlyLabel: 'Hvad koster en time af jeres tid?',
@@ -321,34 +349,36 @@ const da: CalculatorCopy = {
     hoursHelp: 'Bekræftelser, påmindelser, på-vej-beskeder, opfølgning efter flytning. Et groft samlet tal.',
   },
   inventory: {
-    entry: 'Holder I styr på inventar eller udstyr, som flyttekasser?',
-    title: 'Inventar',
-    itemsLabel: 'Hvor mange ting forsvinder om måneden?',
-    minutesLabel: 'Hvor mange minutter bruger I på at jagte én forsvundet ting?',
-    costLabel: 'Hvad koster det at erstatte én ting? (DKK)',
+    entry: 'Holder I styr på jeres flyttekasser og udstyr?',
+    title: 'Flyttekasser og udstyr',
+    estimateNote:
+      'Selv hvis I ikke registrerer dem formelt, har I sikkert en god fornemmelse. Et groft skøn er nok.',
+    itemsLabel: 'Hvor mange flyttekasser forsvinder om måneden?',
+    minutesLabel: 'Hvor mange minutter bruger I på at jagte én forsvundet kasse?',
+    costLabel: 'Hvad koster det at erstatte én flyttekasse? ({cur})',
   },
   units: {
     minutes: 'minutter',
     hoursPerMonth: 'timer/måned',
-    dkkPerHour: 'DKK/time',
-    dkkPerMonth: 'DKK/måned',
-    perMonth: '/måned',
-    perYear: '/år',
+    hoursPerWeek: 'timer/uge',
+    perHour: '{cur}/time',
+    moneyPerMonth: '{cur}/måned',
     reviewsPerMonth: 'anmeldelser/måned',
   },
   result: {
     eyebrow: 'Dit estimat',
     hoursLine: 'Det er omkring {hours} timer om måneden tilbage i jeres hænder.',
-    perYear: '≈ {value} DKK om året',
+    perYear: '≈ {value} {cur} om året',
     breakdownTitle: 'Hvor det kommer fra',
     lockedTitle: 'Se hele beregningen',
     lockedNote: 'Indtast din e-mail for at låse regnestykket op linje for linje og få en kopi tilsendt.',
+    moreInfo: 'Mere info',
     upsideTitle: 'Og det potentiale, du pegede på',
     revenueUpside: '+{pct}% potentiel omsætning',
     revenueUpsideNote: 'Du fortalte os, at fast opfølgning kunne vinde dette tilbage. Movena kører det automatisk.',
     reviewUpside: '+{count} ekstra anmeldelser om måneden',
     reviewUpsideNote: 'Dit eget skøn, fra en automatisk anmodning efter hver opgave. Flere anmeldelser, flere henvendelser.',
-    exposureNote: 'Omkring {value} DKK om måneden i mistede ting går tabt i dag.',
+    exposureNote: 'Omkring {value} {cur} om måneden i mistede kasser går tabt i dag.',
     assumptions:
       'Hvert tal bygger på dine egne tal og konservative, virkelighedsnære antagelser. Intet er pustet op. På et opkald kan vi gennemgå hvert enkelt.',
     rowLabels: {
@@ -356,8 +386,22 @@ const da: CalculatorCopy = {
       quoting: 'Hurtigere tilbud',
       followup: 'Automatisk opfølgning på leads',
       messaging: 'Automatisk kundekommunikation',
-      inventoryTime: 'Mindre tid på at jagte mistede ting',
-      inventoryMoney: 'Færre ting tabt for altid',
+      inventoryTime: 'Mindre tid på at jagte mistede kasser',
+      inventoryMoney: 'Færre kasser tabt for altid',
+    },
+    rowInfo: {
+      planning:
+        'Movena håndterer kalender, tildeling af hold og biler, og administrationen omkring at sætte en opgave op. Vi antager, at det fjerner 40% af den tid, I bruger på at planlægge hver flytning, et bevidst konservativt tal.',
+      quoting:
+        'Med Movena udfylder kunden flyttedetaljerne, og tilbuddet bygger sig selv. Nogle flyttefirmaer kører stadig ud for at se det, så vi regner kun 50% af tilbudstiden sparet, ikke det hele.',
+      followup:
+        'Movena kører jeres opfølgning automatisk med tidsstyrede sekvenser. Vi antager, at den overtager 85% af den manuelle opfølgningstid, så I kun håndterer de aktive svar.',
+      messaging:
+        'Bekræftelser, påmindelser, på-vej-beskeder og beskeder efter flytning bliver automatiseret. Vi antager, at 90% af den tid, I bruger på dem i dag, forsvinder.',
+      inventoryTime:
+        'Automatisk registrering og påmindelser jagter de forsvundne kasser for jer. Vi antager, at 90% af den tid, I bruger på at jagte dem i dag, fjernes.',
+      inventoryMoney:
+        'Hurtigere, automatisk opfølgning betyder, at flere kasser kommer tilbage, før de er væk for altid. Vi antager konservativt, at 30% af det, I mister i dag, bliver reddet.',
     },
     ctaTitle: 'Vil du se det på dine egne tal?',
     ctaSubtitle: 'Book et 20-minutters opkald. Vi gennemgår dit resultat og viser dig Movena live.',

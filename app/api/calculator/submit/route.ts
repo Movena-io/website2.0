@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { Resend } from 'resend'
 import { isLocale, type Locale } from '@/lib/locales'
 import { computeSavings, EMPTY_INPUTS, type CalculatorInputs } from '@/lib/calculator/engine'
+import { getCurrency } from '@/lib/calculator/currency'
 import { buildVisitorEmail, buildTeamEmail, buildAttioNote, type LeadPayload } from '@/lib/calculator/report'
 import { pushLeadToAttio } from '@/lib/calculator/attio'
 import { appendLead } from '@/lib/calculator/store'
@@ -23,6 +24,7 @@ function sanitizeInputs(raw: unknown): CalculatorInputs {
   const bool = (v: unknown) => v === true
 
   return {
+    currency: getCurrency(String(r.currency)).code,
     movesPerMonth: num(r.movesPerMonth),
     hourlyCost: num(r.hourlyCost, EMPTY_INPUTS.hourlyCost),
     planningMinutesPerMove: num(r.planningMinutesPerMove),

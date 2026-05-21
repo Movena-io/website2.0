@@ -9,8 +9,9 @@ import { appendLead } from '@/lib/calculator/store'
 
 export const runtime = 'nodejs'
 
-const FROM = 'Movena <support@mail.movena.io>'
-const TEAM_TO = 'support@movena.io'
+const FROM = 'Movena <noreply@movena.io>'
+const TEAM_TO = ['vcl@movena.io', 'vl@movena.io', 'sto@movena.io']
+const TEAM_REPLY_TO = 'sto@movena.io'
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
 // Trust nothing from the client for the math. Coerce inputs into a clean shape
@@ -89,7 +90,7 @@ export async function POST(req: NextRequest) {
     const resend = new Resend(process.env.RESEND_API_KEY)
 
     const send = async (
-      to: string,
+      to: string | string[],
       replyTo: string,
       mail: { subject: string; html: string; text: string },
     ): Promise<string> => {
@@ -109,7 +110,7 @@ export async function POST(req: NextRequest) {
       }
     }
 
-    status.visitorEmail = await send(email, TEAM_TO, buildVisitorEmail(payload))
+    status.visitorEmail = await send(email, TEAM_REPLY_TO, buildVisitorEmail(payload))
     status.teamEmail = await send(TEAM_TO, email, buildTeamEmail(payload))
   } else {
     status.visitorEmail = status.teamEmail = 'skipped:no_resend_key'

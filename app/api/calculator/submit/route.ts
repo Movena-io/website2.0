@@ -86,8 +86,10 @@ export async function POST(req: NextRequest) {
   // 2 + 3. Emails (visitor report + team summary). NOTE: resend.emails.send does
   // NOT throw on API errors (bad key, unverified domain, rejected recipient) — it
   // returns { error }. So we must inspect the response, not just catch throws.
-  if (process.env.RESEND_API_KEY) {
-    const resend = new Resend(process.env.RESEND_API_KEY)
+  // Accept either the conventional name or the short name used in Vercel ("Resend").
+  const resendKey = process.env.RESEND_API_KEY || process.env.Resend
+  if (resendKey) {
+    const resend = new Resend(resendKey)
 
     const send = async (
       to: string | string[],

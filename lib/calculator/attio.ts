@@ -46,7 +46,8 @@ async function attioFetch(path: string, init: RequestInit, key: string) {
 }
 
 export async function pushLeadToAttio(lead: AttioLead): Promise<AttioPushResult> {
-  const key = process.env.ATTIO_API_KEY
+  // Accept either the conventional name or the short name used in Vercel ("Attio").
+  const key = process.env.ATTIO_API_KEY || process.env.Attio
   if (!key) return { ok: false, reason: 'no_key' }
 
   try {

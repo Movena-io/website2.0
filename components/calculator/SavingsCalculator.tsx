@@ -122,6 +122,7 @@ export default function SavingsCalculator() {
                   <SelectField
                     label={c.baseline.currencyLabel}
                     help={c.baseline.currencyHelp}
+                    info={c.fieldInfo.currency}
                     value={inputs.currency}
                     onChange={setCurrency}
                     options={CURRENCIES.map((x) => ({ value: x.code, label: x.label }))}
@@ -129,12 +130,14 @@ export default function SavingsCalculator() {
                   <NumberField
                     label={c.baseline.movesLabel}
                     help={c.baseline.movesHelp}
+                    info={c.fieldInfo.moves}
                     value={inputs.movesPerMonth}
                     onChange={(v) => set('movesPerMonth', v)}
                   />
                   <NumberField
                     label={c.baseline.hourlyLabel}
                     help={c.baseline.hourlyHelp}
+                    info={c.fieldInfo.hourly}
                     suffix={fc(c.units.perHour)}
                     value={inputs.hourlyCost}
                     onChange={(v) => set('hourlyCost', v)}
@@ -147,6 +150,7 @@ export default function SavingsCalculator() {
                   <NumberField
                     label={c.planning.minutesLabel}
                     help={c.planning.minutesHelp}
+                    info={c.fieldInfo.planningMinutes}
                     suffix={c.units.minutes}
                     value={inputs.planningMinutesPerMove}
                     onChange={(v) => set('planningMinutesPerMove', v)}
@@ -158,6 +162,7 @@ export default function SavingsCalculator() {
                 <Step title={c.quoting.title}>
                   <YesNo
                     question={c.quoting.entry}
+                    info={c.fieldInfo.quotingEntry}
                     value={inputs.doesQuoting}
                     yes={c.yes}
                     no={c.no}
@@ -167,12 +172,14 @@ export default function SavingsCalculator() {
                     <Reveal>
                       <NumberField
                         label={c.quoting.quotesLabel}
+                        info={c.fieldInfo.quotes}
                         value={inputs.quotesPerMonth}
                         onChange={(v) => set('quotesPerMonth', v)}
                       />
                       <NumberField
                         label={c.quoting.minutesLabel}
                         help={c.quoting.minutesHelp}
+                        info={c.fieldInfo.quoteMinutes}
                         suffix={c.units.minutes}
                         value={inputs.minutesPerQuote}
                         onChange={(v) => set('minutesPerQuote', v)}
@@ -186,6 +193,7 @@ export default function SavingsCalculator() {
                 <Step title={c.followup.title}>
                   <YesNo
                     question={c.followup.entry}
+                    info={c.fieldInfo.followupEntry}
                     value={inputs.doesFollowup}
                     yes={c.yes}
                     no={c.no}
@@ -195,11 +203,13 @@ export default function SavingsCalculator() {
                     <Reveal>
                       <NumberField
                         label={c.followup.leadsLabel}
+                        info={c.fieldInfo.leads}
                         value={inputs.leadsPerMonth}
                         onChange={(v) => set('leadsPerMonth', v)}
                       />
                       <NumberField
                         label={c.followup.minutesLabel}
+                        info={c.fieldInfo.followupMinutes}
                         suffix={c.units.minutes}
                         value={inputs.minutesPerFollowup}
                         onChange={(v) => set('minutesPerFollowup', v)}
@@ -213,6 +223,7 @@ export default function SavingsCalculator() {
                       <NumberField
                         label={c.followup.upliftLabel}
                         help={c.followup.upliftHelp}
+                        info={c.fieldInfo.uplift}
                         suffix="%"
                         value={inputs.followupUpliftPct}
                         onChange={(v) => set('followupUpliftPct', v)}
@@ -226,11 +237,13 @@ export default function SavingsCalculator() {
                 <Step title={c.reviews.currentTitle}>
                   <NumberField
                     label={c.reviews.currentLabel}
+                    info={c.fieldInfo.reviewsCurrent}
                     value={inputs.reviewsPerMonth}
                     onChange={(v) => set('reviewsPerMonth', v)}
                   />
                   <YesNo
                     question={c.reviews.sendsEntry}
+                    info={c.fieldInfo.reviewsSendsEntry}
                     value={inputs.sendsReviewRequest}
                     yes={c.yes}
                     no={c.no}
@@ -241,6 +254,7 @@ export default function SavingsCalculator() {
                       <NumberField
                         label={c.reviews.sendsTimeLabel}
                         help={c.reviews.sendsTimeHelp}
+                        info={c.fieldInfo.reviewsSendsTime}
                         suffix={c.units.minutes}
                         value={inputs.reviewMinutesPerMonth}
                         onChange={(v) => set('reviewMinutesPerMonth', v)}
@@ -254,6 +268,7 @@ export default function SavingsCalculator() {
                       <NumberField
                         label={c.reviews.extraLabel}
                         help={c.reviews.extraHelp}
+                        info={c.fieldInfo.reviewsExtra}
                         value={inputs.extraReviewsPerMonth}
                         onChange={(v) => set('extraReviewsPerMonth', v)}
                       />
@@ -266,6 +281,7 @@ export default function SavingsCalculator() {
                 <Step title={c.messaging.title}>
                   <YesNo
                     question={c.messaging.entry}
+                    info={c.fieldInfo.messagingEntry}
                     value={inputs.doesMessaging}
                     yes={c.yes}
                     no={c.no}
@@ -276,6 +292,7 @@ export default function SavingsCalculator() {
                       <NumberField
                         label={c.messaging.hoursLabel}
                         help={c.messaging.hoursHelp}
+                        info={c.fieldInfo.messagingHours}
                         suffix={c.units.hoursPerWeek}
                         value={inputs.messagingHoursPerWeek}
                         onChange={(v) => set('messagingHoursPerWeek', v)}
@@ -289,6 +306,7 @@ export default function SavingsCalculator() {
                 <Step title={c.inventory.title}>
                   <YesNo
                     question={c.inventory.entry}
+                    info={c.fieldInfo.inventoryEntry}
                     value={inputs.tracksInventory}
                     yes={c.yes}
                     no={c.no}
@@ -298,17 +316,20 @@ export default function SavingsCalculator() {
                   <p className="text-[13px] text-[#94A3B8] leading-[1.5] -mt-1">{c.inventory.estimateNote}</p>
                   <NumberField
                     label={c.inventory.itemsLabel}
+                    info={c.fieldInfo.inventoryItems}
                     value={inputs.itemsLostPerMonth}
                     onChange={(v) => set('itemsLostPerMonth', v)}
                   />
                   <NumberField
                     label={c.inventory.minutesLabel}
+                    info={c.fieldInfo.inventoryMinutes}
                     suffix={c.units.minutes}
                     value={inputs.minutesChasingPerItem}
                     onChange={(v) => set('minutesChasingPerItem', v)}
                   />
                   <NumberField
                     label={fc(c.inventory.costLabel)}
+                    info={c.fieldInfo.inventoryCost}
                     value={inputs.costPerItem}
                     onChange={(v) => set('costPerItem', v)}
                   />
@@ -713,22 +734,62 @@ function ProgressBar({ current, total, label }: { current: number; total: number
   )
 }
 
+// A question label with an optional info toggle that expands a short explanation.
+function QuestionLabel({ text, info, size = 'sm' }: { text: string; info?: string; size?: 'sm' | 'md' }) {
+  const [open, setOpen] = useState(false)
+  return (
+    <div>
+      <div className="flex items-start gap-1.5">
+        <span
+          className={`font-semibold text-[#0B1F3B] ${size === 'md' ? 'text-[16px] leading-[1.4]' : 'text-[15px]'}`}
+        >
+          {text}
+        </span>
+        {info && (
+          <button
+            type="button"
+            onClick={() => setOpen((o) => !o)}
+            aria-label="More info"
+            aria-expanded={open}
+            className={`mt-[3px] shrink-0 rounded-full p-0.5 transition-colors ${
+              open ? 'text-[#1D4ED8]' : 'text-[#CBD5E1] hover:text-[#1D4ED8]'
+            }`}
+          >
+            <Info size={15} strokeWidth={2} />
+          </button>
+        )}
+      </div>
+      {info && open && (
+        <motion.p
+          initial={{ opacity: 0, height: 0 }}
+          animate={{ opacity: 1, height: 'auto' }}
+          className="text-[13px] text-[#475569] leading-[1.55] mt-2 overflow-hidden"
+        >
+          {info}
+        </motion.p>
+      )}
+    </div>
+  )
+}
+
 function NumberField({
   label,
   help,
   suffix,
   value,
   onChange,
+  info,
 }: {
   label: string
   help?: string
   suffix?: string
   value: number
   onChange: (v: number) => void
+  info?: string
 }) {
   return (
     <div className="flex flex-col gap-1.5">
-      <label className="text-[15px] font-semibold text-[#0B1F3B]">{label}</label>
+      <QuestionLabel text={label} info={info} />
       {help && <p className="text-[13px] text-[#94A3B8] -mt-0.5">{help}</p>}
       <div className="relative">
         <input
@@ -758,16 +819,18 @@ function SelectField({
   value,
   onChange,
   options,
+  info,
 }: {
   label: string
   help?: string
   value: string
   onChange: (v: string) => void
   options: { value: string; label: string }[]
+  info?: string
 }) {
   return (
     <div className="flex flex-col gap-1.5">
-      <label className="text-[15px] font-semibold text-[#0B1F3B]">{label}</label>
+      <QuestionLabel text={label} info={info} />
       {help && <p className="text-[13px] text-[#94A3B8] -mt-0.5">{help}</p>}
       <div className="relative">
         <select
@@ -803,16 +866,18 @@ function YesNo({
   yes,
   no,
   onChange,
+  info,
 }: {
   question: string
   value: boolean
   yes: string
   no: string
   onChange: (v: boolean) => void
+  info?: string
 }) {
   return (
     <div className="flex flex-col gap-3">
-      <p className="text-[16px] font-semibold text-[#0B1F3B] leading-[1.4]">{question}</p>
+      <QuestionLabel text={question} info={info} size="md" />
       <div className="grid grid-cols-2 gap-3">
         <Choice active={value === true} label={yes} onClick={() => onChange(true)} />
         <Choice active={value === false} label={no} onClick={() => onChange(false)} />

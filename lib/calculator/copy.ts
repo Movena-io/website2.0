@@ -92,6 +92,32 @@ export interface CalculatorCopy {
     reviewsPerMonth: string
   }
 
+  // Short "what this question means and what it's for" explanation per question.
+  fieldInfo: Record<
+    | 'currency'
+    | 'moves'
+    | 'hourly'
+    | 'planningMinutes'
+    | 'quotingEntry'
+    | 'quotes'
+    | 'quoteMinutes'
+    | 'followupEntry'
+    | 'leads'
+    | 'followupMinutes'
+    | 'uplift'
+    | 'reviewsCurrent'
+    | 'reviewsSendsEntry'
+    | 'reviewsSendsTime'
+    | 'reviewsExtra'
+    | 'messagingEntry'
+    | 'messagingHours'
+    | 'inventoryEntry'
+    | 'inventoryItems'
+    | 'inventoryMinutes'
+    | 'inventoryCost',
+    string
+  >
+
   result: {
     eyebrow: string
     hoursLine: string // "~{hours} hours/month back"
@@ -165,8 +191,8 @@ const en: CalculatorCopy = {
     currencyHelp: 'Every figure in the calculator will be shown in this currency.',
     movesLabel: 'How many moves do you handle per month?',
     movesHelp: 'A rough average is fine.',
-    hourlyLabel: 'What does an hour of your team’s time cost?',
-    hourlyHelp: 'Loaded cost per hour, including wages and overhead. We have pre-filled a typical figure.',
+    hourlyLabel: 'What does an hour of office time cost?',
+    hourlyHelp: 'Wages plus overhead. We have pre-filled a typical figure.',
   },
   planning: {
     title: 'Planning a job',
@@ -222,6 +248,41 @@ const en: CalculatorCopy = {
     perHour: '{cur}/hour',
     moneyPerMonth: '{cur}/month',
     reviewsPerMonth: 'reviews/month',
+  },
+  fieldInfo: {
+    currency: 'The currency every figure here is shown in. Pick the one your business works in.',
+    moves: 'The number of jobs you complete in a typical month. We use it to work out your savings across all your jobs.',
+    hourly:
+      'The tasks here (planning, quotes, follow-ups, messages) are office work, done by you or an office person, not the crew on the truck. Enter the full cost of one office hour, wages plus overhead.',
+    planningMinutes:
+      'The time it takes to set one move up: scheduling it, assigning a crew and a vehicle, and the admin to get it ready.',
+    quotingEntry:
+      'Whether you send customers a price quote before a job. If you do, we will estimate how much of that time you could save.',
+    quotes: 'How many quotes you send in a typical month. The more you send, the bigger the time saving.',
+    quoteMinutes:
+      'The time it takes to build and send one quote today: working out the price, writing it up, and sending it.',
+    followupEntry:
+      'Whether you chase leads that don’t book straight away. Your answer changes what we ask next: time saved if you do, missed revenue if you don’t.',
+    leads: 'How many leads you chase up in a typical month. We use it to estimate how much of that follow-up time you could save.',
+    followupMinutes: 'The time one follow-up takes: writing the message or making the call, and remembering to do it.',
+    uplift:
+      'If you followed up on every lead properly, how much more do you think you’d sell? That is revenue slipping away today.',
+    reviewsCurrent:
+      'How many online reviews (Google, Trustpilot, and the like) you get in a typical month now. It is the starting point for how many more you could get.',
+    reviewsSendsEntry:
+      'Whether you ask for a review after every completed job. If you do, we estimate the time saved; if not, the extra reviews you could get.',
+    reviewsSendsTime: 'Roughly how long you spend each month sending those review requests by hand.',
+    reviewsExtra:
+      'Your best guess at how many more reviews you’d get if every customer was asked automatically after their move.',
+    messagingEntry:
+      'Whether you send booking confirmations, reminders, and follow-up messages to customers by hand.',
+    messagingHours: 'A rough weekly total of the time spent on those messages. We use it to estimate the time you could save.',
+    inventoryEntry:
+      'Whether you keep track of your moving boxes and equipment. Either way, fill in the next questions with your best estimate.',
+    inventoryItems: 'How many boxes go missing in a typical month. Even a rough number works; most movers have a sense of it.',
+    inventoryMinutes: 'The time spent tracking down one missing box: calls, messages, and chasing the customer.',
+    inventoryCost:
+      'What it costs to buy a replacement box. We use it to show what lost boxes cost you each month.',
   },
   result: {
     eyebrow: 'Your estimate',
@@ -313,8 +374,8 @@ const da: CalculatorCopy = {
     currencyHelp: 'Alle tal i beregneren vises i denne valuta.',
     movesLabel: 'Hvor mange flytninger håndterer I om måneden?',
     movesHelp: 'Et groft gennemsnit er fint.',
-    hourlyLabel: 'Hvad koster en time af jeres tid?',
-    hourlyHelp: 'Den fulde timepris inkl. løn og overhead. Vi har udfyldt et typisk tal.',
+    hourlyLabel: 'Hvad koster en times kontorarbejde?',
+    hourlyHelp: 'Løn plus overhead. Vi har udfyldt et typisk tal.',
   },
   planning: {
     title: 'Planlægning af en opgave',
@@ -370,6 +431,38 @@ const da: CalculatorCopy = {
     perHour: '{cur}/time',
     moneyPerMonth: '{cur}/måned',
     reviewsPerMonth: 'anmeldelser/måned',
+  },
+  fieldInfo: {
+    currency: 'Den valuta, alle tal her vises i. Vælg den, jeres forretning arbejder i.',
+    moves: 'Antal opgaver, I udfører i en typisk måned. Vi bruger det til at beregne jeres besparelse på tværs af alle jobs.',
+    hourly:
+      'Opgaverne her (planlægning, tilbud, opfølgning, beskeder) er kontorarbejde, som du eller en på kontoret laver, ikke holdet på bilen. Indtast den fulde pris for én kontortime, løn plus overhead.',
+    planningMinutes:
+      'Tiden det tager at sætte én flytning op: planlægning, tildeling af hold og bil, og administrationen for at gøre den klar.',
+    quotingEntry:
+      'Om I sender kunder et pristilbud før en opgave. Hvis I gør, estimerer vi, hvor meget af den tid I kunne spare.',
+    quotes: 'Hvor mange tilbud I sender i en typisk måned. Jo flere I sender, jo større er tidsbesparelsen.',
+    quoteMinutes: 'Tiden det tager at lave og sende ét tilbud i dag: finde prisen, skrive det op og sende det.',
+    followupEntry:
+      'Om I følger op på leads, der ikke booker med det samme. Dit svar ændrer det næste spørgsmål: sparet tid hvis I gør, mistet omsætning hvis I ikke gør.',
+    leads: 'Hvor mange leads I følger op på i en typisk måned. Vi bruger det til at estimere, hvor meget af den opfølgningstid I kunne spare.',
+    followupMinutes: 'Tiden én opfølgning tager: at skrive beskeden eller ringe, og at huske at gøre det.',
+    uplift:
+      'Hvis I fulgte ordentligt op på hvert lead, hvor meget mere tror du, I ville sælge? Det er omsætning, der glider jer af hænde i dag.',
+    reviewsCurrent:
+      'Hvor mange online anmeldelser (Google, Trustpilot og lignende) I får i en typisk måned nu. Det er udgangspunktet for, hvor mange flere I kunne få.',
+    reviewsSendsEntry:
+      'Om I beder om en anmeldelse efter hver afsluttet opgave. Hvis I gør, estimerer vi den sparede tid; hvis ikke, de ekstra anmeldelser, I kunne få.',
+    reviewsSendsTime: 'Cirka hvor lang tid I bruger hver måned på at sende de anmodninger i hånden.',
+    reviewsExtra: 'Dit bedste gæt på, hvor mange flere anmeldelser I ville få, hvis hver kunde blev spurgt automatisk efter flytningen.',
+    messagingEntry:
+      'Om I sender bekræftelser, påmindelser og opfølgningsbeskeder til kunder i hånden.',
+    messagingHours: 'Et groft ugentligt tal for tiden brugt på de beskeder. Vi bruger det til at estimere den tid, I kunne spare.',
+    inventoryEntry:
+      'Om I holder styr på jeres flyttekasser og udstyr. Uanset hvad, udfyld de næste spørgsmål med jeres bedste skøn.',
+    inventoryItems: 'Hvor mange kasser der forsvinder i en typisk måned. Et groft tal er nok; de fleste flyttefirmaer har en fornemmelse.',
+    inventoryMinutes: 'Tiden brugt på at opspore én forsvundet kasse: opkald, beskeder og at jagte kunden.',
+    inventoryCost: 'Hvad det koster at købe en ny kasse. Vi bruger det til at vise, hvad mistede kasser koster jer hver måned.',
   },
   result: {
     eyebrow: 'Dit estimat',

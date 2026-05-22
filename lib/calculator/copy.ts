@@ -92,6 +92,32 @@ export interface CalculatorCopy {
     reviewsPerMonth: string
   }
 
+  // Short "what this question means and what it's for" explanation per question.
+  fieldInfo: Record<
+    | 'currency'
+    | 'moves'
+    | 'hourly'
+    | 'planningMinutes'
+    | 'quotingEntry'
+    | 'quotes'
+    | 'quoteMinutes'
+    | 'followupEntry'
+    | 'leads'
+    | 'followupMinutes'
+    | 'uplift'
+    | 'reviewsCurrent'
+    | 'reviewsSendsEntry'
+    | 'reviewsSendsTime'
+    | 'reviewsExtra'
+    | 'messagingEntry'
+    | 'messagingHours'
+    | 'inventoryEntry'
+    | 'inventoryItems'
+    | 'inventoryMinutes'
+    | 'inventoryCost',
+    string
+  >
+
   result: {
     eyebrow: string
     hoursLine: string // "~{hours} hours/month back"
@@ -222,6 +248,42 @@ const en: CalculatorCopy = {
     perHour: '{cur}/hour',
     moneyPerMonth: '{cur}/month',
     reviewsPerMonth: 'reviews/month',
+  },
+  fieldInfo: {
+    currency: 'The currency every figure in the calculator is shown in. Pick the one your business runs its numbers in.',
+    moves: 'The number of jobs you complete in a typical month. We use it to scale the time savings across everything you do.',
+    hourly:
+      'What one hour of your team’s time really costs, including wages and overhead. This is how we turn hours saved into money saved.',
+    planningMinutes:
+      'The time it takes to organize one move: scheduling it, assigning crew and a vehicle, and the admin to get it ready. Movena automates most of this.',
+    quotingEntry:
+      'Whether you send price quotes to customers before a job. If you do, we estimate the time Movena’s quoting saves you.',
+    quotes: 'How many quotes you send in a typical month. More quotes means more time Movena’s automatic quoting gives back.',
+    quoteMinutes:
+      'The time it takes to build and send one quote today: working out the price, writing it up, and sending it.',
+    followupEntry:
+      'Whether you chase leads that don’t book straight away. Your answer changes what we ask next: time saved if you do, lost revenue if you don’t.',
+    leads: 'How many leads you follow up on in a month. We use it to estimate the follow-up time Movena automates.',
+    followupMinutes: 'The time one follow-up takes: writing the message or making the call, and remembering to do it.',
+    uplift:
+      'Your best guess at how much more revenue you’d win if every lead got followed up properly. Movena does that automatically, so this is upside you’re leaving on the table.',
+    reviewsCurrent:
+      'How many customer reviews you collect in a typical month today. It sets the baseline for the upside Movena can add.',
+    reviewsSendsEntry:
+      'Whether you ask for a review after every completed job. If you do, we estimate the time saved; if not, the extra reviews you could get.',
+    reviewsSendsTime:
+      'Roughly how long you spend each month sending review requests by hand. Movena sends them automatically.',
+    reviewsExtra:
+      'Your best guess at how many more reviews you’d get if every customer was asked automatically after their move.',
+    messagingEntry:
+      'Whether you send confirmations, reminders, and follow-up messages to customers by hand. Movena can automate these.',
+    messagingHours: 'A rough weekly total of the time spent on those customer messages. We turn it into time Movena gives back.',
+    inventoryEntry:
+      'Whether you keep track of your moving boxes and equipment. Either way, fill in the next questions with your best estimate.',
+    inventoryItems: 'How many boxes go missing in a typical month. Even a rough number works; most movers have a sense of it.',
+    inventoryMinutes: 'The time spent tracking down one missing box: calls, messages, and chasing the customer.',
+    inventoryCost:
+      'What it costs to replace one box. We use it to show what lost boxes cost you and what Movena could recover.',
   },
   result: {
     eyebrow: 'Your estimate',
@@ -370,6 +432,37 @@ const da: CalculatorCopy = {
     perHour: '{cur}/time',
     moneyPerMonth: '{cur}/måned',
     reviewsPerMonth: 'anmeldelser/måned',
+  },
+  fieldInfo: {
+    currency: 'Den valuta, alle tal i beregneren vises i. Vælg den, jeres forretning regner i.',
+    moves: 'Antal opgaver, I udfører i en typisk måned. Vi bruger det til at skalere tidsbesparelsen på tværs af alt, hvad I laver.',
+    hourly:
+      'Hvad én time af jeres tid reelt koster, inkl. løn og overhead. Det er sådan, vi omsætter sparet tid til sparede penge.',
+    planningMinutes:
+      'Tiden det tager at organisere én flytning: planlægning, tildeling af hold og bil, og administrationen for at gøre den klar. Movena automatiserer det meste.',
+    quotingEntry:
+      'Om I sender pristilbud til kunder før en opgave. Hvis I gør, estimerer vi den tid, Movenas tilbud sparer jer.',
+    quotes: 'Hvor mange tilbud I sender i en typisk måned. Flere tilbud betyder mere tid sparet med Movenas automatiske tilbud.',
+    quoteMinutes: 'Tiden det tager at lave og sende ét tilbud i dag: finde prisen, skrive det op og sende det.',
+    followupEntry:
+      'Om I følger op på leads, der ikke booker med det samme. Dit svar ændrer det næste spørgsmål: sparet tid hvis I gør, mistet omsætning hvis I ikke gør.',
+    leads: 'Hvor mange leads I følger op på om måneden. Vi bruger det til at estimere den opfølgningstid, Movena automatiserer.',
+    followupMinutes: 'Tiden én opfølgning tager: at skrive beskeden eller ringe, og at huske at gøre det.',
+    uplift:
+      'Dit bedste gæt på, hvor meget mere omsætning I ville vinde, hvis hvert lead blev fulgt ordentligt op. Movena gør det automatisk, så dette er potentiale, I går glip af.',
+    reviewsCurrent: 'Hvor mange anmeldelser I samler i en typisk måned i dag. Det sætter udgangspunktet for det, Movena kan tilføje.',
+    reviewsSendsEntry:
+      'Om I beder om en anmeldelse efter hver afsluttet opgave. Hvis I gør, estimerer vi den sparede tid; hvis ikke, de ekstra anmeldelser, I kunne få.',
+    reviewsSendsTime: 'Cirka hvor lang tid I bruger hver måned på at sende anmodninger om anmeldelser i hånden. Movena sender dem automatisk.',
+    reviewsExtra: 'Dit bedste gæt på, hvor mange flere anmeldelser I ville få, hvis hver kunde blev spurgt automatisk efter flytningen.',
+    messagingEntry:
+      'Om I sender bekræftelser, påmindelser og opfølgningsbeskeder til kunder i hånden. Movena kan automatisere dem.',
+    messagingHours: 'Et groft ugentligt tal for tiden brugt på de kundebeskeder. Vi omsætter det til tid, Movena giver tilbage.',
+    inventoryEntry:
+      'Om I holder styr på jeres flyttekasser og udstyr. Uanset hvad, udfyld de næste spørgsmål med jeres bedste skøn.',
+    inventoryItems: 'Hvor mange kasser der forsvinder i en typisk måned. Et groft tal er nok; de fleste flyttefirmaer har en fornemmelse.',
+    inventoryMinutes: 'Tiden brugt på at opspore én forsvundet kasse: opkald, beskeder og at jagte kunden.',
+    inventoryCost: 'Hvad det koster at erstatte én kasse. Vi bruger det til at vise, hvad mistede kasser koster jer, og hvad Movena kan redde.',
   },
   result: {
     eyebrow: 'Dit estimat',

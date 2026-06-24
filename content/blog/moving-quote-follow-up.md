@@ -1,10 +1,10 @@
 ---
-title: "The Follow-Up That Closes the Quote (And Why Movers Skip It)"
+title: "The Follow-Up That Closes the Quote (And Why Moving Companies Skip It)"
 slug: "moving-quote-follow-up"
 date: "2026-06-24"
-excerpt: "Most moving quotes are won or lost in the follow-up, and most movers never send one. Here is why the follow-up matters and how to make sure it always happens."
-metaTitle: "The Follow-Up That Closes the Quote (And Why Movers Skip It) | Movena"
-metaDescription: "Most moving quotes are won or lost in the follow-up, and most movers never send one. Here is why the follow-up matters and how to make sure it always happens."
+excerpt: "Most moving quotes are won or lost in the follow-up, and most moving companies never send one. Here is why the follow-up matters and how to make sure it always happens."
+metaTitle: "The Follow-Up That Closes the Quote (And Why Moving Companies Skip It) | Movena"
+metaDescription: "Most moving quotes are won or lost in the follow-up, and most moving companies never send one. Here is why the follow-up matters and how to make sure it always happens."
 image: "/blog/moving-quote-follow-up.png"
 imageAlt: "A follow-up message that closes a moving company quote"
 category: "Guide"
@@ -15,7 +15,7 @@ draft: false
 
 Sending the quote feels like the work is done.
 
-It isn't. For a lot of moves, the quote is only the halfway point. The job is won or lost in what happens next, and for most movers, nothing happens next.
+It isn't. For a lot of moves, the quote is only the halfway point. The job is won or lost in what happens next, and for most moving companies, nothing happens next.
 
 ## Most quotes need a nudge
 
@@ -27,13 +27,13 @@ A single follow-up a few days later often tips it. Not pushy. Just a friendly ch
 
 ## The first to follow up often wins
 
-Here is what most movers miss. The customer is comparing a few companies, and several of them also went quiet after quoting.
+Here is what most moving companies miss. The customer is comparing a few companies, and several of them also went quiet after quoting.
 
 So the one who follows up stands out. It signals you actually want the job and you are organised enough to chase it. Against two competitors who sent a quote and vanished, a simple follow-up can be the whole reason you win.
 
 You are not just reminding them. You are showing them what working with you would feel like.
 
-## Why movers skip it
+## Why moving companies skip it
 
 If follow-up works so well, why is it the most skipped step in the business?
 

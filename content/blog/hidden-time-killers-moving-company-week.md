@@ -120,5 +120,3 @@ This is the reason we built Movena. Not to give moving companies another tool to
 You will not win them all back. Some of that time was always going to be spent. But if even half of the hidden day comes back to you, that is half a day a week to sell, to plan, to be out with the crew, or simply to not be the person everything runs through.
 
 The jobs were never the problem. The gaps between them were. And gaps, unlike jobs, can be closed.
-
-Setting a new standard for how moving companies operate.

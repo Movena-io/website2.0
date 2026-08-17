@@ -23,9 +23,11 @@ export default function PainPoints() {
     <section ref={sectionRef} className="bg-white py-16">
       <div className="max-w-6xl mx-auto px-6">
         <div className="reveal mb-16">
-          <span className="text-[11px] font-semibold uppercase tracking-[0.1em] text-[#1D4ED8]">{t.painPoints.label}</span>
-          <h2 className="mt-3 text-[28px] sm:text-[36px] lg:text-[48px] font-semibold tracking-[-0.03em] text-[#0B1F3B] leading-[1.1] max-w-[640px]">
-            {t.painPoints.headline} {t.painPoints.highlight}
+          {t.painPoints.label && (
+            <span className="block text-[11px] font-semibold uppercase tracking-[0.1em] text-[#1D4ED8] mb-3">{t.painPoints.label}</span>
+          )}
+          <h2 className="text-[28px] sm:text-[36px] lg:text-[48px] font-semibold tracking-[-0.03em] text-[#0B1F3B] leading-[1.1] max-w-[640px]">
+            {t.painPoints.headline}{t.painPoints.highlight && ` ${t.painPoints.highlight}`}
           </h2>
           <p className="mt-4 text-[18px] font-normal text-[#475569] max-w-[480px] leading-[1.7]">
             {t.painPoints.subheadline}
@@ -49,6 +51,12 @@ export default function PainPoints() {
             </div>
           ))}
         </div>
+
+        {t.painPoints.closingLine && (
+          <p className="reveal mt-12 text-center text-[20px] sm:text-[24px] lg:text-[28px] font-semibold tracking-[-0.02em] text-[#0B1F3B]">
+            {t.painPoints.closingLine}
+          </p>
+        )}
       </div>
     </section>
   )

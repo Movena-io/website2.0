@@ -8,7 +8,7 @@ import { useLanguage } from '@/lib/LanguageContext'
 
 export default function Contact() {
   const { t } = useLanguage()
-  const [form, setForm] = useState({ name: '', email: '', subject: '', message: '' })
+  const [form, setForm] = useState({ name: '', email: '', phone: '', subject: '', message: '' })
   const [status, setStatus] = useState<'idle' | 'sending' | 'sent' | 'error'>('idle')
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -22,7 +22,7 @@ export default function Contact() {
       })
       if (res.ok) {
         setStatus('sent')
-        setForm({ name: '', email: '', subject: '', message: '' })
+        setForm({ name: '', email: '', phone: '', subject: '', message: '' })
       } else {
         setStatus('error')
       }
@@ -83,17 +83,29 @@ export default function Contact() {
                       />
                     </div>
                     <div className="flex flex-col gap-1.5">
-                      <label htmlFor="contact-email" className="text-[13px] font-semibold text-[#0F172A]">{t.contact.emailLabel}</label>
+                      <label htmlFor="contact-phone" className="text-[13px] font-semibold text-[#0F172A]">{t.contact.phoneLabel}</label>
                       <input
-                        id="contact-email"
-                        type="email"
+                        id="contact-phone"
+                        type="tel"
                         required
-                        placeholder={t.contact.emailPlaceholder}
-                        value={form.email}
-                        onChange={e => setForm(f => ({ ...f, email: e.target.value }))}
+                        placeholder={t.contact.phonePlaceholder}
+                        value={form.phone}
+                        onChange={e => setForm(f => ({ ...f, phone: e.target.value }))}
                         className="h-10 rounded-lg border border-[#E2E8F0] px-3 text-[14px] text-[#0F172A] placeholder:text-[#94A3B8] focus:outline-none focus:ring-2 focus:ring-[#1D4ED8]/20 focus:border-[#1D4ED8] transition-colors"
                       />
                     </div>
+                  </div>
+
+                  <div className="flex flex-col gap-1.5">
+                    <label htmlFor="contact-email" className="text-[13px] font-semibold text-[#0F172A]">{t.contact.emailLabel}</label>
+                    <input
+                      id="contact-email"
+                      type="email"
+                      placeholder={t.contact.emailPlaceholder}
+                      value={form.email}
+                      onChange={e => setForm(f => ({ ...f, email: e.target.value }))}
+                      className="h-10 rounded-lg border border-[#E2E8F0] px-3 text-[14px] text-[#0F172A] placeholder:text-[#94A3B8] focus:outline-none focus:ring-2 focus:ring-[#1D4ED8]/20 focus:border-[#1D4ED8] transition-colors"
+                    />
                   </div>
 
                   <div className="flex flex-col gap-1.5">

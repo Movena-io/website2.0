@@ -198,13 +198,19 @@ export default function Hero() {
             </a>
 
             <a
-              href={href('/savings-calculator')}
-              onClick={() => trackEstimatorClick('hero')}
+              href="tel:+4528708402"
               className="inline-flex items-center justify-center gap-2 h-12 px-6 rounded-xl text-[15px] font-semibold text-[#0B1F3B] bg-white border border-[#E2E8F0] hover:border-[#1D4ED8]/40 hover:bg-[#F8FAFC] transition-colors"
             >
               <span>{t.hero.secondaryCta}</span>
             </a>
           </AnimatedGroup>
+
+          {/* Disclaimer */}
+          {t.hero.disclaimer && (
+            <p className="relative z-10 text-[13px] text-[#94A3B8] max-w-md -mt-4">
+              {t.hero.disclaimer}
+            </p>
+          )}
 
           {/* Video with glow */}
           {/*

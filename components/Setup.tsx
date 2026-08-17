@@ -14,11 +14,13 @@ export default function Setup() {
 
         {/* Header */}
         <div className="flex flex-col items-center gap-3 text-center mb-12">
-          <span className="block text-[11px] font-semibold uppercase tracking-[0.1em] text-[#1D4ED8]">
-            {t.setup.label}
-          </span>
+          {t.setup.label && (
+            <span className="block text-[11px] font-semibold uppercase tracking-[0.1em] text-[#1D4ED8]">
+              {t.setup.label}
+            </span>
+          )}
           <h2 className="max-w-2xl text-[28px] sm:text-[34px] lg:text-[38px] font-semibold tracking-[-0.02em] text-[#0B1F3B] leading-[1.2]">
-            {t.setup.headline} <span className="text-[#29ABE2]">{t.setup.highlight}</span>
+            {t.setup.headline}{t.setup.highlight && <> <span className="text-[#29ABE2]">{t.setup.highlight}</span></>}
           </h2>
           <p className="text-[15px] text-[#475569] max-w-[560px] leading-[1.7]">
             {t.setup.subheadline}

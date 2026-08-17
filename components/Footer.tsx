@@ -79,6 +79,12 @@ export default function Footer() {
           </div>
         </div>
 
+        {t.footer.companyInfo && (
+          <p className="mt-4 text-center text-[11px] text-[#475569]">
+            {t.footer.companyInfo}
+          </p>
+        )}
+
       </div>
     </footer>
   )

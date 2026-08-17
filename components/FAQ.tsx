@@ -63,13 +63,17 @@ export default function FAQ() {
         <div className="flex flex-col md:flex-row gap-16">
 
           <div className="md:w-[280px] flex-shrink-0">
-            <span className="text-[11px] font-semibold uppercase tracking-[0.1em] text-[#1D4ED8]">{t.faq.label}</span>
-            <h2 className="mt-3 text-[28px] sm:text-[36px] font-semibold leading-[1.2] tracking-[-0.02em] text-[#0B1F3B]">
+            {t.faq.label && (
+              <span className="block text-[11px] font-semibold uppercase tracking-[0.1em] text-[#1D4ED8] mb-3">{t.faq.label}</span>
+            )}
+            <h2 className="text-[28px] sm:text-[36px] font-semibold leading-[1.2] tracking-[-0.02em] text-[#0B1F3B]">
               {t.faq.headline}
             </h2>
-            <p className="mt-4 text-[16px] font-normal leading-[1.6] text-[#475569]">
-              {t.faq.subheadline}
-            </p>
+            {t.faq.subheadline && (
+              <p className="mt-4 text-[16px] font-normal leading-[1.6] text-[#475569]">
+                {t.faq.subheadline}
+              </p>
+            )}
             <a
               href={href('/contact')}
               className="inline-flex items-center mt-6 text-[14px] font-semibold text-[#1D4ED8] hover:text-[#1E40AF] transition-colors"

@@ -1,30 +1,59 @@
 'use client'
 
+import { useEffect, useRef } from 'react'
 import { useLanguage } from '@/lib/LanguageContext'
 
 export default function WhoWeAre() {
   const { t } = useLanguage()
+  const sectionRef = useRef<HTMLElement>(null)
+
+  useEffect(() => {
+    const targets = sectionRef.current
+      ? Array.from(sectionRef.current.querySelectorAll('.reveal'))
+      : []
+    const observer = new IntersectionObserver(
+      (entries) => entries.forEach((e) => e.isIntersecting && e.target.classList.add('visible')),
+      { threshold: 0.12 },
+    )
+    targets.forEach((el) => observer.observe(el))
+    return () => observer.disconnect()
+  }, [])
 
   return (
-    <section className="bg-white py-16 md:py-24">
-      <div className="max-w-5xl mx-auto px-6">
-        <h2 className="text-[28px] sm:text-[36px] lg:text-[44px] font-semibold tracking-[-0.02em] text-[#0B1F3B] leading-[1.2] mb-5">
+    <section
+      ref={sectionRef}
+      className="relative py-16 md:py-24 overflow-hidden"
+      style={{ background: '#060F1F' }}
+    >
+      {/* Radial glow */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0"
+        style={{
+          background: 'radial-gradient(ellipse at 50% 40%, rgba(30,58,138,0.18) 0%, transparent 70%)',
+        }}
+      />
+
+      <div className="relative max-w-5xl mx-auto px-6">
+        <h2 className="reveal text-[28px] sm:text-[36px] lg:text-[44px] font-semibold tracking-[-0.02em] text-white leading-[1.2] mb-5">
           {t.whoWeAre.headline}
         </h2>
-        <p className="text-[16px] sm:text-[17px] text-[#475569] leading-[1.7] max-w-2xl mb-12">
+        <p className="reveal text-[16px] sm:text-[17px] text-[#94A3B8] leading-[1.7] max-w-2xl mb-12">
           {t.whoWeAre.text}
         </p>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-10">
+        <div className="reveal grid grid-cols-1 md:grid-cols-3 gap-8 mb-10">
           {t.whoWeAre.people.map((person) => (
             <div key={person.name}>
-              <p className="text-[18px] font-semibold text-[#0B1F3B]">{person.name}</p>
-              <p className="text-[14px] text-[#475569] mt-1">{person.role}</p>
-              <p className="text-[14px] text-[#475569] mt-1">{person.phone}</p>
+              <p className="text-[18px] font-semibold text-white">{person.name}</p>
+              <p className="text-[14px] text-[#94A3B8] mt-1">{person.role}</p>
+              {person.phone && (
+                <p className="text-[14px] text-[#94A3B8] mt-1">{person.phone}</p>
+              )}
               {person.email && (
                 <a
                   href={`mailto:${person.email}`}
-                  className="text-[14px] text-[#1D4ED8] hover:text-[#1E40AF] transition-colors mt-0.5 inline-block"
+                  className="text-[14px] text-[#60A5FA] hover:text-[#93C5FD] transition-colors mt-0.5 inline-block"
                 >
                   {person.email}
                 </a>
@@ -33,7 +62,7 @@ export default function WhoWeAre() {
           ))}
         </div>
 
-        <p className="text-[13px] text-[#94A3B8]">
+        <p className="reveal text-[13px] text-[#475569]">
           {t.whoWeAre.companyInfo}
         </p>
       </div>

@@ -28,13 +28,27 @@ export default function Home() {
           text={t.office.text}
           points={t.office.points}
         />
-        <SplitSection
-          headline={t.team.headline}
-          text={t.team.text}
-          points={t.team.points}
-          reverse
-        />
-        <Chain />
+        {/* Team + Chain: continuous dark block */}
+        <div style={{ background: '#060F1F', position: 'relative', overflow: 'hidden' }}>
+          {/* Shared radial glow spanning both sections */}
+          <div
+            aria-hidden
+            style={{
+              position: 'absolute',
+              inset: 0,
+              background: 'radial-gradient(ellipse at 50% 35%, rgba(30,58,138,0.18) 0%, transparent 70%)',
+              pointerEvents: 'none',
+            }}
+          />
+          <SplitSection
+            headline={t.team.headline}
+            text={t.team.text}
+            points={t.team.points}
+            reverse
+            dark
+          />
+          <Chain />
+        </div>
         <QuoteFormSection />
         <RestOfSystem />
         <WhoWeAre />

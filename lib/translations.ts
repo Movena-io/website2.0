@@ -14,8 +14,8 @@ export const translations = {
     },
     hero: {
       badge: '',
-      headline: 'The office plans it.',
-      highlight: 'The crew gets the day on their phone.',
+      headline: 'One system for the office.',
+      highlight: 'An app for your people.',
       subheadline: 'Movena brings inquiries, quotes, scheduling, crew and invoicing into one system. Hours and materials are logged on site and flow straight back to the office.',
       primaryCta: 'Book 15 minutes',
       secondaryCta: 'Call +45 28 70 84 02',
@@ -30,7 +30,7 @@ export const translations = {
     },
     painPoints: {
       label: '',
-      headline: 'The system is not one system',
+      headline: 'Four programs. None of them talk to each other.',
       highlight: '',
       subheadline: 'Most moving companies run on four or five things that don\'t talk to each other: spreadsheets, a calendar, messages to the crew, the bookkeeper, the payroll app. The time goes in the handoffs between them.',
       items: [
@@ -341,7 +341,7 @@ export const translations = {
       networkError: 'Network error. Please check your connection and try again.',
     },
     office: {
-      headline: 'The office: everything about the job in one place',
+      headline: 'The whole job on one screen',
       text: 'Inquiries land in the system whether they come from your website, a phone call, or a portal. The quote is built from the customer\'s own details and sent straight away. Once accepted, the job sits in the calendar with crew, van, and address.',
       points: [
         'Inquiries collected in one place, with follow-up',
@@ -351,28 +351,29 @@ export const translations = {
       ],
     },
     team: {
-      headline: 'The crew: the day on their phone',
-      text: 'The movers open the app and see today\'s jobs, addresses, contact details, and what needs to go. They start and stop time on the job, log boxes and wrap as they use them, and capture photos and the customer\'s signature on site.',
+      headline: 'Today\'s jobs, today\'s hours, today\'s materials',
+      text: 'Your movers open the app and see the day\'s jobs with addresses, contact details, and what needs to go. The week ahead is there too, so everyone knows what\'s coming. Time is started and stopped on the job, materials are logged as they\'re used, and photos are taken along the way — so you have the documentation if an insurance claim comes up later.',
       points: [
-        'Today\'s jobs and addresses',
-        'Start and stop timesheets',
-        'Materials logged as they\'re used',
-        'Photos and signature on site',
+        'Today\'s jobs and the week ahead',
+        'Time started and stopped on site',
+        'Boxes, wrap and equipment logged as used',
+        'Photos and signature as documentation',
       ],
     },
     chain: {
-      headline: 'From call to payroll in one chain',
+      headline: 'From first contact to final invoice',
       steps: [
-        { number: '1', title: 'Inquiry', desc: 'from the form, the phone, or a portal' },
-        { number: '2', title: 'Quote', desc: 'sent same day, accepted online' },
+        { number: '1', title: 'The customer comes in', desc: 'by phone, email, a moving portal, the form on your site, or entered by hand' },
+        { number: '2', title: 'Quote', desc: 'built on your prices, sent the same day, accepted online' },
         { number: '3', title: 'Job', desc: 'in the calendar with crew and van' },
-        { number: '4', title: 'The day', desc: 'the crew has it on their phone' },
+        { number: '4', title: 'The day', desc: 'your people have it in the app' },
         { number: '5', title: 'Return', desc: 'hours and materials back in the system' },
         { number: '6', title: 'Invoice and payroll', desc: 'built on what actually happened' },
       ],
-      closingLine: 'Nobody enters anything twice. That is the whole point.',
+      closingLine: 'However the customer comes in, the rest is the same chain.',
     },
     quoteForm: {
+      intro: 'Do customers find you through your website? Then they can fill it in themselves.',
       headline: 'The customer works out the price — on your own website',
       text: 'The form sits on your site in your branding. The customer enters addresses, home size, and what needs moving, and gets a price straight away. The inquiry is in Movena before the phone even rings.',
       fields: [
@@ -386,6 +387,16 @@ export const translations = {
     restOfSystem: {
       headline: 'The rest of the system',
       modules: 'Crew · Vehicles · Materials · Storage · Timesheets · Invoicing · Customer records · Reports',
+      moduleList: [
+        { title: 'Crew', desc: 'Your people, roles, hourly rates, and who is free when.' },
+        { title: 'Vehicles', desc: 'Vans and capacity, so two jobs never get the same van.' },
+        { title: 'Materials', desc: 'Boxes, wrap and equipment with stock and cost price.' },
+        { title: 'Storage', desc: 'Storage with what sits where, and who is paying for it.' },
+        { title: 'Timesheets', desc: 'Hours from the app collected per person and per job.' },
+        { title: 'Invoicing', desc: 'Invoices built from the job, ready to send.' },
+        { title: 'Customer records', desc: 'Every customer, job and quote with the full history.' },
+        { title: 'Reports', desc: 'Revenue, jobs, and where the time goes.' },
+      ],
       integrationNote: 'Integrations with Billy, e-conomic, Danløn and Planday are on the way.',
     },
     whoWeAre: {
@@ -393,8 +404,8 @@ export const translations = {
       text: 'Not a software house with a support number in another country. We sit in Copenhagen, we know the moving industry, and we answer the phone ourselves.',
       people: [
         { name: 'Villads Laun', role: 'sales and customers', phone: '+45 28 70 84 02', email: 'villads@movena.io' },
-        { name: 'Valdemar Lorentzen', role: 'development', phone: '[number]', email: '' },
-        { name: 'Samuel', role: 'strategy and support', phone: '[number]', email: '' },
+        { name: 'Valdemar Lorentzen', role: 'development', phone: '', email: '' },
+        { name: 'Samuel', role: 'strategy and support', phone: '', email: '' },
       ],
       companyInfo: 'Movena I/S · CVR 45966232 · Copenhagen, Denmark',
     },
@@ -413,8 +424,8 @@ export const translations = {
     },
     hero: {
       badge: '',
-      headline: 'Kontoret planlægger.',
-      highlight: 'Holdet får dagen på telefonen.',
+      headline: 'Ét system til kontoret.',
+      highlight: 'En app til medarbejderne.',
       subheadline: 'Movena samler henvendelser, tilbud, planlægning, mandskab og fakturering i ét system. Timer og materialer bliver registreret ude på adressen og ryger direkte tilbage til kontoret.',
       primaryCta: 'Book 15 minutter',
       secondaryCta: 'Ring 28 70 84 02',
@@ -429,20 +440,20 @@ export const translations = {
     },
     painPoints: {
       label: '',
-      headline: 'Systemet er ikke ét system',
+      headline: 'Fire programmer. Ingen af dem taler sammen.',
       highlight: '',
-      subheadline: 'De fleste flyttefirmaer kører på fire-fem ting, der ikke taler sammen: Excel, kalenderen, beskeder til holdet, bogholderiet, lønprogrammet. Det er i overgangene mellem dem, tiden går.',
+      subheadline: 'De fleste flyttefirmaer kører på fire-fem ting, der ikke taler sammen: Excel, kalenderen, beskeder til mandskabet, bogholderiet, lønprogrammet. Det er i overgangene mellem dem, tiden går.',
       items: [
         {
           title: 'Fra henvendelse til tilbud',
           description: 'Oplysningerne skrives ned to gange. Tilbuddet laves manuelt om aftenen. Opfølgningen sker, når nogen husker det. Kunden vælger den, der svarede først.',
         },
         {
-          title: 'Fra tilbud til hold',
-          description: 'Jobbet flyttes over i kalenderen i hånden. Holdet får en besked aftenen før. Ændringer når ikke altid hele vejen ud.',
+          title: 'Fra tilbud til medarbejdere',
+          description: 'Jobbet flyttes over i kalenderen i hånden. Medarbejderne får en besked aftenen før. Ændringer når ikke altid hele vejen ud.',
         },
         {
-          title: 'Fra hold til bogholderi',
+          title: 'Fra medarbejdere til bogholderi',
           description: 'Timer og materialer skrives på papir. Nogen taster dem ind igen. Til faktura, og en gang til, til løn.',
         },
       ],
@@ -458,7 +469,7 @@ export const translations = {
       features: [
         'Tilbud og priser',
         'Jobplanlægning',
-        'Holdkoordinering',
+        'Mandskabskoordinering',
         'Kundekommunikation',
         'Lager og køretøjer',
         'Automatiske opfølgninger',
@@ -471,7 +482,7 @@ export const translations = {
       highlight: 'hvert job',
       headlineEnd: ', fra første henvendelse til sidste opfølgning.',
       subheadline: 'Femten indbyggede moduler, ét arbejdsområde. Ikke mere skift mellem WhatsApp, et regneark og en kalenderinvitation for at køre et enkelt job.',
-      andMore: 'Indeholder også opgaver, rapporter, revisionsspor, e-mail-levering og holdadministration.',
+      andMore: 'Indeholder også opgaver, rapporter, revisionsspor, e-mail-levering og mandskabsadministration.',
       tabs: [
         {
           label: 'Dashboard',
@@ -525,7 +536,7 @@ export const translations = {
           points: [
             'Dag-, uge- og månedsvisning med behov-for-planlægning panel',
             'Profiler pr. crewmedlem: rolle, timepris, kompetencer, status',
-            'Fritids- og holdgruppering indbygget',
+            'Fritids- og mandskabsgruppering indbygget',
           ],
         },
         {
@@ -556,7 +567,7 @@ export const translations = {
       label: '',
       headline: 'Vi sætter det op for jer',
       highlight: '',
-      subheadline: 'I skal ikke selv flytte data eller bygge noget op. Vi opretter kunder, priser, hold og biler, og vi er med de første uger, indtil det kører. Opsætning og onboarding koster ikke noget.',
+      subheadline: 'I skal ikke selv flytte data eller bygge noget op. Vi opretter kunder, priser, mandskab og biler, og vi er med de første uger, indtil det kører. Opsætning og onboarding koster ikke noget.',
       steps: [
         {
           title: '15 minutter i telefonen',
@@ -564,7 +575,7 @@ export const translations = {
         },
         {
           title: 'Vi bygger opsætningen',
-          description: 'Jeres priser, jeres hold, jeres biler.',
+          description: 'Jeres priser, jeres mandskab, jeres biler.',
         },
         {
           title: 'I kører med',
@@ -579,7 +590,7 @@ export const translations = {
       steps: [
         {
           title: 'Opsæt dit firma',
-          description: 'Tilføj dine ydelser, prisregler og hold. Vi hjælper dig gennem den del gratis.',
+          description: 'Tilføj dine ydelser, prisregler og mandskab. Vi hjælper dig gennem den del gratis.',
         },
         {
           title: 'Send dit første tilbud',
@@ -587,7 +598,7 @@ export const translations = {
         },
         {
           title: 'Udfør jobbet',
-          description: 'Holdet får automatisk jobdetaljerne. Ingen morgenopkald, ingen beskeder for at bekræfte hvem der tager af sted.',
+          description: 'Mandskabet får automatisk jobdetaljerne. Ingen morgenopkald, ingen beskeder for at bekræfte hvem der tager af sted.',
         },
         {
           title: 'Følg op',
@@ -615,7 +626,7 @@ export const translations = {
         },
         {
           question: 'Skal flyttefolkene lære noget nyt?',
-          answer: 'De skal kunne åbne en app, trykke start og trykke stop. Vi kører den igennem med holdet, første gang I bruger den.',
+          answer: 'De skal kunne åbne en app, trykke start og trykke stop. Vi kører den igennem med mandskabet, første gang I bruger den.',
         },
         {
           question: 'Kan vi bruge vores eget bogholderi?',
@@ -699,11 +710,11 @@ export const translations = {
     solution: {
       badge: 'Løsningen',
       headline: 'Movena er bygget specifikt til flyttefirmaer',
-      subheadline: 'Ikke generisk virksomhedssoftware med et flyttefirma-skin. Bygget fra bunden omkring den måde, flyttejobs faktisk fungerer: tilbud, hold, planlægning og kundekommunikation.',
+      subheadline: 'Ikke generisk virksomhedssoftware med et flyttefirma-skin. Bygget fra bunden omkring den måde, flyttejobs faktisk fungerer: tilbud, mandskab, planlægning og kundekommunikation.',
       capabilities: [
         { label: 'Øjeblikkelige tilbud', desc: 'Bygget ud fra dine satser automatisk' },
         { label: 'Jobplanlægning', desc: 'Én kalender, nul konflikter' },
-        { label: 'Holdkoordinering', desc: 'Alle kender planen' },
+        { label: 'Mandskabskoordinering', desc: 'Alle kender planen' },
         { label: 'Opfølgninger', desc: 'Automatiseret på det rigtige tidspunkt' },
         { label: 'Kundeportal', desc: 'Professionelt fra første kontakt' },
       ],
@@ -740,38 +751,39 @@ export const translations = {
       networkError: 'Netværksfejl. Tjek din forbindelse og prøv igen.',
     },
     office: {
-      headline: 'Kontoret: alt om jobbet ét sted',
-      text: 'Henvendelser lander i systemet, uanset om de kommer fra jeres hjemmeside, telefonen eller en portal. Tilbuddet bygges på kundens egne oplysninger og sendes med det samme. Bliver det accepteret, ligger jobbet i kalenderen med hold, bil og adresse.',
+      headline: 'Hele jobbet på én skærm',
+      text: 'Henvendelser lander i systemet, uanset om de kommer fra jeres hjemmeside, telefonen eller en portal. Tilbuddet bygges på kundens egne oplysninger og sendes med det samme. Bliver det accepteret, ligger jobbet i kalenderen med mandskab, bil og adresse.',
       points: [
         'Henvendelser samlet ét sted, med opfølgning',
         'Tilbud sendt og accepteret online',
-        'Kalender med hold og biler',
+        'Kalender med mandskab og biler',
         'Hele historikken på kunden',
       ],
     },
     team: {
-      headline: 'Holdet: dagen på telefonen',
-      text: 'Flyttefolkene åbner appen og har dagens job, adresser, kontaktoplysninger og hvad der skal med. De starter og stopper tid på jobbet, registrerer kasser og film mens de bruger dem, og tager billeder og kundens underskrift på stedet.',
+      headline: 'Dagens job, dagens timer, dagens materialer',
+      text: 'Medarbejderen åbner appen og har dagens job med adresser, kontaktoplysninger og hvad der skal med. Ugens plan ligger der også, så alle ved, hvad der venter. Tiden startes og stoppes på jobbet, materialer registreres mens de bruges, og der tages billeder undervejs — så I har dokumentationen, hvis der senere kommer en forsikringssag.',
       points: [
-        'Dagens job og adresser',
-        'Start og stop af tid',
-        'Materialer registreret mens de bruges',
-        'Billeder og underskrift på stedet',
+        'Dagens job og ugens plan',
+        'Tid startet og stoppet på stedet',
+        'Kasser, film og udstyr registreret undervejs',
+        'Billeder og underskrift som dokumentation',
       ],
     },
     chain: {
-      headline: 'Fra opkald til løn i én kæde',
+      headline: 'Fra første kontakt til sidste faktura',
       steps: [
-        { number: '1', title: 'Henvendelse', desc: 'fra formularen, telefonen eller en portal' },
-        { number: '2', title: 'Tilbud', desc: 'sendt samme dag, accepteret online' },
-        { number: '3', title: 'Job', desc: 'i kalenderen med hold og bil' },
-        { number: '4', title: 'Dagen', desc: 'holdet har den på telefonen' },
+        { number: '1', title: 'Kunden kommer ind', desc: 'via telefon, mail, en flytteportal, formularen på jeres side, eller oprettet i hånden' },
+        { number: '2', title: 'Tilbud', desc: 'bygget på jeres priser, sendt samme dag, accepteret online' },
+        { number: '3', title: 'Job', desc: 'i kalenderen med medarbejdere og bil' },
+        { number: '4', title: 'Dagen', desc: 'medarbejderne har den i appen' },
         { number: '5', title: 'Retur', desc: 'timer og materialer tilbage i systemet' },
         { number: '6', title: 'Faktura og løn', desc: 'bygget på det, der faktisk skete' },
       ],
-      closingLine: 'Ingen taster noget ind to gange. Det er hele pointen.',
+      closingLine: 'Uanset hvordan kunden kommer ind, er resten den samme kæde.',
     },
     quoteForm: {
+      intro: 'Får I kunder gennem jeres hjemmeside? Så kan de udfylde selv.',
       headline: 'Kunden regner selv prisen ud — på jeres egen hjemmeside',
       text: 'Formularen ligger på jeres side i jeres design. Kunden skriver adresser, boligstørrelse og hvad der skal flyttes, og får en pris med det samme. Henvendelsen ligger i Movena, før telefonen overhovedet ringer.',
       fields: [
@@ -785,6 +797,16 @@ export const translations = {
     restOfSystem: {
       headline: 'Resten af systemet',
       modules: 'Mandskab · Køretøjer · Materialer · Lager · Tidsregistrering · Fakturering · Kundekartotek · Rapporter',
+      moduleList: [
+        { title: 'Mandskab', desc: 'Medarbejdere, roller, timepriser og hvem der er ledig hvornår.' },
+        { title: 'Køretøjer', desc: 'Biler og kapacitet, så to jobs ikke får samme vogn.' },
+        { title: 'Materialer', desc: 'Kasser, film og udstyr med lager og kostpris.' },
+        { title: 'Lager', desc: 'Opmagasinering med hvad der står hvor, og hvem der betaler for det.' },
+        { title: 'Tidsregistrering', desc: 'Timer fra appen samlet pr. medarbejder og pr. job.' },
+        { title: 'Fakturering', desc: 'Fakturaer bygget på jobbet, klar til at sende.' },
+        { title: 'Kundekartotek', desc: 'Alle kunder, jobs og tilbud med hele historikken.' },
+        { title: 'Rapporter', desc: 'Omsætning, jobs og hvor tiden går.' },
+      ],
       integrationNote: 'Integrationer til Billy, e-conomic, Danløn og Planday er på vej.',
     },
     whoWeAre: {
@@ -792,8 +814,8 @@ export const translations = {
       text: 'Ikke et softwarehus med et supportnummer i et andet land. Vi sidder i København, vi kender flyttebranchen, og vi tager selv telefonen.',
       people: [
         { name: 'Villads Laun', role: 'salg og kunder', phone: '28 70 84 02', email: 'villads@movena.io' },
-        { name: 'Valdemar Lorentzen', role: 'udvikling', phone: '[nummer]', email: '' },
-        { name: 'Samuel', role: 'strategi og support', phone: '[nummer]', email: '' },
+        { name: 'Valdemar Lorentzen', role: 'udvikling', phone: '', email: '' },
+        { name: 'Samuel', role: 'strategi og support', phone: '', email: '' },
       ],
       companyInfo: 'Movena I/S · CVR 45966232 · Rådhuspladsen, København',
     },

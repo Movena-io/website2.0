@@ -23,6 +23,11 @@ export default function QuoteFormSection() {
     <section ref={sectionRef} className="bg-[#F8FAFC] py-16 md:py-24">
       <div className="max-w-6xl mx-auto px-6">
         <div className="reveal max-w-2xl mb-10">
+          {t.quoteForm.intro && (
+            <p className="text-[14px] text-[#64748B] leading-[1.6] mb-4">
+              {t.quoteForm.intro}
+            </p>
+          )}
           <h2 className="text-[28px] sm:text-[36px] lg:text-[44px] font-semibold tracking-[-0.02em] text-[#0B1F3B] leading-[1.2] mb-5">
             {t.quoteForm.headline}
           </h2>

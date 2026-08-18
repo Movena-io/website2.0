@@ -41,7 +41,7 @@ export default function PainPoints() {
               className="reveal flex gap-5 sm:gap-8 lg:gap-16 items-start py-8 sm:py-10"
               style={{ transitionDelay: `${i * 80}ms` }}
             >
-              <span className="text-[40px] lg:text-[56px] font-extrabold text-[#E2E8F0] leading-none shrink-0 tabular-nums select-none w-12 lg:w-16 text-right">
+              <span className="text-[40px] lg:text-[56px] font-extrabold text-[#60A5FA]/20 leading-none shrink-0 tabular-nums select-none w-12 lg:w-16 text-right">
                 {String(i + 1).padStart(2, '0')}
               </span>
               <div className="pt-1">

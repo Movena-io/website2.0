@@ -59,7 +59,7 @@ export default function FinalCTA() {
             <ArrowRight size={15} strokeWidth={2} />
           </a>
           <a
-            href="tel:+4528708402"
+            href="tel:+4530458765"
             className="inline-flex items-center justify-center gap-2 h-12 px-7 rounded-xl border border-white/25 text-white text-[15px] font-semibold hover:bg-white/10 transition-colors"
           >
             {t.finalCta.secondaryButton}

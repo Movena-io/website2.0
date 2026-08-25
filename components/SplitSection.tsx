@@ -5,23 +5,33 @@ import { CheckCircle } from 'lucide-react'
 import { useLanguage } from '@/lib/LanguageContext'
 
 interface SplitSectionProps {
+  id?: string
   headline: string
+  highlight?: string
+  headlineEnd?: string
   text: string
   points: string[]
   reverse?: boolean
   dark?: boolean
+  bottomHint?: boolean
   screenshotSrc?: string
   screenshotAlt?: string
+  screenshotBare?: boolean
 }
 
 export default function SplitSection({
+  id,
   headline,
+  highlight,
+  headlineEnd,
   text,
   points,
   reverse = false,
   dark = false,
+  bottomHint = false,
   screenshotSrc,
   screenshotAlt = '',
+  screenshotBare = false,
 }: SplitSectionProps) {
   const sectionRef = useRef<HTMLElement>(null)
   const { locale } = useLanguage()
@@ -43,7 +53,8 @@ export default function SplitSection({
   return (
     <section
       ref={sectionRef}
-      className={dark ? 'py-16 md:py-24' : 'bg-white py-16 md:py-24'}
+      id={id}
+      className={`${dark ? 'py-16 md:py-24' : 'bg-white py-16 md:py-24'} ${bottomHint ? 'light-to-dark-hint' : ''} ${id ? 'scroll-mt-24' : ''}`}
     >
       <div className="max-w-6xl mx-auto px-6">
         <div
@@ -55,11 +66,13 @@ export default function SplitSection({
           <div className="flex-1">
             <h2 className={`text-[28px] sm:text-[36px] lg:text-[44px] font-semibold tracking-[-0.02em] leading-[1.2] mb-5 ${dark ? 'text-white' : 'text-[#0B1F3B]'}`}>
               {headline}
+              {highlight && <span className={dark ? 'text-[#60A5FA]' : 'text-[#2563EB]'}>{highlight}</span>}
+              {headlineEnd}
             </h2>
             <p className={`text-[16px] sm:text-[17px] leading-[1.7] mb-6 ${dark ? 'text-[#94A3B8]' : 'text-[#475569]'}`}>
               {text}
             </p>
-            <ul className="flex flex-col gap-3">
+            <ul className={`flex flex-col gap-3 ${points.length > 4 ? 'md:grid md:grid-cols-2 md:gap-x-6 md:gap-y-3' : ''}`}>
               {points.map((point, i) => (
                 <li
                   key={point}
@@ -76,9 +89,13 @@ export default function SplitSection({
           {/* Screenshot placeholder */}
           {screenshotSrc ? (
             <div className="flex-1 max-w-[520px]">
-              <div className={`rounded-2xl overflow-hidden border shadow-sm ${dark ? 'border-white/10' : 'border-[#E2E8F0]'}`}>
+              {screenshotBare ? (
                 <img src={screenshotSrc} alt={screenshotAlt} className="block w-full h-auto" />
-              </div>
+              ) : (
+                <div className={`rounded-2xl overflow-hidden border shadow-sm ${dark ? 'border-white/10' : 'border-[#E2E8F0]'}`}>
+                  <img src={screenshotSrc} alt={screenshotAlt} className="block w-full h-auto" />
+                </div>
+              )}
             </div>
           ) : (
             <div className="flex-1 max-w-[520px]">

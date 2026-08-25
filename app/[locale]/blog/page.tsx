@@ -64,7 +64,7 @@ export default function BlogIndex({ params }: { params: { locale: string } }) {
   if (!isLocale(params.locale)) notFound()
   const locale = params.locale as Locale
   const t = translations[locale].blog
-  const posts = getAllPosts().filter((p) => p.locale === locale || !p.locale)
+  const posts = getAllPosts()
 
   return (
     <>

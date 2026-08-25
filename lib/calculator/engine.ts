@@ -78,6 +78,30 @@ export const EMPTY_INPUTS: CalculatorInputs = {
   costPerItem: 0,
 }
 
+export interface FormulaUnits {
+  movesPerMonth: string
+  quotesPerMonth: string
+  leadsPerMonth: string
+  min: string
+  minPerMonth: string
+  hrsPerWeek: string
+  weeks: string
+  itemsPerMonth: string
+  recovered: string
+}
+
+const DEFAULT_FORMULA_UNITS: FormulaUnits = {
+  movesPerMonth: 'moves/mo',
+  quotesPerMonth: 'quotes/mo',
+  leadsPerMonth: 'leads/mo',
+  min: 'min',
+  minPerMonth: 'min/mo',
+  hrsPerWeek: 'hrs/wk',
+  weeks: 'wks',
+  itemsPerMonth: 'items/mo',
+  recovered: 'recovered',
+}
+
 // One row in the transparent breakdown. `formula` is a human-readable trace of
 // exactly how the number was reached, so a skeptical mover can poke at it.
 export interface BreakdownRow {
@@ -119,7 +143,8 @@ export function roundNice(n: number): number {
   return Math.round(n)
 }
 
-export function computeSavings(input: CalculatorInputs): CalculatorResult {
+export function computeSavings(input: CalculatorInputs, units?: FormulaUnits): CalculatorResult {
+  const u = units ?? DEFAULT_FORMULA_UNITS
   const rows: BreakdownRow[] = []
   const hourly = input.hourlyCost > 0 ? input.hourlyCost : DEFAULT_HOURLY_COST
 
@@ -130,7 +155,7 @@ export function computeSavings(input: CalculatorInputs): CalculatorResult {
       key: 'planning',
       hoursSavedPerMonth: round(hrs),
       moneySavedPerMonth: 0,
-      formula: `${input.movesPerMonth} moves/mo × ${input.planningMinutesPerMove} min × ${MULTIPLIERS.planning * 100}% ÷ 60`,
+      formula: `${input.movesPerMonth} ${u.movesPerMonth} × ${input.planningMinutesPerMove} ${u.min} × ${MULTIPLIERS.planning * 100}% ÷ 60`,
     })
   }
 
@@ -141,7 +166,7 @@ export function computeSavings(input: CalculatorInputs): CalculatorResult {
       key: 'quoting',
       hoursSavedPerMonth: round(hrs),
       moneySavedPerMonth: 0,
-      formula: `${input.quotesPerMonth} quotes/mo × ${input.minutesPerQuote} min × ${MULTIPLIERS.quoting * 100}% ÷ 60`,
+      formula: `${input.quotesPerMonth} ${u.quotesPerMonth} × ${input.minutesPerQuote} ${u.min} × ${MULTIPLIERS.quoting * 100}% ÷ 60`,
     })
   }
 
@@ -152,7 +177,7 @@ export function computeSavings(input: CalculatorInputs): CalculatorResult {
       key: 'followup',
       hoursSavedPerMonth: round(hrs),
       moneySavedPerMonth: 0,
-      formula: `${input.leadsPerMonth} leads/mo × ${input.minutesPerFollowup} min × ${MULTIPLIERS.followup * 100}% ÷ 60`,
+      formula: `${input.leadsPerMonth} ${u.leadsPerMonth} × ${input.minutesPerFollowup} ${u.min} × ${MULTIPLIERS.followup * 100}% ÷ 60`,
     })
   }
 
@@ -163,7 +188,7 @@ export function computeSavings(input: CalculatorInputs): CalculatorResult {
       key: 'reviewsTime',
       hoursSavedPerMonth: round(hrs),
       moneySavedPerMonth: 0,
-      formula: `${input.reviewMinutesPerMonth} min/mo × ${MULTIPLIERS.automation * 100}% ÷ 60`,
+      formula: `${input.reviewMinutesPerMonth} ${u.minPerMonth} × ${MULTIPLIERS.automation * 100}% ÷ 60`,
     })
   }
 
@@ -174,7 +199,7 @@ export function computeSavings(input: CalculatorInputs): CalculatorResult {
       key: 'messaging',
       hoursSavedPerMonth: round(hrs),
       moneySavedPerMonth: 0,
-      formula: `${input.messagingHoursPerWeek} hrs/wk × ${WEEKS_PER_MONTH} wks × ${MULTIPLIERS.automation * 100}%`,
+      formula: `${input.messagingHoursPerWeek} ${u.hrsPerWeek} × ${WEEKS_PER_MONTH} ${u.weeks} × ${MULTIPLIERS.automation * 100}%`,
     })
   }
 
@@ -186,11 +211,11 @@ export function computeSavings(input: CalculatorInputs): CalculatorResult {
       key: 'inventoryTime',
       hoursSavedPerMonth: round(hrs),
       moneySavedPerMonth: 0,
-      formula: `${input.itemsLostPerMonth} items/mo × ${input.minutesChasingPerItem} min × ${MULTIPLIERS.inventoryChasing * 100}% ÷ 60`,
+      formula: `${input.itemsLostPerMonth} ${u.itemsPerMonth} × ${input.minutesChasingPerItem} ${u.min} × ${MULTIPLIERS.inventoryChasing * 100}% ÷ 60`,
     })
   }
 
-  // Inventory — money recovered (direct DKK)
+  // Inventory — money recovered
   let inventoryExposureMonthly: number | null = null
   if (input.itemsLostPerMonth > 0 && input.costPerItem > 0) {
     inventoryExposureMonthly = round(input.itemsLostPerMonth * input.costPerItem)
@@ -199,7 +224,7 @@ export function computeSavings(input: CalculatorInputs): CalculatorResult {
       key: 'inventoryMoney',
       hoursSavedPerMonth: 0,
       moneySavedPerMonth: round(money),
-      formula: `${input.itemsLostPerMonth} items/mo × ${input.costPerItem} DKK × ${MULTIPLIERS.inventoryRecovery * 100}% recovered`,
+      formula: `${input.itemsLostPerMonth} ${u.itemsPerMonth} × ${input.costPerItem} ${input.currency} × ${MULTIPLIERS.inventoryRecovery * 100}% ${u.recovered}`,
     })
   }
 

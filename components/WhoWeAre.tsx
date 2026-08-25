@@ -37,6 +37,8 @@ export default function WhoWeAre() {
       <div className="relative max-w-5xl mx-auto px-6">
         <h2 className="reveal text-[28px] sm:text-[36px] lg:text-[44px] font-semibold tracking-[-0.02em] text-white leading-[1.2] mb-5">
           {t.whoWeAre.headline}
+          {t.whoWeAre.highlight && <span className="text-[#60A5FA]">{t.whoWeAre.highlight}</span>}
+          {t.whoWeAre.headlineEnd}
         </h2>
         <p className="reveal text-[16px] sm:text-[17px] text-[#94A3B8] leading-[1.7] max-w-2xl mb-12">
           {t.whoWeAre.text}
@@ -48,7 +50,12 @@ export default function WhoWeAre() {
               <p className="text-[18px] font-semibold text-white">{person.name}</p>
               <p className="text-[14px] text-[#94A3B8] mt-1">{person.role}</p>
               {person.phone && (
-                <p className="text-[14px] text-[#94A3B8] mt-1">{person.phone}</p>
+                <a
+                  href={`tel:${person.phone.replace(/\s/g, '')}`}
+                  className="text-[14px] text-[#94A3B8] hover:text-white transition-colors mt-1 block"
+                >
+                  {person.phone}
+                </a>
               )}
               {person.email && (
                 <a

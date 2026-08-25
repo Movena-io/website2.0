@@ -86,10 +86,11 @@ export default function Header() {
         </div>
 
         <nav className="hidden md:flex items-center justify-center gap-8">
-          <a href={href('/#features')} className="text-[14px] font-medium text-[#475569] hover:text-[#0F172A] transition-colors">{t.nav.features}</a>
+          <a href={href('/#rest-of-system')} className="text-[14px] font-medium text-[#475569] hover:text-[#0F172A] transition-colors">{t.nav.features}</a>
+          <a href={href('/#office')} className="text-[14px] font-medium text-[#475569] hover:text-[#0F172A] transition-colors">{t.nav.platform}</a>
           <a href={href('/#faq')} className="text-[14px] font-medium text-[#475569] hover:text-[#0F172A] transition-colors">{t.nav.faq}</a>
           <a href={href('/blog')} className="text-[14px] font-medium text-[#475569] hover:text-[#0F172A] transition-colors">{t.nav.blog}</a>
-          <a href={href('/contact')} className="text-[14px] font-medium text-[#475569] hover:text-[#0F172A] transition-colors">{t.nav.talkToUs}</a>
+          <a href={href('/contact')} className="text-[14px] font-medium text-[#475569] hover:text-[#0F172A] transition-colors">{t.nav.contact}</a>
         </nav>
 
         <div className="hidden md:flex items-center justify-end gap-4 pr-[50px]">
@@ -162,10 +163,11 @@ export default function Header() {
 
       {menuOpen && (
         <div ref={mobileMenuRef} className="md:hidden bg-white/75 border-t border-[#E2E8F0] px-6 py-4 flex flex-col gap-4 rounded-b-2xl">
-          <a href={href('/#features')} onClick={() => setMenuOpen(false)} className="text-[14px] font-medium text-[#475569]">{t.nav.features}</a>
+          <a href={href('/#rest-of-system')} onClick={() => setMenuOpen(false)} className="text-[14px] font-medium text-[#475569]">{t.nav.features}</a>
+          <a href={href('/#office')} onClick={() => setMenuOpen(false)} className="text-[14px] font-medium text-[#475569]">{t.nav.platform}</a>
           <a href={href('/#faq')} onClick={() => setMenuOpen(false)} className="text-[14px] font-medium text-[#475569]">{t.nav.faq}</a>
           <a href={href('/blog')} onClick={() => setMenuOpen(false)} className="text-[14px] font-medium text-[#475569]">{t.nav.blog}</a>
-          <a href={href('/contact')} onClick={() => setMenuOpen(false)} className="text-[14px] font-medium text-[#475569]">{t.nav.talkToUs}</a>
+          <a href={href('/contact')} onClick={() => setMenuOpen(false)} className="text-[14px] font-medium text-[#475569]">{t.nav.contact}</a>
           <a
             href={LOGIN_URL}
             onClick={() => { trackLoginClick('header_mobile'); setMenuOpen(false) }}

@@ -7,6 +7,7 @@
 // currency code, e.g. DKK / EUR).
 
 import type { Locale } from '@/lib/locales'
+import type { FormulaUnits } from '@/lib/calculator/engine'
 
 export interface CalculatorCopy {
   meta: { title: string; description: string }
@@ -91,6 +92,8 @@ export interface CalculatorCopy {
     moneyPerMonth: string // "{cur}/month"
     reviewsPerMonth: string
   }
+
+  formulaUnits: FormulaUnits
 
   // Short "what this question means and what it's for" explanation per question.
   fieldInfo: Record<
@@ -248,6 +251,17 @@ const en: CalculatorCopy = {
     perHour: '{cur}/hour',
     moneyPerMonth: '{cur}/month',
     reviewsPerMonth: 'reviews/month',
+  },
+  formulaUnits: {
+    movesPerMonth: 'moves/mo',
+    quotesPerMonth: 'quotes/mo',
+    leadsPerMonth: 'leads/mo',
+    min: 'min',
+    minPerMonth: 'min/mo',
+    hrsPerWeek: 'hrs/wk',
+    weeks: 'wks',
+    itemsPerMonth: 'items/mo',
+    recovered: 'recovered',
   },
   fieldInfo: {
     currency: 'The currency every figure here is shown in. Pick the one your business works in.',
@@ -431,6 +445,17 @@ const da: CalculatorCopy = {
     perHour: '{cur}/time',
     moneyPerMonth: '{cur}/måned',
     reviewsPerMonth: 'anmeldelser/måned',
+  },
+  formulaUnits: {
+    movesPerMonth: 'flytninger/md',
+    quotesPerMonth: 'tilbud/md',
+    leadsPerMonth: 'leads/md',
+    min: 'min',
+    minPerMonth: 'min/md',
+    hrsPerWeek: 'timer/uge',
+    weeks: 'uger',
+    itemsPerMonth: 'enheder/md',
+    recovered: 'reddet',
   },
   fieldInfo: {
     currency: 'Den valuta, alle tal her vises i. Vælg den, jeres forretning arbejder i.',

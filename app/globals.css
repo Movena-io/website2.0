@@ -69,6 +69,25 @@
     transform: translateY(0);
   }
 
+  .chain-line .chain-line-inner {
+    transform: scaleX(0);
+    transform-origin: left center;
+    transition: transform 0.8s ease-out;
+  }
+  .chain-line.visible .chain-line-inner {
+    transform: scaleX(1);
+  }
+  @media (max-width: 767px) {
+    .chain-line .chain-line-inner {
+      transform: scaleX(1) scaleY(0);
+      transform-origin: top center;
+      transition: transform 0.8s ease-out;
+    }
+    .chain-line.visible .chain-line-inner {
+      transform: scaleX(1) scaleY(1);
+    }
+  }
+
   .chain-step {
     opacity: 0;
     transform: translateY(16px);
@@ -79,12 +98,92 @@
     transform: translateY(0);
   }
 
+  .light-to-dark-hint {
+    position: relative;
+  }
+  .light-to-dark-hint::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 80px;
+    background: linear-gradient(to bottom, transparent, #F1F5F9);
+    pointer-events: none;
+  }
+
+  .tool-box {
+    opacity: 0;
+    transform: translateY(12px);
+    transition: opacity 0.35s ease-out, transform 0.35s ease-out;
+  }
+  .tool-box.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .broken-line {
+    opacity: 0;
+    transition: opacity 0.4s ease-out;
+  }
+  .broken-line.visible {
+    opacity: 1;
+  }
+
+  .quote-mockup {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+  }
+  .quote-mockup.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .quote-price {
+    opacity: 0;
+    transition: opacity 0.4s ease-out 0.3s;
+  }
+  .quote-price.visible {
+    opacity: 1;
+  }
+
+  .faq-item {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.4s ease-out, transform 0.4s ease-out;
+  }
+  .faq-item.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .setup-card,
+  .setup-footnote {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.4s ease-out, transform 0.4s ease-out;
+  }
+  .setup-card.visible,
+  .setup-footnote.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
   @media (prefers-reduced-motion: reduce) {
     .reveal,
     .reveal-left,
     .reveal-right,
     .reveal-point,
-    .chain-step {
+    .chain-step,
+    .chain-line .chain-line-inner,
+    .tool-box,
+    .broken-line,
+    .quote-mockup,
+    .quote-price,
+    .faq-item,
+    .setup-card,
+    .setup-footnote {
       opacity: 1;
       transform: none;
       transition: none;

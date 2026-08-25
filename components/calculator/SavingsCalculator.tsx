@@ -53,7 +53,7 @@ export default function SavingsCalculator() {
     hourlyCost: getCurrency(DEFAULT_CURRENCY).defaultHourly,
   })
 
-  const result = useMemo(() => computeSavings(inputs), [inputs])
+  const result = useMemo(() => computeSavings(inputs, c.formulaUnits), [inputs, c.formulaUnits])
   const cur = inputs.currency
 
   const nf = useMemo(

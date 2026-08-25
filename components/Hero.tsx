@@ -148,7 +148,7 @@ export default function Hero() {
   const href = useLocalizedHref()
 
   return (
-    <section className="relative overflow-hidden bg-white">
+    <section className="relative overflow-hidden bg-white light-to-dark-hint">
       <div className="max-w-[1200px] mx-auto px-6 pt-16 pb-12 sm:pt-24 sm:pb-20 md:pt-28">
         <div className="flex flex-col items-center gap-8 sm:gap-12 text-center">
 
@@ -198,7 +198,7 @@ export default function Hero() {
             </a>
 
             <a
-              href="tel:+4528708402"
+              href="tel:+4530458765"
               className="inline-flex items-center justify-center gap-2 h-12 px-6 rounded-xl text-[15px] font-semibold text-[#0B1F3B] bg-white border border-[#E2E8F0] hover:border-[#1D4ED8]/40 hover:bg-[#F8FAFC] transition-colors"
             >
               <span>{t.hero.secondaryCta}</span>
@@ -207,7 +207,7 @@ export default function Hero() {
 
           {/* Disclaimer */}
           {t.hero.disclaimer && (
-            <p className="relative z-10 text-[13px] text-[#94A3B8] max-w-md -mt-4">
+            <p className="relative z-10 text-[13px] font-medium text-[#2563EB] max-w-md -mt-4">
               {t.hero.disclaimer}
             </p>
           )}

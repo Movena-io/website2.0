@@ -11,13 +11,10 @@ import { LOCALES, isLocale, type Locale } from '@/lib/locales'
 const SITE = 'https://movena.io'
 
 export function generateStaticParams() {
-  // Each post is generated under its own locale only. Requesting a Danish
-  // post at /en/blog/{slug} (or vice versa) returns 404, so Google only sees
-  // one canonical URL per post and we avoid duplicate-content issues.
-  return getAllPosts().map((post) => ({
-    locale: post.locale,
-    slug: post.slug,
-  }))
+  const posts = getAllPosts()
+  return LOCALES.flatMap((locale) =>
+    posts.map((post) => ({ locale, slug: post.slug }))
+  )
 }
 
 export async function generateMetadata({
@@ -27,7 +24,7 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   if (!isLocale(params.locale)) return {}
   const post = getPostBySlug(params.slug)
-  if (!post || post.locale !== params.locale) return {}
+  if (!post) return {}
 
   // A post exists in exactly one language. Canonical points to that locale,
   // and we deliberately omit hreflang alternates because there is no
@@ -78,7 +75,7 @@ export default function BlogPost({
   if (!isLocale(params.locale)) notFound()
   const locale = params.locale as Locale
   const post = getPostBySlug(params.slug)
-  if (!post || post.locale !== locale) notFound()
+  if (!post) notFound()
   const t = translations[locale].blog
 
   // Author is Movena (the organization) -- we don't surface individual bylines.
@@ -231,7 +228,7 @@ export default function BlogPost({
 function RelatedPosts({ currentSlug, locale }: { currentSlug: string; locale: Locale }) {
   const t = translations[locale].blog
   const others = getAllPosts()
-    .filter((p) => p.slug !== currentSlug && (p.locale === locale || !p.locale))
+    .filter((p) => p.slug !== currentSlug)
     .slice(0, 3)
   if (others.length === 0) return null
 

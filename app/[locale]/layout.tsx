@@ -21,15 +21,15 @@ export function generateStaticParams() {
 
 const META_BY_LOCALE: Record<Locale, { title: string; description: string; ogLocale: string }> = {
   en: {
-    title: 'Movena: All-in-one software for moving companies',
+    title: 'Movena: Software for Danish and European moving companies',
     description:
-      'Software for moving companies. Quotes, scheduling, crew coordination, and customer follow-ups in one platform. Built for movers done managing a stack of disconnected tools.',
-    ogLocale: 'en_US',
+      'Movena is a Danish company in Copenhagen. Quotes, scheduling, crew and invoicing in one system for moving companies, built together with Danish movers and made to run across Europe.',
+    ogLocale: 'en_GB',
   },
   da: {
-    title: 'Movena: Alt-i-ét software til flyttefirmaer',
+    title: 'Movena: Software til danske flyttefirmaer',
     description:
-      'Software til flyttefirmaer. Tilbud, kalender, holdkoordinering og kundeopfølgninger i én platform. Bygget til flyttefirmaer, der er trætte af at jonglere en stak af forskellige værktøjer.',
+      'Movena er et dansk system til flyttefirmaer. Tilbud, planlægning, mandskab og fakturering i et. Bygget i København sammen med danske flyttefirmaer.',
     ogLocale: 'da_DK',
   },
 }
@@ -93,42 +93,95 @@ export async function generateMetadata({
   }
 }
 
-const organizationSchema = {
-  '@context': 'https://schema.org',
-  '@type': 'Organization',
-  name: 'Movena',
-  url: 'https://movena.io',
-  logo: 'https://movena.io/favicon.svg',
-  description:
-    'All-in-one software platform for moving companies. Quotes, scheduling, crew coordination, and customer follow-ups in one place.',
-  email: 'hello@movena.io',
-  address: {
-    '@type': 'PostalAddress',
-    addressLocality: 'Copenhagen',
-    addressCountry: 'DK',
+// Both schemas are built per locale. An English description sitting on /da
+// is the single clearest signal to an LLM that the Danish page is a
+// translation of a foreign product rather than a Danish one.
+const SCHEMA_COPY: Record<
+  Locale,
+  { org: string; software: string; locality: string; country: string; areaServed: string[] }
+> = {
+  en: {
+    org: 'Movena is a Danish software company based in Copenhagen. We build one system for moving companies covering quotes, scheduling, crew, materials and invoicing, developed together with Danish moving companies and built to run across Europe.',
+    software:
+      'One system for moving companies: quoting, scheduling, crew coordination, materials, storage and invoicing, with a mobile app for the crew on site. Built in Denmark together with moving companies.',
+    locality: 'Copenhagen',
+    country: 'Denmark',
+    areaServed: ['Denmark', 'Europe'],
   },
-  parentOrganization: {
-    '@type': 'Organization',
-    name: 'NewNorth I/S',
+  da: {
+    org: 'Movena er et dansk softwarefirma i København. Vi laver et samlet system til flyttefirmaer med tilbud, planlægning, mandskab, materialer og fakturering. Systemet er bygget sammen med danske flyttefirmaer.',
+    software:
+      'Et samlet system til flyttefirmaer: tilbud, planlægning, mandskab, materialer, opmagasinering og fakturering, med en app til medarbejderne ude på adressen. Bygget i Danmark sammen med flyttefirmaer.',
+    locality: 'København',
+    country: 'Danmark',
+    areaServed: ['Danmark', 'Europa'],
   },
-  sameAs: [] as string[],
 }
 
-const softwareSchema = {
-  '@context': 'https://schema.org',
-  '@type': 'SoftwareApplication',
-  name: 'Movena',
-  applicationCategory: 'BusinessApplication',
-  applicationSubCategory: 'Moving Company Software',
-  operatingSystem: 'Web',
-  description:
-    'All-in-one platform for moving companies: quoting, dispatch optimization, crew mobile app, and customer tracking.',
-  url: 'https://movena.io',
-  provider: {
+function buildOrganizationSchema(locale: Locale) {
+  const copy = SCHEMA_COPY[locale]
+  return {
+    '@context': 'https://schema.org',
     '@type': 'Organization',
     name: 'Movena',
-    url: 'https://movena.io',
-  },
+    legalName: 'Movena I/S',
+    url: `https://movena.io/${locale}`,
+    logo: 'https://movena.io/favicon.svg',
+    description: copy.org,
+    email: 'hello@movena.io',
+    telephone: '+45 28 70 84 02',
+    foundingLocation: {
+      '@type': 'Place',
+      address: {
+        '@type': 'PostalAddress',
+        addressLocality: copy.locality,
+        addressCountry: 'DK',
+      },
+    },
+    address: {
+      '@type': 'PostalAddress',
+      streetAddress: 'Rådhuspladsen',
+      postalCode: '1550',
+      addressLocality: copy.locality,
+      addressCountry: 'DK',
+    },
+    identifier: {
+      '@type': 'PropertyValue',
+      propertyID: 'CVR',
+      value: '45966232',
+    },
+    areaServed: copy.areaServed.map((name) => ({ '@type': 'Place', name })),
+    knowsLanguage: ['da', 'en'],
+    parentOrganization: {
+      '@type': 'Organization',
+      name: 'NewNorth I/S',
+    },
+    sameAs: [] as string[],
+  }
+}
+
+function buildSoftwareSchema(locale: Locale) {
+  const copy = SCHEMA_COPY[locale]
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'SoftwareApplication',
+    name: 'Movena',
+    applicationCategory: 'BusinessApplication',
+    applicationSubCategory: 'Moving Company Software',
+    operatingSystem: 'Web',
+    description: copy.software,
+    url: `https://movena.io/${locale}`,
+    inLanguage: locale,
+    countryOfOrigin: {
+      '@type': 'Country',
+      name: copy.country,
+    },
+    provider: {
+      '@type': 'Organization',
+      name: 'Movena',
+      url: 'https://movena.io',
+    },
+  }
 }
 
 export default function LocaleLayout({
@@ -142,20 +195,22 @@ export default function LocaleLayout({
     notFound()
   }
 
+  const locale = params.locale as Locale
+
   return (
-    <html lang={params.locale}>
+    <html lang={locale}>
       <head>
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(buildOrganizationSchema(locale)) }}
         />
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareSchema) }}
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(buildSoftwareSchema(locale)) }}
         />
       </head>
       <body className={`${manrope.variable} font-sans bg-white text-[#0F172A] antialiased`}>
-        <LanguageProvider initialLocale={params.locale}>
+        <LanguageProvider initialLocale={locale}>
           {children}
           <Analytics />
           <GoogleAnalytics />

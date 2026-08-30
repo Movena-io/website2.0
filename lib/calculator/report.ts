@@ -68,7 +68,6 @@ export function buildVisitorEmail({ locale, inputs, result }: LeadPayload) {
     <p style="font-size:13px;color:#64748B;line-height:1.6;margin:0 0 12px;">${c.result.percentageSource}</p>
     <table style="width:100%;border-collapse:collapse;">${rowsHtml}</table>
     ${result.inventoryExposureMonthly != null ? `<p style="font-size:13px;color:#991B1B;background:#FEF2F2;padding:12px;border-radius:8px;margin-top:12px;">${fill(c.result.exposureNote, { value: money(locale, result.inventoryExposureMonthly), cur })}</p>` : ''}
-    <p style="font-size:12px;color:#475569;margin-top:16px;line-height:1.6;">${c.result.assumptions}</p>
     <div style="margin-top:28px;padding:24px;background:#0B1F3B;border-radius:12px;text-align:center;">
       <p style="color:#fff;font-size:18px;font-weight:700;margin:0 0 8px;">${c.result.ctaTitle}</p>
       <p style="color:rgba(255,255,255,0.6);font-size:14px;margin:0 0 16px;">${c.result.ctaSubtitle}</p>

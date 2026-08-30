@@ -573,9 +573,6 @@ function ResultView({
                 </p>
               </div>
             )}
-            <div className="px-5 py-4 bg-[#F8FAFC]">
-              <p className="text-[12px] text-[#475569] leading-[1.6]">{c.result.assumptions}</p>
-            </div>
           </div>
         ) : (
           <div className="relative rounded-2xl border border-[#E2E8F0] overflow-hidden">

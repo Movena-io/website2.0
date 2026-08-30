@@ -135,7 +135,6 @@ export interface CalculatorCopy {
     reviewUpside: string // "+{count} extra reviews per month"
     reviewUpsideNote: string
     exposureNote: string // "About {value} {cur}/month..."
-    assumptions: string
     percentageSource: string // where the multipliers actually come from
     rowExplanations: ExplanationTemplates // plain-language sentence per row
     rowLabels: Record<
@@ -314,8 +313,6 @@ const en: CalculatorCopy = {
     reviewUpside: '+{count} extra reviews a month',
     reviewUpsideNote: 'In your own estimate, from an automatic request after every job. More reviews, more inbound.',
     exposureNote: 'About {value} {cur} a month in lost boxes is walking out the door today.',
-    assumptions:
-      'Every figure is built on your own numbers and conservative, real-world assumptions. Nothing inflated. On a call we can walk through each one.',
     percentageSource:
       'The percentages below are our own estimates, based on conversations with Danish moving companies. They are not measured averages.',
     rowExplanations: {
@@ -523,8 +520,6 @@ const da: CalculatorCopy = {
     reviewUpside: '+{count} ekstra anmeldelser om måneden',
     reviewUpsideNote: 'Dit eget skøn, fra en automatisk anmodning efter hver opgave. Flere anmeldelser, flere henvendelser.',
     exposureNote: 'Omkring {value} {cur} om måneden i mistede kasser går tabt i dag.',
-    assumptions:
-      'Hvert tal bygger på dine egne tal og konservative, virkelighedsnære antagelser. Intet er pustet op. På et opkald kan vi gennemgå hvert enkelt.',
     percentageSource:
       'Procenterne herunder er vores egne skøn, bygget på samtaler med danske flyttefirmaer. Det er ikke målte gennemsnit.',
     rowExplanations: {

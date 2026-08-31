@@ -7,6 +7,8 @@ import SplitSection from '@/components/SplitSection'
 import Chain from '@/components/Chain'
 import QuoteFormSection from '@/components/QuoteFormSection'
 import RestOfSystem from '@/components/RestOfSystem'
+import Integrations from '@/components/Integrations'
+import BuiltWith from '@/components/BuiltWith'
 import WhoWeAre from '@/components/WhoWeAre'
 import EstimatorCTA from '@/components/EstimatorCTA'
 import Setup from '@/components/Setup'
@@ -63,6 +65,8 @@ export default function Home() {
         </div>
         <QuoteFormSection />
         <RestOfSystem />
+        <Integrations />
+        <BuiltWith />
         <WhoWeAre />
         <EstimatorCTA />
         <Setup />

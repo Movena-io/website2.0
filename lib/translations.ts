@@ -13,9 +13,9 @@ export const translations = {
     },
     hero: {
       badge: '',
-      headline: 'One system for the office.',
-      highlight: 'An app for your people.',
-      subheadline: 'Movena brings inquiries, quotes, scheduling, crew and invoicing into one system. Hours and materials are logged on site and flow straight back to the office.',
+      headline: 'One system for',
+      highlight: 'Danish and European moving companies.',
+      subheadline: 'Movena brings inquiries, quotes, scheduling, crew and invoicing into one system, and your crew gets the day\'s jobs in an app. We are a Danish company in Copenhagen, and we built Movena together with moving companies that run moves every day.',
       primaryCta: 'Book 15 minutes',
       secondaryCta: 'Call +45 30 45 87 65',
       disclaimer: '',
@@ -50,7 +50,7 @@ export const translations = {
       tools: ['Spreadsheet', 'Calendar', 'Messages', 'Bookkeeping', 'Payroll'],
       consequences: [
         'The same details typed into three places',
-        'Nothing happens automatically — every step has to be started by hand',
+        'Nothing happens automatically. Every step has to be started by hand',
         'Time spent hunting for information',
         'Hours spent on admin instead of on moves',
       ],
@@ -218,6 +218,10 @@ export const translations = {
       },
       items: [
         {
+          question: 'Is Movena built for Danish moving companies?',
+          answer: 'Yes. Movena is made by a Danish company in Copenhagen and built together with moving companies that run moves in Denmark every day. It handles Danish conditions: pricing in kroner, VAT, surcharges for stairs and lifts, storage with recurring billing, and the details a Danish customer asks about. Support is in Danish, and you talk to one of the three people who built the system, not a support queue in another country. The difference between us and an international platform is that we did not translate a foreign product into Danish. We built it around how a move actually runs here, and the same system runs for moving companies elsewhere in Europe.',
+        },
+        {
           question: 'Do we have to switch everything at once?',
           answer: 'No, and we would not recommend it. Most companies start with quotes and the calendar, so the office runs first. Once that sits, you take the app out to your crew. You set the pace, and we will not push you on before you are ready.',
         },
@@ -227,7 +231,7 @@ export const translations = {
         },
         {
           question: 'What about the information we already have?',
-          answer: 'We move it for you. Customers, past jobs, price lists and recurring agreements — whether it sits in a spreadsheet, another system or a folder. You do not key anything in again, and you do not start over with an empty system.',
+          answer: 'We move it for you. Customers, past jobs, price lists and recurring agreements, whether it sits in a spreadsheet, another system or a folder. You do not key anything in again, and you do not start over with an empty system.',
         },
         {
           question: 'Do the movers need to learn anything new?',
@@ -235,7 +239,7 @@ export const translations = {
         },
         {
           question: 'Can we keep our own accounting software?',
-          answer: 'Yes. Movena builds the invoice from the job and passes it on, so you are not booking the same thing twice. Integrations with Billy, e-conomic, Danløn and Planday are on the way.',
+          answer: 'Yes. Movena builds the invoice from the job and passes it on, so you are not booking the same thing twice. Integrations with e-conomic, Dinero, Billy, Uniconta, Visma, Danløn, Planday and MobilePay are on the way. None of them are live yet, so today the invoice goes out of Movena and into your own bookkeeping.',
         },
         {
           question: 'What if we change our mind?',
@@ -258,7 +262,7 @@ export const translations = {
       disclaimer: '',
     },
     footer: {
-      tagline: 'Movena — one system for moving companies',
+      tagline: 'Movena: one system for moving companies',
       product: 'Product',
       company: 'Company',
       legal: 'Legal',
@@ -366,7 +370,7 @@ export const translations = {
       headline: 'One place for ',
       highlight: 'everything the office does',
       headlineEnd: '',
-      text: 'All the office work sits in one system. Customers and inquiries, quotes and prices, scheduling crew and vans, materials and storage, hours and invoices. You stay in control — the system works out the quote, but you approve it before it goes to the customer.',
+      text: 'All the office work sits in one system. Customers and inquiries, quotes and prices, scheduling crew and vans, materials and storage, hours and invoices. You stay in control. The system works out the quote, but you approve it before it goes to the customer.',
       points: [
         'Inquiries and quotes collected in one place',
         'Scheduling with the crew and vans that are free',
@@ -380,7 +384,7 @@ export const translations = {
       headline: 'One app for ',
       highlight: 'the movers',
       headlineEnd: '',
-      text: 'Your movers open the app and see the day\'s jobs with addresses, contact details, and what needs to go. The week ahead is there too, so everyone knows what\'s coming. Time is started and stopped on the job, materials are logged as they\'re used, and photos are taken along the way — so you have the documentation if an insurance claim comes up later.',
+      text: 'Your movers open the app and see the day\'s jobs with addresses, contact details, and what needs to go. The week ahead is there too, so everyone knows what\'s coming. Time is started and stopped on the job, materials are logged as they\'re used, and photos are taken along the way, so you have the documentation if an insurance claim comes up later.',
       points: [
         'Today\'s jobs and the week ahead',
         'Time started and stopped on site',
@@ -477,13 +481,46 @@ export const translations = {
           points: ['Revenue by month and by customer', 'How many quotes you close', 'Hours per job and per person'],
         },
       ],
-      integrationNote: 'Integrations with Billy, e-conomic, Danløn and Planday are on the way.',
+      integrationNote: 'Integrations with the accounting, payroll and payment systems Danish moving companies already run are on the way. The list is below.',
+    },
+    builtWith: {
+      label: 'How Movena was built',
+      headline: 'Built together with ',
+      highlight: 'moving companies',
+      headlineEnd: '',
+      text: 'Movena was not drawn on a whiteboard. We sat in the office with Danish moving companies, went along on the jobs, and built the system around the way a move actually runs.',
+      points: [
+        {
+          title: 'We started by watching',
+          text: 'Before we wrote a line of code, we followed how a moving company takes an inquiry, prices it, plans the day, sends the crew out and gets the hours back in.',
+        },
+        {
+          title: 'Every workflow tested against real moves',
+          text: 'Quoting, scheduling, crew, materials and invoicing have been rebuilt every time a moving company told us that is not how it works in practice.',
+        },
+        {
+          title: 'We still build it with them',
+          text: 'The companies running Movena today call us directly. What they are missing goes into the system, and we say so when something does not belong there.',
+        },
+      ],
+    },
+    integrations: {
+      label: 'Integrations coming',
+      headline: 'The systems you already use',
+      subheadline: 'None of these are live yet. We are building them in the order moving companies ask for them. If you run something that is not on the list, tell us and it goes on.',
+      names: ['e-conomic', 'Dinero', 'Billy', 'Uniconta', 'Visma', 'Danløn', 'Planday', 'MobilePay'],
     },
     whoWeAre: {
       headline: 'We are ',
       highlight: 'three people',
       headlineEnd: ' building Movena',
-      text: 'Not a software house with a support number in another country. We sit in Copenhagen, we know the moving industry, and we answer the phone ourselves.',
+      text: 'Not a software house with a support number in another country. Movena is a Danish company. We sit in Copenhagen, we know the moving industry, and we answer the phone ourselves.',
+      facts: [
+        'Danish company. Movena I/S, CVR 45966232.',
+        'Office on Rådhuspladsen in Copenhagen.',
+        'Support in Danish and English, from the three people who built the system.',
+        'Data stored in Europe. GDPR from the ground up.',
+      ],
       people: [
         { name: 'Villads Laun', role: 'sales and marketing', phone: '+45 28 70 84 02', email: 'villads@movena.io' },
         { name: 'Valdemar Lorentzen', role: 'engineering and operations', phone: '+45 30 45 87 65', email: 'vcl@movena.io' },
@@ -505,9 +542,9 @@ export const translations = {
     },
     hero: {
       badge: '',
-      headline: 'Et system til kontoret.',
-      highlight: 'En app til medarbejderne.',
-      subheadline: 'Movena samler henvendelser, tilbud, planlægning, mandskab og fakturering i et system. Timer og materialer bliver registreret ude på adressen og ryger direkte tilbage til kontoret.',
+      headline: 'Et system til',
+      highlight: 'danske flyttefirmaer.',
+      subheadline: 'Movena samler henvendelser, tilbud, planlægning, mandskab og fakturering i et system, og medarbejderne har dagens job i en app. Bygget i København sammen med flyttefirmaer, der kører flytninger hver dag. Lavet til Danmark først, bygget til at køre i hele Europa.',
       primaryCta: 'Book 15 minutter',
       secondaryCta: 'Ring 30 45 87 65',
       disclaimer: '',
@@ -542,7 +579,7 @@ export const translations = {
       tools: ['Excel', 'Kalender', 'Beskeder', 'Bogholderi', 'Lønprogram'],
       consequences: [
         'De samme oplysninger tastet ind tre steder',
-        'Intet sker automatisk — hvert skridt skal sættes i gang manuelt',
+        'Intet sker automatisk. Hvert skridt skal sættes i gang manuelt',
         'Tid der går med at lede efter oplysninger',
         'Timer brugt på administration i stedet for på flytninger',
       ],
@@ -710,6 +747,10 @@ export const translations = {
       },
       items: [
         {
+          question: 'Er Movena bygget til danske flyttefirmaer?',
+          answer: 'Ja. Movena er lavet af et dansk firma i København og bygget sammen med flyttefirmaer, der kører flytninger i Danmark hver dag. Systemet regner med danske forhold: priser i kroner, moms, tillæg for trapper og elevator, opmagasinering med faste opkrævninger, og de oplysninger en dansk kunde spørger om. Support foregår på dansk, og du taler med en af de tre, der har bygget systemet, ikke med en supportkø i et andet land. Forskellen på os og et internationalt system er, at vi ikke har oversat et udenlandsk produkt til dansk. Vi har bygget det efter den måde, en flytning kører på her, og det samme system kører for flyttefirmaer i resten af Europa.',
+        },
+        {
           question: 'Skal vi skifte alt på en gang?',
           answer: 'Nej, og det anbefaler vi heller ikke. De fleste starter med tilbud og kalender, så kontoret kører først. Når det sidder, tager I appen med ud til medarbejderne. I bestemmer tempoet, og vi presser jer ikke videre, før I selv er klar.',
         },
@@ -719,7 +760,7 @@ export const translations = {
         },
         {
           question: 'Hvad med de oplysninger, vi allerede har?',
-          answer: 'Vi flytter dem for jer. Kunder, tidligere jobs, prislister og faste aftaler — uanset om det ligger i Excel, i et andet system eller i en mappe. I skal ikke taste noget ind igen, og I skal ikke starte forfra med et tomt system.',
+          answer: 'Vi flytter dem for jer. Kunder, tidligere jobs, prislister og faste aftaler, uanset om det ligger i Excel, i et andet system eller i en mappe. I skal ikke taste noget ind igen, og I skal ikke starte forfra med et tomt system.',
         },
         {
           question: 'Skal flyttefolkene lære noget nyt?',
@@ -727,7 +768,7 @@ export const translations = {
         },
         {
           question: 'Kan vi bruge vores eget bogholderi?',
-          answer: 'Ja. Movena laver fakturaen ud fra jobbet og sender den videre, så I ikke bogfører det samme to steder. Integrationer til Billy, e-conomic, Danløn og Planday er på vej.',
+          answer: 'Ja. Movena laver fakturaen ud fra jobbet og sender den videre, så I ikke bogfører det samme to steder. Integrationer til e-conomic, Dinero, Billy, Uniconta, Visma, Danløn, Planday og MobilePay er på vej. Ingen af dem er live endnu, så indtil videre går fakturaen ud af Movena og ind i jeres eget bogholderi.',
         },
         {
           question: 'Hvad hvis vi fortryder?',
@@ -750,7 +791,7 @@ export const translations = {
       disclaimer: '',
     },
     footer: {
-      tagline: 'Movena — et system til flyttefirmaer',
+      tagline: 'Movena: et system til flyttefirmaer',
       product: 'Produkt',
       company: 'Firma',
       legal: 'Juridisk',
@@ -858,7 +899,7 @@ export const translations = {
       headline: 'Et sted til ',
       highlight: 'hele kontorets arbejde',
       headlineEnd: '',
-      text: 'Alt kontorarbejdet ligger i et system. Kunder og henvendelser, tilbud og priser, planlægning af medarbejdere og biler, materialer og opmagasinering, timer og fakturaer. I beholder kontrollen — systemet regner tilbuddet ud, men det er jer, der godkender det, før det går ud til kunden.',
+      text: 'Alt kontorarbejdet ligger i et system. Kunder og henvendelser, tilbud og priser, planlægning af medarbejdere og biler, materialer og opmagasinering, timer og fakturaer. I beholder kontrollen. Systemet regner tilbuddet ud, men det er jer, der godkender det, før det går ud til kunden.',
       points: [
         'Henvendelser og tilbud samlet et sted',
         'Planlægning med ledige medarbejdere og biler',
@@ -872,7 +913,7 @@ export const translations = {
       headline: 'En app til ',
       highlight: 'flyttemændene',
       headlineEnd: '',
-      text: 'Medarbejderen åbner appen og har dagens job med adresser, kontaktoplysninger og hvad der skal med. Ugens plan ligger der også, så alle ved, hvad der venter. Tiden startes og stoppes på jobbet, materialer registreres mens de bruges, og der tages billeder undervejs — så I har dokumentationen, hvis der senere kommer en forsikringssag.',
+      text: 'Medarbejderen åbner appen og har dagens job med adresser, kontaktoplysninger og hvad der skal med. Ugens plan ligger der også, så alle ved, hvad der venter. Tiden startes og stoppes på jobbet, materialer registreres mens de bruges, og der tages billeder undervejs, så I har dokumentationen, hvis der senere kommer en forsikringssag.',
       points: [
         'Dagens job og ugens plan',
         'Tid startet og stoppet på stedet',
@@ -969,13 +1010,46 @@ export const translations = {
           points: ['Omsætning pr. måned og pr. kunde', 'Hvor mange tilbud der lukkes', 'Timeforbrug pr. job og pr. medarbejder'],
         },
       ],
-      integrationNote: 'Integrationer til Billy, e-conomic, Danløn og Planday er på vej.',
+      integrationNote: 'Integrationer til de regnskabs-, løn- og betalingssystemer, danske flyttefirmaer allerede kører, er på vej. Listen står nedenfor.',
+    },
+    builtWith: {
+      label: 'Sådan er Movena blevet til',
+      headline: 'Bygget sammen med ',
+      highlight: 'flyttefirmaer',
+      headlineEnd: '',
+      text: 'Movena er ikke tegnet på et whiteboard. Vi har siddet med på kontoret hos danske flyttefirmaer, kørt med ude på adresserne og bygget systemet efter den måde, en flytning faktisk kører på.',
+      points: [
+        {
+          title: 'Vi startede med at kigge med',
+          text: 'Før vi skrev en linje kode, fulgte vi med i, hvordan et flyttefirma tager en henvendelse ind, sætter prisen, planlægger dagen, sender folk ud og får timerne hjem igen.',
+        },
+        {
+          title: 'Hver arbejdsgang er testet mod virkeligheden',
+          text: 'Tilbud, planlægning, mandskab, materialer og fakturering er bygget om, hver gang et flyttefirma har sagt, at sådan gør vi det ikke i praksis.',
+        },
+        {
+          title: 'Vi bygger det stadig sammen med dem',
+          text: 'De firmaer, der kører Movena i dag, ringer direkte til os. Det, de mangler, kommer ind i systemet, og vi siger også til, når noget ikke hører hjemme der.',
+        },
+      ],
+    },
+    integrations: {
+      label: 'Integrationer på vej',
+      headline: 'De systemer, I allerede bruger',
+      subheadline: 'Ingen af dem er live endnu. Vi bygger dem i den rækkefølge, flyttefirmaerne beder om dem. Kører I noget, der ikke står her, så sig til, så kommer det på listen.',
+      names: ['e-conomic', 'Dinero', 'Billy', 'Uniconta', 'Visma', 'Danløn', 'Planday', 'MobilePay'],
     },
     whoWeAre: {
       headline: 'Vi er ',
       highlight: 'tre mennesker',
       headlineEnd: ', der bygger Movena',
-      text: 'Ikke et softwarehus med et supportnummer i et andet land. Vi sidder i København, vi kender flyttebranchen, og vi tager selv telefonen.',
+      text: 'Ikke et softwarehus med et supportnummer i et andet land. Movena er et dansk firma. Vi sidder i København, vi kender flyttebranchen, og vi tager selv telefonen.',
+      facts: [
+        'Dansk firma. Movena I/S, CVR 45966232.',
+        'Kontor på Rådhuspladsen i København.',
+        'Support på dansk, fra de tre der har bygget systemet.',
+        'Data opbevares i Europa. GDPR fra bunden.',
+      ],
       people: [
         { name: 'Villads Laun', role: 'salg og marketing', phone: '28 70 84 02', email: 'villads@movena.io' },
         { name: 'Valdemar Lorentzen', role: 'udvikling og drift', phone: '30 45 87 65', email: 'vcl@movena.io' },

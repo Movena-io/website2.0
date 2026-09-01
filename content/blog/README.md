@@ -80,10 +80,15 @@ actually search for.
 When both files exist, the pages point at each other with hreflang, each one is
 canonical to itself, and both appear in the sitemap.
 
-When only the English file exists, `/da/blog/<english-slug>` still renders the
-English article so Danish readers are not dead-ended, but it is marked
-`noindex`, canonical to the English URL, and left out of the sitemap. It gets
-replaced automatically the moment the `.da.md` file lands.
+When only the English file exists, the article does **not** appear on
+`/da/blog`. The Danish blog index lists only articles that have a real Danish
+version, so a Danish reader never lands on an English page from the index.
+
+`/da/blog/<english-slug>` does still render the English article, so anyone
+arriving from a direct link, a newsletter or a search result is not dead-ended.
+That page is marked `noindex`, canonical to the English URL, and left out of the
+sitemap. It gets replaced automatically the moment the `.da.md` file lands, and
+the article then shows up on `/da/blog` under its Danish slug.
 
 ### What to change in a Danish file
 

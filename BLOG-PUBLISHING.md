@@ -34,9 +34,12 @@ metaDescription, imageAlt, tags and category. Point internal links at `/da/...`
 instead of `/en/...`. Full rules and the category table are in
 `content/blog/README.md`.
 
-Until a `.da.md` file exists, `/da/blog/<english-slug>` shows the English
-article with a small notice, marked `noindex` so Google does not index it as a
-Danish page. It swaps over automatically once the Danish file is pushed.
+Until a `.da.md` file exists, the article does not show up on `/da/blog` at
+all. The Danish blog lists only real Danish articles.
+
+A direct hit on `/da/blog/<english-slug>` still shows the English article with
+a small notice, marked `noindex` so Google does not index it as a Danish page.
+It swaps over automatically once the Danish file is pushed.
 
 ## Editing options
 

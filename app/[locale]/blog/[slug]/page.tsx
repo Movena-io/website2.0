@@ -4,7 +4,7 @@ import Image from 'next/image'
 import { notFound, redirect } from 'next/navigation'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
-import { getPostListForLocale, getPostRoutes, resolvePost } from '@/lib/blog'
+import { getAllPosts, getPostRoutes, resolvePost } from '@/lib/blog'
 import { translations } from '@/lib/translations'
 import { isLocale, type Locale } from '@/lib/locales'
 
@@ -267,7 +267,7 @@ export default function BlogPost({
 
 function RelatedPosts({ currentKey, locale }: { currentKey: string; locale: Locale }) {
   const t = translations[locale].blog
-  const others = getPostListForLocale(locale)
+  const others = getAllPosts({ locale })
     .filter((p) => p.key !== currentKey)
     .slice(0, 3)
   if (others.length === 0) return null

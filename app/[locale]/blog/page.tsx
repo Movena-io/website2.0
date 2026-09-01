@@ -4,7 +4,7 @@ import Image from 'next/image'
 import { notFound } from 'next/navigation'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
-import { getPostListForLocale } from '@/lib/blog'
+import { getAllPosts } from '@/lib/blog'
 import { translations } from '@/lib/translations'
 import { LOCALES, isLocale, type Locale } from '@/lib/locales'
 
@@ -68,9 +68,10 @@ export default function BlogIndex({ params }: { params: { locale: string } }) {
   if (!isLocale(params.locale)) notFound()
   const locale = params.locale as Locale
   const t = translations[locale].blog
-  // Danish version where one exists, English as a fallback where it does not,
-  // so /da/blog is never empty while translations are still being written.
-  const posts = getPostListForLocale(locale)
+  // Only articles actually written in this language. An untranslated article
+  // is still reachable at its /da URL as a noindex fallback, but it does not
+  // belong in the Danish blog's index.
+  const posts = getAllPosts({ locale })
 
   return (
     <>
@@ -121,12 +122,6 @@ export default function BlogIndex({ params }: { params: { locale: string } }) {
                       <span className="text-[11px] text-[#94A3B8]">
                         {formatDate(post.date, locale)}
                       </span>
-                      {post.locale !== locale && (
-                        <>
-                          <span className="text-[11px] text-[#94A3B8]">·</span>
-                          <span className="text-[11px] text-[#94A3B8]">{t.languageBadge[post.locale]}</span>
-                        </>
-                      )}
                     </div>
                     <h2
                       lang={post.locale}

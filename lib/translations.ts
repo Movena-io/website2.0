@@ -353,10 +353,6 @@ export const translations = {
         en: 'This article is not translated yet. Showing the English version.',
         da: 'This article is not translated yet. Showing the Danish version.',
       } as Record<string, string>,
-      languageBadge: {
-        en: 'In English',
-        da: 'In Danish',
-      } as Record<string, string>,
       headline: 'Notes from the Movena team',
       subheadline: 'Practical writing for moving company owners. What we are learning, what is changing in the industry, and how Movena is built.',
       readMore: 'Read more',
@@ -896,10 +892,6 @@ export const translations = {
       fallbackNotice: {
         en: 'Denne artikel er ikke oversat endnu. Her er den engelske udgave.',
         da: 'Denne artikel er ikke oversat endnu. Her er den danske udgave.',
-      } as Record<string, string>,
-      languageBadge: {
-        en: 'På engelsk',
-        da: 'På dansk',
       } as Record<string, string>,
       headline: 'Noter fra Movena-teamet',
       subheadline: 'Praktisk skriv til ejere af flyttefirmaer. Hvad vi lærer, hvad der ændrer sig i branchen, og hvordan Movena bliver bygget.',

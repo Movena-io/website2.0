@@ -178,25 +178,6 @@ export function getAllPosts(opts?: { includeDrafts?: boolean; locale?: PostLocal
   return opts?.locale ? metas.filter((m) => m.locale === opts.locale) : metas
 }
 
-// The listing for a locale: the native version of every article where one
-// exists, and the other language's version as a fallback where it does not.
-// Keeps /da/blog populated while translations are still being written; the
-// fallback detail pages carry noindex, so nothing duplicate reaches the index.
-export function getPostListForLocale(
-  locale: PostLocale,
-  opts?: { includeDrafts?: boolean },
-): PostMeta[] {
-  const all = loadAll(opts?.includeDrafts)
-  const chosen = new Map<string, PostMeta>()
-  for (const { meta } of all) {
-    if (meta.locale === locale) chosen.set(meta.key, meta)
-  }
-  for (const { meta } of all) {
-    if (!chosen.has(meta.key)) chosen.set(meta.key, meta)
-  }
-  return Array.from(chosen.values()).sort((a, b) => (a.date < b.date ? 1 : -1))
-}
-
 // Every (locale, slug) pair that must be built: the native routes, plus one
 // fallback route per article that has no version in that locale.
 export function getPostRoutes(): { locale: PostLocale; slug: string }[] {

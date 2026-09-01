@@ -1,101 +1,94 @@
-# Website Monitor Report - 2026-09-01 (Latest Run)
+# Website Monitor Report - 2026-09-01
 
-**Date**: 2026-09-01  
-**Status**: ⚠️ **CRITICAL** - Security vulnerabilities detected
-
----
+**Date**: September 1, 2026  
+**Status**: ⚠️ **WARNING** - Security vulnerabilities detected
 
 ## Summary
 
-The website build, lint, and security checks have been completed. While the build and lint checks pass, there are **7 high-severity security vulnerabilities** that require immediate attention.
+The Movena website project has passed build and lint checks, but **7 high-severity security vulnerabilities** have been identified in dependencies that require immediate attention.
 
----
+## Detailed Results
 
-## Build Check: ✅ PASSED
+### ✅ Build Status: PASSED
+- **Command**: `npm run build`
+- **Result**: Successfully compiled production build
+- **Routes Generated**: 41 static pages + API routes
+- **Build Size**: ~80.6 kB shared chunks + 169 kB max per route
+- **Status**: No compilation errors
 
-- **Status**: Compiled successfully
-- **Pages Generated**: 41/41 static pages
-- **Details**: No errors, no warnings
+### ⚠️ Lint Status: 3 WARNINGS
+- **Command**: `npm run lint`
+- **Issues Found**: 3 warnings (non-critical)
+  - `components/MetaPixel.tsx:54` - Using `<img>` instead of `<Image />` (performance)
+  - `components/SplitSection.tsx:93` - Using `<img>` instead of `<Image />` (performance)
+  - `components/SplitSection.tsx:96` - Using `<img>` instead of `<Image />` (performance)
+- **Status**: No errors, only optimization suggestions
 
----
+### ❌ Security Audit: 7 HIGH-SEVERITY VULNERABILITIES
 
-## Lint Check: ⚠️ WARNING
+**Critical Issues**:
 
-- **Status**: Passed with warnings
-- **Total Warnings**: 3
-- **Issues Found**:
-  1. `./components/MetaPixel.tsx:54` - Using `<img>` instead of `next/image` component
-  2. `./components/SplitSection.tsx:93` - Using `<img>` instead of `next/image` component  
-  3. `./components/SplitSection.tsx:96` - Using `<img>` instead of `next/image` component
+1. **Next.js** (Current: ~16.3.0) - **31 CVEs including**:
+   - Server-Side Request Forgery (SSRF) in Server Actions
+   - Denial of Service in Image Optimization
+   - Authorization bypass vulnerability
+   - Cache poisoning vulnerabilities
+   - Cross-site scripting (XSS) vulnerabilities
+   - Information exposure in dev server
+   - And 25+ more vulnerabilities
+   - ⚠️ Fix requires upgrade to v16.3.4 (breaking change)
 
-**Action**: These are performance optimizations. Consider updating images to use Next.js Image component for better LCP and bandwidth optimization.
+2. **PostCSS** (Current: <=8.5.22) - **4 CVEs including**:
+   - XSS via unescaped `</style>` tags in CSS output
+   - Arbitrary file read via sourceMappingURL
+   - Path traversal in source map auto-loading
+   - ⚠️ Fix requires breaking change via Next.js upgrade
 
----
+3. **js-yaml** (Current: 3.x-4.3.0) - **1 CVE**:
+   - Quadratic CPU consumption in !!omap resolution
+   - CVE-2026-59870 fix not backported
 
-## Security Audit: ❌ CRITICAL
+4. **minimatch** (Current: 9.0.0-9.0.6) - **3 CVEs including**:
+   - ReDoS via repeated wildcards
+   - ReDoS via nested extglobs
+   - Combinatorial backtracking vulnerabilities
 
-- **Status**: 7 high-severity vulnerabilities found
-- **Exit Code**: 1 (npm audit reported failures)
-
-### Vulnerable Dependencies:
-
-#### 1. **next** (13.5.11)
-- **Severity**: HIGH (31 vulnerabilities)
-- **Issues**: SSRF, DoS, XSS, cache poisoning, info disclosure, CSRF bypass, image optimization flaws
-- **Current Version**: 13.5.11 (outdated)
-- **Fix**: `npm audit fix --force` (upgrades to next@16.3.4)
-
-#### 2. **postcss** (8.x)
-- **Severity**: HIGH (4 vulnerabilities)
-- **Issues**: XSS, arbitrary file read via sourceMappingURL, path traversal
-- **Dependency Chain**: Used by next
-
-#### 3. **minimatch** (9.0.0 - 9.0.6)
-- **Severity**: HIGH (3 ReDoS vulnerabilities)
-- **Dependency Chain**: @typescript-eslint/typescript-estree
-
-#### 4. **js-yaml** (3.0.0 - 3.15.0 || 4.0.0 - 4.3.0)
-- **Severity**: HIGH
-- **Issue**: Quadratic CPU consumption (CVE-2026-59870)
-- **Dependency Chain**: Used by gray-matter
-
-#### 5. **nanoid** (< 3.3.18)
-- **Severity**: HIGH
-- **Issue**: Custom generators can loop indefinitely when size is zero
-
----
+5. **nanoid** (Current: <3.3.18) - **1 CVE**:
+   - Custom generators can loop indefinitely when size is zero
 
 ## Recommendations
 
-### Immediate Actions (Critical)
+### Immediate Action Required
+- **Priority**: HIGH
+- **Action**: Run `npm audit fix --force` to upgrade Next.js to v16.3.4 (breaking change)
+- **Impact**: This will resolve all 7 high-severity vulnerabilities
+- **Testing**: Full regression testing recommended after upgrade
 
-1. **Update Next.js**: Version 13.5.11 is severely outdated with 31 known vulnerabilities.
-   ```bash
-   npm audit fix --force
-   ```
-   ⚠️ This is a breaking change requiring comprehensive testing.
+### Optional Improvements
+- Replace `<img>` tags with `<Image />` components in:
+  - `components/MetaPixel.tsx:54`
+  - `components/SplitSection.tsx:93, 96`
 
-2. **Test After Update**:
-   - Build verification
-   - Manual testing of all pages
-   - API endpoints testing
-   - Image optimization behavior
+## Commands to Fix
 
-### Optional Actions (Performance)
+```bash
+# Fix all vulnerabilities (includes breaking changes)
+npm audit fix --force
 
-3. **Update Image Components**: Replace `<img>` tags with `next/image` in:
-   - `components/MetaPixel.tsx:54`
-   - `components/SplitSection.tsx:93, 96`
+# Then rebuild and verify
+npm run build
+npm run lint
+npm audit
+```
+
+## Next Steps
+
+1. Run `npm audit fix --force` to upgrade dependencies
+2. Run `npm run build` to verify the build still works
+3. Review any breaking changes in Next.js v16.3.4
+4. Test the application thoroughly
+5. Deploy the updated code
 
 ---
-
-## Status Summary
-
-| Check | Status | Details |
-|-------|--------|---------|
-| Build | ✅ PASSED | All 41 pages compiled successfully |
-| Lint | ⚠️ WARNING | 3 warnings about image tags |
-| Security | ❌ CRITICAL | 7 high-severity vulnerabilities |
-
-**Overall**: 🚨 Action Required - Critical security vulnerabilities must be addressed.
-
+**Report Generated**: 2026-09-01 11:06 UTC  
+**Environment**: Node v22.22.2, npm 10.9.7

@@ -53,7 +53,21 @@ export default function SavingsCalculator() {
     hourlyCost: getCurrency(DEFAULT_CURRENCY).defaultHourly,
   })
 
-  const result = useMemo(() => computeSavings(inputs, c.formulaUnits), [inputs, c.formulaUnits])
+  // The explanation sentences carry decimals (a 0.5 hour saving must not read
+  // as "0 hours"), so they get their own formatter rather than the whole-number
+  // one used for the headline figures.
+  const sentenceNf = useMemo(
+    () => new Intl.NumberFormat(locale === 'da' ? 'da-DK' : 'en-US', { maximumFractionDigits: 1 }),
+    [locale],
+  )
+  const explain = useMemo(
+    () => ({ templates: c.result.rowExplanations, formatNumber: (n: number) => sentenceNf.format(n) }),
+    [c.result.rowExplanations, sentenceNf],
+  )
+  const result = useMemo(
+    () => computeSavings(inputs, c.formulaUnits, explain),
+    [inputs, c.formulaUnits, explain],
+  )
   const cur = inputs.currency
 
   const nf = useMemo(
@@ -540,8 +554,11 @@ function ResultView({
 
       {/* Breakdown — gated */}
       <div className="mt-10">
-        <p className="text-[13px] font-semibold uppercase tracking-[0.08em] text-[#475569] mb-3">
+        <p className="text-[13px] font-semibold uppercase tracking-[0.08em] text-[#475569] mb-2">
           {c.result.breakdownTitle}
+        </p>
+        <p className="text-[13px] text-[#64748B] leading-[1.6] mb-3 max-w-2xl">
+          {c.result.percentageSource}
         </p>
 
         {unlocked ? (
@@ -556,9 +573,6 @@ function ResultView({
                 </p>
               </div>
             )}
-            <div className="px-5 py-4 bg-[#F8FAFC]">
-              <p className="text-[12px] text-[#475569] leading-[1.6]">{c.result.assumptions}</p>
-            </div>
           </div>
         ) : (
           <div className="relative rounded-2xl border border-[#E2E8F0] overflow-hidden">
@@ -690,7 +704,10 @@ function BreakdownRow({
               <Info size={15} strokeWidth={2} />
             </button>
           </div>
-          <p className="text-[12px] text-[#94A3B8] mt-0.5 font-mono">{row.formula}</p>
+          {row.explanation && (
+            <p className="text-[13px] text-[#475569] leading-[1.6] mt-1">{row.explanation}</p>
+          )}
+          <p className="text-[12px] text-[#94A3B8] mt-1 font-mono">{row.formula}</p>
         </div>
         <div className="text-right shrink-0">
           {row.hoursSavedPerMonth > 0 && (

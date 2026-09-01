@@ -1,4 +1,4 @@
-# Website Monitor Report - $(date +%Y-%m-%d\ %H:%M:%S\ UTC)
+# Website Monitor Report - 2026-09-01
 
 ## Summary
 
@@ -96,4 +96,4 @@
 
 ---
 
-Generated: $(date +%Y-%m-%d\ %H:%M:%S\ UTC)
+Generated: 2026-09-01T14:03:00Z

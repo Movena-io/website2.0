@@ -3,6 +3,7 @@ import { Resend } from 'resend'
 import { isLocale, type Locale } from '@/lib/locales'
 import { computeSavings, EMPTY_INPUTS, type CalculatorInputs } from '@/lib/calculator/engine'
 import { getCurrency } from '@/lib/calculator/currency'
+import { getCalculatorCopy } from '@/lib/calculator/copy'
 import { buildVisitorEmail, buildTeamEmail, buildAttioNote, type LeadPayload } from '@/lib/calculator/report'
 import { pushLeadToAttio } from '@/lib/calculator/attio'
 import { appendLead } from '@/lib/calculator/store'
@@ -67,7 +68,15 @@ export async function POST(req: NextRequest) {
   }
 
   const inputs = sanitizeInputs(body.inputs)
-  const result = computeSavings(inputs)
+  // Compute with the visitor's own locale copy, so the formulas and the
+  // plain-language explanations in their emailed report read in their
+  // language rather than falling back to the English defaults.
+  const copy = getCalculatorCopy(locale)
+  const result = computeSavings(inputs, copy.formulaUnits, {
+    templates: copy.result.rowExplanations,
+    formatNumber: (n: number) =>
+      new Intl.NumberFormat(locale === 'da' ? 'da-DK' : 'en-US', { maximumFractionDigits: 1 }).format(n),
+  })
   const payload: LeadPayload = { name, email, company, locale, inputs, result }
 
   // Side effects are best-effort. The visitor must get their unlock, so we never

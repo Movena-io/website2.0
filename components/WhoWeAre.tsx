@@ -40,9 +40,18 @@ export default function WhoWeAre() {
           {t.whoWeAre.highlight && <span className="text-[#60A5FA]">{t.whoWeAre.highlight}</span>}
           {t.whoWeAre.headlineEnd}
         </h2>
-        <p className="reveal text-[16px] sm:text-[17px] text-[#94A3B8] leading-[1.7] max-w-2xl mb-12">
+        <p className="reveal text-[16px] sm:text-[17px] text-[#94A3B8] leading-[1.7] max-w-2xl mb-8">
           {t.whoWeAre.text}
         </p>
+
+        <ul className="reveal grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-3 max-w-3xl mb-12">
+          {t.whoWeAre.facts.map((fact) => (
+            <li key={fact} className="flex items-start gap-2.5">
+              <span className="mt-[9px] shrink-0 w-[5px] h-[5px] rounded-full bg-[#60A5FA]" />
+              <span className="text-[15px] text-[#CBD5E1] leading-[1.6]">{fact}</span>
+            </li>
+          ))}
+        </ul>
 
         <div className="reveal grid grid-cols-1 md:grid-cols-3 gap-8 mb-10">
           {t.whoWeAre.people.map((person) => (

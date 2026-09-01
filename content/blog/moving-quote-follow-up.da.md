@@ -5,7 +5,7 @@ date: "2026-06-24"
 excerpt: "De fleste flyttetilbud bliver vundet eller tabt i opfølgningen, og de fleste flyttefirmaer sender aldrig en. Her er hvorfor opfølgningen afgør sagen, og hvordan du sikrer at den altid bliver sendt."
 metaTitle: "Opfølgningen der lukker flyttetilbuddet | Movena"
 metaDescription: "De fleste flyttetilbud bliver vundet eller tabt i opfølgningen, og de fleste flyttefirmaer sender aldrig en. Her er hvorfor den afgør sagen, og hvordan du sikrer at den altid sker."
-image: "/blog/moving-quote-follow-up.png"
+image: "/blog/moving-quote-follow-up-da.png"
 imageAlt: "En opfølgning der lukker et flyttetilbud"
 category: "Guide"
 tags: ["opfølgning på flyttetilbud", "flyttefirma software", "salg i flyttefirma", "flyttetilbud", "styring af flyttefirma"]

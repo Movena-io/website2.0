@@ -100,6 +100,19 @@ Everything, not just the body:
   moving companies operate." The Danish equivalent is "Sætter en ny standard
   for, hvordan flyttefirmaer arbejder."
 
+### Cover images
+
+Danish covers follow the same pairing idea, with a `-da` suffix on the image
+file:
+
+```
+/blog/moving-quote-follow-up.png      <- referenced by the English file
+/blog/moving-quote-follow-up-da.png   <- referenced by the .da.md file
+```
+
+Point the Danish file's `image:` at the `-da` version. If a Danish cover does
+not exist yet, reuse the English one; nothing breaks.
+
 ### Category labels
 
 Categories are written in English in the frontmatter and translated at render

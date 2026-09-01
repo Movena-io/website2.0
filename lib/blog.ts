@@ -70,6 +70,13 @@ const DEFAULTS = {
 // Filenames excluded from being treated as posts.
 const RESERVED_KEYS = new Set(['README', 'readme', 'index', '_template'])
 
+// A post key must be a clean slug. This rejects the duplicates that sync
+// clients and Finder leave behind ("post.da 2.md", "post copy.md") and files
+// carrying a language suffix we do not support ("post.de.md"). Without this
+// they parse as an unrecognised suffix, fall through to the default locale,
+// and quietly publish as a second English post at the translation's slug.
+const VALID_KEY = /^[a-z0-9]+(?:-[a-z0-9]+)*$/
+
 marked.setOptions({
   gfm: true,
   breaks: false,
@@ -136,6 +143,10 @@ function loadAll(includeDrafts = false): LoadedPost[] {
     if (!file.endsWith('.md')) continue
     const { key, suffixLocale } = parseFilename(file)
     if (key.startsWith('_') || RESERVED_KEYS.has(key)) continue
+    if (!VALID_KEY.test(key)) {
+      console.warn(`[blog] Skipping "${file}": "${key}" is not a valid post name.`)
+      continue
+    }
 
     const raw = fs.readFileSync(path.join(CONTENT_DIR, file), 'utf8')
     const parsed = matter(raw)

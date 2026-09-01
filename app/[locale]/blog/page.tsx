@@ -4,7 +4,7 @@ import Image from 'next/image'
 import { notFound } from 'next/navigation'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
-import { getAllPosts } from '@/lib/blog'
+import { getPostListForLocale } from '@/lib/blog'
 import { translations } from '@/lib/translations'
 import { LOCALES, isLocale, type Locale } from '@/lib/locales'
 
@@ -50,6 +50,10 @@ export async function generateMetadata({
   }
 }
 
+function categoryLabel(category: string, locale: Locale): string {
+  return translations[locale].blog.categories[category] ?? category
+}
+
 function formatDate(iso: string, locale: Locale): string {
   const d = new Date(iso)
   if (Number.isNaN(d.getTime())) return iso
@@ -64,7 +68,9 @@ export default function BlogIndex({ params }: { params: { locale: string } }) {
   if (!isLocale(params.locale)) notFound()
   const locale = params.locale as Locale
   const t = translations[locale].blog
-  const posts = getAllPosts()
+  // Danish version where one exists, English as a fallback where it does not,
+  // so /da/blog is never empty while translations are still being written.
+  const posts = getPostListForLocale(locale)
 
   return (
     <>
@@ -93,7 +99,7 @@ export default function BlogIndex({ params }: { params: { locale: string } }) {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {posts.map((post) => (
                 <Link
-                  key={post.slug}
+                  key={post.key}
                   href={`/${locale}/blog/${post.slug}`}
                   className="group flex flex-col rounded-xl border border-[#E2E8F0] bg-white overflow-hidden hover:shadow-md transition-shadow"
                 >
@@ -109,17 +115,29 @@ export default function BlogIndex({ params }: { params: { locale: string } }) {
                   <div className="flex flex-col flex-1 p-6">
                     <div className="flex items-center gap-3 mb-3">
                       <span className="text-[11px] font-semibold uppercase tracking-[0.08em] text-[#1D4ED8]">
-                        {post.category}
+                        {categoryLabel(post.category, locale)}
                       </span>
                       <span className="text-[11px] text-[#94A3B8]">·</span>
                       <span className="text-[11px] text-[#94A3B8]">
                         {formatDate(post.date, locale)}
                       </span>
+                      {post.locale !== locale && (
+                        <>
+                          <span className="text-[11px] text-[#94A3B8]">·</span>
+                          <span className="text-[11px] text-[#94A3B8]">{t.languageBadge[post.locale]}</span>
+                        </>
+                      )}
                     </div>
-                    <h2 className="text-[20px] font-bold tracking-[-0.015em] text-[#0B1F3B] leading-[1.3] mb-2 group-hover:text-[#1D4ED8] transition-colors">
+                    <h2
+                      lang={post.locale}
+                      className="text-[20px] font-bold tracking-[-0.015em] text-[#0B1F3B] leading-[1.3] mb-2 group-hover:text-[#1D4ED8] transition-colors"
+                    >
                       {post.title}
                     </h2>
-                    <p className="text-[14px] text-[#475569] leading-[1.6] mb-5 line-clamp-3">
+                    <p
+                      lang={post.locale}
+                      className="text-[14px] text-[#475569] leading-[1.6] mb-5 line-clamp-3"
+                    >
                       {post.excerpt}
                     </p>
                     <div className="mt-auto flex items-center justify-end text-[12px] text-[#94A3B8]">

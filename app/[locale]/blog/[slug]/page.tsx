@@ -1,20 +1,24 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import Image from 'next/image'
-import { notFound } from 'next/navigation'
+import { notFound, redirect } from 'next/navigation'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
-import { getAllPosts, getAllSlugs, getPostBySlug } from '@/lib/blog'
+import { getPostListForLocale, getPostRoutes, resolvePost } from '@/lib/blog'
 import { translations } from '@/lib/translations'
-import { LOCALES, isLocale, type Locale } from '@/lib/locales'
+import { isLocale, type Locale } from '@/lib/locales'
 
 const SITE = 'https://movena.io'
 
+const OG_LOCALE: Record<Locale, string> = { en: 'en_GB', da: 'da_DK' }
+const CONTENT_LANGUAGE: Record<Locale, string> = { en: 'en-GB', da: 'da-DK' }
+
 export function generateStaticParams() {
-  const posts = getAllPosts()
-  return LOCALES.flatMap((locale) =>
-    posts.map((post) => ({ locale, slug: post.slug }))
-  )
+  return getPostRoutes()
+}
+
+function categoryLabel(category: string, locale: Locale): string {
+  return translations[locale].blog.categories[category] ?? category
 }
 
 export async function generateMetadata({
@@ -23,26 +27,41 @@ export async function generateMetadata({
   params: { locale: string; slug: string }
 }): Promise<Metadata> {
   if (!isLocale(params.locale)) return {}
-  const post = getPostBySlug(params.slug)
+  const locale = params.locale as Locale
+  const post = resolvePost(params.slug, locale)
   if (!post) return {}
 
-  // A post exists in exactly one language. Canonical points to that locale,
-  // and we deliberately omit hreflang alternates because there is no
-  // translated counterpart (which would otherwise mislead Google).
-  const path = `/${post.locale}/blog/${post.slug}`
+  // Canonical is always self-referential, except on a fallback page: there the
+  // body is the other language's, so the canonical points at that language's
+  // URL and the page is kept out of the index entirely.
+  const canonical = post.isFallback
+    ? `/${post.locale}/blog/${post.slug}`
+    : `/${locale}/blog/${post.slug}`
+
+  const { en, da } = post.slugsByLocale
+  // hreflang only where both versions genuinely exist, and symmetric both ways.
+  const languages =
+    en && da
+      ? {
+          en: `/en/blog/${en}`,
+          da: `/da/blog/${da}`,
+          'x-default': `/en/blog/${en}`,
+        }
+      : undefined
+
   const ogImage = post.image.startsWith('http') ? post.image : `${SITE}${post.image}`
 
   return {
     title: post.metaTitle,
     description: post.metaDescription,
-    alternates: {
-      canonical: path,
-    },
+    alternates: { canonical, languages },
+    robots: post.isFallback ? { index: false, follow: true } : undefined,
     openGraph: {
       title: post.metaTitle,
       description: post.metaDescription,
-      url: `${SITE}${path}`,
+      url: `${SITE}${canonical}`,
       siteName: 'Movena',
+      locale: OG_LOCALE[post.locale],
       type: 'article',
       publishedTime: post.date,
       tags: post.tags,
@@ -74,9 +93,20 @@ export default function BlogPost({
 }) {
   if (!isLocale(params.locale)) notFound()
   const locale = params.locale as Locale
-  const post = getPostBySlug(params.slug)
+  const post = resolvePost(params.slug, locale)
   if (!post) notFound()
+  // This URL carries the other language's slug for an article that *is*
+  // translated, so it is stale. Send the reader to the right version rather
+  // than serving them the wrong language.
+  const nativeSlug = post.slugsByLocale[locale]
+  if (post.isFallback && nativeSlug) redirect(`/${locale}/blog/${nativeSlug}`)
   const t = translations[locale].blog
+
+  // Must match the canonical in generateMetadata, so the schema and the head
+  // never disagree about which URL this page is.
+  const canonicalUrl = post.isFallback
+    ? `${SITE}/${post.locale}/blog/${post.slug}`
+    : `${SITE}/${locale}/blog/${post.slug}`
 
   // Author is Movena (the organization) -- we don't surface individual bylines.
   // Schema.org Article accepts Organization as @type for author; this satisfies
@@ -89,6 +119,9 @@ export default function BlogPost({
     image: post.image.startsWith('http') ? post.image : `${SITE}${post.image}`,
     datePublished: post.date,
     dateModified: post.date,
+    // The language the body is written in, which on a fallback page is not the
+    // language of the URL.
+    inLanguage: CONTENT_LANGUAGE[post.locale],
     author: {
       '@type': 'Organization',
       name: 'Movena',
@@ -104,7 +137,7 @@ export default function BlogPost({
     },
     mainEntityOfPage: {
       '@type': 'WebPage',
-      '@id': `${SITE}/${locale}/blog/${post.slug}`,
+      '@id': canonicalUrl,
     },
     keywords: post.tags.join(', '),
   }
@@ -116,14 +149,14 @@ export default function BlogPost({
       {
         '@type': 'ListItem',
         position: 1,
-        name: 'Blog',
+        name: t.label,
         item: `${SITE}/${locale}/blog`,
       },
       {
         '@type': 'ListItem',
         position: 2,
         name: post.title,
-        item: `${SITE}/${locale}/blog/${post.slug}`,
+        item: canonicalUrl,
       },
     ],
   }
@@ -151,10 +184,16 @@ export default function BlogPost({
             </Link>
           </div>
 
+          {post.isFallback && (
+            <p className="mb-8 rounded-lg bg-[#F1F5F9] px-4 py-3 text-[13px] text-[#475569]">
+              {t.fallbackNotice[post.locale]}
+            </p>
+          )}
+
           <header className="mb-10">
             <div className="flex items-center gap-3 mb-5">
               <span className="text-[11px] font-semibold uppercase tracking-[0.08em] text-[#1D4ED8]">
-                {post.category}
+                {categoryLabel(post.category, locale)}
               </span>
               <span className="text-[11px] text-[#94A3B8]">·</span>
               <span className="text-[11px] text-[#94A3B8]">
@@ -189,6 +228,7 @@ export default function BlogPost({
           )}
 
           <div
+            lang={post.locale}
             className="prose prose-neutral max-w-none
               prose-headings:font-bold prose-headings:tracking-[-0.015em] prose-headings:text-[#0B1F3B]
               prose-h2:mt-12 prose-h2:mb-4 prose-h2:text-[28px]
@@ -206,7 +246,7 @@ export default function BlogPost({
 
           {post.tags.length > 0 && (
             <div className="mt-16 pt-8 border-t border-[#E2E8F0] flex flex-wrap gap-2">
-              {post.tags.map((tag) => (
+              {post.tags.map((tag: string) => (
                 <span
                   key={tag}
                   className="px-3 py-1 rounded-full bg-[#F1F5F9] text-[12px] font-medium text-[#475569]"
@@ -218,17 +258,17 @@ export default function BlogPost({
           )}
         </article>
 
-        <RelatedPosts currentSlug={post.slug} locale={locale} />
+        <RelatedPosts currentKey={post.key} locale={locale} />
       </main>
       <Footer />
     </>
   )
 }
 
-function RelatedPosts({ currentSlug, locale }: { currentSlug: string; locale: Locale }) {
+function RelatedPosts({ currentKey, locale }: { currentKey: string; locale: Locale }) {
   const t = translations[locale].blog
-  const others = getAllPosts()
-    .filter((p) => p.slug !== currentSlug)
+  const others = getPostListForLocale(locale)
+    .filter((p) => p.key !== currentKey)
     .slice(0, 3)
   if (others.length === 0) return null
 
@@ -241,7 +281,7 @@ function RelatedPosts({ currentSlug, locale }: { currentSlug: string; locale: Lo
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {others.map((p) => (
             <Link
-              key={p.slug}
+              key={p.key}
               href={`/${locale}/blog/${p.slug}`}
               className="group flex flex-col rounded-xl border border-[#E2E8F0] bg-white overflow-hidden hover:shadow-md transition-shadow"
             >
@@ -255,10 +295,15 @@ function RelatedPosts({ currentSlug, locale }: { currentSlug: string; locale: Lo
                 />
               </div>
               <div className="p-5">
-                <h3 className="text-[16px] font-bold text-[#0B1F3B] leading-[1.3] mb-2 group-hover:text-[#1D4ED8] transition-colors">
+                <h3
+                  lang={p.locale}
+                  className="text-[16px] font-bold text-[#0B1F3B] leading-[1.3] mb-2 group-hover:text-[#1D4ED8] transition-colors"
+                >
                   {p.title}
                 </h3>
-                <p className="text-[13px] text-[#475569] line-clamp-2">{p.excerpt}</p>
+                <p lang={p.locale} className="text-[13px] text-[#475569] line-clamp-2">
+                  {p.excerpt}
+                </p>
               </div>
             </Link>
           ))}

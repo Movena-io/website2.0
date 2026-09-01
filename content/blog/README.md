@@ -55,8 +55,67 @@ Body text.
 | `imageAlt`        | no       | Alt text for the cover image (important for accessibility and SEO)       |
 | `category`        | no       | Category label shown on the card (defaults to "Industry insights")       |
 | `tags`            | no       | Array of tags, e.g. `["moving", "saas"]`                                 |
-| `locale`          | no       | `en` or `da` (defaults to `en`)                                          |
+| `locale`          | no       | `en` or `da` (defaults to `en`). Ignored on `.da.md` files, where the filename decides |
 | `draft`           | no       | `true` to hide from production. Defaults to `false`                      |
+
+## Danish versions
+
+An article can exist in both languages. The two files live side by side in this
+folder and are paired by the **filename**, not the slug:
+
+```
+moving-quote-follow-up.md      -> English, /en/blog/moving-quote-follow-up
+moving-quote-follow-up.da.md   -> Danish,  /da/blog/opfoelgning-paa-flyttetilbud
+```
+
+The `.da` suffix marks the file as Danish. The part before it is the pairing
+key and must match the English filename exactly, otherwise the two are treated
+as unrelated articles.
+
+The **Danish URL comes from the `slug:` field**, so write a real Danish slug
+there. It does not have to match the filename, and it should not just be the
+English slug translated word for word. Pick the phrase a Danish customer would
+actually search for.
+
+When both files exist, the pages point at each other with hreflang, each one is
+canonical to itself, and both appear in the sitemap.
+
+When only the English file exists, `/da/blog/<english-slug>` still renders the
+English article so Danish readers are not dead-ended, but it is marked
+`noindex`, canonical to the English URL, and left out of the sitemap. It gets
+replaced automatically the moment the `.da.md` file lands.
+
+### What to change in a Danish file
+
+Everything, not just the body:
+
+- `title`, `excerpt`, `metaTitle`, `metaDescription`, `imageAlt` in Danish.
+- `tags` in Danish. They feed the JSON-LD `keywords`, so Danish tags are what
+  make the article findable on Danish search terms.
+- `category` in Danish, using one of the labels below.
+- Internal links in the body must point at `/da/...`, not `/en/...`. A Danish
+  article linking to `/en/savings-calculator` throws the reader back into
+  English.
+- The closing line. English files end with "Setting a new standard for how
+  moving companies operate." The Danish equivalent is "Sætter en ny standard
+  for, hvordan flyttefirmaer arbejder."
+
+### Category labels
+
+Categories are written in English in the frontmatter and translated at render
+time. The known set lives in `lib/translations.ts` under `blog.categories`:
+
+| Frontmatter value  | Shown on /en       | Shown on /da   |
+|--------------------|--------------------|----------------|
+| `Guide`            | Guide              | Guide          |
+| `Operations`       | Operations         | Drift          |
+| `Perspective`      | Perspective        | Perspektiv     |
+| `Driving Profit`   | Driving Profit     | Indtjening     |
+| `Industry insights`| Industry insights  | Brancheindsigt |
+
+Writing a Danish category directly in the frontmatter also works, but anything
+outside this table is rendered as typed in both languages. Adding a new
+category means adding a row to `blog.categories` in both locales.
 
 ## Voice
 

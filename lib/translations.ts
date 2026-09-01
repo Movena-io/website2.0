@@ -337,6 +337,26 @@ export const translations = {
     },
     blog: {
       label: 'Blog',
+      // Category labels are written in English in the frontmatter and looked
+      // up here per locale, so a Danish post shows a Danish label and an
+      // unknown value falls through to the raw string.
+      categories: {
+        'Guide': 'Guide',
+        'Operations': 'Operations',
+        'Perspective': 'Perspective',
+        'Driving Profit': 'Driving Profit',
+        'Industry insights': 'Industry insights',
+      } as Record<string, string>,
+      // Keyed by the language the article is actually written in, so the
+      // notice stays correct whichever direction the fallback runs.
+      fallbackNotice: {
+        en: 'This article is not translated yet. Showing the English version.',
+        da: 'This article is not translated yet. Showing the Danish version.',
+      } as Record<string, string>,
+      languageBadge: {
+        en: 'In English',
+        da: 'In Danish',
+      } as Record<string, string>,
       headline: 'Notes from the Movena team',
       subheadline: 'Practical writing for moving company owners. What we are learning, what is changing in the industry, and how Movena is built.',
       readMore: 'Read more',
@@ -866,6 +886,21 @@ export const translations = {
     },
     blog: {
       label: 'Blog',
+      categories: {
+        'Guide': 'Guide',
+        'Operations': 'Drift',
+        'Perspective': 'Perspektiv',
+        'Driving Profit': 'Indtjening',
+        'Industry insights': 'Brancheindsigt',
+      } as Record<string, string>,
+      fallbackNotice: {
+        en: 'Denne artikel er ikke oversat endnu. Her er den engelske udgave.',
+        da: 'Denne artikel er ikke oversat endnu. Her er den danske udgave.',
+      } as Record<string, string>,
+      languageBadge: {
+        en: 'På engelsk',
+        da: 'På dansk',
+      } as Record<string, string>,
       headline: 'Noter fra Movena-teamet',
       subheadline: 'Praktisk skriv til ejere af flyttefirmaer. Hvad vi lærer, hvad der ændrer sig i branchen, og hvordan Movena bliver bygget.',
       readMore: 'Læs mere',

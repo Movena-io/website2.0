@@ -16,6 +16,28 @@ Short version for Villads. Detailed reference is in `content/blog/README.md`.
 
 To save without publishing: set `draft: true` in the frontmatter.
 
+## Publishing the Danish version
+
+Same folder, same filename, plus `.da`:
+
+```
+moving-quote-follow-up.md      -> /en/blog/moving-quote-follow-up
+moving-quote-follow-up.da.md   -> /da/blog/opfoelgning-paa-flyttetilbud
+```
+
+The filename before `.da` must match the English file exactly. That is what
+pairs them. The Danish URL comes from the `slug:` field in the frontmatter, so
+write a real Danish slug that Danish customers would search for.
+
+Translate the whole frontmatter, not just the body: title, excerpt, metaTitle,
+metaDescription, imageAlt, tags and category. Point internal links at `/da/...`
+instead of `/en/...`. Full rules and the category table are in
+`content/blog/README.md`.
+
+Until a `.da.md` file exists, `/da/blog/<english-slug>` shows the English
+article with a small notice, marked `noindex` so Google does not index it as a
+Danish page. It swaps over automatically once the Danish file is pushed.
+
 ## Editing options
 
 * **In your browser** -- open `content/blog/` on GitHub, click any post, then the pencil icon. Edit, commit. Done.
@@ -28,7 +50,9 @@ To save without publishing: set `draft: true` in the frontmatter.
 * The sitemap (`movena.io/sitemap.xml`) updates with the new URL.
 * Open Graph and Twitter Card meta tags are generated from the frontmatter.
 * JSON-LD Article schema is injected so Google can show rich results.
-* Canonical URLs are set per post.
+* Canonical URLs are set per post, self-referential per language.
+* hreflang tags link the English and Danish versions, in both directions,
+  whenever both exist.
 * Cover image goes through `next/image` for size optimization.
 
 ## Voice rules (from `.claude/rules/communication-style.md`)

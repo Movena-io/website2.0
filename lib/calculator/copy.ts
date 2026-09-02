@@ -7,7 +7,7 @@
 // currency code, e.g. DKK / EUR).
 
 import type { Locale } from '@/lib/locales'
-import type { FormulaUnits } from '@/lib/calculator/engine'
+import type { ExplanationTemplates, FormulaUnits } from '@/lib/calculator/engine'
 
 export interface CalculatorCopy {
   meta: { title: string; description: string }
@@ -135,7 +135,8 @@ export interface CalculatorCopy {
     reviewUpside: string // "+{count} extra reviews per month"
     reviewUpsideNote: string
     exposureNote: string // "About {value} {cur}/month..."
-    assumptions: string
+    percentageSource: string // where the multipliers actually come from
+    rowExplanations: ExplanationTemplates // plain-language sentence per row
     rowLabels: Record<
       'planning' | 'quoting' | 'followup' | 'reviewsTime' | 'messaging' | 'inventoryTime' | 'inventoryMoney',
       string
@@ -312,8 +313,24 @@ const en: CalculatorCopy = {
     reviewUpside: '+{count} extra reviews a month',
     reviewUpsideNote: 'In your own estimate, from an automatic request after every job. More reviews, more inbound.',
     exposureNote: 'About {value} {cur} a month in lost boxes is walking out the door today.',
-    assumptions:
-      'Every figure is built on your own numbers and conservative, real-world assumptions. Nothing inflated. On a call we can walk through each one.',
+    percentageSource:
+      'The percentages below are our own estimates, based on conversations with Danish moving companies. They are not measured averages.',
+    rowExplanations: {
+      planning:
+        'You run {moves} moves a month. Planning takes about {min} minutes per move. Movena removes about {pct}% of that time. That is {hours} hours a month.',
+      quoting:
+        'You send {quotes} quotes a month, and each one takes about {min} minutes. Movena removes about {pct}% of that time, because the customer fills in the details. That is {hours} hours a month.',
+      followup:
+        'You get {leads} leads a month, and following up takes about {min} minutes per lead. Movena removes about {pct}% of that time by running the follow-up automatically. That is {hours} hours a month.',
+      reviewsTime:
+        'You spend about {minPerMonth} minutes a month asking customers for reviews. Movena removes about {pct}% of that time by sending the request automatically after every job. That is {hours} hours a month.',
+      messaging:
+        'You spend about {hrsPerWeek} hours a week on messages to customers, which is about {hrsPerMonth} hours a month. Movena removes about {pct}% of that time. That is {hours} hours a month.',
+      inventoryTime:
+        'You lose about {items} boxes a month, and you spend about {min} minutes looking for each one. Movena removes about {pct}% of that time. That is {hours} hours a month.',
+      inventoryMoney:
+        'You lose about {items} boxes a month at about {cost} {cur} each, which is {exposure} {cur} a month. Movena recovers about {pct}% of that. That is {money} {cur} a month.',
+    },
     rowLabels: {
       planning: 'Faster job planning',
       quoting: 'Faster quoting',
@@ -503,8 +520,24 @@ const da: CalculatorCopy = {
     reviewUpside: '+{count} ekstra anmeldelser om måneden',
     reviewUpsideNote: 'Dit eget skøn, fra en automatisk anmodning efter hver opgave. Flere anmeldelser, flere henvendelser.',
     exposureNote: 'Omkring {value} {cur} om måneden i mistede kasser går tabt i dag.',
-    assumptions:
-      'Hvert tal bygger på dine egne tal og konservative, virkelighedsnære antagelser. Intet er pustet op. På et opkald kan vi gennemgå hvert enkelt.',
+    percentageSource:
+      'Procenterne herunder er vores egne skøn, bygget på samtaler med danske flyttefirmaer. Det er ikke målte gennemsnit.',
+    rowExplanations: {
+      planning:
+        'Du laver {moves} flytninger om måneden. Planlægningen tager cirka {min} minutter per flytning. Movena fjerner cirka {pct}% af den tid. Det er {hours} timer om måneden.',
+      quoting:
+        'Du sender {quotes} tilbud om måneden, og hvert tilbud tager cirka {min} minutter. Movena fjerner cirka {pct}% af den tid, fordi kunden selv udfylder oplysningerne. Det er {hours} timer om måneden.',
+      followup:
+        'Du får {leads} leads om måneden, og opfølgningen tager cirka {min} minutter per lead. Movena fjerner cirka {pct}% af den tid ved at køre opfølgningen automatisk. Det er {hours} timer om måneden.',
+      reviewsTime:
+        'Du bruger cirka {minPerMonth} minutter om måneden på at bede kunderne om anmeldelser. Movena fjerner cirka {pct}% af den tid ved at sende anmodningen automatisk efter hvert job. Det er {hours} timer om måneden.',
+      messaging:
+        'Du bruger cirka {hrsPerWeek} timer om ugen på beskeder til kunderne, altså cirka {hrsPerMonth} timer om måneden. Movena fjerner cirka {pct}% af den tid. Det er {hours} timer om måneden.',
+      inventoryTime:
+        'Du mister cirka {items} kasser om måneden, og du bruger cirka {min} minutter på at lede efter hver enkelt. Movena fjerner cirka {pct}% af den tid. Det er {hours} timer om måneden.',
+      inventoryMoney:
+        'Du mister cirka {items} kasser om måneden til cirka {cost} {cur} stykket, altså {exposure} {cur} om måneden. Movena henter cirka {pct}% af det tilbage. Det er {money} {cur} om måneden.',
+    },
     rowLabels: {
       planning: 'Hurtigere planlægning',
       quoting: 'Hurtigere tilbud',

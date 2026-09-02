@@ -104,11 +104,24 @@ const DEFAULT_FORMULA_UNITS: FormulaUnits = {
 
 // One row in the transparent breakdown. `formula` is a human-readable trace of
 // exactly how the number was reached, so a skeptical mover can poke at it.
+// `explanation` says the same thing in a sentence, for the owner who is not
+// going to parse the formula: the input, what the percentage means, the result.
 export interface BreakdownRow {
   key: 'planning' | 'quoting' | 'followup' | 'reviewsTime' | 'messaging' | 'inventoryTime' | 'inventoryMoney'
   hoursSavedPerMonth: number
   moneySavedPerMonth: number // direct DKK not derived from hours (inventory recovery)
   formula: string
+  explanation: string
+}
+
+// Sentence templates, one per row, supplied by the caller so they stay
+// translatable. Placeholders are filled from the visitor's own inputs.
+export type ExplanationTemplates = Record<BreakdownRow['key'], string>
+
+export interface ExplainOptions {
+  templates: ExplanationTemplates
+  // Locale-aware number formatting. Defaults to plain digits.
+  formatNumber?: (n: number) => string
 }
 
 export interface CalculatorResult {
@@ -143,10 +156,23 @@ export function roundNice(n: number): number {
   return Math.round(n)
 }
 
-export function computeSavings(input: CalculatorInputs, units?: FormulaUnits): CalculatorResult {
+export function computeSavings(
+  input: CalculatorInputs,
+  units?: FormulaUnits,
+  explain?: ExplainOptions,
+): CalculatorResult {
   const u = units ?? DEFAULT_FORMULA_UNITS
   const rows: BreakdownRow[] = []
   const hourly = input.hourlyCost > 0 ? input.hourlyCost : DEFAULT_HOURLY_COST
+
+  const fmt = explain?.formatNumber ?? ((n: number) => String(n))
+
+  // The explanation is read as a sentence, so a 30-minute saving must not
+  // round down to "that is 0 hours a month". Keep one decimal below 10.
+  const showHours = (n: number) => fmt(n < 10 ? Math.round(n * 10) / 10 : Math.round(n))
+
+  const say = (key: BreakdownRow['key'], vars: Record<string, string | number>) =>
+    explain ? explain.templates[key].replace(/\{(\w+)\}/g, (_, k) => String(vars[k] ?? '')) : ''
 
   // Planning (always on)
   if (input.movesPerMonth > 0 && input.planningMinutesPerMove > 0) {
@@ -156,6 +182,12 @@ export function computeSavings(input: CalculatorInputs, units?: FormulaUnits): C
       hoursSavedPerMonth: round(hrs),
       moneySavedPerMonth: 0,
       formula: `${input.movesPerMonth} ${u.movesPerMonth} × ${input.planningMinutesPerMove} ${u.min} × ${MULTIPLIERS.planning * 100}% ÷ 60`,
+      explanation: say('planning', {
+        moves: fmt(input.movesPerMonth),
+        min: fmt(input.planningMinutesPerMove),
+        pct: MULTIPLIERS.planning * 100,
+        hours: showHours(hrs),
+      }),
     })
   }
 
@@ -167,6 +199,12 @@ export function computeSavings(input: CalculatorInputs, units?: FormulaUnits): C
       hoursSavedPerMonth: round(hrs),
       moneySavedPerMonth: 0,
       formula: `${input.quotesPerMonth} ${u.quotesPerMonth} × ${input.minutesPerQuote} ${u.min} × ${MULTIPLIERS.quoting * 100}% ÷ 60`,
+      explanation: say('quoting', {
+        quotes: fmt(input.quotesPerMonth),
+        min: fmt(input.minutesPerQuote),
+        pct: MULTIPLIERS.quoting * 100,
+        hours: showHours(hrs),
+      }),
     })
   }
 
@@ -178,6 +216,12 @@ export function computeSavings(input: CalculatorInputs, units?: FormulaUnits): C
       hoursSavedPerMonth: round(hrs),
       moneySavedPerMonth: 0,
       formula: `${input.leadsPerMonth} ${u.leadsPerMonth} × ${input.minutesPerFollowup} ${u.min} × ${MULTIPLIERS.followup * 100}% ÷ 60`,
+      explanation: say('followup', {
+        leads: fmt(input.leadsPerMonth),
+        min: fmt(input.minutesPerFollowup),
+        pct: MULTIPLIERS.followup * 100,
+        hours: showHours(hrs),
+      }),
     })
   }
 
@@ -189,6 +233,11 @@ export function computeSavings(input: CalculatorInputs, units?: FormulaUnits): C
       hoursSavedPerMonth: round(hrs),
       moneySavedPerMonth: 0,
       formula: `${input.reviewMinutesPerMonth} ${u.minPerMonth} × ${MULTIPLIERS.automation * 100}% ÷ 60`,
+      explanation: say('reviewsTime', {
+        minPerMonth: fmt(input.reviewMinutesPerMonth),
+        pct: MULTIPLIERS.automation * 100,
+        hours: showHours(hrs),
+      }),
     })
   }
 
@@ -200,6 +249,12 @@ export function computeSavings(input: CalculatorInputs, units?: FormulaUnits): C
       hoursSavedPerMonth: round(hrs),
       moneySavedPerMonth: 0,
       formula: `${input.messagingHoursPerWeek} ${u.hrsPerWeek} × ${WEEKS_PER_MONTH} ${u.weeks} × ${MULTIPLIERS.automation * 100}%`,
+      explanation: say('messaging', {
+        hrsPerWeek: fmt(input.messagingHoursPerWeek),
+        hrsPerMonth: showHours(input.messagingHoursPerWeek * WEEKS_PER_MONTH),
+        pct: MULTIPLIERS.automation * 100,
+        hours: showHours(hrs),
+      }),
     })
   }
 
@@ -212,6 +267,12 @@ export function computeSavings(input: CalculatorInputs, units?: FormulaUnits): C
       hoursSavedPerMonth: round(hrs),
       moneySavedPerMonth: 0,
       formula: `${input.itemsLostPerMonth} ${u.itemsPerMonth} × ${input.minutesChasingPerItem} ${u.min} × ${MULTIPLIERS.inventoryChasing * 100}% ÷ 60`,
+      explanation: say('inventoryTime', {
+        items: fmt(input.itemsLostPerMonth),
+        min: fmt(input.minutesChasingPerItem),
+        pct: MULTIPLIERS.inventoryChasing * 100,
+        hours: showHours(hrs),
+      }),
     })
   }
 
@@ -225,6 +286,14 @@ export function computeSavings(input: CalculatorInputs, units?: FormulaUnits): C
       hoursSavedPerMonth: 0,
       moneySavedPerMonth: round(money),
       formula: `${input.itemsLostPerMonth} ${u.itemsPerMonth} × ${input.costPerItem} ${input.currency} × ${MULTIPLIERS.inventoryRecovery * 100}% ${u.recovered}`,
+      explanation: say('inventoryMoney', {
+        items: fmt(input.itemsLostPerMonth),
+        cost: fmt(input.costPerItem),
+        cur: input.currency,
+        exposure: fmt(Math.round(inventoryExposureMonthly ?? 0)),
+        pct: MULTIPLIERS.inventoryRecovery * 100,
+        money: fmt(Math.round(money)),
+      }),
     })
   }
 

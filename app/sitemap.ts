@@ -1,5 +1,5 @@
 import type { MetadataRoute } from 'next'
-import { LOCALES } from '@/lib/locales'
+import { LOCALES, type Locale } from '@/lib/locales'
 import { getAllPosts } from '@/lib/blog'
 
 const BASE = 'https://movena.io'
@@ -41,21 +41,44 @@ export default function sitemap(): MetadataRoute.Sitemap {
     }))
   })
 
-  // Each post exists in exactly one language (the locale set in its
-  // frontmatter), so we emit one canonical URL per post and skip hreflang
-  // alternates. This avoids the duplicate-content trap where Google sees the
-  // same post under both /en/blog/... and /da/blog/...
+  // One entry per post per language that actually has a file, with hreflang
+  // alternates when both versions exist. Fallback URLs (an untranslated
+  // article served under the other locale) are noindex, so they stay out.
+  //
+  // Note: Next 13.5 drops `alternates` when it serialises the sitemap -- no
+  // xhtml:link elements reach sitemap.xml, and the same is true of the static
+  // entries above. The hreflang that Google actually reads is the <link> pair
+  // in each page's <head>, which is emitted correctly. These stay so the
+  // sitemap starts carrying them the day we move to Next 14+.
   const posts = getAllPosts()
+  const slugsByKey = new Map<string, Partial<Record<Locale, string>>>()
+  for (const post of posts) {
+    const entry = slugsByKey.get(post.key) ?? {}
+    entry[post.locale] = post.slug
+    slugsByKey.set(post.key, entry)
+  }
+
   const postUrls: MetadataRoute.Sitemap = posts.map((post) => {
     const lastModified = (() => {
       const d = new Date(post.date)
       return Number.isNaN(d.getTime()) ? now : d
     })()
+    const siblings = slugsByKey.get(post.key) ?? {}
+    const hasPair = Boolean(siblings.en && siblings.da)
     return {
       url: `${BASE}/${post.locale}/blog/${post.slug}`,
       lastModified,
       changeFrequency: 'monthly' as const,
       priority: 0.6,
+      alternates: hasPair
+        ? {
+            languages: {
+              en: `${BASE}/en/blog/${siblings.en}`,
+              da: `${BASE}/da/blog/${siblings.da}`,
+              'x-default': `${BASE}/en/blog/${siblings.en}`,
+            },
+          }
+        : undefined,
     }
   })
 

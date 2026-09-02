@@ -170,6 +170,24 @@
     transform: translateY(0);
   }
 
+  /* Integration marquee. The track is two identical halves, so translating
+     it by -50% lands exactly on the start of the second half and the loop is
+     seamless with no JS and no dependency. Each half repeats the list enough
+     times to stay wider than the viewport (see Integrations.tsx). */
+  .marquee {
+    overflow: hidden;
+    -webkit-mask-image: linear-gradient(to right, transparent, #000 8%, #000 92%, transparent);
+    mask-image: linear-gradient(to right, transparent, #000 8%, #000 92%, transparent);
+  }
+  .marquee-track {
+    display: flex;
+    width: max-content;
+    animation: marquee 55s linear infinite;
+  }
+  .marquee:hover .marquee-track {
+    animation-play-state: paused;
+  }
+
   @media (prefers-reduced-motion: reduce) {
     .reveal,
     .reveal-left,
@@ -188,6 +206,20 @@
       transform: none;
       transition: none;
     }
+
+    /* No motion: drop the animation, drop the fade mask, and hide the
+       duplicate copy so the list reads once. It stays swipeable. */
+    .marquee {
+      overflow-x: auto;
+      -webkit-mask-image: none;
+      mask-image: none;
+    }
+    .marquee-track {
+      animation: none;
+    }
+    .marquee-dup {
+      display: none;
+    }
   }
 
   /* Hide scrollbar but allow scrolling */
@@ -198,6 +230,11 @@
   .no-scrollbar::-webkit-scrollbar {
     display: none;
   }
+}
+
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
 }
 
 @keyframes shimmer {

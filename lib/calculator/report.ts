@@ -39,8 +39,11 @@ export function buildVisitorEmail({ locale, inputs, result }: LeadPayload) {
         r.moneySavedPerMonth > 0
           ? `${money(locale, r.moneySavedPerMonth)} ${perMonth}`
           : `${hours(locale, r.hoursSavedPerMonth)} ${c.units.hoursPerMonth}`
+      const explanation = r.explanation
+        ? `<br><span style="color:#475569;font-weight:400;font-size:13px;line-height:1.5;">${r.explanation}</span>`
+        : ''
       return `<tr>
-        <td style="padding:10px 0;border-bottom:1px solid #E2E8F0;color:#0B1F3B;font-weight:600;font-size:14px;">${c.result.rowLabels[r.key]}<br><span style="color:#94A3B8;font-weight:400;font-size:12px;font-family:monospace;">${r.formula}</span></td>
+        <td style="padding:10px 0;border-bottom:1px solid #E2E8F0;color:#0B1F3B;font-weight:600;font-size:14px;">${c.result.rowLabels[r.key]}${explanation}<br><span style="color:#94A3B8;font-weight:400;font-size:12px;font-family:monospace;">${r.formula}</span></td>
         <td style="padding:10px 0;border-bottom:1px solid #E2E8F0;text-align:right;color:#0B1F3B;font-weight:700;font-size:14px;white-space:nowrap;">${value}</td>
       </tr>`
     })
@@ -61,10 +64,10 @@ export function buildVisitorEmail({ locale, inputs, result }: LeadPayload) {
     <p style="font-size:15px;color:#475569;margin:0 0 4px;">${fill(c.result.perYear, { value: money(locale, result.headlineAnnual), cur })}</p>
     ${result.totalHoursPerMonth > 0 ? `<p style="font-size:15px;color:#0B1F3B;font-weight:600;">${fill(c.result.hoursLine, { hours: hours(locale, result.totalHoursPerMonth) })}</p>` : ''}
     ${upsideHtml ? `<div style="margin:20px 0;padding:16px;background:#EFF6FF;border-radius:12px;">${upsideHtml}</div>` : ''}
-    <h2 style="font-size:14px;text-transform:uppercase;letter-spacing:0.5px;color:#475569;margin-top:28px;">${c.result.breakdownTitle}</h2>
+    <h2 style="font-size:14px;text-transform:uppercase;letter-spacing:0.5px;color:#475569;margin-top:28px;margin-bottom:6px;">${c.result.breakdownTitle}</h2>
+    <p style="font-size:13px;color:#64748B;line-height:1.6;margin:0 0 12px;">${c.result.percentageSource}</p>
     <table style="width:100%;border-collapse:collapse;">${rowsHtml}</table>
     ${result.inventoryExposureMonthly != null ? `<p style="font-size:13px;color:#991B1B;background:#FEF2F2;padding:12px;border-radius:8px;margin-top:12px;">${fill(c.result.exposureNote, { value: money(locale, result.inventoryExposureMonthly), cur })}</p>` : ''}
-    <p style="font-size:12px;color:#475569;margin-top:16px;line-height:1.6;">${c.result.assumptions}</p>
     <div style="margin-top:28px;padding:24px;background:#0B1F3B;border-radius:12px;text-align:center;">
       <p style="color:#fff;font-size:18px;font-weight:700;margin:0 0 8px;">${c.result.ctaTitle}</p>
       <p style="color:rgba(255,255,255,0.6);font-size:14px;margin:0 0 16px;">${c.result.ctaSubtitle}</p>
@@ -79,12 +82,14 @@ export function buildVisitorEmail({ locale, inputs, result }: LeadPayload) {
     result.totalHoursPerMonth > 0 ? fill(c.result.hoursLine, { hours: hours(locale, result.totalHoursPerMonth) }) : '',
     '',
     c.result.breakdownTitle,
+    c.result.percentageSource,
     ...result.rows.map((r) => {
       const value =
         r.moneySavedPerMonth > 0
           ? `${money(locale, r.moneySavedPerMonth)} ${perMonth}`
           : `${hours(locale, r.hoursSavedPerMonth)} ${c.units.hoursPerMonth}`
-      return `- ${c.result.rowLabels[r.key]}: ${value}  (${r.formula})`
+      const line = `- ${c.result.rowLabels[r.key]}: ${value}  (${r.formula})`
+      return r.explanation ? `${line}\n  ${r.explanation}` : line
     }),
     '',
     `${c.result.ctaButton}: ${DEMO_URL}`,

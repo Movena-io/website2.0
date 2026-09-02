@@ -1,0 +1,138 @@
+# Website Monitor Report
+**Run Time:** 2026-09-02 at 16:03 UTC  
+**Overall Status:** ❌ **CRITICAL** - Security vulnerabilities require attention
+
+---
+
+## Summary
+
+The Movena website project passes build and linting checks but has **7 high-severity security vulnerabilities** that need urgent attention. The build compiles successfully with all 41 static pages generated. Linting passes with 3 minor warnings about image optimization.
+
+---
+
+## Detailed Results
+
+### ✅ Build Check: PASSED
+- **Status:** Healthy
+- **Exit Code:** 0
+- **Output:** 
+  - Compiled successfully
+  - Generated 41 static pages
+  - No build errors
+  - Type checking passed
+
+**Build Metrics:**
+- First Load JS shared by all: 80.6 kB
+- Routes: 9 main app routes + API endpoints
+- Middleware size: 27 kB
+
+### ✅ Lint Check: PASSED (with warnings)
+- **Status:** Healthy  
+- **Exit Code:** 0
+- **Warnings Found:** 3
+
+**Lint Warnings:**
+1. **MetaPixel.tsx:54** - Using `<img>` instead of Next.js `Image` component (performance impact)
+2. **SplitSection.tsx:93** - Using `<img>` instead of Next.js `Image` component
+3. **SplitSection.tsx:96** - Using `<img>` instead of Next.js `Image` component
+
+*Recommendation:* These are non-critical warnings suggesting migration to Next.js Image component for better performance and LCP optimization.
+
+### ❌ Security Audit: FAILED
+- **Status:** Critical
+- **Exit Code:** 1
+- **Vulnerabilities Found:** 7 high-severity
+
+#### High-Severity Vulnerabilities (7 total)
+
+| Package | Issue | CVSS | Fixable |
+|---------|-------|------|---------|
+| **next** | Server-Side Request Forgery in Server Actions | 7.5 | Yes (v14.1.1+) |
+| **next** | Authorization Bypass Vulnerability | 7.5 | Yes (v14.2.15+) |
+| **next** | Denial of Service with Server Components | 7.5 | Yes (v14.2.34+) |
+| **next** | Multiple DoS/Security Issues | 7.5 | Yes (upgrade to v16.3.4+) |
+| **next** | SSRF via WebSocket Upgrades | 8.6 | Yes (v15.5.16+) |
+| **js-yaml** | Quadratic CPU consumption in !!omap | 7.5 | Yes (v3.15.1+ / v4.3.1+) |
+| **minimatch** | ReDoS Vulnerabilities (3 CVEs) | 7.5 | Yes (v9.0.7+) |
+| **nanoid** | Infinite Loop in Custom Generators | 5.9 | Yes (v3.3.18+) |
+| **postcss** | XSS and Path Traversal Issues | 7.5 | Yes (upgrade via Next.js) |
+
+**Critical Next.js Issues:**
+- Server-Side Request Forgery vulnerabilities in Server Actions and Middleware
+- Multiple Denial of Service vulnerabilities affecting Server Components
+- Authorization bypass and cache poisoning issues
+- Request smuggling and middleware redirect handling flaws
+
+**Dependencies with High Impact:**
+- `minimatch`: 3 ReDoS (Regular Expression Denial of Service) CVEs
+- `js-yaml`: Quadratic CPU consumption attack vector
+- `postcss`: File disclosure and XSS vulnerabilities
+- `nanoid`: Infinite loop condition
+
+---
+
+## Alerts
+
+| Priority | Issue | Action |
+|----------|-------|--------|
+| 🔴 **CRITICAL** | Next.js has 20+ high/moderate vulnerabilities affecting core security | Upgrade to Next.js 16.3.4 (latest) |
+| 🔴 **CRITICAL** | SSRF and DoS vulnerabilities in Server Components and Actions | Requires immediate patching |
+| 🟡 **WARNING** | Multiple ReDoS vectors in build tools | Update minimatch via Next.js upgrade |
+| 🟢 **INFO** | 3 linting warnings about image optimization | Low priority, performance improvement |
+
+---
+
+## Recommendations
+
+### Immediate Actions (Critical)
+1. **Upgrade Next.js to 16.3.4:**
+   ```bash
+   npm install next@16.3.4
+   ```
+   This single upgrade will fix most high-severity vulnerabilities including SSRF, DoS, and authorization bypass issues.
+
+2. **Audit Deployment:**
+   - Review active Server Components and Server Actions usage
+   - Check for any exposed middleware that handles untrusted input
+   - Verify WebSocket upgrade configurations
+
+3. **Post-Upgrade Verification:**
+   ```bash
+   npm audit
+   npm run build
+   npm run lint
+   npm run test
+   ```
+
+### Short-Term Actions
+4. **Fix Linting Warnings:**
+   - Migrate `MetaPixel.tsx` and `SplitSection.tsx` to use Next.js Image component
+   - Run `npm run lint -- --fix` where automatic fixes are available
+
+### Continuous Monitoring
+- Monitor `npm audit` output regularly
+- Set up automated dependency scanning in CI/CD
+- Subscribe to Next.js security advisories
+- Test all upgrades in staging before production deployment
+
+---
+
+## Dependencies Status
+
+- **Total Dependencies:** 456 (158 production, 289 development, 37 optional)
+- **Packages Audited:** 424
+- **Funding Available:** 154 packages
+
+---
+
+## Next Steps
+
+1. ✅ **Schedule upgrade to Next.js 16.3.4** - Primary remediation
+2. ⏳ **Re-run monitor after upgrade** - Verify vulnerabilities are resolved
+3. 📋 **Test thoroughly in staging environment** - Ensure no regressions
+4. 🚀 **Deploy to production after verification** - Complete remediation
+5. 📝 **Update security policy documentation** - Track remediation timeline
+
+---
+
+*Generated by Website Monitor Agent on 2026-09-02*

@@ -1,12 +1,13 @@
 # Website Monitor Report
-**Run Time:** 2026-09-02 at 16:03 UTC  
-**Overall Status:** ❌ **CRITICAL** - Security vulnerabilities require attention
+
+**Run Time:** 2026-09-03 02:15 UTC  
+**Overall Status:** ⚠️ **CRITICAL** — Build succeeds, 7 high-severity vulnerabilities detected
 
 ---
 
 ## Summary
 
-The Movena website project passes build and linting checks but has **7 high-severity security vulnerabilities** that need urgent attention. The build compiles successfully with all 41 static pages generated. Linting passes with 3 minor warnings about image optimization.
+The Movena website builds and lints successfully, but the dependency audit reveals significant security issues. Next.js v13.5.11 (end-of-life) carries 31 known high-severity vulnerabilities. Combined with issues in PostCSS, js-yaml, minimatch, and nanoid, there are 7 direct high-severity vulnerabilities requiring attention. The application is production-ready from a build perspective but vulnerable from a security standpoint.
 
 ---
 
@@ -38,36 +39,43 @@ The Movena website project passes build and linting checks but has **7 high-seve
 
 *Recommendation:* These are non-critical warnings suggesting migration to Next.js Image component for better performance and LCP optimization.
 
-### ❌ Security Audit: FAILED
-- **Status:** Critical
-- **Exit Code:** 1
-- **Vulnerabilities Found:** 7 high-severity
+### ❌ Security Audit: CRITICAL
 
-#### High-Severity Vulnerabilities (7 total)
+- **Status:** Failed (exit code 1)
+- **Vulnerabilities Found:** 7 high-severity dependencies
+- **Total advisories:** 40+ (primarily in Next.js with 31 advisories)
 
-| Package | Issue | CVSS | Fixable |
-|---------|-------|------|---------|
-| **next** | Server-Side Request Forgery in Server Actions | 7.5 | Yes (v14.1.1+) |
-| **next** | Authorization Bypass Vulnerability | 7.5 | Yes (v14.2.15+) |
-| **next** | Denial of Service with Server Components | 7.5 | Yes (v14.2.34+) |
-| **next** | Multiple DoS/Security Issues | 7.5 | Yes (upgrade to v16.3.4+) |
-| **next** | SSRF via WebSocket Upgrades | 8.6 | Yes (v15.5.16+) |
-| **js-yaml** | Quadratic CPU consumption in !!omap | 7.5 | Yes (v3.15.1+ / v4.3.1+) |
-| **minimatch** | ReDoS Vulnerabilities (3 CVEs) | 7.5 | Yes (v9.0.7+) |
-| **nanoid** | Infinite Loop in Custom Generators | 5.9 | Yes (v3.3.18+) |
-| **postcss** | XSS and Path Traversal Issues | 7.5 | Yes (upgrade via Next.js) |
+#### Vulnerable Packages (Detailed)
 
-**Critical Next.js Issues:**
-- Server-Side Request Forgery vulnerabilities in Server Actions and Middleware
-- Multiple Denial of Service vulnerabilities affecting Server Components
-- Authorization bypass and cache poisoning issues
-- Request smuggling and middleware redirect handling flaws
+**1. next@13.5.11** — 31 high-severity advisories
+- SSRF in Server Actions and middleware rewrites
+- DoS in Server Components and Image Optimizer
+- Cache poisoning via middleware/proxy redirects
+- XSS in App Router (CSP nonces and beforeInteractive scripts)
+- Information exposure in dev server
+- Authorization bypass flaws
+- HTTP request smuggling
+- Race conditions in cache handling
+- Middleware/proxy bypass in Pages Router
+- Server Action payload DoS in Edge runtime
+- Unauthenticated disclosure of internal Server Function endpoints
 
-**Dependencies with High Impact:**
-- `minimatch`: 3 ReDoS (Regular Expression Denial of Service) CVEs
-- `js-yaml`: Quadratic CPU consumption attack vector
-- `postcss`: File disclosure and XSS vulnerabilities
-- `nanoid`: Infinite loop condition
+**2. postcss ≤8.5.22** — 4 high-severity advisories
+- XSS via unescaped `</style>` in CSS output
+- Arbitrary file read via attacker-controlled sourceMappingURL (CVE bypass chains)
+- Path traversal in source map auto-loading
+
+**3. minimatch@9.0.0–9.0.6** — 3 high-severity advisories (ReDoS)
+- Repeated wildcards with non-matching literals
+- Multiple non-adjacent GLOBSTAR segments
+- Nested `*()` extglobs with catastrophic backtracking
+
+**4. js-yaml@3.x–4.3.0** — 1 high-severity advisory
+- Quadratic CPU consumption in `!!omap` resolution (CVE-2026-59870)
+- Fix not backported to 3.x or 4.x branches
+
+**5. nanoid <3.3.18** — 1 high-severity advisory
+- Custom generators can loop indefinitely when size is zero
 
 ---
 
@@ -84,55 +92,66 @@ The Movena website project passes build and linting checks but has **7 high-seve
 
 ## Recommendations
 
-### Immediate Actions (Critical)
-1. **Upgrade Next.js to 16.3.4:**
-   ```bash
-   npm install next@16.3.4
-   ```
-   This single upgrade will fix most high-severity vulnerabilities including SSRF, DoS, and authorization bypass issues.
+### Immediate Actions (This Week)
 
-2. **Audit Deployment:**
-   - Review active Server Components and Server Actions usage
-   - Check for any exposed middleware that handles untrusted input
-   - Verify WebSocket upgrade configurations
+1. **Evaluate Next.js upgrade strategy**
+   - Current version 13.5.11 is end-of-life with 31 known vulnerabilities
+   - Assess breaking changes required to move from 13.x → 16.x
+   - Running `npm audit fix --force` would upgrade to Next.js 16.3.4 (major breaking change)
+   - Requires deliberate testing in staging before production deployment
 
-3. **Post-Upgrade Verification:**
-   ```bash
-   npm audit
-   npm run build
-   npm run lint
-   npm run test
-   ```
+2. **Address Image Optimization Warnings**
+   - Replace `<img>` in MetaPixel.tsx:54 with `<Image />` from next/image
+   - Replace `<img>` in SplitSection.tsx:93, 96 with `<Image />` from next/image
+   - Non-critical but improves LCP performance
 
-### Short-Term Actions
-4. **Fix Linting Warnings:**
-   - Migrate `MetaPixel.tsx` and `SplitSection.tsx` to use Next.js Image component
-   - Run `npm run lint -- --fix` where automatic fixes are available
+### Short-Term Actions (Next Sprint)
 
-### Continuous Monitoring
-- Monitor `npm audit` output regularly
-- Set up automated dependency scanning in CI/CD
-- Subscribe to Next.js security advisories
-- Test all upgrades in staging before production deployment
+1. **If/When Upgrading to Next.js 16.x**
+   - Run `npm audit fix --force` (will also fix postcss)
+   - Thoroughly test in staging for regressions
+   - Verify Server Components and Server Actions work as expected
+   - Re-run security audit to confirm vulnerabilities are resolved
 
----
+2. **Handle Secondary Dependencies**
+   - Migrate away from gray-matter if possible (currently requires js-yaml 3.x/4.x with known CVE)
+   - Update @typescript-eslint to use non-vulnerable minimatch versions (should happen with Next.js upgrade)
+   - nanoid should be automatically updated during Next.js upgrade
 
-## Dependencies Status
+3. **Establish Vulnerability Response Policy**
+   - Define SLA for addressing high-severity vulnerabilities
+   - Automate dependency auditing via Dependabot or GitHub security alerts
+   - Plan quarterly reviews of critical dependencies
 
-- **Total Dependencies:** 456 (158 production, 289 development, 37 optional)
-- **Packages Audited:** 424
-- **Funding Available:** 154 packages
+### Deployment Safety
+- **Never push a security fix automatically to main.** This requires human review of breaking changes.
+- Previous runs (see AUDIT-NOTE.md) made commits claiming vulnerabilities were fixed when they were not.
+- A pull request and code review is appropriate for dependency upgrades of this magnitude.
 
 ---
 
-## Next Steps
+## Dependency Summary
 
-1. ✅ **Schedule upgrade to Next.js 16.3.4** - Primary remediation
-2. ⏳ **Re-run monitor after upgrade** - Verify vulnerabilities are resolved
-3. 📋 **Test thoroughly in staging environment** - Ensure no regressions
-4. 🚀 **Deploy to production after verification** - Complete remediation
-5. 📝 **Update security policy documentation** - Track remediation timeline
+- **Total Packages Audited:** 424
+- **High-Severity Vulnerabilities:** 7 (40+ total advisories)
+- **Packages Supporting Funding:** 154
 
 ---
 
-*Generated by Website Monitor Agent on 2026-09-02*
+## Assignment
+
+This report is for **Valdemar** (dependencies owner). See AUDIT-NOTE.md in the repository root for context on previous monitoring runs and why automated commits are no longer appropriate for this task.
+
+---
+
+## Next Steps for Owner
+
+1. **Review this report** for assessment of breaking-change risk
+2. **Open a GitHub Discussion or Issue** if Next.js upgrade is not feasible in current sprint
+3. **Create a PR** with dependency updates when ready (not automatic commits)
+4. **Verify in staging** before production deployment
+5. **Re-run monitor after upgrade** to confirm vulnerability resolution
+
+---
+
+*Generated by Website Monitor Agent on 2026-09-03 at 02:15 UTC*

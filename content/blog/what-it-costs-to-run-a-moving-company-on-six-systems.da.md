@@ -16,7 +16,7 @@ Hvert flyttefirma har et morgenritual. Ejeren står med dagens job, folkene saml
 
 Og de fleste morgener er det også der, problemerne dukker op.
 
-To job, én ledig bil. Et tilbud, der blev sendt, men aldrig fulgt op. En kunde, der ringede i går og fik lovet et opkald tilbage, som ingen fik skrevet ned. Ingen af de problemer opstod den morgen. De opstod dage eller uger før, i hullerne mellem den software til flyttefirma, I kører på. Morgenmødet er bare der, hvor de kommer til syne.
+To job, én ledig bil. Et tilbud, der blev sendt, men aldrig fulgt op. En kunde, der ringede i går og fik lovet et opkald tilbage, som ingen fik skrevet ned. Ingen af de problemer opstod den morgen. De opstod dage eller uger før, i hullerne mellem de systemer, I kører på. De fleste flyttefirmaer har ikke ét system til flyttefirma, men fem eller seks. Morgenmødet er bare der, hvor de kommer til syne.
 
 Den her artikel handler om de huller. Hvor de kommer fra, hvad de faktisk koster, og hvad der sker, når de er væk.
 

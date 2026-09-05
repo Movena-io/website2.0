@@ -1,7 +1,8 @@
 # Website Monitor Report
 
-**Run Timestamp**: 2026-09-05 03:05 UTC  
-**Overall Status**: ⚠️ **WARNING** - Security vulnerabilities detected (Build & Lint healthy)
+**Run Timestamp**: 2026-09-05 (Automated Scheduled Check)
+
+**Overall Status**: ⚠️ **WARNING** - Build successful, lint warnings present, security vulnerabilities detected
 
 ---
 
@@ -9,103 +10,137 @@
 
 | Check | Status | Details |
 |-------|--------|---------|
-| Build | ✅ Healthy | Successfully compiled, all 41 pages generated |
-| Lint | ⚠️ Warning | 3 warnings about `<img>` elements (non-critical) |
-| Security | 🔴 Critical | 4 high-severity vulnerabilities |
+| **Build** | ✅ Passed | Next.js build successful, 41 routes generated |
+| **Lint** | ⚠️ Warnings | 3 warnings (img element usage) |
+| **Dependencies** | ✅ Installed | 423 packages installed (154 seeking funding) |
+| **Security** | ❌ Critical | 7 high-severity vulnerabilities found |
 
 ---
 
-## Build Check ✅
+## Build Check
 
-**Status**: PASSED
+✅ **PASSED** - Next.js compilation successful
 
-The Next.js application compiled successfully with no errors.
+```
+✓ Compiled successfully
+✓ Generating static pages (41/41)
+✓ Collecting build traces
+```
 
-**Output**:
-- Compiled successfully
-- Generated 41 static pages
-- Route sizes: Main app ~169 kB (with shared chunks ~80.6 kB)
-- No TypeScript errors
-
----
-
-## Lint Check ⚠️
-
-**Status**: PASSED WITH WARNINGS (3 warnings)
-
-Linting completed successfully. Found 3 non-critical warnings:
-
-1. **MetaPixel.tsx:54** - Using `<img>` instead of Next.js `<Image />`
-2. **SplitSection.tsx:93** - Using `<img>` instead of Next.js `<Image />`
-3. **SplitSection.tsx:96** - Using `<img>` instead of Next.js `<Image />`
-
-**Recommendation**: Consider migrating `<img>` elements to Next.js `<Image />` component for automatic optimization and better performance.
+### Build Output Details
+- **Static Routes Generated**: 41 pages
+- **First Load JS Shared**: 80.6 kB
+- **Middleware**: 27 kB
+- **Build Status**: All pages compiled and optimized successfully
 
 ---
 
-## Security Audit ⚠️ WARNING
+## Lint Check
 
-**Status**: VULNERABLE - 7 HIGH SEVERITY VULNERABILITIES
+⚠️ **WARNINGS** - 3 ESLint warnings found
 
-### Detected Vulnerabilities
+### Issues Identified
 
-#### 1. **Next.js** - 29 High Severity Advisories
-Multiple security issues in the current Next.js version affecting:
-- **Denial of Service (DoS)**: Image optimization, Server Components, Server Actions
-- **Server-Side Request Forgery (SSRF)**: Middleware/proxy redirects, WebSocket upgrades, rewrites
-- **Cross-Site Scripting (XSS)**: App Router CSP nonces, beforeInteractive scripts
-- **Cache Poisoning/Confusion**: React Server Component cache, response body cache
-- **Information Disclosure**: Dev server origin verification, internal Server Function endpoints
-- **Authorization Bypass**: API route protection issues
-- **Middleware/Proxy Bypass**: Pages Router i18n handling
-- **Data Handling**: Request deserialization, unbounded payloads, invalid UTF-8 sequences
+1. **components/MetaPixel.tsx:54:9**
+   - Warning: Using `<img>` could result in slower LCP
+   - Recommendation: Use `<Image />` from `next/image`
+   
+2. **components/SplitSection.tsx:93:17**
+   - Warning: Using `<img>` could result in slower LCP
+   - Recommendation: Use `<Image />` from `next/image`
 
-**Fix Available**: Upgrade to next@16.3.4 via `npm audit fix --force` (breaking change)
+3. **components/SplitSection.tsx:96:19**
+   - Warning: Using `<img>` could result in slower LCP
+   - Recommendation: Use `<Image />` from `next/image`
 
-#### 2. **PostCSS** - High Severity
-- XSS via unescaped `</style>` in CSS Stringify Output (GHSA-qx2v-qp2m-jg93)
-- Arbitrary file read via sourceMappingURL (GHSA-6g55-p6wh-862q, GHSA-fxqj-rqcc-2cmp)
-- Path traversal in source map handling (GHSA-r28c-9q8g-f849)
+**Action Required**: Update 2 components to use Next.js Image optimization for improved performance.
 
-**Fix Available**: Included in next@16.3.4 upgrade
+---
+
+## Security Audit
+
+❌ **CRITICAL** - 7 high-severity vulnerabilities detected
+
+### Vulnerable Dependencies
+
+1. **@typescript-eslint/parser** (HIGH)
+   - Affected: 6.16.0 - 7.5.0
+   - Via: @typescript-eslint/typescript-estree
+   - Fix Available: Yes
+
+2. **@typescript-eslint/typescript-estree** (HIGH)
+   - Affected: 6.16.0 - 7.5.0
+   - Via: minimatch
+   - Fix Available: Yes
+
+3. **minimatch** (HIGH - ReDoS Vulnerabilities)
+   - Affected: 9.0.0 - 9.0.6
+   - Issues: Multiple ReDoS attacks and wildcard backtracking
+   - Fix Available: Yes
+
+4. **js-yaml** (HIGH - CVE-2026-59870)
+   - Affected: 3.0.0 - 3.15.0, 4.0.0 - 4.3.0
+   - Issue: Quadratic CPU consumption in omap resolution
+   - CVSS Score: 7.5
+   - Fix Available: Yes
+
+5. **nanoid** (HIGH)
+   - Affected: < 3.3.18
+   - Issue: Custom generators can loop indefinitely when size is zero
+   - CVSS Score: 5.9
+   - Fix Available: Yes
+
+6. **next** (MIXED SEVERITY)
+   - Multiple vulnerabilities detected across versions 0.9.9 - 16.3.0-preview.10
+   - Includes SSRF via rewrites, information disclosure, and unbounded payload issues
+   - Fix Available: Yes (requires upgrade to 16.3.4+)
+
+7. **postcss** (HIGH)
+   - Multiple vulnerabilities: XSS, arbitrary file read, path traversal
+   - Affected: <= 8.5.22
+   - Fix Available: Yes
+
+### Vulnerability Statistics
+- **Total Vulnerabilities**: 7
+- **High Severity**: 7
+- **Moderate**: 0
+- **Low**: 0
+- **Critical**: 0
+
+### Dependencies Overview
+- **Production Dependencies**: 158
+- **Development Dependencies**: 289
+- **Optional Dependencies**: 37
+- **Total Dependencies**: 456
 
 ---
 
 ## Recommendations
 
-### Immediate Actions Required 🚨
+### 🔴 Priority 1: Security Updates
+- Run `npm audit fix` to automatically patch vulnerabilities
+- Major dependency updates may be required (particularly Next.js to 16.3.4+)
+- Test thoroughly after applying fixes for breaking changes
 
-1. **Update Next.js**: The current version has 31 known vulnerabilities affecting core security areas:
-   ```bash
-   npm audit fix --force
-   npm install next@16.3.4
-   ```
-   **Note**: This is a breaking change - test thoroughly after upgrade
+### 🟡 Priority 2: Image Optimization
+- Replace `<img>` elements with Next.js `<Image />` component in:
+  - `components/MetaPixel.tsx` (line 54)
+  - `components/SplitSection.tsx` (lines 93, 96)
+- This will improve Core Web Vitals metrics
 
-2. **Update Dependencies**: Run full audit fix to address nanoid and js-yaml:
-   ```bash
-   npm audit fix
-   ```
-
-3. **Testing**: After updates, re-run:
-   - `npm run build` (verify no build regressions)
-   - `npm run lint` (check code quality)
-   - Full regression testing on all application pages
-
-### Post-Update Verification
-
-- Verify all 41 pages still build correctly
-- Test Server Actions and middleware functionality
-- Test image optimization routes
-- Verify cache behavior hasn't changed
-- Run performance benchmarks on critical routes
+### 🟢 Priority 3: Maintenance
+- Update deprecated packages (rimraf 3.x, glob 7.x, eslint 8.x)
+- Consider upgrading npm (10.9.7 → 12.0.2 available)
 
 ---
 
 ## Next Steps
 
-1. Review Next.js 16.3.4 changelog for breaking changes
-2. Apply security updates in a feature branch with full testing
-3. Re-run monitor after updates to confirm all vulnerabilities are resolved
-4. Commit updated package-lock.json
-5. Deploy with caution, monitoring for unexpected behavior
+1. **Address Security**: `npm audit fix` or `npm audit fix --force` for breaking changes
+2. **Update Images**: Refactor image imports in identified components
+3. **Test & Validate**: Run full test suite after updates
+4. **Monitor**: Re-run monitor on next scheduled check
+
+---
+
+*Report generated automatically by website-monitor agent*

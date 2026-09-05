@@ -1,146 +1,107 @@
 # Website Monitor Report
 
-**Run Timestamp**: 2026-09-05 (Automated Scheduled Check)
-
-**Overall Status**: ⚠️ **WARNING** - Build successful, lint warnings present, security vulnerabilities detected
+**Run timestamp:** 2026-09-05 (automated scheduled check)  
+**Overall Status:** ❌ **CRITICAL** - Build succeeds but security vulnerabilities require immediate attention
 
 ---
 
 ## Summary
 
-| Check | Status | Details |
-|-------|--------|---------|
-| **Build** | ✅ Passed | Next.js build successful, 41 routes generated |
-| **Lint** | ⚠️ Warnings | 3 warnings (img element usage) |
-| **Dependencies** | ✅ Installed | 423 packages installed (154 seeking funding) |
-| **Security** | ❌ Critical | 7 high-severity vulnerabilities found |
+The Movena website build pipeline completed successfully, but the security audit revealed **7 critical high-severity vulnerabilities** that pose significant risks. While the application compiles and linting produces only minor warnings, the dependency vulnerabilities must be addressed urgently.
 
 ---
 
-## Build Check
+## Check Results
 
-✅ **PASSED** - Next.js compilation successful
+### ✅ Build Status: **PASSED**
+- **Command:** `npm run build`
+- **Result:** Compilation successful
+- **Output:** Successfully generated 41 static pages
+- **Build time:** ~30 seconds
 
-```
-✓ Compiled successfully
-✓ Generating static pages (41/41)
-✓ Collecting build traces
-```
-
-### Build Output Details
-- **Static Routes Generated**: 41 pages
-- **First Load JS Shared**: 80.6 kB
-- **Middleware**: 27 kB
-- **Build Status**: All pages compiled and optimized successfully
+**Build Details:**
+- Routes compiled: ✓ 41/41 static pages
+- Middleware: ✓ Generated (27 kB)
+- Assets optimized: ✓
+- Telemetry: Enabled (anonymous)
 
 ---
 
-## Lint Check
+### ⚠️ Lint Status: **3 WARNINGS**
+- **Command:** `npm run lint`
+- **Result:** Code quality check passed with warnings
 
-⚠️ **WARNINGS** - 3 ESLint warnings found
+**Warnings Found:**
+1. `components/MetaPixel.tsx:54` - Using `<img>` instead of Next.js `<Image />`
+2. `components/SplitSection.tsx:93` - Using `<img>` instead of Next.js `<Image />`
+3. `components/SplitSection.tsx:96` - Using `<img>` instead of Next.js `<Image />`
 
-### Issues Identified
-
-1. **components/MetaPixel.tsx:54:9**
-   - Warning: Using `<img>` could result in slower LCP
-   - Recommendation: Use `<Image />` from `next/image`
-   
-2. **components/SplitSection.tsx:93:17**
-   - Warning: Using `<img>` could result in slower LCP
-   - Recommendation: Use `<Image />` from `next/image`
-
-3. **components/SplitSection.tsx:96:19**
-   - Warning: Using `<img>` could result in slower LCP
-   - Recommendation: Use `<Image />` from `next/image`
-
-**Action Required**: Update 2 components to use Next.js Image optimization for improved performance.
+**Severity:** Minor performance optimization opportunity (not blocking)
 
 ---
 
-## Security Audit
+### ❌ Security Audit: **7 HIGH-SEVERITY VULNERABILITIES**
+- **Command:** `npm audit`
+- **Result:** Critical vulnerabilities detected
+- **Affected packages:** 7 direct/indirect
 
-❌ **CRITICAL** - 7 high-severity vulnerabilities detected
+#### Critical Vulnerabilities:
 
-### Vulnerable Dependencies
+| Package | Issue | Severity | CVSS | Fix Available |
+|---------|-------|----------|------|---|
+| **next** (16.3.0-preview.10 and below) | 26+ vulnerabilities including: SSRF, DoS, XSS, cache poisoning, auth bypass | HIGH | Multiple | Yes (requires major version upgrade to 16.3.4) |
+| **postcss** (≤8.5.22) | 4 vulnerabilities: XSS, arbitrary file read, path traversal | HIGH | 7.5 | Yes (via next@16.3.4 upgrade) |
+| **js-yaml** (3.0.0-3.15.0, 4.0.0-4.3.0) | Quadratic CPU consumption (DoS) via !!omap resolution (CVE-2026-59870) | HIGH | 7.5 | Yes |
+| **minimatch** (9.0.0-9.0.6) | 3 ReDoS vulnerabilities via pattern matching | HIGH | 7.5 | Yes |
+| **nanoid** (<3.3.18) | Infinite loop when size is zero | HIGH | 5.9 | Yes |
 
-1. **@typescript-eslint/parser** (HIGH)
-   - Affected: 6.16.0 - 7.5.0
-   - Via: @typescript-eslint/typescript-estree
-   - Fix Available: Yes
-
-2. **@typescript-eslint/typescript-estree** (HIGH)
-   - Affected: 6.16.0 - 7.5.0
-   - Via: minimatch
-   - Fix Available: Yes
-
-3. **minimatch** (HIGH - ReDoS Vulnerabilities)
-   - Affected: 9.0.0 - 9.0.6
-   - Issues: Multiple ReDoS attacks and wildcard backtracking
-   - Fix Available: Yes
-
-4. **js-yaml** (HIGH - CVE-2026-59870)
-   - Affected: 3.0.0 - 3.15.0, 4.0.0 - 4.3.0
-   - Issue: Quadratic CPU consumption in omap resolution
-   - CVSS Score: 7.5
-   - Fix Available: Yes
-
-5. **nanoid** (HIGH)
-   - Affected: < 3.3.18
-   - Issue: Custom generators can loop indefinitely when size is zero
-   - CVSS Score: 5.9
-   - Fix Available: Yes
-
-6. **next** (MIXED SEVERITY)
-   - Multiple vulnerabilities detected across versions 0.9.9 - 16.3.0-preview.10
-   - Includes SSRF via rewrites, information disclosure, and unbounded payload issues
-   - Fix Available: Yes (requires upgrade to 16.3.4+)
-
-7. **postcss** (HIGH)
-   - Multiple vulnerabilities: XSS, arbitrary file read, path traversal
-   - Affected: <= 8.5.22
-   - Fix Available: Yes
-
-### Vulnerability Statistics
-- **Total Vulnerabilities**: 7
-- **High Severity**: 7
-- **Moderate**: 0
-- **Low**: 0
-- **Critical**: 0
-
-### Dependencies Overview
-- **Production Dependencies**: 158
-- **Development Dependencies**: 289
-- **Optional Dependencies**: 37
-- **Total Dependencies**: 456
+#### Dependency Chain Issues:
+- `@typescript-eslint/typescript-estree` → `minimatch` (HIGH)
+- `@typescript-eslint/parser` → `@typescript-eslint/typescript-estree` → `minimatch` (HIGH)
 
 ---
 
 ## Recommendations
 
-### 🔴 Priority 1: Security Updates
-- Run `npm audit fix` to automatically patch vulnerabilities
-- Major dependency updates may be required (particularly Next.js to 16.3.4+)
-- Test thoroughly after applying fixes for breaking changes
+### 🚨 **IMMEDIATE ACTION REQUIRED:**
 
-### 🟡 Priority 2: Image Optimization
-- Replace `<img>` elements with Next.js `<Image />` component in:
-  - `components/MetaPixel.tsx` (line 54)
-  - `components/SplitSection.tsx` (lines 93, 96)
-- This will improve Core Web Vitals metrics
+1. **Update Next.js to 16.3.4** - This is a breaking change but **critical** for security
+   ```bash
+   npm install next@16.3.4 --force
+   ```
+   - Resolves 26+ Next.js vulnerabilities and postcss issues
+   - Breaking change: Review [Next.js changelog](https://github.com/vercel/next.js/releases) for compatibility
+   - Test thoroughly after upgrade
 
-### 🟢 Priority 3: Maintenance
-- Update deprecated packages (rimraf 3.x, glob 7.x, eslint 8.x)
-- Consider upgrading npm (10.9.7 → 12.0.2 available)
+2. **Update js-yaml**
+   ```bash
+   npm install js-yaml@^4.3.1 or js-yaml@^3.15.1
+   ```
+   - Resolves Quadratic CPU consumption vulnerability
+
+3. **Update minimatch** (transitive via TypeScript ESLint)
+   - Should resolve after updating TypeScript ESLint packages
+   - Or manually: `npm install minimatch@^9.0.7 --save-dev`
+
+4. **Update nanoid**
+   - Resolves infinite loop issue
+
+### ⚠️ **FOLLOW-UP:**
+- Test application thoroughly after dependency updates
+- Review Next.js migration guide for any required code changes
+- Re-run `npm audit` to confirm all vulnerabilities are resolved
+- Address the 3 lint warnings by replacing `<img>` with Next.js `<Image />` component for better performance
 
 ---
 
 ## Next Steps
 
-1. **Address Security**: `npm audit fix` or `npm audit fix --force` for breaking changes
-2. **Update Images**: Refactor image imports in identified components
-3. **Test & Validate**: Run full test suite after updates
-4. **Monitor**: Re-run monitor on next scheduled check
+1. Run security-focused code review
+2. Schedule dependency update sprint
+3. Plan for Next.js 16.3.4 migration and testing
+4. Add pre-commit hook to fail on high-severity vulnerabilities
 
 ---
 
-*Report generated automatically by website-monitor agent*
+**Report generated by website-monitor agent**  
+**Next scheduled run:** Configured in system task schedule

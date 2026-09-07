@@ -1,150 +1,118 @@
-# Website Health Monitoring Report
+# Website Monitoring Report
 
-**Run Date**: 2026-09-06T14:00:00Z  
-**Overall Status**: ⚠️ **Warning** - Build successful, but 7 high-severity vulnerabilities detected
+**Run Timestamp**: 2026-09-07 (Automated)  
+**Overall Status**: ❌ **CRITICAL**
 
 ---
 
 ## Summary
 
-| Check | Status | Details |
-|-------|--------|---------|
-| **Build** | ✅ **Pass** | All 41 static pages generated successfully |
-| **Lint** | ⚠️ **Warnings** | 3 warnings (image optimization suggestions) |
-| **Security** | ❌ **Critical** | 7 high-severity vulnerabilities found |
+The website monitoring check has identified **critical security vulnerabilities** in core dependencies. While the build and type checking pass successfully, there are **7 high-severity vulnerabilities** that require immediate attention.
 
 ---
 
-## Build Check ✅
+## Detailed Results
 
-**Status**: SUCCESSFUL
+### ✅ Build Status: SUCCESS
 
-- Compiled successfully with no errors
-- Generated 41 static pages
-- All 12 dynamic routes pre-rendered
-- Build includes API routes and middleware
+```
+✓ Compiled successfully
+✓ Generating static pages (41/41)
+✓ All routes compiled
+✓ Production build ready
+```
 
-**Build Summary**:
-- First Load JS Shared: 80.6 kB
-- Largest page bundle: 16.3 kB (/savings-calculator)
-- Routes: 12 static pages, 2 dynamic routes, 3 API endpoints
-
----
-
-## Lint Check ⚠️
-
-**Status**: PASSED WITH WARNINGS
-
-Found 3 warnings (non-blocking):
-
-1. **MetaPixel.tsx:54** - `<img>` tag recommendation
-   - Suggestion: Use `<Image />` from `next/image` for optimization
-
-2. **SplitSection.tsx:93** - `<img>` tag recommendation
-   - Suggestion: Use `<Image />` from `next/image` for optimization
-
-3. **SplitSection.tsx:96** - `<img>` tag recommendation
-   - Suggestion: Use `<Image />` from `next/image` for optimization
-
-**Action**: Non-critical. Consider migrating to Next.js `<Image />` component for LCP improvements.
+Build output shows clean compilation with proper route generation and optimization.
 
 ---
 
-## Security Audit ❌
+### ⚠️ Lint Status: WARNINGS
 
-**Status**: 7 HIGH-SEVERITY VULNERABILITIES
+**3 warnings found** - all related to image optimization:
 
-### Critical Vulnerabilities
+| File | Issue | Count |
+|------|-------|-------|
+| `components/MetaPixel.tsx:54` | Using `<img>` instead of Next.js `<Image />` | 1 |
+| `components/SplitSection.tsx:93,96` | Using `<img>` instead of Next.js `<Image />` | 2 |
 
-1. **next (v16.3.0)** - Multiple Issues
-   - **SSRF in rewrites**: Server-Side Request Forgery via attacker-controlled destination hostname
-   - **Unauthenticated disclosure**: Internal Server Function endpoints exposed
-   - **Unbounded payload**: Server Action payload in Edge runtime
-   - **CVSS**: High impact, requires upgrade to v15.5.21 or later
-   - **Fix Available**: Yes, upgrade to next@16.3.4 (major version)
+**Impact**: Minor. These are performance optimizations that should be addressed to improve LCP (Largest Contentful Paint) and bandwidth usage.
 
-2. **postcss (v8.5.x)** - Multiple Critical Issues
-   - **Path Traversal** (GHSA-r28c-9q8g-f849): Arbitrary .map file disclosure via sourceMappingURL
-   - **Arbitrary file read** (GHSA-6g55-p6wh-862q): Information disclosure in CSS comments
-   - **XSS Vulnerability** (GHSA-qx2v-qp2m-jg93): Unescaped </style> in CSS output
-   - **CVSS**: 7.5 (High severity file read), 6.1 (Moderate XSS)
-   - **Fix Available**: Upgrade via next update
-
-3. **@typescript-eslint packages** (v6.x - 7.x)
-   - Vulnerable dependency chain through minimatch
-   - **Fix Available**: Yes, npm audit can fix
-
-4. **js-yaml** - Quadratic CPU Consumption (CVE-2026-59870)
-   - **Severity**: High (CVSS 7.5)
-   - **Issue**: ReDoS in !!omap resolution
-   - **Affected**: v3.0.0-3.15.0 and v4.0.0-4.3.0
-   - **Fix Available**: Yes, upgrade to safe versions
-
-5. **minimatch** - Multiple ReDoS Vulnerabilities
-   - ReDoS via repeated wildcards (GHSA-3ppc-4f35-3m26)
-   - ReDoS via GLOBSTAR segments (GHSA-7r86-cg39-jmmj)
-   - ReDoS via nested extglobs (GHSA-23c5-xmqv-rm74)
-   - **CVSS**: 7.5 (High)
-   - **Affected**: v9.0.0-9.0.6
-   - **Fix Available**: Yes, npm audit can fix
-
-6. **nanoid** - Infinite Loop Risk
-   - Custom generators can loop indefinitely when size is zero
-   - **Severity**: High (CVSS 5.9)
-   - **Fix Available**: Yes, upgrade to v3.3.18+
-
-### Vulnerability Statistics
-- **Total Vulnerabilities**: 7
-- **High Severity**: 7
-- **Moderate**: 0
-- **Low**: 0
-- **Critical**: 0
-- **Dependencies Affected**: Direct and transitive (ESLint, Next.js, PostCSS, Gray Matter)
+**Recommendation**: Update image components to use Next.js `<Image />` component.
 
 ---
 
-## Recommendations
+### ❌ Security Audit Status: CRITICAL
 
-### Immediate Actions (Critical)
+**7 HIGH-severity vulnerabilities detected**
 
-1. **Upgrade Next.js** (HIGHEST PRIORITY)
-   - Current: v16.3.0
-   - Upgrade to: v16.3.4 (requires testing)
-   - This also fixes PostCSS vulnerabilities due to dependency update
-   - Run: `npm install next@latest` (or specific version)
+#### Breakdown by Package
 
-2. **Review PostCSS Usage**
-   - Source map vulnerabilities could be exploited if .map files are exposed
-   - Ensure CSS source maps are not served in production
+**1. Next.js (31+ vulnerabilities)**
+- Server-Side Request Forgery in Server Actions
+- Denial of Service in Server Components (multiple)
+- Cache poisoning vulnerabilities
+- XSS vulnerabilities (CSP nonces)
+- Image optimization DoS
+- Middleware/Proxy bypass
+- HTTP request smuggling
+- Unbounded disk cache growth
+- WebSocket upgrade SSRF
+- **Action Required**: `npm audit fix --force` (breaking change - Next.js version bump)
 
-### Follow-up Actions (Medium Priority)
+**2. js-yaml (2 vulnerabilities in dependencies)**
+- Quadratic CPU consumption in !!omap resolution (CVE-2026-59870)
+- Found in: `node_modules/js-yaml` and `node_modules/gray-matter/node_modules/js-yaml`
 
-3. **Update ESLint/TypeScript packages**
-   - Run: `npm audit fix` to update minimatch and typescript-eslint packages
-   - May require testing with current ESLint configuration
+**3. minimatch (3 vulnerabilities)**
+- ReDoS via repeated wildcards
+- ReDoS: matchOne() combinatorial backtracking
+- ReDoS: nested *() extglobs
+- **Source**: `@typescript-eslint/typescript-estree` depends on vulnerable minimatch
 
-4. **Migrate Images to Next.js Image Component**
-   - Update components/MetaPixel.tsx (line 54)
-   - Update components/SplitSection.tsx (lines 93, 96)
-   - Improves LCP performance metrics
+**4. nanoid (1 vulnerability)**
+- Custom generators can loop indefinitely when size is zero
 
-### Testing Required After Updates
-- Run full test suite (if available)
-- Verify build still completes successfully
-- Test critical paths in staging/production
-- Monitor for any breaking changes in major version bumps
-
----
-
-## Health Score
-
-- **Build**: 100% ✅
-- **Code Quality**: 97% ⚠️ (3 linting warnings)
-- **Security**: 0% ❌ (7 high-severity vulnerabilities)
-- **Overall**: 32% ⚠️
+**5. PostCSS (4 vulnerabilities)**
+- XSS via unescaped `</style>` in CSS output
+- Information disclosure via sourceMappingURL
+- Path traversal in source map auto-loading
 
 ---
 
-**Next Monitoring Run**: Recommended within 24-48 hours after applying security patches
+## Remediation Options
 
-Generated by Website Monitor Agent
+### Quick Fix (Recommended)
+```bash
+npm audit fix --force
+```
+
+**Note**: This will update Next.js to v16.3.4, which may be a breaking change. Review changelog before deploying.
+
+### Targeted Fixes
+```bash
+npm update next@latest postcss@latest
+npm update js-yaml minimatch nanoid
+```
+
+---
+
+## Risk Assessment
+
+| Severity | Count | Risk Level | Action |
+|----------|-------|-----------|--------|
+| HIGH | 7 | **CRITICAL** | Fix immediately before deployment |
+| Warnings | 3 | Low | Address in next sprint |
+
+---
+
+## Next Steps
+
+1. **Immediate**: Update dependencies using `npm audit fix --force`
+2. **Testing**: Run full test suite after updates
+3. **Review**: Check Next.js changelog for breaking changes
+4. **Deployment**: Test in staging before production deployment
+5. **Future**: Update image components to use Next.js `<Image />`
+
+---
+
+*Report generated by website-monitor agent*

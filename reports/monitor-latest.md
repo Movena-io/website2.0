@@ -1,17 +1,20 @@
 # Movena Website Monitor Report
 
-**Run Timestamp**: 2026-09-08T15:04:00Z  
-**Overall Status**: ⚠️ **WARNING** - Build succeeded, 6 high-severity vulnerabilities detected
+**Run Timestamp**: 2026-09-08T19:02:00Z  
+**Overall Status**: ⚠️ **WARNING** — Build passed, 6 high-severity vulnerabilities detected
 
 ---
 
 ## Executive Summary
 
-The Movena website Next.js build **completed successfully** with all 41 static pages generated. Code quality checks passed with only 3 minor lint warnings about image optimization. However, **6 high-severity security vulnerabilities** have been identified in project dependencies that require immediate attention before production deployment.
+The Movena website Next.js build **completed successfully** with all 41 static pages generated. Code quality checks passed with only 3 minor lint warnings about image optimization. However, **6 high-severity security vulnerabilities** have been identified in project dependencies that require immediate attention.
 
-**Critical Finding**: Next.js 13.5.11 is severely outdated with 28+ known critical security vulnerabilities including SSRF, XSS, DoS, and cache poisoning attacks.
+**Critical Findings**:
+- Next.js has 30+ CVEs including SSRF, XSS, DoS, cache poisoning, and authorization bypass vulnerabilities
+- PostCSS has multiple XSS and path traversal vulnerabilities
+- Minimatch and js-yaml have ReDoS and CPU consumption vulnerabilities
 
-**Recommended Action**: Run `npm audit fix --force` and upgrade to Next.js 16.3.4+ immediately. This is a breaking change that requires post-upgrade testing.
+**Recommended Action**: Run `npm audit fix --force` to update to Next.js 16.3.4+ and patched dependencies. This is a breaking change requiring post-upgrade testing.
 
 ---
 
@@ -19,7 +22,7 @@ The Movena website Next.js build **completed successfully** with all 41 static p
 
 | Check | Result | Details |
 |-------|--------|---------|
-| **Build** | ✅ PASSED | All 41 pages compiled successfully |
+| **Build** | ✅ PASSED | All 41 pages compiled successfully, no errors |
 | **Lint** | ✅ PASSED | 3 non-blocking warnings about image optimization |
 | **Security Audit** | ❌ CRITICAL | 6 high-severity vulnerabilities in dependencies |
 
@@ -29,7 +32,7 @@ The Movena website Next.js build **completed successfully** with all 41 static p
 
 **Status**: Compilation successful  
 **Command**: `npm run build`  
-**Duration**: ~30 seconds
+**Output**: Production build completed with no errors
 
 **Key Metrics**:
 - ✓ Compiled successfully
@@ -46,7 +49,7 @@ The Movena website Next.js build **completed successfully** with all 41 static p
 - Legal: `/[locale]/privacy`, `/[locale]/terms`
 - API Routes: `/api/calculator/submit`, `/api/contact`
 
-**Assessment**: ✅ Build is healthy with no errors or warnings.
+**Assessment**: ✅ Build is healthy with no errors.
 
 ---
 
@@ -55,7 +58,7 @@ The Movena website Next.js build **completed successfully** with all 41 static p
 **Status**: 0 errors, 3 warnings  
 **Command**: `npm run lint`
 
-**Warnings**:
+**Warnings Detected**:
 
 | File | Line | Rule | Issue |
 |------|------|------|-------|
@@ -63,14 +66,14 @@ The Movena website Next.js build **completed successfully** with all 41 static p
 | `components/SplitSection.tsx` | 93 | `@next/next/no-img-element` | Using `<img>` instead of `<Image />` |
 | `components/SplitSection.tsx` | 96 | `@next/next/no-img-element` | Using `<img>` instead of `<Image />` |
 
-**Impact**:
+**Impact Assessment**:
 - Performance: May result in slower LCP (Largest Contentful Paint)
 - Bandwidth: Unoptimized images increase data transfer
 - Cost: Could incur additional charges from image optimization services
 
-**Recommendation**: Replace `<img>` tags with Next.js `<Image>` component in the identified files. This is a non-critical optimization.
+**Recommendation**: Replace `<img>` tags with Next.js `<Image>` component in the identified files for performance optimization.
 
-**Assessment**: ✅ No critical code quality issues. Warnings are fixable optimizations.
+**Assessment**: ✅ No critical code quality issues. All warnings are fixable optimizations.
 
 ---
 
@@ -78,12 +81,12 @@ The Movena website Next.js build **completed successfully** with all 41 static p
 
 **Status**: 6 high-severity vulnerabilities detected  
 **Command**: `npm audit`  
-**Total Dependencies**: 456 (158 prod, 289 dev, 37 optional)
+**Total Dependencies**: 424 packages
 
 ### Vulnerability Summary
 
 ```
-Total Vulnerabilities: 6 HIGH
+Total Vulnerabilities: 6 HIGH SEVERITY
   - Info:     0
   - Low:      0
   - Moderate: 0
@@ -93,151 +96,179 @@ Total Vulnerabilities: 6 HIGH
 
 ### Detailed Vulnerabilities
 
-#### 🔴 **CRITICAL: Next.js Framework** (28+ HIGH severity)
+#### 🔴 **HIGH: Next.js Framework** (30+ vulnerabilities across multiple CVEs)
 
 **Package**: `next`  
-**Current Version**: 13.5.11 (SEVERELY OUTDATED)  
+**Version Range Affected**: 0.9.9 - 16.3.0-preview.10  
 **Upgrade Required**: 16.3.4+ (BREAKING CHANGE)  
 **Severity**: HIGH  
 **Fix Available**: Yes (`npm audit fix --force`)
 
-**Critical Security Issues** (Sample of 28+):
+**Critical Security Issues Identified**:
 
 1. **SSRF in Server Actions** (GHSA-fr5h-rqp8-mj6g)
-   - Affects: 13.4.0 - 14.1.0
-   - Impact: Server-side request forgery attacks
+   - Server-side request forgery via Server Actions
+   - Impact: Attackers can make arbitrary server requests
 
 2. **DoS in Image Optimization** (GHSA-g77x-44xx-532m)
-   - Affects: 10.0.0 - 14.2.7
-   - Impact: Service denial attacks via image API
+   - Denial of service via image optimization API
+   - Impact: Service unavailability through crafted requests
 
 3. **Information Exposure in Dev Server** (GHSA-3h52-269p-cp9r)
+   - Lack of origin verification in dev server
    - Impact: Sensitive data leakage during development
 
 4. **Cache Key Confusion** (GHSA-g5qg-72qw-gw5v)
-   - Impact: Incorrect cache serving to users
+   - Image Optimization API cache key confusion
+   - Impact: Incorrect cached responses served to users
 
 5. **Authorization Bypass** (GHSA-7gfc-8cq8-jh5f)
+   - Authorization bypass vulnerability
    - Impact: Unauthorized access to protected resources
 
 6. **Middleware Redirect SSRF** (GHSA-4342-x723-ch2f)
-   - Impact: Server-side request forgery via redirects
+   - Server-side request forgery via middleware redirects
+   - Impact: SSRF attacks through redirect configuration
 
-7. **Content Injection in Images** (GHSA-xv57-4mr9-wg8v)
-   - Impact: XSS via malicious image content
-
-8. **Race Condition Cache Poisoning** (GHSA-qpjv-v59x-3qc4)
-   - Impact: Cache poisoning attacks
-
-9-13. **Multiple DoS with Server Components** (4 variants)
-   - Impact: Service denial through server components
-
-14. **DoS via Image remotePatterns** (GHSA-9g9p-9gw9-jx7f)
-   - Impact: DoS through image configuration
-
-15. **HTTP Request Smuggling in Rewrites** (GHSA-ggv3-7p47-pfv8)
-   - Impact: Bypass of security restrictions
-
-16. **XSS via CSP Nonces** (GHSA-ffhc-5mcf-pf4q)
+7. **Content Injection in Image Optimization** (GHSA-xv57-4mr9-wg8v)
+   - XSS vulnerability via image optimization
    - Impact: Cross-site scripting attacks
 
-17. **Cache Poisoning React Server Component** (GHSA-vfv6-92ff-j949)
-   - Impact: Incorrect component rendering
+8. **Race Condition to Cache Poisoning** (GHSA-qpjv-v59x-3qc4)
+   - Cache poisoning via race conditions
+   - Impact: User session data corruption
 
-18. **XSS in beforeInteractive Scripts** (GHSA-gx5p-jg67-6x7h)
-   - Impact: Script injection attacks
+9-12. **Multiple DoS Vulnerabilities with Server Components** (4 variants)
+   - GHSA-mwv6-3258-q52c, GHSA-5j59-xgg2-r9c4, GHSA-q4gf-8mx6-v5v3, GHSA-8h8q-6873-q5fj
+   - Impact: Service denial through Server Components
 
-Plus 10+ additional high-severity vulnerabilities...
+13. **DoS via Image remotePatterns** (GHSA-9g9p-9gw9-jx7f)
+   - Denial of service via image remotePatterns config
+   - Impact: Self-hosted app vulnerability
 
-**Assessment**: 🔴 CRITICAL - Framework has 28+ known vulnerabilities. Immediate upgrade required.
+14. **HTTP Request Deserialization DoS** (GHSA-h25m-26qc-wcjf)
+   - DoS via insecure React Server Components
+   - Impact: Service denial via malformed requests
+
+15. **HTTP Request Smuggling in Rewrites** (GHSA-ggv3-7p47-pfv8)
+   - Request smuggling via rewrites
+   - Impact: Security restriction bypass
+
+16. **Unbounded Image Disk Cache Growth** (GHSA-3x4c-7xq6-9pq8)
+   - Disk storage exhaustion via image cache
+   - Impact: Denial of service via storage exhaustion
+
+17-18. **Middleware Cache Poisoning** (GHSA-3g8h-86w9-wvmq, GHSA-ffhc-5mcf-pf4q)
+   - Cache poisoning and XSS via cache confusion
+   - Impact: User session interference and XSS attacks
+
+19. **Cache Poisoning in React Server Components** (GHSA-vfv6-92ff-j949)
+   - Cache key collision in RSC cache
+   - Impact: Incorrect components served to users
+
+20. **XSS in beforeInteractive Scripts** (GHSA-gx5p-jg67-6x7h)
+   - Cross-site scripting via beforeInteractive
+   - Impact: Script injection with untrusted input
+
+Plus 10+ additional vulnerabilities covering SSRF, cache poisoning, and authorization issues...
+
+**Assessment**: 🔴 CRITICAL - Framework has 30+ known vulnerabilities across multiple categories. Immediate upgrade required.
 
 ---
 
 #### 🔴 **HIGH: PostCSS** (4 vulnerabilities)
 
 **Package**: `postcss`  
-**Current Version**: ≤8.5.22  
-**Location**: `node_modules/next/node_modules/postcss` (transitive dependency)  
+**Version Affected**: ≤8.5.22  
+**Location**: `node_modules/next/node_modules/postcss` (transitive via Next.js)  
 **Severity**: HIGH
 
-**Vulnerabilities**:
+**Vulnerabilities Identified**:
 
-1. **XSS via unescaped `</style>`** (GHSA-qx2v-qp2m-jg93)
+1. **XSS via Unescaped `</style>` in CSS Stringify** (GHSA-qx2v-qp2m-jg93)
    - CVSS: 6.1 (Moderate)
-   - Impact: Script injection via CSS
+   - Impact: Script injection when CSS is converted to strings
 
 2. **Arbitrary File Read via sourceMappingURL** (GHSA-6g55-p6wh-862q)
    - CVSS: 7.5 (High)
-   - Impact: Read sensitive files (.map, source code)
+   - Impact: Information disclosure - read .map files and source code
 
 3. **Incomplete Fix: Arbitrary .map File Read** (GHSA-fxqj-rqcc-2cmp)
-   - CVSS: Unknown (Moderate)
-   - Impact: Information disclosure
+   - Affects: Follow-up exploitation of previous fix
+   - Impact: Information disclosure even after initial patch
 
-4. **Path Traversal in Source Map Loading** (GHSA-r28c-9q8g-f849)
+4. **Path Traversal in Source Map Auto-Loading** (GHSA-r28c-9q8g-f849)
    - CVSS: 7.5 (High)
-   - Impact: Access files outside intended directory
+   - Impact: Read arbitrary files via traversal in sourceMappingURL
 
-**Assessment**: 🔴 HIGH - Information disclosure and XSS vulnerabilities. Fixed by Next.js upgrade.
+**Assessment**: 🔴 HIGH - Multiple information disclosure and XSS vulnerabilities. Resolved by Next.js 16.3.4+ upgrade.
 
 ---
 
 #### 🔴 **HIGH: minimatch** (3 ReDoS vulnerabilities)
 
 **Package**: `minimatch`  
-**Current Version**: 9.0.0 - 9.0.6  
+**Version Affected**: 9.0.0 - 9.0.6  
 **Location**: `node_modules/@typescript-eslint/typescript-estree/node_modules/minimatch`  
 **Severity**: HIGH  
 **Dependency Chain**: 
 - `@typescript-eslint/parser` → `@typescript-eslint/typescript-estree` → `minimatch`
 
-**Vulnerabilities** (Regular Expression DoS - ReDoS):
+**Vulnerabilities** (Regular Expression Denial of Service - ReDoS):
 
-1. **ReDoS with repeated wildcards** (GHSA-3ppc-4f35-3m26)
+1. **ReDoS via Repeated Wildcards** (GHSA-3ppc-4f35-3m26)
    - Affects: 9.0.0 - 9.0.5
-   - Pattern: Repeated wildcards with non-matching literal
+   - Pattern: Repeated wildcards with non-matching literal cause backtracking
+   - Impact: CPU exhaustion with crafted glob patterns
 
-2. **ReDoS with GLOBSTAR segments** (GHSA-7r86-cg39-jmmj)
+2. **ReDoS with GLOBSTAR Segments** (GHSA-7r86-cg39-jmmj)
    - Affects: 9.0.0 - 9.0.6
    - CVSS: 7.5 (High)
-   - Pattern: Multiple non-adjacent GLOBSTAR segments
+   - Pattern: Multiple non-adjacent GLOBSTAR (`**`) segments
+   - Impact: Combinatorial backtracking leading to DoS
 
-3. **ReDoS with nested extglobs** (GHSA-23c5-xmqv-rm74)
+3. **ReDoS with Nested Extended Globs** (GHSA-23c5-xmqv-rm74)
    - Affects: 9.0.0 - 9.0.6
    - CVSS: 7.5 (High)
-   - Pattern: Catastrophic backtracking with nested *()
+   - Pattern: Nested `*()` extglobs generate catastrophically backtracking regexes
+   - Impact: CPU exhaustion and potential DoS
 
-**Assessment**: 🔴 HIGH - ReDoS vulnerabilities in glob pattern matching. Could cause CPU exhaustion through crafted patterns.
+**Assessment**: 🔴 HIGH - ReDoS vulnerabilities in glob pattern matching used by linting tools. Could cause CPU exhaustion through specially crafted patterns.
 
 ---
 
 #### 🔴 **HIGH: js-yaml** (1 vulnerability)
 
 **Package**: `js-yaml`  
-**Current Version**: 4.0.0 - 4.3.0  
+**Version Affected**: 4.0.0 - 4.3.0  
 **Severity**: HIGH
 
-**Vulnerability**:
-- **Quadratic CPU Consumption in !!omap** (CVE-2026-59870)
+**Vulnerability Identified**:
+- **Quadratic CPU Consumption in !!omap Resolution** (CVE-2026-59870)
 - CVSS: 7.5 (High)
-- Impact: Denial of Service via malicious YAML
-- Description: Processing certain YAML mappings causes O(n²) CPU behavior
+- Description: Processing certain YAML mappings with !!omap causes O(n²) CPU behavior
+- Attack Vector: Malicious YAML files with specific omap structure
+- Impact: Denial of Service through CPU exhaustion
 
-**Assessment**: 🔴 HIGH - DoS vulnerability in YAML parsing. Fixed by `npm audit fix`.
+**Assessment**: 🔴 HIGH - DoS vulnerability in YAML parsing. Fixable via `npm audit fix`.
 
 ---
 
-#### 🔴 **HIGH: @typescript-eslint/parser & typescript-estree**
+#### 🔴 **HIGH: @typescript-eslint Dependencies**
 
-**Affected Versions**:
+**Affected Packages**:
 - `@typescript-eslint/parser`: 6.16.0 - 7.5.0
 - `@typescript-eslint/typescript-estree`: 6.16.0 - 7.5.0
 
-**Root Cause**: Vulnerabilities in `minimatch` dependency
+**Root Cause**: Transitive vulnerability propagation from `minimatch`
 
-**Impact**: Propagates minimatch ReDoS vulnerabilities to linting infrastructure
+**Dependency Tree**:
+- `@typescript-eslint/parser` depends on `@typescript-eslint/typescript-estree`
+- `@typescript-eslint/typescript-estree` depends on vulnerable `minimatch` (9.0.0 - 9.0.6)
 
-**Assessment**: 🔴 HIGH - Fixed by updating eslint dependencies via `npm audit fix`.
+**Impact**: Linting infrastructure inherits ReDoS vulnerabilities from minimatch
+
+**Assessment**: 🔴 HIGH - Transitively vulnerable. Fixed by updating minimatch via `npm audit fix`.
 
 ---
 
@@ -389,12 +420,13 @@ This is a major version upgrade requiring post-deploy testing."
 
 ## Monitoring Notes
 
-- **Last Monitor Run**: 2026-09-08 15:04 UTC
-- **Previous Run**: 2026-09-08 00:00 UTC
+- **Current Monitor Run**: 2026-09-08 19:02 UTC
+- **Previous Run**: 2026-09-08 15:04 UTC
 - **Changes Since Last Run**: 
-  - Dependencies installed successfully
-  - No infrastructure changes
-  - Same vulnerabilities identified (consistent state)
+  - Dependencies reinstalled (npm install successful)
+  - Same 6 high-severity vulnerabilities persist
+  - Build and lint status unchanged
+  - No fixes applied yet (still awaiting npm audit fix --force)
 
 ---
 
@@ -415,7 +447,8 @@ This is a major version upgrade requiring post-deploy testing."
 
 ---
 
-**Report Generated By**: Website Monitor Agent  
+**Report Generated By**: Website Monitor Agent (Automated Scheduled Run)  
 **Repository**: movena-io/website2.0  
-**Session**: https://claude.ai/code/session_01TS1Vixxqx3Sjcd1vH4uSsA  
-**Next Scheduled Run**: Check after security patch deployment
+**Session**: https://claude.ai/code/session_015t62K9uV6kWQUHrReRxWD4  
+**Last Updated**: 2026-09-08T19:02:00Z  
+**Next Scheduled Run**: Monitor continues on regular schedule

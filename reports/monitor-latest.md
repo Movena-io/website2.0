@@ -1,5 +1,5 @@
 # Website Monitoring Report - Automated Check
-**Generated:** 2026-09-07 15:06 UTC  
+**Generated:** 2026-09-08 00:00 UTC  
 **Repository:** movena-io/website2.0  
 **Automated:** Yes
 
@@ -8,7 +8,7 @@
 ## Executive Summary
 **OVERALL STATUS: 🔴 CRITICAL**
 
-The website build completes successfully, but the project has accumulated **7 high-severity security vulnerabilities** that require immediate attention. Linting shows minor optimization warnings only.
+The website build completes successfully, but the project has **6 high-severity security vulnerabilities** that require immediate attention. Linting shows minor optimization warnings only.
 
 ---
 

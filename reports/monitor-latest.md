@@ -1,181 +1,117 @@
-# Movena Website Monitor Report
+# Website Monitor Report
 
-**Timestamp:** 2026-09-10 00:00:00 UTC
-**Overall Status:** ❌ Critical
-
----
-
-## Executive Summary
-
-The Movena website has **critical security vulnerabilities** that require immediate attention. While the Next.js build compiles successfully and linting shows only minor style warnings, the project has 6 known vulnerabilities including 1 critical and 5 high-severity issues affecting core dependencies.
+**Run Timestamp:** 2026-09-10T00:00:00Z  
+**Overall Status:** ❌ **CRITICAL** - Security vulnerabilities require immediate attention
 
 ---
 
-## Build Check
+## Summary
 
-**Status:** ✅ Healthy
+The website build and lint checks passed successfully, but critical security vulnerabilities were identified in dependencies that must be addressed urgently.
 
-```
-✓ Compiled successfully
-✓ Type checking passed
-✓ Static page generation completed (41/41 pages)
-✓ Production build finalized
-```
-
-**Details:**
-- Build time: Normal
-- All 41 pages generated successfully
-- No compilation errors
-- No missing dependencies
+- **Build**: ✅ Successful
+- **Lint**: ⚠️ 3 warnings (non-critical)
+- **Security**: ❌ **6 vulnerabilities (5 high, 1 critical)**
 
 ---
 
-## Lint Check
+## Detailed Findings
 
-**Status:** ⚠️ Warning
+### ✅ Build Check: PASSED
 
-**Issues Found:** 3 warnings (non-blocking)
+The Next.js application compiled successfully in production mode.
 
-### Warnings:
-1. **File:** `components/MetaPixel.tsx` (Line 54)
-   - Issue: Using `<img>` instead of Next.js `<Image />` component
-   - Impact: Potential LCP performance degradation
-   - Severity: Low
+- All 41 routes generated without errors
+- Middleware compiled: 27 kB
+- No build failures or errors
 
-2. **File:** `components/SplitSection.tsx` (Lines 93, 96)
-   - Issue: Using `<img>` instead of Next.js `<Image />` component (2 instances)
-   - Impact: Potential LCP performance degradation
-   - Severity: Low
+### ⚠️ Lint Check: WARNINGS
 
-**Recommendation:** Consider migrating to `next/image` for automatic optimization, but not required for deployment.
+3 ESLint warnings found - all related to image optimization best practices:
 
----
+1. **components/MetaPixel.tsx:54** - Using `<img>` instead of Next.js `<Image />`
+2. **components/SplitSection.tsx:93** - Using `<img>` instead of Next.js `<Image />`
+3. **components/SplitSection.tsx:96** - Using `<img>` instead of Next.js `<Image />`
 
-## Security Check
+**Recommendation**: Consider migrating to Next.js `<Image />` component for better performance and automatic optimization.
 
-**Status:** ❌ Critical
+### ❌ Security Audit: CRITICAL VULNERABILITIES
 
-**Vulnerability Summary:**
-- **Critical:** 1
-- **High:** 5
-- **Moderate:** 0
-- **Low:** 0
-- **Total:** 6 vulnerabilities
+**Total Vulnerabilities: 6 (5 high, 1 critical)**
 
-### Critical Vulnerabilities:
+#### 🔴 CRITICAL ISSUES (Must Fix Immediately)
 
-#### ❌ Next.js (Direct Dependency)
-**Affected Versions:** 0.9.9 - 16.3.0-preview.10
+**1. Next.js - Unauthenticated Remote Code Execution on Windows**
+- **CVE/Advisory**: GHSA-p293-qw3h-jr36
+- **Severity**: CRITICAL (CVSS 9.0)
+- **Affected Range**: >= 13.4.0 < 15.5.24
+- **Current Version**: 16.3.0-preview.10
+- **Description**: Unauthenticated RCE vulnerability affecting Windows-hosted servers
+- **Action**: Upgrade to Next.js 16.3.4 or later
 
-Multiple critical issues identified:
+**2. Next.js - Image Optimization API RCE with AVIF**
+- **CVE/Advisory**: GHSA-2xp9-vwfh-vxw4
+- **Severity**: CRITICAL
+- **Affected Range**: >= 10.0.0 < 15.5.24
+- **Description**: Unauthenticated RCE in image optimization API when AVIF files are used
+- **Action**: Upgrade Next.js
 
-1. **Unauthenticated Remote Code Execution on Windows Servers**
-   - CVE/Advisory: GHSA-p293-qw3h-jr36
-   - CVSS Score: 9.0 (Critical)
-   - Affected Range: >=13.4.0 <15.5.24
-   - CWE: CWE-22 (Improper Limitation of a Pathname to a Restricted Directory)
-   - Description: RCE vulnerability on Windows-hosted servers without authentication required
+#### 🟠 HIGH SEVERITY ISSUES
 
-2. **Unauthenticated RCE in Image Optimization with AVIF**
-   - CVE/Advisory: GHSA-2xp9-vwfh-vxw4
-   - Affected Range: >=10.0.0 <15.5.24
-   - CWE: CWE-1395
-   - Description: RCE vulnerability when AVIF files are used in Image Optimization API
+**3. PostCSS - Multiple Path Traversal & Information Disclosure**
+- **Vulnerabilities**: 
+  - Arbitrary file read via sourceMappingURL (GHSA-6g55-p6wh-862q) - CVSS 7.5
+  - Path traversal in source map auto-loading (GHSA-r28c-9q8g-f849) - CVSS 7.5
+  - XSS via unescaped </style> tag (GHSA-qx2v-qp2m-jg93) - CVSS 6.1
+- **Affected Range**: <= 8.5.22
+- **Action**: Fixed when Next.js is upgraded
 
-3. **Server-Side Request Forgery (SSRF) in Server Actions**
-   - CVE/Advisory: GHSA-fr5h-rqp8-mj6g
-   - CVSS Score: 7.5 (High)
-   - Affected Range: >=13.4.0 <14.1.1
-   - CWE: CWE-918
-   - Description: SSRF vulnerability allowing unauthorized data access
+**4. minimatch - ReDoS Vulnerabilities**
+- **Vulnerabilities**: 
+  - Repeated wildcards ReDoS (GHSA-3ppc-4f35-3m26)
+  - GLOBSTAR combinatorial backtracking (GHSA-7r86-cg39-jmmj) - CVSS 7.5
+  - Nested extglobs catastrophic backtracking (GHSA-23c5-xmqv-rm74) - CVSS 7.5
+- **Affected Range**: >= 9.0.0 < 9.0.7
+- **Current Version**: 9.0.6 (in @typescript-eslint/typescript-estree)
+- **Action**: Upgrade @typescript-eslint packages
 
-### High Severity Vulnerabilities:
+**5. js-yaml - CPU Exhaustion Vulnerabilities**
+- **Vulnerabilities**:
+  - Quadratic CPU consumption in !!omap resolution (GHSA-5p4m-2wfm-xmqj) - CVSS 7.5
+  - maxTotalMergeKeys bypass (GHSA-2883-xcg3-v3hh) - CVSS 7.5
+- **Affected Range**: >= 4.0.0 < 4.3.2
+- **Action**: Upgrade js-yaml via dependency updates
 
-#### ⚠️ @typescript-eslint/parser & @typescript-eslint/typescript-estree
-- **Dependency Chain:** minimatch vulnerability propagated
-- **Issue:** ReDoS (Regular Expression Denial of Service)
-- **Fix Available:** Yes
-
-#### ⚠️ js-yaml
-- **Issues:**
-  1. Quadratic CPU consumption in !!omap resolution (CVE-2026-59870)
-  2. maxTotalMergeKeys does not limit CPU use for empty merge sources
-- **Affected Range:** 4.0.0 - 4.3.1
-- **CVSS Scores:** 7.5
-- **Fix Available:** Yes (upgrade to 4.3.2+)
-
-#### ⚠️ minimatch
-- **Issues:**
-  1. ReDoS via repeated wildcards with non-matching literal
-  2. ReDoS via multiple non-adjacent GLOBSTAR segments
-  3. ReDoS via nested *() extglobs
-- **Affected Range:** 9.0.0 - 9.0.6
-- **CVSS Score:** 7.5
-- **Fix Available:** Yes (upgrade to 9.0.7+)
-
-#### ⚠️ PostCSS
-- **Issues:**
-  1. XSS via unescaped </style> in CSS stringify output
-  2. Arbitrary file read via attacker-controlled sourceMappingURL (multiple CVEs)
-  3. Path traversal in source map auto-loading
-- **Affected Range:** <=8.5.22
-- **CVSS Scores:** 6.1 - 7.5
-- **Fix Available:** Yes (requires Next.js upgrade)
+**6. @typescript-eslint/parser & typescript-estree**
+- **Vulnerability**: Depends on vulnerable minimatch version
+- **Action**: Fixed when minimatch is updated
 
 ---
 
-## Remediation Actions
+## Dependency Summary
 
-### Immediate (Critical):
-1. **Update Next.js** to version 16.3.4 or later
-   ```bash
-   npm install next@16.3.4 --save
-   npm audit fix --force
-   ```
-   - This addresses all Next.js RCE vulnerabilities
-   - Will also update PostCSS automatically
-
-### Follow-up (High):
-2. **Verify TypeScript-ESLint versions** after Next.js upgrade
-   - minimatch vulnerability should be resolved transitively
-3. **Update js-yaml** if used directly (should be automatic)
-
-### Testing After Updates:
-- Re-run full build suite
-- Test image optimization features (especially AVIF support)
-- Test Server Actions functionality
-- Run security audit again to confirm resolution
+- **Production Dependencies**: 158
+- **Development Dependencies**: 289
+- **Optional Dependencies**: 37
+- **Total**: 456
 
 ---
 
-## Alerts & Recommendations
+## Recommended Actions
 
-| Alert | Issue | Action |
-|-------|-------|--------|
-| ❌ **CRITICAL** | Next.js has multiple RCE vulnerabilities | **URGENT:** Update to v16.3.4+ immediately |
-| ❌ **CRITICAL** | Windows deployment at severe risk | Patch before any Windows server deployment |
-| ⚠️ **WARNING** | 5 high-severity vulnerabilities in dependencies | Run `npm audit fix --force` after Next.js update |
-| ⚠️ **WARNING** | 3 ESLint warnings on image components | Migrate `<img>` to `next/image` in future sprint |
-| ✅ **HEALTHY** | Build process clean | No blocking issues |
+1. **IMMEDIATE**: Upgrade Next.js to 16.3.4 or higher for critical security fixes
+2. **PRIORITY**: Run `npm audit fix` to apply available patches
+3. **FOLLOW-UP**: Test the application thoroughly after updates to verify no regressions
+4. **OPTIONAL**: Migrate `<img>` tags to Next.js `<Image />` component for performance
 
 ---
 
-## Dependency Status
+## Security Impact
 
-- **Total Production Dependencies:** 158
-- **Total Dev Dependencies:** 289
-- **Total Optional Dependencies:** 37
-- **Total Monitored:** 456 packages
+The website is functionally working (build passes), but the critical security vulnerabilities must be addressed before deployment to production:
 
----
+- **RCE Vulnerabilities**: Next.js image optimization and Windows server exploitation vectors
+- **Information Disclosure**: PostCSS path traversal in source maps
+- **DoS Attack Surface**: ReDoS vulnerabilities in minimatch and js-yaml
 
-## Recommendations Summary
-
-1. **Priority 1 (Immediate):** Upgrade Next.js to resolve critical RCE vulnerabilities
-2. **Priority 2 (This Week):** Run security audit after upgrade and verify fixes
-3. **Priority 3 (This Sprint):** Refactor image components to use next/image
-4. **Priority 4 (Ongoing):** Enable automated dependency updates via Dependabot
-
----
-
-*Report generated by Website Monitor Agent*
+**Recommendation**: Address critical Next.js vulnerabilities in the next deployment cycle.

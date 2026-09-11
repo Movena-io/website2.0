@@ -1,15 +1,15 @@
 # Movena Website Monitor Report
 
-**Run Timestamp**: 2026-09-08T11:05:00Z  
-**Overall Status**: ❌ **CRITICAL**
+**Run Timestamp**: 2026-09-11T22:04:30Z  
+**Overall Status**: ⚠️ **WARNING** - Security vulnerabilities detected
 
 ---
 
 ## Executive Summary
 
-The Movena website build completes successfully with all pages generated, and code quality passes with minor warnings. However, **6 high-severity vulnerabilities** have been identified in project dependencies that pose critical security risks, particularly in Next.js (core framework) and its dependencies.
+The Movena website build completes successfully with all pages generated, and code quality passes with minor warnings. However, **5 security vulnerabilities** (1 critical, 4 high-severity) have been identified in project dependencies that pose security risks.
 
-**Recommended Action**: Address all high-severity vulnerabilities immediately before production deployment. Next.js upgrade to v16.3.4+ is required to fix multiple critical security issues.
+**Recommended Action**: Upgrade Next.js to v16.3.5+ via `npm audit fix --force` to address the critical SSRF and other server-side vulnerabilities. This requires testing as it is a breaking change.
 
 ---
 
@@ -77,31 +77,38 @@ The Movena website build completes successfully with all pages generated, and co
 
 ---
 
-### 3. Security Check ❌ **CRITICAL - 6 HIGH SEVERITY VULNERABILITIES**
+### 3. Security Check ⚠️ **VULNERABILITIES DETECTED - 5 TOTAL**
 
-**Status**: Failed with critical vulnerabilities  
+**Status**: Vulnerabilities found  
 **Command**: `npm audit`
 
 #### Summary of Vulnerabilities
 
-| Package | Severity | Count | Fix Available | Breaking |
-|---------|----------|-------|----------------|----------|
-| js-yaml | HIGH | 1 | Yes (via `npm audit fix`) | No |
-| minimatch | HIGH | 3 | Yes (via `npm audit fix`) | No |
-| next | HIGH | 28+ | Yes (via `npm audit fix --force`) | **Yes** |
-| postcss | HIGH | 4 | Yes (via `npm audit fix --force`) | **Yes** |
-| **Total** | **HIGH** | **6 packages** | | |
+| Package | Severity | Issues | Fix Available | Breaking |
+|---------|----------|--------|----------------|----------|
+| next | CRITICAL | 1 + 28 HIGH | Yes (v16.3.5) | **Yes** |
+| minimatch | HIGH | 3 ReDoS | Yes (`npm audit fix`) | No |
+| postcss | HIGH | 4 XSS/InfoDisclosure | Yes (`npm audit fix --force`) | **Yes** |
+| **Total** | **1 CRITICAL, 4 HIGH** | **5 vulns** | | |
 
 #### Detailed Vulnerability Breakdown
 
-##### 1. **js-yaml** - Quadratic CPU Consumption
-- **CVE**: CVE-2026-59870
-- **Severity**: HIGH
-- **Description**: Quadratic CPU consumption in !!omap resolution (3.x and 4.x versions)
-- **Impact**: Potential DoS attacks via malicious YAML input
-- **Fix**: `npm audit fix` (non-breaking upgrade)
-- **Affected Version**: 4.0.0 - 4.3.0
-- **Location**: `node_modules/js-yaml`
+##### 1. **next** - Critical SSRF and Multiple Server-Side Issues
+- **Severity**: CRITICAL + HIGH (28+ related)
+- **Current Version**: 13.5.11
+- **Required Version**: 16.3.5+
+- **Key Vulnerabilities**:
+  - Server-Side Request Forgery (SSRF) in Server Actions
+  - Remote Code Execution on Windows servers
+  - Authorization bypass vulnerability
+  - Information exposure in dev server
+  - Multiple Denial of Service conditions
+  - Cache poisoning vulnerabilities
+  - XSS vulnerabilities in multiple contexts
+  - Unauthenticated RCE in Image Optimization API
+- **Fix**: `npm audit fix --force` (BREAKING - requires major upgrade)
+- **Impact**: Critical - could allow remote attacks on the application
+- **Location**: `node_modules/next`
 
 ##### 2. **minimatch** - Regular Expression DoS (ReDoS)
 - **Severity**: HIGH
@@ -118,61 +125,15 @@ The Movena website build completes successfully with all pages generated, and co
   - @typescript-eslint/typescript-estree → minimatch
   - @typescript-eslint/parser → @typescript-eslint/typescript-estree
 
-##### 3. **next** - Multiple Critical Framework Vulnerabilities (28+ CVEs)
-- **Severity**: HIGH
-- **Current Version**: 13.5.11 (OUTDATED)
-- **Required Upgrade**: 16.3.4+ (BREAKING CHANGE)
-- **Description**: 28+ distinct critical vulnerabilities including:
-
-**Critical Security Issues**:
-1. Server-Side Request Forgery (SSRF) in Server Actions - GHSA-fr5h-rqp8-mj6g
-2. Denial of Service in Image Optimization - GHSA-g77x-44xx-532m
-3. Information Exposure in Dev Server - GHSA-3h52-269p-cp9r
-4. Cache Key Confusion for Image Optimization - GHSA-g5qg-72qw-gw5v
-5. Authorization Bypass Vulnerability - GHSA-7gfc-8cq8-jh5f
-6. Improper Middleware Redirect Handling → SSRF - GHSA-4342-x723-ch2f
-7. Content Injection in Image Optimization - GHSA-xv57-4mr9-wg8v
-8. Race Condition to Cache Poisoning - GHSA-qpjv-v59x-3qc4
-9. Multiple DoS with Server Components (4 variants) - GHSA-mwv6-3258-q52c, GHSA-5j59-xgg2-r9c4, GHSA-q4gf-8mx6-v5v3, GHSA-8h8q-6873-q5fj
-10. DoS via Image Optimizer remotePatterns - GHSA-9g9p-9gw9-jx7f
-11. DoS via insecure React Server Components - GHSA-h25m-26qc-wcjf
-12. HTTP Request Smuggling in Rewrites - GHSA-ggv3-7p47-pfv8
-13. Unbounded next/image Disk Cache Growth - GHSA-3x4c-7xq6-9pq8
-14. Middleware/Proxy Cache Poisoning - GHSA-3g8h-86w9-wvmq
-15. XSS in App Router via CSP Nonces - GHSA-ffhc-5mcf-pf4q
-16. Cache Poisoning via React Server Component Cache-Busting - GHSA-vfv6-92ff-j949
-17. XSS in beforeInteractive Scripts - GHSA-gx5p-jg67-6x7h
-18. DoS in Image Optimization API - GHSA-h64f-5h5j-jqjh
-19. SSRF in WebSocket Upgrades - GHSA-c4j6-fc7j-m34r
-20. Middleware/Proxy Bypass in Pages Router i18n - GHSA-36qx-fr4f-26g5
-21. DoS in App Router Server Actions - GHSA-m99w-x7hq-7vfj
-22. Cache Confusion of Response Bodies (2 variants) - GHSA-68g3-v927-f742, GHSA-4633-3j49-mh5q
-23. Unbounded Server Action Payload - GHSA-4c39-4ccg-62r3
-24. SSRF in Rewrites via Attacker-Controlled Hostname - GHSA-p9j2-gv94-2wf4
-25. Unauthenticated Disclosure of Internal Server Function Endpoints - GHSA-955p-x3mx-jcvp
-
-**Impact**:
-- **SSRF Vulnerabilities**: Could allow attackers to make unauthorized requests to internal services
-- **XSS Vulnerabilities**: Could allow injection of malicious scripts
-- **DoS Vulnerabilities**: Could be exploited to disable services
-- **Cache Poisoning**: Could serve poisoned content to users
-- **Authorization Bypass**: Could allow unauthorized access
-
-**Fix**: `npm audit fix --force` (BREAKING - requires major version upgrade)
-- Current: 13.5.11
-- Upgrade to: 16.3.4+
-- Major version changes may require application code updates
-- **Action Required**: Test thoroughly after upgrade
-
-**Location**: `node_modules/next` and `node_modules/next/node_modules/postcss`
-
-##### 4. **postcss** - XSS and Information Disclosure
-- **Severity**: HIGH
-- **Current Version**: ≤8.5.22
-- **Description**:
-  1. XSS via Unescaped `</style>` in CSS Stringify Output - GHSA-qx2v-qp2m-jg93
-  2. Arbitrary File Read via attacker-controlled sourceMappingURL - GHSA-6g55-p6wh-862q
-  3. Incomplete fix: Attacker-controlled sourceMappingURL reads arbitrary .map files - GHSA-fxqj-rqcc-2cmp
+##### 3. **postcss** - XSS and Information Disclosure
+- **Severity**: HIGH  
+- **Affected Version**: ≤8.5.22 (indirect via Next.js)
+- **Issues**:
+  1. XSS via Unescaped `</style>` in CSS Stringify Output
+  2. Arbitrary File Read via sourceMappingURL
+  3. Path Traversal in Source Map handling
+- **Fix**: Included in Next.js upgrade (`npm audit fix --force`)
+- **Location**: `node_modules/next/node_modules/postcss`
   4. Path Traversal in Source Map Auto-Loading - GHSA-r28c-9q8g-f849
 
 **Impact**:

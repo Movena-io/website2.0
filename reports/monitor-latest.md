@@ -1,13 +1,13 @@
 # Website Monitor Report
 
-**Run Time**: 2026-09-11 16:03 UTC  
-**Overall Status**: ❌ **CRITICAL** - Security vulnerabilities detected
+**Run Timestamp**: 2026-09-11T20:03:45Z  
+**Overall Status**: ⚠️ **Warning** - Build successful with security vulnerabilities
 
 ---
 
 ## Summary
 
-The Movena website project has critical and high-severity security vulnerabilities that require immediate attention. The build and lint checks pass, but the security audit revealed 5 vulnerabilities affecting core dependencies.
+The Movena website build completed successfully and all static pages were generated correctly. However, critical and high-severity security vulnerabilities in Next.js and dependencies require immediate attention before production deployment.
 
 ---
 

@@ -1,17 +1,19 @@
 # Movena Website Monitor Report
 
-**Run Timestamp**: 2026-09-12 00:00:00 UTC  
-**Overall Status**: ❌ **CRITICAL** - Security vulnerabilities detected (Status unchanged from previous run)
+**Run Timestamp**: 2026-09-12 17:02 UTC  
+**Overall Status**: ⚠️ **WARNINGS** - Build successful, lint warnings, critical security vulnerabilities persist
 
 ---
 
 ## Executive Summary
 
-The Movena website build completes successfully with all pages generated, and code quality passes with minor warnings. However, **5 security vulnerabilities** (1 critical, 4 high-severity) remain in project dependencies. These vulnerabilities have NOT been addressed since the previous monitoring run on 2026-09-11.
+The Movena website build completes successfully with all pages generated, and code quality passes with minor warnings. However, **5 security vulnerabilities** (1 critical, 4 high-severity) remain in project dependencies.
 
-**Critical Issue**: Next.js 13.5.11 contains multiple unauthenticated remote code execution vulnerabilities (CVSS 9.0+).
+**Critical Issues**: Next.js 13.4.5 contains multiple unauthenticated remote code execution vulnerabilities (CVSS 9.0+), including RCE on Windows servers and AVIF image optimization bypass.
 
-**Recommended Action**: Upgrade Next.js to v16.3.5+ via `npm audit fix --force` to address the critical RCE and SSRF vulnerabilities. This requires testing as it is a breaking change.
+**Status**: Build ✅ | Lint ⚠️ (3 warnings) | Security ❌ (5 vulnerabilities)
+
+**Note on Remediation**: Per project guidelines (`CLAUDE.md`), Next.js and postcss versions are knowingly pinned. Upgrading to v16+ requires comprehensive testing as it is a major version upgrade and product decision.
 
 ---
 
@@ -22,11 +24,12 @@ The Movena website build completes successfully with all pages generated, and co
 **Status**: Compilation successful  
 **Command**: `npm run build`
 
-- Next.js compiled successfully without errors
-- Generated 41 static pages successfully
+- Next.js 13.4.5 compiled successfully without errors
+- Generated 40 static pages successfully
 - Type checking passed
 - Middleware compiled (27 kB)
 - No build errors or compilation failures
+- All locale variants (en, da) compiled correctly
 
 ---
 

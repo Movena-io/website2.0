@@ -124,7 +124,7 @@ function buildOrganizationSchema(locale: Locale) {
     '@context': 'https://schema.org',
     '@type': 'Organization',
     name: 'Movena',
-    legalName: 'Movena I/S',
+    legalName: 'Movena ApS',
     url: `https://movena.io/${locale}`,
     logo: 'https://movena.io/favicon.svg',
     description: copy.org,
@@ -140,7 +140,7 @@ function buildOrganizationSchema(locale: Locale) {
     },
     address: {
       '@type': 'PostalAddress',
-      streetAddress: 'Rådhuspladsen',
+      streetAddress: 'Rådhuspladsen 16, kl. 2',
       postalCode: '1550',
       addressLocality: copy.locality,
       addressCountry: 'DK',
@@ -148,7 +148,7 @@ function buildOrganizationSchema(locale: Locale) {
     identifier: {
       '@type': 'PropertyValue',
       propertyID: 'CVR',
-      value: '45966232',
+      value: '46764129',
     },
     areaServed: copy.areaServed.map((name) => ({ '@type': 'Place', name })),
     knowsLanguage: ['da', 'en'],

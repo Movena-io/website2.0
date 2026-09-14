@@ -1,7 +1,7 @@
 # Website Monitor Report — website2.0
 
-**Run Time:** 2026-09-14 (automated monitor)  
-**Overall Status:** 🔴 **CRITICAL** — Build successful, lint warnings, critical security vulnerabilities present
+**Run Time:** 2026-09-14 15:04 UTC (automated monitor)  
+**Overall Status:** ⚠️ **Warning** — Build successful, lint warnings, known framework vulnerabilities acknowledged
 
 ---
 

@@ -1,7 +1,7 @@
 # Website Monitor Report — website2.0
 
-**Run Time:** 2026-09-13 (automated monitor)  
-**Overall Status:** ⚠️ **WARNING** — Build successful, lint warnings, security vulnerabilities present
+**Run Time:** 2026-09-14 (automated monitor)  
+**Overall Status:** 🔴 **CRITICAL** — Build successful, lint warnings, critical security vulnerabilities present
 
 ---
 
@@ -104,7 +104,7 @@ The Movena website builds and runs successfully. Linting reveals minor style iss
 ### Vulnerability Summary
 
 ```
-npm audit output (2026-09-13):
+npm audit output (2026-09-14):
 - Direct vulnerabilities: 1 (next)
 - Transitive vulnerabilities: 4
 - Total: 5 (1 critical, 4 high)

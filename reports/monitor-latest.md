@@ -1,6 +1,6 @@
 # website2.0 Health Monitor
 
-**Run Timestamp:** 2026-09-15 13:08:48 UTC  
+**Run Timestamp:** 2026-09-15 13:10:00 UTC  
 **Overall Status:** ⚠️ **Warning** — Build healthy, lint clean, known critical vulnerabilities in Next.js (product decision)
 
 ---
@@ -175,7 +175,7 @@ npm install
 
 **Status:** ⚠️ Acknowledged product decision in CLAUDE.md. **Do not run `npm audit fix --force`** without explicit approval.
 
-**Issue:** Next.js 13 contains **31 security advisories** including multiple critical vulnerabilities:
+**Issue:** Next.js 13 contains **33 security advisories** including multiple critical vulnerabilities:
 - Unauthenticated Remote Code Execution (Windows servers, AVIF image handling)
 - Server-Side Request Forgery (SSRF) in Server Actions and rewrites
 - Denial of Service attacks via Server Components and Image Optimizer
@@ -262,6 +262,6 @@ Then run `npm install`. This avoids `npm audit fix` rewriting ~87 unrelated pack
 
 ---
 
-**Report generated:** 2026-09-15 (automated monitor run)  
+**Report generated:** 2026-09-15 13:10:00 UTC (automated monitor run)  
 **View history:** `git log reports/monitor-latest.md`  
 **Project instructions:** See `/home/user/website2.0/CLAUDE.md` for Next.js upgrade policy and dependency patching guidelines

@@ -1,13 +1,13 @@
-# Website2.0 Health Monitor Report
+# Website Monitor Report
 
-**Run Timestamp:** 2026-09-15 (automated run)  
+**Run Timestamp:** 2026-09-15T00:00:00Z  
 **Overall Status:** ⚠️ Warning
 
 ---
 
 ## Summary
 
-Build compilation and code quality checks passed successfully with no errors. Security audit detected **5 vulnerabilities** (1 critical, 4 high). The critical Next.js vulnerabilities are acknowledged as known product decisions in CLAUDE.md and require a major version upgrade from Next.js 13 to 16. Lint warnings are non-critical performance recommendations. Development can proceed with awareness of these constraints.
+The website2.0 project successfully builds and lints with minor warnings. The security audit detected **5 vulnerabilities** (1 critical, 4 high). The critical Next.js vulnerabilities are acknowledged as known product decisions in CLAUDE.md—they require a major version upgrade from Next.js 13 to 16+, which is outside the scope of monitoring. Lint warnings are non-critical performance optimization suggestions. Development can proceed with awareness of these constraints.
 
 ---
 
@@ -166,5 +166,5 @@ Convert 3 `<img>` tags to Next.js `<Image />` component for improved LCP perform
 
 ---
 
-**Report generated:** 2026-09-15  
-**Next scheduled run:** Check CLAUDE.md for monitoring cadence
+**Report generated:** 2026-09-15 02:11:00 UTC  
+**Git history:** Run `git log reports/monitor-latest.md` to see historical runs

@@ -1,8 +1,8 @@
 # Website Health Monitor Report
 
-**Run Timestamp:** 2026-09-15 11:41 UTC  
-**Overall Status:** ⚠️ Warning  
-**Run Summary:** Build and lint pass with minor warnings. Security audit shows 5 known vulnerabilities (1 critical in Next.js, 4 high in dependencies) that are intentionally pinned per product decision. Site is operationally production-ready.
+**Run Timestamp:** 2026-09-15 (Current session)  
+**Overall Status:** ❌ Critical  
+**Run Summary:** Build and lint pass successfully. Security audit reveals 5 critical/high vulnerabilities (1 critical in Next.js, 4 high in dependencies) that are intentionally pinned per CLAUDE.md product decision. Site is operationally buildable but carries unresolved security debt.
 
 ---
 
@@ -13,8 +13,8 @@
 | **npm install** | ✅ Success | 423 packages, all up to date |
 | **npm run build** | ✅ Success | Compiled, 40 pages generated, 0 errors |
 | **npm run lint** | ⚠️ Warnings | 3 non-critical img optimization warnings |
-| **npm audit** | ❌ Critical | 5 vulnerabilities (1 critical, 4 high) - **known & pinned** |
-| **Overall Health** | ⚠️ Warning | Operationally healthy; known security debt pending upgrade decision |
+| **npm audit** | ❌ Critical | 5 vulnerabilities (1 critical, 4 high) - **known & pinned per CLAUDE.md** |
+| **Overall Health** | ❌ Critical | Build/lint pass; critical security debt in core Next.js dependency |
 
 ---
 
@@ -190,11 +190,18 @@ Per **CLAUDE.md** (npm audit section):
 
 ## Conclusion
 
-**Website Health:** ⚠️ **Warning** (Operationally Healthy, Known Security Debt)
+**Website Health:** ❌ **Critical** (Operationally Buildable, Critical Security Debt)
 
-- **Operationally:** Build is healthy, compiles without error, runs 40 pages across 2 locales. Code quality shows only minor non-critical warnings.
-- **Security:** Carries critical vulnerabilities in Next.js core and PostCSS dependencies. These are documented, intentionally pinned per CLAUDE.md, and await product team decision on Next.js major version upgrade.
-- **Production Readiness:** Site can be deployed and is functionally sound. Security posture should be addressed per product timeline.
-- **Monitor Role:** Tracks status. Enforcement of fixes requires separate product team approval.
+- **Build Status:** ✅ Healthy. Compilation successful, 40 pages generated across 2 locales (en, da), all routes and APIs compiled without error.
+- **Code Quality:** ⚠️ Minor. Only 3 non-critical lint warnings (img tag optimization recommendations).
+- **Security Posture:** ❌ Critical. Next.js 13.x carries 31+ high/critical advisories including remote code execution (RCE) on Windows, SSRF, XSS, DoS, and cache poisoning vulnerabilities. PostCSS adds 4 more high-severity issues (arbitrary file reads, XSS, path traversal).
+- **Product Decision:** These vulnerabilities are **documented and intentionally pinned** per CLAUDE.md policy. Resolution requires Next.js v13→v16+ major version upgrade, which is blocked pending product team approval.
+- **Production Readiness:** Site builds and is functionally operational, but deployment carries significant security risk. Upgrade should be prioritized on product roadmap.
+- **Monitor Role:** Reports status and tracks progress. Enforcement of fixes requires product team decision.
 
-**Next Monitor Run:** Scheduled per automation; or manual run with `npm audit` to check for new advisories in pinned dependencies.
+**Recommendations:**
+1. **Schedule Next.js 13→16+ Upgrade** — Major priority; resolves all 5 vulnerabilities
+2. **Optional:** Run `npm audit fix` to resolve minimatch ReDoS in dev tooling only (non-breaking, low-risk)
+3. **Future:** Consider migrating 3 `<img>` tags to `<Image />` component for performance optimization
+
+**Next Monitor Run:** Track until Next.js upgrade is scheduled and completed. Verify no new vulnerabilities in monitoring cycle.

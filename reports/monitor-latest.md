@@ -1,6 +1,6 @@
 # Website2.0 Health Monitor Report
 
-**Run Timestamp:** 2026-09-15T00:00:00Z  
+**Run Timestamp:** 2026-09-15  
 **Overall Status:** ⚠️ Warning
 
 ---
@@ -54,7 +54,7 @@ All warnings are performance optimization recommendations:
 
 - Total packages: 423 (up to date)
 - Packages funding available: 154
-- Installation time: 4 seconds
+- Installation time: 3 seconds
 
 ### 4. Security Audit ❌ 5 Vulnerabilities (1 Critical, 4 High)
 
@@ -64,7 +64,7 @@ All warnings are performance optimization recommendations:
 #### Critical Vulnerabilities (1)
 
 **Next.js** (versions 0.9.9 – 16.3.0-preview.10)
-- 1 critical + 20+ high severity advisories
+- 1 critical + 30+ high/moderate severity advisories
 - **Key Issues:**
   - Server-Side Request Forgery (SSRF) in Server Actions
   - Remote Code Execution (RCE) on Windows hosts with Image Optimization
@@ -147,7 +147,7 @@ minimatch (HIGH - 3 ReDoS advisories)
 
 ### Deferred (Per Product Policy)
 - **Next.js 13 → 16 Major Upgrade**
-  - Addresses critical Next.js (34 advisories) and PostCSS (4 advisories) vulnerabilities
+  - Addresses critical Next.js (31+ advisories) and PostCSS (4 advisories) vulnerabilities
   - Requires full testing, breaking changes assessment, QA cycle
   - Is a product roadmap decision, not a monitor action
   - Do NOT run `npm audit fix --force` without product approval

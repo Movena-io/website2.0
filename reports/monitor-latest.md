@@ -1,13 +1,13 @@
 # Website Monitor Report
 
-**Run Timestamp:** 2026-09-15 (UTC)  
-**Overall Status:** ❌ **Critical** (Build & Lint OK | 5 Security Vulnerabilities)
+**Run Timestamp:** 2026-09-15 10:52 UTC  
+**Overall Status:** ⚠️ Warning
 
 ---
 
 ## Summary
 
-The website2.0 project builds successfully and passes linting with minor warnings only. However, 5 known vulnerabilities are present in the dependency tree (1 critical, 4 high). All vulnerabilities are in Next.js 13 and its nested PostCSS, which are intentionally pinned per CLAUDE.md. Fixing requires a major version upgrade (Next.js 13→16) as a product decision outside monitor scope.
+The website2.0 project builds successfully and code quality is healthy. However, 5 known critical vulnerabilities exist in Next.js 13 and dependencies (intentionally deferred as a product decision per CLAUDE.md).
 
 ---
 
@@ -19,7 +19,6 @@ The website2.0 project builds successfully and passes linting with minor warning
 - All 40 static pages generated without errors
 - Middleware compiled (27 kB)
 - First Load JS: 80.6 kB (shared chunks)
-- Build time: Optimal
 
 **Routes Generated (40 total):**
 - Home pages (en/da) with SSG
@@ -40,23 +39,23 @@ The website2.0 project builds successfully and passes linting with minor warning
 
 | File | Line | Issue |
 |------|------|-------|
-| `MetaPixel.tsx` | 54 | Use `<Image />` instead of `<img>` |
-| `SplitSection.tsx` | 93 | Use `<Image />` instead of `<img>` |
-| `SplitSection.tsx` | 96 | Use `<Image />` instead of `<img>` |
+| `components/MetaPixel.tsx` | 54 | Use `<Image />` instead of `<img>` |
+| `components/SplitSection.tsx` | 93 | Use `<Image />` instead of `<img>` |
+| `components/SplitSection.tsx` | 96 | Use `<Image />` instead of `<img>` |
 
 These are optimization suggestions for LCP improvement; not blocking issues.
 
 ---
 
-## Security Audit 🚨 CRITICAL
+## Security Audit 🔴 CRITICAL VULNERABILITIES (Known & Deferred)
 
 **Total Vulnerabilities:** 5 (1 critical, 4 high)
 
 ### Critical Severity (1)
 
-**Next.js 0.9.9 - 16.3.0-preview.10**
+**Next.js 13.x** (node_modules/next)
 
-Multiple critical security issues in current version:
+31 documented security advisories including:
 - Server-Side Request Forgery in Server Actions
 - Unauthenticated Remote Code Execution (Windows servers, Image Optimization API)
 - Authorization bypass vulnerabilities
@@ -68,15 +67,16 @@ Multiple critical security issues in current version:
 
 **Current Fix:** Requires Next.js 16.3.5+ (major breaking change)
 
-**Status:** KNOWN & INTENTIONAL per CLAUDE.md - "next and its nested postcss are knowingly left on their current versions. Fixing them requires Next 13 to 16, a major upgrade that is a product decision, not a monitor action."
+**Status:** KNOWN & INTENTIONAL per CLAUDE.md
+> "next and its nested postcss are knowingly left on their current versions. Fixing them requires Next 13 to 16, a major upgrade that is a product decision, not a monitor action. Do not run `npm audit fix --force`."
 
 ### High Severity (4)
 
-**minimatch 9.0.0 - 9.0.6** (via @typescript-eslint)
+**minimatch 9.0.0 - 9.0.6** (via @typescript-eslint/typescript-estree)
 - 3 ReDoS vulnerabilities: repeated wildcards, GLOBSTAR segments, nested extglobs
-- Location: Dev dependency chain (@typescript-eslint/typescript-estree)
+- Location: Dev dependency chain
 - Not in production code
-- Fix: Update @typescript-eslint (relatively safe)
+- Fix: Update @typescript-eslint (relatively safe, no breaking changes)
 
 **postcss ≤8.5.22** (nested in Next.js)
 - XSS via unescaped `</style>` in CSS stringify output
@@ -97,19 +97,6 @@ Multiple critical security issues in current version:
 | Moderate | 0 |
 | Low | 0 |
 | Funding opportunities | 154 packages |
-
----
-
-## Known Constraints
-
-**Per CLAUDE.md documentation:**
-
-> "next and its nested postcss are knowingly left on their current versions. Fixing them requires Next 13 to 16, a major upgrade that is a product decision, not a monitor action. Do not run `npm audit fix --force`."
-
-This constraint is intentional and acknowledged. All 5 vulnerabilities are resolved by the Next.js 13→16 upgrade, which requires:
-- Comprehensive testing
-- Product team coordination with main Movena repository
-- Strategic business decision on timing and resources
 
 ---
 
@@ -137,10 +124,6 @@ Schedule Next.js 13→16 major upgrade as a strategic initiative. This single up
 - Lint: **Pass** ⚠️ (minor warnings only)
 - Security: **Known vulnerabilities** - requires business risk acceptance
 
-The build pipeline works correctly and application is technically deployable. Security upgrade decisions are outside monitor scope.
-
 ---
 
-**Report generated:** 2026-09-15  
-**Next review:** Automated monitoring continues  
 **History:** `git log reports/monitor-latest.md`

@@ -1,13 +1,13 @@
 # Website2.0 Health Monitor
 
-**Run Timestamp:** 2026-09-15
+**Run Timestamp:** 2026-09-15 (Latest Monitor Run)  
 **Overall Status:** ⚠️ Warning
 
 ---
 
 ## Summary
 
-The website2.0 project builds and lints successfully, but contains **5 security vulnerabilities** (1 critical, 4 high) that require attention. The critical severity stems from Next.js 13 containing multiple RCE, SSRF, and DoS vulnerabilities. Per CLAUDE.md, this major version upgrade to Next.js 16+ is a known product decision outside monitoring scope. Build generates all 40 static pages successfully with no errors. Linting produces 3 minor warnings (non-blocking) about using native `<img>` instead of Next.js Image component.
+The website2.0 project **builds and lints successfully** with no compilation errors. Linting produces **3 non-blocking warnings** about using native `<img>` instead of Next.js Image component. Security audit reveals **5 vulnerabilities** (1 critical in Next.js, 4 high in minimatch and postcss). Per CLAUDE.md project policy, Next.js 13 and nested PostCSS vulnerabilities are **intentionally not patched** (major version upgrade is a product decision). All 40 static pages generate successfully.
 
 ---
 

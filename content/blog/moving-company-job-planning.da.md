@@ -6,7 +6,7 @@ excerpt: "De fleste flyttefirmaer taber en time hver morgen på at finde ud af, 
 metaTitle: "Planlægning i flyttefirma: få timen tilbage"
 metaDescription: "De fleste flyttefirmaer taber en time hver morgen på at planlægge dagen. Se hvorfor det er så svært, og hvordan systemet kan klare det meste for jer."
 image: "/blog/moving-company-job-planning-da.png"
-imageAlt: "Flyttefolk planlægger dagens job på en tavle med vagtplan"
+imageAlt: "Tidslinje der viser en time til planlægning hver morgen, før arbejdsdagen begynder"
 category: "Guide"
 tags: ["planlægning flyttefirma", "disponering flyttefirma", "vagtplan flyttefirma", "drift af flyttefirma", "software til flyttefirmaer"]
 draft: false

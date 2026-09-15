@@ -1,13 +1,13 @@
 # website2.0 Health Monitor
 
-**Run Timestamp:** 2026-09-15T12:57:00Z  
-**Overall Status:** ❌ **Critical** — Known vulnerabilities in core dependencies (deferred upgrade)
+**Run Timestamp:** 2026-09-15T00:00:00Z (Current Run)  
+**Overall Status:** ⚠️ **Warning** — Build healthy, lint clean, known critical vulnerabilities in Next.js (product decision)
 
 ---
 
 ## Summary
 
-The website2.0 project **builds and lints successfully** with no compilation errors. All 40 static pages generate correctly. Linting produces **3 non-blocking warnings** about using native `<img>` instead of Next.js Image component. Security audit reveals **5 critical/high-severity vulnerabilities** primarily in Next.js (1 critical, 31 advisories) and transitive dependencies (minimatch, postcss, 4 high severity). Per CLAUDE.md project policy, Next.js 13 vulnerabilities are **intentionally not patched** as they require a major version upgrade (13 → 16+), which is a product decision.
+The website2.0 project **builds and lints successfully** with no compilation errors. All 40 static pages generate correctly. Linting produces **3 non-blocking warnings** about using native `<img>` instead of Next.js Image component. Security audit reveals **5 vulnerabilities: 1 critical and 4 high severity**. The critical vulnerability is in Next.js (33+ advisories total); the 4 high-severity vulnerabilities are in transitive dependencies (minimatch and postcss). Per CLAUDE.md project policy, Next.js vulnerabilities are **intentionally deferred** as they require a major version upgrade (13 → 16+), which is a product decision.
 
 ---
 
@@ -75,10 +75,10 @@ npm audit
 
 ### Critical Severity (1)
 
-#### **next** — 31 Security Advisories (Multiple Critical & High)
+#### **next** — 33+ Security Advisories (Multiple Critical & High)
 - **Package:** `next` (v13.x)
 - **Location:** `node_modules/next`
-- **Total Advisories:** 31 (ranging from critical to high)
+- **Total Advisories:** 33+ (ranging from critical to high)
 
 **Critical/High-Severity Issues in Current Version:**
 
@@ -262,6 +262,6 @@ Then run `npm install`. This avoids `npm audit fix` rewriting ~87 unrelated pack
 
 ---
 
-**Report generated:** 2026-09-15T12:57:00Z  
+**Report generated:** 2026-09-15 (automated monitor run)  
 **View history:** `git log reports/monitor-latest.md`  
-**Project instructions:** See `/home/user/website2.0/CLAUDE.md` for Next.js upgrade policy
+**Project instructions:** See `/home/user/website2.0/CLAUDE.md` for Next.js upgrade policy and dependency patching guidelines

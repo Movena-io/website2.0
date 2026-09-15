@@ -1,7 +1,7 @@
 # website2.0 Health Monitor
 
-**Run Timestamp:** 2026-09-15 (automated monitor run)  
-**Overall Status:** ❌ **Critical** — Build healthy, lint clean, critical vulnerabilities require product decision on Next.js upgrade
+**Run Timestamp:** 2026-09-15 at ~10:15 UTC  
+**Overall Status:** ⚠️ **WARNING** — Build and lint healthy, 5 known vulnerabilities (1 critical Next.js, 4 high in dependencies)
 
 ---
 
@@ -12,9 +12,9 @@ The website2.0 project **builds and lints successfully** with no compilation err
 **Key Findings:**
 - ✅ Build passes without errors (40 static pages generated)
 - ⚠️ 3 lint warnings (non-blocking, performance optimization suggestions)
-- ❌ 5 security vulnerabilities flagged (1 critical Next.js, 4 high in dependencies)
+- ❌ 5 security vulnerabilities (1 critical Next.js, 4 high minimatch/postcss)
 - ✅ All 423 packages audited, up to date
-- 📋 Next.js upgrade is deferred per project policy; minimatch issues fixable via overrides
+- 📋 Next.js upgrade is intentionally deferred per project policy
 
 ---
 

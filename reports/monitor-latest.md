@@ -1,177 +1,99 @@
-# Website2.0 Health Monitor Report
+# Website Monitor Report
 
-**Run Timestamp:** 2026-09-15 (Latest)  
-**Overall Status:** ⚠️ Warning (Known Deferred Issues)
-
----
-
-## Executive Summary
-
-The website2.0 project **builds and lints successfully** with only minor lint warnings. All 40 static pages compile without errors and the application is ready for deployment from a build perspective. However, **security vulnerabilities exist** in core dependencies (Next.js and PostCSS) that are intentionally deferred per project policy documented in CLAUDE.md.
+**Run Timestamp:** 2026-09-15 at 10:36:07 UTC  
+**Overall Status:** ⚠️ Warning (Build successful, lint warnings, critical vulnerabilities present)
 
 ---
 
-## Health Check Results
+## Summary
 
-### 1. Build ✅ Passing
+The build pipeline completes successfully with no compilation errors. Code quality linting produces 3 warnings related to image optimization. Security audit reveals 5 vulnerabilities (1 critical, 4 high) in core dependencies.
 
-**Command:** `npm run build`  
-**Status:** Compiled successfully
+---
 
-**Details:**
-- All 40 static pages generated without errors
-- TypeScript type checking: Valid
-- Build output metrics:
-  - Shared bundle: 80.6 kB
-  - Largest chunk: 27.5 kB
-  - Middleware: 27 kB
-- Routes deployed:
-  - 2 locales (en, da)
-  - Blog: 21 published articles
-  - Main pages: Contact, Privacy, Terms, Savings Calculator
-  - API endpoints: /api/calculator/submit, /api/contact
-  - Static files: robots.txt, sitemap.xml
+## Check Results
 
-### 2. Lint ⚠️ 3 Warnings
+### ✅ Build Check: PASSED
+**Status:** Successful compilation with no errors
 
-**Command:** `npm run lint`  
-**Status:** 0 errors, 3 warnings
+- Production build completed successfully
+- All 40 static pages generated without issues
+- Route optimization completed
+- First Load JS: 80.6 kB shared across routes
 
-All warnings are performance optimization recommendations:
+No build-time errors or critical warnings detected.
 
-| File | Line | Issue |
-|------|------|-------|
-| `components/MetaPixel.tsx` | 54 | Using `<img>` instead of `<Image />` from next/image |
-| `components/SplitSection.tsx` | 93 | Using `<img>` instead of `<Image />` from next/image |
-| `components/SplitSection.tsx` | 96 | Using `<img>` instead of `<Image />` from next/image |
+### ⚠️ Lint Check: WARNINGS FOUND (3)
+**Status:** Code quality issues detected (non-critical)
 
-**Impact:** Non-blocking. These are best-practice suggestions for better LCP (Largest Contentful Paint) and bandwidth optimization. Code compiles and functions correctly.
+**Warnings:**
+1. `./components/MetaPixel.tsx:54` - Using `<img>` instead of Next.js `<Image />`
+2. `./components/SplitSection.tsx:93` - Using `<img>` instead of Next.js `<Image />`
+3. `./components/SplitSection.tsx:96` - Using `<img>` instead of Next.js `<Image />`
 
-### 3. Dependencies ✅ Healthy
+**Recommendation:** Consider replacing HTML `<img>` elements with Next.js `<Image />` component for automatic optimization, LCP improvements, and reduced bandwidth usage.
 
-**Command:** `npm install`  
-**Status:** Success
+### 🔴 Security Audit: CRITICAL VULNERABILITIES (5 total)
+**Status:** 1 Critical, 4 High severity vulnerabilities found
 
-- Total packages: 423 (up to date)
-- Packages funding available: 154
-- Installation time: 3 seconds
+#### Critical Vulnerability (1)
+**Package:** Next.js 13 (current version)
 
-### 4. Security Audit ❌ 5 Vulnerabilities (1 Critical, 4 High)
+31 known vulnerabilities including:
+- Server-Side Request Forgery (SSRF) in Server Actions and rewrites
+- Denial of Service (DoS) in Server Components and Image Optimization
+- Remote Code Execution (RCE) on Windows-hosted servers
+- Cross-Site Scripting (XSS) in App Router with CSP nonces and beforeInteractive scripts
+- Cache poisoning and confusion attacks
+- Authorization bypass vulnerabilities
+- Information disclosure in dev server
 
-**Command:** `npm audit`  
-**Total Vulnerabilities:** 5 (1 critical, 4 high)
+**Root Cause:** Next.js version 13 is significantly outdated. Current version is 16.3.5.
 
-#### Critical Vulnerabilities (1)
-
-**Next.js** (versions 0.9.9 – 16.3.0-preview.10)
-- 1 critical + 30+ high/moderate severity advisories
-- **Key Issues:**
-  - Server-Side Request Forgery (SSRF) in Server Actions
-  - Remote Code Execution (RCE) on Windows hosts with Image Optimization
-  - Denial of Service in Server Components
-  - Authorization bypass vulnerability
-  - Cache poisoning and key confusion vulnerabilities
-  - Information disclosure in dev server
-  - XSS vulnerabilities in nonces and beforeInteractive scripts
-  - HTTP request smuggling in rewrites
-  - Unbounded disk cache growth in Image Optimization
-
-**Status:** ⚠️ **INTENTIONALLY DEFERRED**
-- Per CLAUDE.md: *"Next.js and its nested PostCSS are knowingly left on their current versions. Fixing them requires Next.js 13 to 16, a major upgrade that is a product decision, not a monitor action."*
-- Upgrade path: Next.js 16.3.5 (requires major version bump with breaking changes)
+**Note:** Per project documentation (CLAUDE.md), Next.js is knowingly left on current version as a product decision. Upgrading to Next.js 16 requires major refactoring and is a product team responsibility, not a monitor action.
 
 #### High Vulnerabilities (4)
 
-**Minimatch** (versions 9.0.0 – 9.0.6)
-- Severity: High (ReDoS - Regular Expression Denial of Service)
-- 3 distinct ReDoS vulnerabilities:
-  - Repeated wildcards with non-matching literal patterns
-  - Multiple non-adjacent GLOBSTAR segments
-  - Nested *() extglobs with catastrophic backtracking
-- Dependency chain: `@typescript-eslint/parser` → `@typescript-eslint/typescript-estree` → `minimatch`
-- Impact: Build tool performance; not in production bundle
-- **Fix Status:** ✅ Can be patched independently without Next.js upgrade
-- **Recommended Action:** Patch via `package.json` overrides (as done with js-yaml@3 and nanoid@3)
+**Package:** minimatch (transitive dependency)
+- **Location:** `node_modules/@typescript-eslint/typescript-estree/node_modules/minimatch`
+- **Issues:** 3 ReDoS (Regular Expression Denial of Service) vulnerabilities
+  - Repeated wildcards with non-matching literal
+  - Combinatorial backtracking via GLOBSTAR segments
+  - Nested extglobs generating catastrophic backtracking
+- **Affected Chain:** minimatch → @typescript-eslint/typescript-estree → @typescript-eslint/parser
 
-**PostCSS** (versions ≤8.5.22)
-- Severity: High (4 vulnerabilities)
-- Issues: 
-  - XSS via unescaped `</style>` in CSS stringify output
-  - Arbitrary file read and information disclosure via sourceMappingURL
+**Package:** postcss (nested in Next.js)
+- **Location:** `node_modules/next/node_modules/postcss` (version ≤ 8.5.22)
+- **Issues:** 4 high-severity vulnerabilities
+  - Arbitrary file read via sourceMappingURL disclosure
   - Path traversal in source map auto-loading
-  - Follow-up incomplete fix requiring additional workarounds
-- Dependency chain: Nested within Next.js
-- **Fix Status:** ❌ Requires Next.js 16+ upgrade (deferred)
-
-**@typescript-eslint packages** (typescript-estree 6.16.0–7.5.0, parser 6.16.0–7.5.0)
-- Severity: High (due to minimatch dependency)
-- Impact: Dev-only; not in production
-- **Fix Status:** Will automatically resolve when minimatch is patched
+  - XSS via unescaped </style> in CSS output
+- **Status:** Part of Next.js dependency tree; upgrade blocked by Next.js version constraint
 
 ---
 
-## Vulnerability Details
+## Dependency Status
 
-**Minimatch ReDoS Vulnerability Chain:**
-```
-minimatch (HIGH - 3 ReDoS advisories)
-  ↑ depends on
-@typescript-eslint/typescript-estree (6.16.0 - 7.5.0)
-  ↑ depends on
-@typescript-eslint/parser (6.16.0 - 7.5.0)
-```
+- **Total packages audited:** 423
+- **Vulnerabilities:** 5 (1 critical, 4 high, 0 moderate, 0 low)
+- **Packages with funding available:** 154
 
-**Impact Assessment:**
-- Minimatch: Dev dependency via TypeScript tooling (build-time only)
-- PostCSS: Nested within Next.js (production dependency)
-- Next.js: Production dependency (critical)
+**Audit fix availability:**
+- `npm audit fix` can address some issues (minimatch)
+- `npm audit fix --force` would upgrade Next.js to 16.3.5 (breaking change, requires product team approval)
 
 ---
 
 ## Recommendations
 
-### Immediate (Non-Breaking)
-- [ ] **Optional:** Patch minimatch ReDoS via `package.json` overrides
-  - Example pattern from existing overrides:
-    ```json
-    "minimatch": "10.0.1"
-    ```
-  - Eliminates 3 high-severity vulnerabilities in build tooling
-  - Dev-only dependency; no production impact
-  - Can be deployed independently
-  
-- [ ] **Optional:** Optimize 3 image components (MetaPixel.tsx, SplitSection.tsx)
-  - Improves LCP performance
-  - Low priority; not blocking
-  - No security impact
+1. **High Priority:** Establish timeline for Next.js 13 → 16 upgrade with product team. This is the root cause of 31 known vulnerabilities.
 
-### Deferred (Per Product Policy)
-- **Next.js 13 → 16 Major Upgrade**
-  - Addresses critical Next.js (31+ advisories) and PostCSS (4 advisories) vulnerabilities
-  - Requires full testing, breaking changes assessment, QA cycle
-  - Is a product roadmap decision, not a monitor action
-  - Do NOT run `npm audit fix --force` without product approval
-  - Note: CLAUDE.md explicitly states this is not a monitor action
+2. **Medium Priority:** Review and apply `npm audit fix` for minimatch vulnerabilities when possible without breaking Next.js.
+
+3. **Low Priority:** Resolve lint warnings by migrating `<img>` to Next.js `<Image />` component for better performance.
 
 ---
 
-## Deployment Status
+## Previous Run History
 
-| Check | Status | Details |
-|-------|--------|---------|
-| **Build** | ✅ Pass | All 40 pages compiled successfully |
-| **Lint** | ✅ Pass | No blocking errors; 3 minor warnings |
-| **Dependencies** | ✅ Installed | 423 packages up to date |
-| **Security** | ⚠️ Known Issues | 5 vulnerabilities; critical ones deferred by product decision |
-| **Overall** | ✅ Safe | Ready to deploy; security issues are tracked and documented |
-
----
-
-## Notes
-
-- Security vulnerabilities in Next.js and PostCSS are documented as intentional deferrals in CLAUDE.md
-- Build performs reliably; all routes and API endpoints generate correctly
-- Minimatch can be patched independently using `overrides` in package.json (pattern documented in CLAUDE.md)
-- Monitor recommendations do not include `npm audit fix --force` per project policy
-- Previous monitor runs: Use `git log reports/monitor-latest.md` to view history
-- This report completely overwrites the previous run (single file per monitoring cycle)
+To view previous monitor runs: `git log reports/monitor-latest.md`

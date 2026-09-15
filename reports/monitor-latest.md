@@ -1,19 +1,19 @@
 # website2.0 Health Monitor
 
-**Run Timestamp:** 2026-09-15 (09:45 UTC)  
+**Run Timestamp:** 2026-09-15 16:30 UTC  
 **Overall Status:** ⚠️ **Warning**
 
 ---
 
 ## Summary
 
-The website2.0 project **builds and lints successfully** with no compilation errors. All 40 static pages generate correctly. Linting produces **3 non-blocking warnings** about using native `<img>` instead of Next.js Image component. Security audit reveals **5 vulnerabilities: 1 critical and 4 high severity**. The critical vulnerability is in Next.js (33+ advisories); the high-severity vulnerabilities are in transitive dependencies (minimatch and postcss). Per CLAUDE.md project policy, Next.js vulnerabilities are **intentionally deferred** as they require a major version upgrade (13 → 16+), which is a product decision.
+The website2.0 project **builds successfully with zero compilation errors**. All 40 static pages generate correctly. Linting produces **3 non-blocking warnings** about using native `<img>` instead of Next.js Image component. Security audit reveals **5 vulnerabilities: 1 critical and 4 high severity**. The critical vulnerability is in Next.js (multiple critical advisories); high-severity vulnerabilities are in transitive dependencies (minimatch and postcss). Per CLAUDE.md project policy, Next.js vulnerabilities are **intentionally deferred** as they require a major version upgrade (13 → 16+), which is a product decision.
 
 **Key Findings:**
 - ✅ Build passes without errors (40 static pages generated)
 - ⚠️ 3 lint warnings (non-blocking, performance optimization suggestions)
 - ❌ 5 security vulnerabilities (1 critical Next.js, 4 high minimatch/postcss)
-- ✅ All 423 packages audited, up to date
+- ✅ All 423 packages audited, dependencies up to date
 - 📋 Next.js upgrade is intentionally deferred per project policy
 
 ---
@@ -72,20 +72,20 @@ npm audit
 
 ### Critical Severity (1)
 
-#### **next (13.5.11)** — 33+ Security Advisories
+#### **next (Direct Dependency)** — Multiple Critical Advisories
 
-- **Package:** `next` v13.5.11
-- **Location:** `node_modules/next`
-- **Total Advisories:** 33+ critical and high severity
+**Package:** `next`  
+**Location:** `node_modules/next`  
+**Affected Range:** 13.0.0 - current  
 
-**Key Critical/High Issues:**
-- Unauthenticated Remote Code Execution on Windows servers
-- Unauthenticated RCE in Image Optimization API (AVIF handling)
-- Server-Side Request Forgery (SSRF) in Server Actions
-- Server-Side Request Forgery in rewrites
-- Denial of Service in Image Optimization and Server Components
-- Cache poisoning in Image API and middleware
-- Authorization bypass
+**Critical/High Security Advisories Include:**
+- GHSA-p293-qw3h-jr36: Unauthenticated Remote Code Execution on Windows-hosted servers (CVSS 9.0)
+- GHSA-2xp9-vwfh-vxw4: Unauthenticated RCE in Image Optimization API when AVIF files are used
+- GHSA-fr5h-rqp8-mj6g: Server-Side Request Forgery (SSRF) in Server Actions (CVSS 7.5)
+- GHSA-93f3-45f8-9xs6: SSRF in rewrites
+- GHSA-jvgv-r682-gg93: DoS in Image Optimization
+- Multiple cache poisoning vulnerabilities in Image API and middleware
+- Authorization bypass issues
 - Middleware bypass (i18n)
 - XSS via CSP nonces and beforeInteractive scripts
 - Information disclosure in dev server
@@ -95,7 +95,7 @@ npm audit
 **Product Status (per CLAUDE.md):** ⚠️ **Intentionally Deferred**
 > "Next.js and its nested postcss are knowingly left on their current versions. Fixing them requires Next 13 to 16, a major upgrade that is a product decision, not a monitor action. Do not run `npm audit fix --force`."
 
-**Available Fix:** `npm audit fix --force` → next@16.3.5 (breaking change)
+**Available Fix:** `npm audit fix --force` → next@16.3.5+ (breaking change, major version upgrade)
 
 **Status:** No action required per project policy. Next.js upgrade is a product decision requiring planning and cross-team coordination.
 
@@ -108,13 +108,13 @@ npm audit
 **Affected Package:** `@typescript-eslint/typescript-estree → minimatch`
 
 **Vulnerabilities:**
-- ReDoS via repeated wildcards with non-matching literal
-- ReDoS via GLOBSTAR combinatorial backtracking
-- ReDoS via nested `*()` extglobs
+- GHSA-3ppc-4f35-3m26: ReDoS via repeated wildcards with non-matching literal
+- GHSA-7r86-cg39-jmmj: ReDoS via GLOBSTAR combinatorial backtracking (CVSS 7.5)
+- GHSA-23c5-xmqv-rm74: ReDoS via nested `*()` extglobs (CVSS 7.5)
 
 **Impact:** Low in production (dev/build-time only). Could cause build hangs with malicious glob patterns.
 
-**Recommendation:** Add scoped override in `package.json` (similar to existing `js-yaml@3` and `nanoid@3` entries) to pin minimatch to safe version (≥9.1.0), then run `npm install`.
+**Recommendation:** Add scoped override in `package.json` (similar to existing `js-yaml@3` and `nanoid@3` entries) to pin minimatch to safe version (≥9.0.7), then run `npm install`.
 
 ---
 
@@ -123,14 +123,22 @@ npm audit
 **Affected Package:** `next → postcss` (nested dependency, not independently upgradeable)
 
 **Vulnerabilities:**
-- Arbitrary file read via sourceMappingURL
-- Path traversal via source map auto-loading
-- Incomplete fix for sourceMappingURL issue
-- XSS via unescaped `</style>` in CSS stringify
+- GHSA-6g55-p6wh-862q: Path traversal via sourceMappingURL (CVSS 7.5)
+- GHSA-r28c-9q8g-f849: Path traversal in source map auto-loading (CVSS 7.5)
+- GHSA-fxqj-rqcc-2cmp: Incomplete fix for source map disclosure
+- GHSA-qx2v-qp2m-jg93: XSS via unescaped `</style>` (CVSS 6.1)
 
 **Status:** Cannot be patched independently; requires Next.js major version upgrade to 16+ (which upgrades PostCSS).
 
 **Recommendation:** Resolution tied to Next.js upgrade timeline.
+
+---
+
+#### **3. @typescript-eslint/parser** — High (via minimatch)
+
+**Affected Package:** `@typescript-eslint/parser`  
+**Root Cause:** Transitive dependency on vulnerable minimatch  
+**Impact:** Dev/build-time only
 
 ---
 
@@ -145,7 +153,7 @@ npm install
 ```
 
 - **Total Packages:** 423
-- **Vulnerable Packages:** 3 (next, minimatch, postcss)
+- **Vulnerable Packages:** 3 (next, minimatch via @typescript-eslint, postcss)
 - **Status:** All production dependencies current
 
 ---
@@ -156,7 +164,7 @@ npm install
 
 **Status:** ⚠️ Acknowledged product decision in CLAUDE.md. **Do not run `npm audit fix --force`** without explicit approval.
 
-**Issue:** Next.js 13 contains 33 security advisories including multiple critical RCE and SSRF vulnerabilities.
+**Issue:** Next.js 13 contains critical RCE vulnerabilities on Windows and in Image Optimization with AVIF files.
 
 **Required Action:** Establish timeline and plan for Next.js 13 → 16+ upgrade (breaking change)
 - Comprehensive testing and validation required
@@ -169,6 +177,7 @@ npm install
 - Implement defense-in-depth: WAF, strict CSP policies, request validation
 - Disable or restrict Server Actions usage where possible
 - Monitor Image Optimizer for exploit attempts
+- Avoid AVIF image processing until upgrade
 
 **Do Not:** Do not attempt `npm audit fix --force` as it would unilaterally upgrade Next.js with potential breaking changes.
 
@@ -185,7 +194,7 @@ Add minimatch override to `package.json`:
 ```json
 "overrides": {
   "@typescript-eslint/typescript-estree": {
-    "minimatch": "^9.1.0"
+    "minimatch": ">=9.0.7"
   }
 }
 ```
@@ -221,12 +230,12 @@ Then run `npm install`. This avoids `npm audit fix` rewriting ~87 unrelated pack
 
 **Build Health:** ✅ Excellent  
 **Code Quality:** ⚠️ Good (minor optimization suggestions)  
-**Security Posture:** ❌ Critical vulnerabilities present (intentionally deferred)  
+**Security Posture:** ⚠️ Critical vulnerabilities present (intentionally deferred per policy)  
 
 **Conclusion:** The website builds and deploys successfully with no blockers. All 40 localized pages render correctly. Vulnerabilities in Next.js and PostCSS are acknowledged as deferred product decisions requiring major version upgrades. Development dependency vulnerabilities (minimatch) are fixable with targeted overrides per CLAUDE.md guidelines. Recommend establishing timeline for Next.js 13 → 16+ upgrade in future planning cycle.
 
 ---
 
-**Report generated:** 2026-09-15 (automated monitor run)  
+**Report generated:** 2026-09-15 16:30 UTC (automated monitor run)  
 **View history:** `git log reports/monitor-latest.md`  
 **Project instructions:** See `/home/user/website2.0/CLAUDE.md` for Next.js upgrade policy and dependency patching guidelines

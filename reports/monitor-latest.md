@@ -1,6 +1,6 @@
 # website2.0 Health Monitor
 
-**Run Timestamp:** 2026-09-15 13:10:00 UTC  
+**Run Timestamp:** 2026-09-15 13:16:44 UTC  
 **Overall Status:** ⚠️ **Warning** — Build healthy, lint clean, known critical vulnerabilities in Next.js (product decision)
 
 ---
@@ -262,6 +262,6 @@ Then run `npm install`. This avoids `npm audit fix` rewriting ~87 unrelated pack
 
 ---
 
-**Report generated:** 2026-09-15 13:10:00 UTC (automated monitor run)  
+**Report generated:** 2026-09-15 13:16:44 UTC (automated monitor run)  
 **View history:** `git log reports/monitor-latest.md`  
 **Project instructions:** See `/home/user/website2.0/CLAUDE.md` for Next.js upgrade policy and dependency patching guidelines

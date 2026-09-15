@@ -1,118 +1,118 @@
-# Movena Website Monitor Report
+# Website Monitor Report
 
-**Run Timestamp**: 2026-09-15 (Current)  
-**Overall Status**: ⚠️ **WARNING** (build passes; Next.js CVEs known/deferred; minimatch ReDoS fixable)
-
----
-
-## Build ✅ PASS
-
-**Command**: `npm run build`
-
-Result: **Compiled successfully**. All 40 static pages generated without errors.
-
-- TypeScript validation: ✓ Valid
-- Static page generation: ✓ 40/40 complete
-- Middleware: ✓ 27 kB
-- Shared First Load JS: 80.6 kB
-- No build errors or critical warnings
-
-Route breakdown: 8 locale-specific pages, 8 blog articles, contact/privacy/terms/savings-calculator pages, 2 API routes, robots.txt, and sitemap.
+**Run Date**: 2026-09-15 (Latest)  
+**Overall Status**: ⚠️ Warning — Build healthy, lint warnings present, known critical vulnerabilities in Next.js deferred
 
 ---
 
-## Lint ⚠️ WARNING (3 warnings, 0 errors)
+## Summary
 
-**Command**: `npm run lint`
+The website2.0 project builds and deploys successfully. All 40 static pages compile without errors. However, there are three minor lint warnings and five npm security vulnerabilities present. The critical vulnerabilities are in core dependencies (Next.js and PostCSS) that are knowingly left on their current versions per product decision documented in CLAUDE.md.
 
-Result: **Clean exit** (no errors). 3 non-critical warnings found.
+---
+
+## Detailed Results
+
+### Build: ✅ Passing
+
+- **Status**: Compiled successfully with zero build errors
+- **Pages Generated**: 40 static pages
+- **Performance**:
+  - Shared First Load JS: 80.6 kB
+  - Route-specific: 15–19 kB per main route
+  - Middleware: 27 kB
+- **Routes**: 
+  - 2 locales (en, da)
+  - Blog with 21 posts
+  - Contact, Privacy, Terms, Savings Calculator pages
+  - 2 API endpoints, robots.txt, sitemap.xml
+- **TypeScript**: Valid
+
+### Lint: ⚠️ Minor Warnings (3)
+
+Three warnings about image optimization—using `<img>` instead of Next.js `<Image />`:
 
 | File | Line | Issue |
 |------|------|-------|
-| `components/MetaPixel.tsx` | 54 | Use Next.js `<Image />` instead of `<img>` for performance |
-| `components/SplitSection.tsx` | 93 | Use Next.js `<Image />` instead of `<img>` for performance |
-| `components/SplitSection.tsx` | 96 | Use Next.js `<Image />` instead of `<img>` for performance |
+| `components/MetaPixel.tsx` | 54 | `<img>` should use `next/image` for performance |
+| `components/SplitSection.tsx` | 93 | `<img>` should use `next/image` for performance |
+| `components/SplitSection.tsx` | 96 | `<img>` should use `next/image` for performance |
 
-**Impact**: Pre-existing, non-blocking. These are performance optimization recommendations (LCP and bandwidth); code is functional.
+**Impact**: Low. These are performance best-practice suggestions, not errors. Code is functional.
 
----
+### Security Audit: ⚠️ 5 Vulnerabilities (1 Critical, 4 High)
 
-## Security ⚠️ WARNING (5 vulnerabilities: 4 high, 1 critical)
+#### Critical (1)
 
-**Command**: `npm audit`
+**Package**: `next` (current: 13.x, vulnerable range: 0.9.9–16.3.0-preview.10)
 
-Result: **5 vulnerabilities found**.
-
-### Critical Vulnerability (1)
-
-**Package**: `next` (0.9.9–16.3.0-preview.10)  
-**Severity**: CRITICAL  
-**Count**: 31 CVEs including:
+**Issues** (31 CVEs):
 - Server-Side Request Forgery (SSRF) in Server Actions and rewrites
-- Denial of Service in Image Optimization and Server Components
-- Information exposure in dev server
+- Remote Code Execution (RCE) on Windows-hosted servers
+- Denial of Service (DoS) via Server Components and Image Optimization
+- Cache poisoning and XSS vulnerabilities
+- HTTP request smuggling in rewrites
 - Authorization bypass
-- Remote Code Execution (Windows)
-- Cache poisoning and confusion vulnerabilities
-- Cross-site scripting (App Router, beforeInteractive scripts)
-- Unbounded payload handling in Edge runtime
+- Unauthenticated disclosure of internal endpoints
+- Various edge runtime and middleware bypasses
 
-**Fix**: `npm audit fix --force` → next@16.3.5 (breaking change, requires Next.js 13→16 major upgrade)
+**Fix Required**: Upgrade to Next.js 16+ (breaking change)
 
-**Status**: ⚠️ **DEFERRED** — Per CLAUDE.md: "Next.js and nested postcss are knowingly left on current versions. Fixing requires Next.js 13 to 16, a major upgrade that is a product decision, not a monitor action."
+**Status**: ⚠️ **INTENTIONALLY DEFERRED** — Per CLAUDE.md: *"Next.js and its nested PostCSS are knowingly left on their current versions. Fixing them requires Next.js 13 to 16, a major upgrade that is a product decision, not a monitor action. Do not run `npm audit fix --force`."*
 
-### High Vulnerabilities (4)
+#### High (4)
 
-| Package | Range | Issue | Status |
-|---------|-------|-------|--------|
-| `postcss` | ≤8.5.22 | XSS via unescaped `</style>`; arbitrary file read via sourceMappingURL; path traversal in source map auto-loading | Bundled in `next`; deferred with Next.js upgrade |
-| `minimatch` | 9.0.0–9.0.6 | ReDoS via repeated wildcards / GLOBSTAR segments / nested extglobs | Fixable independently |
-| `@typescript-eslint/typescript-estree` | 6.16.0–7.5.0 | Depends on vulnerable minimatch | Fixes with minimatch patch |
-| `@typescript-eslint/parser` | 6.16.0–7.5.0 | Depends on vulnerable @typescript-eslint/typescript-estree | Fixes with minimatch patch |
-
-### Recommended Action: Fix minimatch
-
-The minimatch ReDoS vulnerabilities in the TypeScript ESLint chain are **actionable without touching Next.js**. Per CLAUDE.md policy, avoid `npm audit fix` (rewrites ~87 packages). Use `package.json` overrides instead:
-
-```json
-"overrides": {
-  "@typescript-eslint/typescript-estree": {
-    "minimatch": ">=9.0.7"
-  }
-}
-```
-
-Then run `npm install`.
+| Package | Severity | Issue | Status |
+|---------|----------|-------|--------|
+| `postcss` (≤8.5.22) | High | XSS via unescaped `</style>` in CSS output; arbitrary file read and path traversal via source map handling | Bundled in Next.js; deferred with upgrade |
+| `minimatch` (9.0.0–9.0.6) | High | ReDoS vulnerabilities via repeated wildcards, GLOBSTAR segments, and nested extglobs | **Fixable independently** without Next.js upgrade |
+| `@typescript-eslint/typescript-estree` | High | Depends on vulnerable minimatch | Fixes with minimatch patch |
+| `@typescript-eslint/parser` | High | Depends on vulnerable @typescript-eslint/typescript-estree | Fixes with minimatch patch |
 
 ---
 
-## Deprecation Warnings
+## Recommendations
 
-During `npm install`, the following deprecated packages were flagged:
-- rimraf@3.0.2 (v4+ required)
-- inflight@1.0.6 (memory leak; use lru-cache)
-- glob@7.1.7 (old version; security vulnerabilities fixed in current)
-- @humanwhocodes/config-array@2.0.3, @humanwhocodes/object-schema@2.0.3 (use @eslint/* instead)
-- eslint@8.57.1 (version no longer supported; see https://eslint.org/version-support)
+### Optional (Non-Breaking)
 
-Long-term: plan upgrade of ESLint toolchain and deprecated dependencies as part of maintenance.
+1. **Minimatch Fix** — Can be patched independently via `package.json` overrides:
+   ```json
+   "overrides": {
+     "@typescript-eslint/typescript-estree": {
+       "minimatch": ">=9.0.7"
+     }
+   }
+   ```
+   Then run `npm install`. Dev dependency; does not affect production.
+
+2. **Lint Warnings** — Migrate 3 `<img>` elements to Next.js `<Image />` component for improved LCP and bandwidth. Low priority.
+
+### Deferred (Product Decision)
+
+**Next.js 13 → 16 Major Upgrade** — Addresses the 1 critical + related vulnerabilities. Requires:
+- Major version bump with breaking changes
+- Testing against Movena product integration
+- Verification of all routes, APIs, and middleware
+- Assessment of CSS and build system changes
+- Likely a significant engineering sprint
+
+This is intentionally left for product roadmap decision, not automated action.
 
 ---
 
-## Summary Table
+## Dependency Summary
 
-| Check | Status | Notes |
-|-------|--------|-------|
-| **Build** | ✅ Pass | 40 pages compiled; no errors |
-| **Lint** | ⚠️ Warn | 3 `<img>` optimization hints; no errors |
-| **Audit** | ⚠️ Warn | Next.js CVEs deferred (product decision); minimatch fixable |
-| **Overall** | ⚠️ Warn | Build healthy; known Next.js issues tracked; actionable minimatch fix available |
+- **Total Packages**: 423 (audited, up to date)
+- **Vulnerabilities**: 5 (1 critical, 4 high)
+- **Vulnerable Chains**: minimatch → @typescript-eslint (dev only) → Next.js (core)
+- **Funding Requests**: 154 packages
 
 ---
 
-## Notes
+## Deployment Status
 
-- No regressions from previous run
-- Build and deployment ready
-- Next.js upgrade (13→16) remains primary open risk; scheduled for product roadmap decision
-- Minimatch patch recommended as interim control measure
+- ✅ Build passes without errors
+- ✅ All 40 pages generated successfully
+- ✅ No blocking lint errors
+- ⚠️ Security vulnerabilities present but documented and deferred
+- ✅ Ready for deployment (known risks tracked)

@@ -1,6 +1,6 @@
-# Website2.0 Health Monitor Report
+# Website2.0 Health Monitor
 
-**Run Timestamp:** 2026-09-15 (UTC)  
+**Run Timestamp:** 2026-09-15
 **Overall Status:** ⚠️ Warning
 
 ---

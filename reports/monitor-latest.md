@@ -1,13 +1,13 @@
 # Website2.0 Health Monitor Report
 
-**Run Timestamp:** 2026-09-15 at 12:04 UTC  
-**Overall Status:** ⚠️ Warning
+**Run Timestamp:** 2026-09-15 at 18:00+ UTC  
+**Overall Status:** ❌ Critical
 
 ---
 
 ## Summary
 
-The website2.0 project builds and lints successfully, but contains known critical security vulnerabilities in Next.js that require attention. These vulnerabilities are acknowledged in CLAUDE.md as a product decision pending a major upgrade from Next 13 to Next 16, which is outside the scope of routine monitoring.
+Build and lint checks passed successfully. Security audit detected **5 vulnerabilities** (1 critical, 4 high). The critical Next.js vulnerabilities are known issues per CLAUDE.md and require a product-level decision for a major version upgrade from Next.js 13 to 16. Lint warnings are non-critical performance recommendations.
 
 ---
 
@@ -28,7 +28,7 @@ The website2.0 project builds and lints successfully, but contains known critica
 ✓ Build traces collected
 ```
 
-Routes configured:
+**Routes Configured:**
 - Home pages: `/[locale]` (en, da)
 - Blog: `/[locale]/blog` and `/[locale]/blog/[slug]` (21 articles)
 - Additional pages: contact, privacy, savings-calculator, terms
@@ -42,51 +42,70 @@ Routes configured:
 **Result:** 3 warnings found, no errors
 
 **Issues:**
-1. **MetaPixel.tsx:54** - Using `<img>` tag
+1. **MetaPixel.tsx:54** — Using `<img>` tag
+   - Rule: `@next/next/no-img-element`
    - Recommendation: Use `<Image />` from `next/image` for LCP optimization
    
-2. **SplitSection.tsx:93, 96** - Using `<img>` tags (2 instances)
-   - Recommendation: Use `<Image />` from `next/image` for LCP optimization
+2. **SplitSection.tsx:93** — Using `<img>` tag
+   - Rule: `@next/next/no-img-element`
+   - Recommendation: Use `<Image />` from `next/image`
+   
+3. **SplitSection.tsx:96** — Using `<img>` tag
+   - Rule: `@next/next/no-img-element`
+   - Recommendation: Use `<Image />` from `next/image`
 
-**Severity:** Low - These are performance optimization recommendations that do not block builds or deployment.
+**Severity:** Low — Performance optimization recommendations that do not block builds or deployment.
 
 ---
 
-## Security Audit: ❌ Critical Vulnerabilities Found
+## Security Audit: ❌ Critical Vulnerabilities
 
 **Total Vulnerabilities:** 5 (1 Critical, 4 High)
 
 ### Critical Severity (1)
 
-**Next.js (versions 0.9.9 - 16.3.0-preview.10)** — Multiple Critical Vulnerabilities
+**Next.js (versions 0.9.9 - 16.3.0-preview.10)** — 33 CVEs
 
-The project currently uses an older version of Next.js with 33 documented CVEs including:
-- Server-Side Request Forgery (SSRF) attacks
-- Denial of Service (DoS) via Server Components
-- Unauthenticated Remote Code Execution (RCE) on Windows-hosted servers
-- Unbounded cache growth and Cache poisoning attacks
-- XSS vulnerabilities in various contexts
-- Image Optimization API exploits
-- Middleware/Proxy bypass vulnerabilities
+The project's Next.js version contains multiple critical security vulnerabilities:
+- **Server-Side Request Forgery (SSRF)** in Server Actions, rewrites, and WebSocket upgrades
+- **Denial of Service (DoS)** via Server Components and Image Optimization
+- **Unauthenticated Remote Code Execution (RCE)** on Windows-hosted servers
+- **Cache poisoning and collision** vulnerabilities
+- **XSS vulnerabilities** in App Router (CSP nonces) and beforeInteractive scripts
+- **Image Optimization API** exploits and unbounded cache growth
+- **Middleware/Proxy bypass** in Pages Router i18n and rewrites
+- **Information disclosure** in dev server and internal endpoints
+- **Authorization bypass** vulnerabilities
+- **Server-side request deserialization** DoS with React Server Components
+- **HTTP request smuggling** in rewrites
 
-**Status Note:** Per CLAUDE.md, upgrading Next.js from v13 to v16 is a product decision that requires a major version bump and is outside the scope of routine monitoring. Next.js and its nested PostCSS are "knowingly left on their current versions."
+**CLAUDE.md Status:** Next.js and postcss are "knowingly left on their current versions. Fixing them requires Next 13 to 16, a major upgrade that is a product decision, not a monitor action."
 
-**Available Fix:** `npm audit fix --force` would upgrade to next@16.3.5 (breaking change)
+**Available Fix:** `npm audit fix --force` → next@16.3.5 (breaking change)
 
 ### High Severity (4)
 
-**1. minimatch (versions 9.0.0 - 9.0.6)**
-- ReDoS via repeated wildcards
-- Nested *() extglobs causing catastrophic backtracking
-- Affects: @typescript-eslint/parser → @typescript-eslint/typescript-estree
-- Available fix: `npm audit fix`
+**1. minimatch (9.0.0 - 9.0.6)** — ReDoS Vulnerabilities
 
-**2. PostCSS (versions ≤8.5.22)**
-- XSS via unescaped </style> in CSS output
-- Arbitrary file read via sourceMappingURL
-- Path traversal in source map auto-loading
-- Affects: next's nested PostCSS dependency
-- Available fix: `npm audit fix --force` (breaking change with Next.js upgrade)
+3 Regular Expression Denial of Service (ReDoS) vulnerabilities:
+- Repeated wildcards with non-matching literal in pattern
+- Multiple non-adjacent GLOBSTAR segments combinatorial backtracking
+- Nested *() extglobs generate catastrophically backtracking regex
+
+Dependency chain: @typescript-eslint/parser → @typescript-eslint/typescript-estree → minimatch
+
+**Available Fix:** `npm audit fix`
+
+**2. PostCSS (≤8.5.22)** — 4 Vulnerabilities
+
+- **XSS:** Unescaped `</style>` in CSS Stringify Output
+- **Information Disclosure:** Arbitrary file read via attacker-controlled sourceMappingURL
+- **Path Traversal:** Previous Source Map auto-loading reads arbitrary .map files
+- **Source Map Injection:** Incomplete fix of sourceMappingURL handling
+
+Dependency chain: next → postcss (nested)
+
+**Available Fix:** `npm audit fix --force` (requires Next.js upgrade)
 
 ---
 
@@ -101,30 +120,33 @@ The project currently uses an older version of Next.js with 33 documented CVEs i
 
 ## Recommendations
 
-### Immediate (Before Production Release)
-1. Monitor for Next.js 0-day exploits or active exploitation
-2. Consider running behind WAF/reverse proxy to mitigate SSRF and DoS risks
-3. Schedule product decision discussion on Next.js upgrade timeline
+### Immediate Actions (Best Effort)
+1. **Lint warnings:** Convert 3 `<img>` tags to `<Image />` for performance
+   - Files: MetaPixel.tsx, SplitSection.tsx
+   - Effort: Low
 
-### Near-term (1-3 months)
-1. Plan Next.js v13 → v16 upgrade and comprehensive testing
-2. Update minimatch to latest version: `npm audit fix`
-3. Once Next.js is upgraded, postcss vulnerabilities will be resolved
+### Product-Level Decision Required
+1. **Next.js & PostCSS Upgrade:** Schedule major version upgrade from Next.js 13 to 16+
+   - Current impact: 33 Next.js CVEs including critical SSRF, RCE, and DoS vulnerabilities
+   - Breaking change: Requires comprehensive testing and validation
+   - Timeline: Coordinate with product and engineering teams
 
-### Performance (Optional)
-1. Replace `<img>` with `<Image />` in MetaPixel.tsx and SplitSection.tsx for LCP improvements
+2. **Interim Mitigation (if upgrade blocked):**
+   - Monitor for active 0-day exploits
+   - Deploy behind WAF/reverse proxy to mitigate SSRF and DoS vectors
+   - Implement strict CSP and request validation
 
 ---
 
 ## Test Commands Executed
 
 ```bash
-npm install           # Dependencies verified
-npm run build         # Production build check
-npm run lint          # Code quality check
+npm install           # Verify dependencies (423 packages)
+npm run build         # Production build validation
+npm run lint          # Code quality and performance checks
 npm audit             # Security vulnerability scan
 ```
 
 ---
 
-**Report generated by website-monitor on 2026-09-15**
+**Report generated by automated monitor on 2026-09-15**

@@ -1,6 +1,6 @@
 # Website2.0 Health Monitor Report
 
-**Run Timestamp:** 2026-09-15 12:26:00 UTC  
+**Run Timestamp:** 2026-09-15 (automated run)  
 **Overall Status:** ⚠️ Warning
 
 ---
@@ -166,5 +166,5 @@ Convert 3 `<img>` tags to Next.js `<Image />` component for improved LCP perform
 
 ---
 
-**Report generated: 2026-09-15 12:26:00 UTC**  
+**Report generated:** 2026-09-15  
 **Next scheduled run:** Check CLAUDE.md for monitoring cadence

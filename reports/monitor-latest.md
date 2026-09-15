@@ -1,6 +1,6 @@
 # website2.0 Health Monitor
 
-**Run Timestamp:** 2026-09-15 at ~10:15 UTC  
+**Run Timestamp:** 2026-09-15  
 **Overall Status:** ⚠️ **WARNING** — Build and lint healthy, 5 known vulnerabilities (1 critical Next.js, 4 high in dependencies)
 
 ---

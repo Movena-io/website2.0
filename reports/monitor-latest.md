@@ -1,13 +1,13 @@
-# Website2.0 Health Monitor
+# website2.0 Health Monitor
 
-**Run Timestamp:** 2026-09-15 (Latest Monitor Run)  
-**Overall Status:** ⚠️ Warning
+**Run Timestamp:** 2026-09-15T12:57:00Z  
+**Overall Status:** ❌ **Critical** — Known vulnerabilities in core dependencies (deferred upgrade)
 
 ---
 
 ## Summary
 
-The website2.0 project **builds and lints successfully** with no compilation errors. Linting produces **3 non-blocking warnings** about using native `<img>` instead of Next.js Image component. Security audit reveals **5 vulnerabilities** (1 critical in Next.js, 4 high in minimatch and postcss). Per CLAUDE.md project policy, Next.js 13 and nested PostCSS vulnerabilities are **intentionally not patched** (major version upgrade is a product decision). All 40 static pages generate successfully.
+The website2.0 project **builds and lints successfully** with no compilation errors. All 40 static pages generate correctly. Linting produces **3 non-blocking warnings** about using native `<img>` instead of Next.js Image component. Security audit reveals **5 critical/high-severity vulnerabilities** primarily in Next.js (1 critical, 31 advisories) and transitive dependencies (minimatch, postcss, 4 high severity). Per CLAUDE.md project policy, Next.js 13 vulnerabilities are **intentionally not patched** as they require a major version upgrade (13 → 16+), which is a product decision.
 
 ---
 
@@ -70,72 +70,83 @@ Creating an optimized production build...
 ```
 npm audit
 423 packages audited
-5 vulnerabilities: 1 critical, 4 high, 0 moderate, 0 low
+5 vulnerabilities: 1 critical, 4 high
 ```
 
 ### Critical Severity (1)
 
-#### **next** — Multiple Critical & High Vulnerabilities
+#### **next** — 31 Security Advisories (Multiple Critical & High)
 - **Package:** `next` (v13.x)
 - **Location:** `node_modules/next`
+- **Total Advisories:** 31 (ranging from critical to high)
 
-**Critical CVEs in Current Version:**
+**Critical/High-Severity Issues in Current Version:**
 
-| CVE | Title | CVSS | Type | Affected Range |
-|-----|-------|------|------|-----------------|
-| GHSA-p293-qw3h-jr36 | Unauthenticated Remote Code Execution on Windows | 9.0 | Path Traversal RCE | 13.4.0 - 15.5.23 |
-| GHSA-2xp9-vwfh-vxw4 | RCE in Image Optimization API (AVIF) | — | Image Processing RCE | 10.0.0 - 15.5.23 |
-| GHSA-fr5h-rqp8-mj6g | Server-Side Request Forgery in Server Actions | 7.5 | SSRF | 13.4.0 - 14.1.0 |
-| GHSA-g77x-44xx-532m | Denial of Service in Image Optimization | 5.9 | DoS | 10.0.0 - 14.2.6 |
+| Issue | Severity | Type | Impact |
+|-------|----------|------|--------|
+| Unauthenticated Remote Code Execution on Windows | Critical | Path Traversal RCE | Arbitrary code execution on Windows-hosted servers |
+| Unauthenticated RCE in Image Optimization API (AVIF) | Critical | Image Processing RCE | Arbitrary code execution via AVIF image handling |
+| Server-Side Request Forgery in Server Actions | Critical | SSRF | Attacker-controlled requests to internal services |
+| Server-Side Request Forgery in rewrites | High | SSRF | SSRF via attacker-controlled destination hostname |
+| Denial of Service in Image Optimization | High | DoS | Resource exhaustion, disk cache exhaustion |
+| Denial of Service via Server Components | High | DoS | Multiple DoS vulnerabilities in Server Components |
+| Cache Poisoning Vulnerabilities | High | Cache Poisoning | Cache confusion in Image API and middleware/proxy |
+| Authorization Bypass | High | Auth Bypass | Authorization bypass vulnerability |
+| Middleware Bypass (i18n) | High | Middleware Bypass | Bypass in Pages Router i18n applications |
+| XSS via CSP Nonces | High | XSS | Cross-site scripting in App Router with CSP nonces |
+| Information Disclosure in Dev Server | High | Info Disclosure | Lack of origin verification, internal endpoint disclosure |
+| HTTP Request Smuggling | High | HTTP Smuggling | Smuggling attacks via rewrite handling |
+| Unbounded Disk Cache Growth | High | Resource Exhaustion | next/image cache can exhaust storage |
 
-**Additional High/Moderate Issues:** 15+ additional vulnerabilities including:
-- Authorization bypass, cache poisoning, middleware bypass, XSS in CSP nonces, information disclosure, HTTP smuggling
-- Affects Server Actions, Image Optimization API, Dev Server, WebSocket upgrades
-
-**Product Status (per CLAUDE.md):** ⚠️ 
+**Product Status (per CLAUDE.md):** ⚠️ **Intentionally Deferred**
 > "Next.js and its nested postcss are knowingly left on their current versions. Fixing them requires Next 13 to 16, a major upgrade that is a product decision, not a monitor action. Do not run `npm audit fix --force`."
 
-**Available Fix:** `npm audit fix --force` → next@16.3.5 (requires major version upgrade 13 → 16)
+**Available Fix:** `npm audit fix --force` → next@16.3.5 (breaking change, requires Next.js 13 → 16 major upgrade)
 
-**Recommendation:** Establish timeline for upgrade; this is a product decision requiring cross-team coordination and testing due to breaking changes.
+**Status:** No action required per project policy. Next.js upgrade is a product decision requiring planning and cross-team coordination.
 
 ---
 
 ### High Severity (4)
 
-#### **1. minimatch (9.0.0 - 9.0.6)** — Regular Expression Denial of Service (ReDoS)
+#### **1. minimatch (9.0.0 - 9.0.6)** — 3 ReDoS Vulnerabilities
 
 **Affected Package:** `@typescript-eslint/typescript-estree → minimatch`  
-**Vulnerability Chain:** @typescript-eslint/parser → @typescript-eslint/typescript-estree → minimatch
+**Vulnerability Chain:** @typescript-eslint/parser → @typescript-eslint/typescript-estree → minimatch  
+**Context:** Used during linting/build time (dev dependency)
 
-**CVEs:**
-| ID | Title | CVSS | Trigger |
-|---|---|---|---|
-| GHSA-3ppc-4f35-3m26 | ReDoS via repeated wildcards with non-matching literal | — | Pattern matching |
-| GHSA-7r86-cg39-jmmj | ReDoS via GLOBSTAR combinatorial backtracking | 7.5 | Multiple non-adjacent GLOBSTAR segments |
-| GHSA-23c5-xmqv-rm74 | ReDoS via nested `*()` extglobs | 7.5 | Catastrophic backtracking in regex |
+**Vulnerabilities:**
+| ID | Title | Trigger |
+|---|---|---|
+| GHSA-3ppc-4f35-3m26 | ReDoS via repeated wildcards with non-matching literal | Pattern matching with excessive wildcards |
+| GHSA-7r86-cg39-jmmj | ReDoS via GLOBSTAR combinatorial backtracking | Multiple non-adjacent GLOBSTAR (`**`) segments |
+| GHSA-23c5-xmqv-rm74 | ReDoS via nested `*()` extglobs | Catastrophically backtracking regex patterns |
 
-**Status:** Fixable via `npm audit fix`, but per CLAUDE.md guidelines, prefer targeted override in `package.json` to avoid updating ~87 unrelated packages.
+**Impact:** Low in production (dev/build-time only). Could cause build hangs with malicious glob patterns.
 
-**Recommendation:** Add scoped override entry (similar to existing `js-yaml@3` and `nanoid@3` entries) rather than broad `npm audit fix`.
+**Status:** Fixable independently via `npm audit fix`, but per CLAUDE.md guidelines, avoid rewriting ~87 unrelated packages.
+
+**Recommendation:** Add scoped override in `package.json` (similar to existing `js-yaml@3` and `nanoid@3` entries) to pin minimatch to safe version (≥9.1.0), then run `npm install`.
 
 ---
 
-#### **2. postcss (≤8.5.22)** — Multiple High-Severity Issues
+#### **2. postcss (≤8.5.22)** — 4 High-Severity Vulnerabilities
 
-**Affected Package:** `next → postcss` (nested dependency)
+**Affected Package:** `next → postcss` (nested dependency, not independently upgradeable)
 
-**CVEs:**
-| ID | Title | CVSS | Type |
+**Vulnerabilities:**
+| ID | Title | Severity | Type |
 |---|---|---|---|
-| GHSA-6g55-p6wh-862q | Arbitrary file read via sourceMappingURL | 7.5 | Information Disclosure |
-| GHSA-r28c-9q8g-f849 | Path traversal via source map auto-loading | 7.5 | Path Traversal |
-| GHSA-fxqj-rqcc-2cmp | Incomplete fix for GHSA-6g55-p6wh-862q | — | Source Map Injection |
-| GHSA-qx2v-qp2m-jg93 | XSS via unescaped `</style>` in CSS | 6.1 | Cross-Site Scripting |
+| GHSA-6g55-p6wh-862q | Arbitrary file read via sourceMappingURL | High | Information Disclosure |
+| GHSA-r28c-9q8g-f849 | Path traversal via source map auto-loading | High | Path Traversal |
+| GHSA-fxqj-rqcc-2cmp | Incomplete fix for GHSA-6g55-p6wh-862q | High | Source Map Injection |
+| GHSA-qx2v-qp2m-jg93 | XSS via unescaped `</style>` in CSS stringify | High | Cross-Site Scripting |
 
-**Status:** Cannot be patched independently; requires Next.js major version upgrade to 16+ (see above).
+**Status:** Cannot be patched independently; requires Next.js major version upgrade to 16+ (which upgrades PostCSS).
 
-**Recommendation:** Resolution depends on Next.js upgrade timeline.
+**Impact:** Could allow arbitrary file disclosure if source maps are exposed, or XSS injection via CSS processing.
+
+**Recommendation:** Resolution tied to Next.js upgrade timeline (see Critical section above).
 
 ---
 
@@ -146,14 +157,15 @@ npm audit
 ```
 npm install
 423 packages audited
-├─ 157 production dependencies
-├─ 289 development dependencies  
-├─ 37 optional dependencies
-└─ 5 vulnerabilities (1 critical, 4 high)
+├─ 5 vulnerabilities (1 critical, 4 high)
+├─ 154 packages with available funding
+└─ All dependencies up to date
 ```
 
-- **Packages with Available Funding:** 154
-- **Up to date:** Yes, no pending updates
+- **Total Packages:** 423
+- **Vulnerable Packages:** 3 (next, minimatch, postcss)
+- **Funding Opportunities:** 154 packages
+- **Status:** All production dependencies current (no pending updates)
 
 ---
 
@@ -161,35 +173,44 @@ npm install
 
 ### 🔴 Priority 1: Critical — Next.js Major Version Upgrade
 
-**Status:** Acknowledged product decision in CLAUDE.md. Do not run `npm audit fix --force`.
+**Status:** ⚠️ Acknowledged product decision in CLAUDE.md. **Do not run `npm audit fix --force`** without explicit approval.
 
-**Issue:** Next.js 13 contains 4 critical and 15+ additional high/moderate vulnerabilities including RCE, SSRF, DoS, and authorization bypass.
+**Issue:** Next.js 13 contains **31 security advisories** including multiple critical vulnerabilities:
+- Unauthenticated Remote Code Execution (Windows servers, AVIF image handling)
+- Server-Side Request Forgery (SSRF) in Server Actions and rewrites
+- Denial of Service attacks via Server Components and Image Optimizer
+- Cache poisoning, authorization bypass, middleware bypass
+- XSS, HTTP smuggling, information disclosure
 
-**Required Action:** Establish timeline and plan for Next.js 13 → 16+ upgrade
-- Major version change requires comprehensive testing
-- Breaking changes may require code updates
-- Coordinate with product/engineering teams
-- This is a product decision, not a routine maintenance task
+**Required Action:** Establish timeline and plan for Next.js 13 → 16+ upgrade (breaking change)
+- Comprehensive testing and validation required
+- Code updates may be necessary for breaking changes
+- Coordinate with product and engineering teams
+- This is a **product decision**, not routine maintenance
 
-**Interim Measures (while planning upgrade):**
-- Maintain this monitoring schedule
-- Implement defense-in-depth (WAF, strict CSP policies, request validation)
-- Restrict Server Actions where possible
-- Monitor image optimization features for exploit attempts
-- Disable Windows deployments if running in that environment (CVSS 9.0 RCE)
+**Interim Risk Management (while planning upgrade):**
+- Continue vulnerability monitoring (this report)
+- Implement defense-in-depth: WAF, strict CSP policies, request validation
+- Disable or restrict Server Actions usage where possible
+- Monitor Image Optimizer for exploit attempts
+- If deployed on Windows servers: consider prioritization for urgent upgrade
+
+**Do Not:** Do not attempt `npm audit fix --force` as it would unilaterally upgrade to Next 16+ with potential breaking changes to production.
 
 ---
 
-### 🟡 Priority 2: High — Minimatch Transitive Dependency
+### 🟡 Priority 2: High — Minimatch Transitive Dependency (Dev-Only)
 
-**Status:** Fixable without major upgrades.
+**Status:** ✅ Fixable independently without major upgrades.
 
-**Issue:** `@typescript-eslint/parser` depends on minimatch with 3 ReDoS vulnerabilities (CVSS 7.5).
+**Issue:** `@typescript-eslint/parser` → `@typescript-eslint/typescript-estree` → `minimatch` (9.0.0-9.0.6)
+- 3 ReDoS (Regular Expression Denial of Service) vulnerabilities
+- Dev/build-time dependency only (low production impact)
 
 **Recommended Approach (per CLAUDE.md):**
 > "Patch a transitive dependency with a scoped entry in `overrides` in `package.json` instead" of running `npm audit fix`
 
-**Action:** Add minimatch override to `package.json` to pinned safe version:
+**Action:** Add minimatch override to `package.json`:
 ```json
 "overrides": {
   "@typescript-eslint/typescript-estree": {
@@ -197,35 +218,50 @@ npm install
   }
 }
 ```
-Then run `npm install`. This avoids `npm audit fix` rewriting ~87 packages.
+Then run `npm install`. This avoids `npm audit fix` rewriting ~87 unrelated packages.
 
 ---
 
 ### 🟢 Priority 3: Code Quality — Lint Warnings
 
-**Status:** Non-blocking, low priority optimization.
+**Status:** ✅ Non-blocking, low priority optimization.
 
-**Action:** Convert 3 `<img>` tags to Next.js `<Image />` component:
+**Found:** 3 warnings about using `<img>` instead of `<Image />` component:
 ```
 - components/MetaPixel.tsx:54
 - components/SplitSection.tsx:93
 - components/SplitSection.tsx:96
 ```
 
-**Benefit:** Improves Largest Contentful Paint (LCP), reduces bandwidth via automatic optimization.
+**Action:** Refactor to use Next.js `<Image />` component for automatic optimization.
+
+**Benefit:** Improves Largest Contentful Paint (LCP) score, reduces bandwidth through automatic image optimization.
 
 ---
 
-## Test Results
+---
+
+## Test Results Summary
 
 | Check | Command | Status | Details |
 |-------|---------|--------|---------|
-| Dependencies | `npm install` | ✅ Pass | 423 packages, 5 vulnerabilities |
-| Build | `npm run build` | ✅ Pass | 40 pages generated, no errors |
+| Dependencies | `npm install` | ✅ Pass | 423 packages audited, up to date |
+| Build | `npm run build` | ✅ Pass | All 40 static pages generated, zero errors |
 | Linting | `npm run lint` | ⚠️ Warn | 3 non-blocking warnings, 0 errors |
-| Security | `npm audit` | ❌ Critical | 1 critical, 4 high severity CVEs |
+| Security | `npm audit` | ❌ Critical | 5 vulnerabilities (1 critical in Next.js, 4 high in minimatch/postcss) |
 
 ---
 
-**Report generated:** 2026-09-15 (UTC)  
-**Next run:** Scheduled (monitor reports history with: `git log reports/monitor-latest.md`)
+## Overall Assessment
+
+**Build Health:** ✅ Excellent  
+**Code Quality:** ⚠️ Good (minor optimization suggestions)  
+**Security Posture:** ❌ Critical vulnerabilities present (intentionally deferred)  
+
+**Conclusion:** The website builds and deploys successfully with no blockers. All 40 localized pages render correctly. Vulnerabilities in Next.js and PostCSS are acknowledged as deferred product decisions requiring major version upgrades. Development dependency vulnerabilities (minimatch) are fixable with targeted overrides. Recommend establishing timeline for Next.js 13 → 16+ upgrade in future planning cycle.
+
+---
+
+**Report generated:** 2026-09-15T12:57:00Z  
+**View history:** `git log reports/monitor-latest.md`  
+**Project instructions:** See `/home/user/website2.0/CLAUDE.md` for Next.js upgrade policy

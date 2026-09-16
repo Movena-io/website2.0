@@ -227,6 +227,6 @@ Then run `npm install`. This avoids `npm audit fix` rewriting ~87 unrelated pack
 
 ---
 
-**Report generated:** 2026-09-15 (automated monitor run)  
+**Report generated:** 2026-09-16 at 18:15 UTC (automated monitor run)  
 **View history:** `git log reports/monitor-latest.md`  
 **Project instructions:** See `/home/user/website2.0/CLAUDE.md` for Next.js upgrade policy and dependency patching guidelines

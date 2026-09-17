@@ -1,7 +1,7 @@
 # website2.0 Health Monitor
 
-**Run Timestamp:** 2026-09-17 (02:15 UTC)  
-**Overall Status:** ❌ **CRITICAL** – Build & Lint Pass, Security Vulnerabilities Present
+**Run Timestamp:** 2026-09-17 (automated run)  
+**Overall Status:** ⚠️ **ISSUES DETECTED** – Build & Lint Pass, Security Vulnerabilities Present
 
 ---
 
@@ -227,6 +227,6 @@ Then run `npm install`. This avoids `npm audit fix` rewriting ~87 unrelated pack
 
 ---
 
-**Report generated:** 2026-09-16 at 18:15 UTC (automated monitor run)  
+**Report generated:** 2026-09-17 (automated monitor run)  
 **View history:** `git log reports/monitor-latest.md`  
 **Project instructions:** See `/home/user/website2.0/CLAUDE.md` for Next.js upgrade policy and dependency patching guidelines

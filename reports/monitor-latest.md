@@ -1,241 +1,166 @@
-# Website Monitor Report
+# Website2.0 Health Check Report
 
-**Run Timestamp**: 2026-09-19  
-**Overall Status**: ✅ **HEALTHY** — All builds and linting pass. Security vulnerabilities pre-existing and noted.
-
-## Executive Summary
-
-The movena.io website is fully functional and ready for deployment. The Next.js 13 App Router build completes successfully, linting passes with only minor non-critical warnings, and the site structure supports two locales (English and Danish) with proper geo-routing. The application compiles without errors and generates 40 optimized static pages.
-
-**Key Metrics**:
-- Build: ✅ PASSED
-- Linting: ✅ PASSED (3 non-critical warnings)
-- TypeScript Compilation: ✅ PASSED
-- Deployment Configuration: ✅ READY
-- Production Build Size: 100 MB (.next directory)
+**Run Timestamp**: 2026-09-19 09:05 UTC  
+**Overall Status**: ⚠️ **PASSED WITH WARNINGS**
 
 ---
 
-## Detailed Findings
+## Summary
 
-### ✅ Build Status: PASSED
-
-**Next.js Production Build** completed successfully without errors.
-
-**Build Output Summary**:
-- Compiled successfully
-- Generated 40 static pages (SSG + SSR optimal)
-- Type checking passed
-- Build traces collected
-- Middleware compiled: 27 kB
-
-**Generated Routes** (all localized for en/da):
-- Root page: 19.1 kB
-- Blog listing page: 208 B (21 blog posts across 2 locales)
-- Individual blog posts: 209 B each (dynamic routing via [slug])
-- Savings calculator: 16.3 kB (interactive component)
-- Contact page: 1.72 kB
-- Privacy & Terms pages: 186 B each
-- API routes (contact, calculator submit): Server functions
-- Static files: robots.txt, sitemap.xml
-
-**Shared JavaScript Bundle**: 80.6 kB across all pages
-- Main chunks: 27.5 kB + 51.1 kB + framework code
-- This is efficient for a marketing site with calculator functionality
-
-### ✅ Linting Status: PASSED with Non-Critical Warnings
-
-**ESLint Configuration**: Next.js core-web-vitals standards
-
-**Warnings Found** (3 total — performance recommendations, not errors):
-
-1. **MetaPixel.tsx:54** — Image optimization
-   - Using `<img>` instead of `<Image />` from next/image
-   - Impact: Minor LCP (Largest Contentful Paint) optimization opportunity
-   - Severity: Informational
-
-2. **SplitSection.tsx:93** — Image optimization
-   - Using `<img>` instead of `<Image />`
-   - Impact: Bandwidth optimization opportunity
-   - Severity: Informational
-
-3. **SplitSection.tsx:96** — Image optimization
-   - Using `<img>` instead of `<Image />`
-   - Impact: Bandwidth optimization opportunity
-   - Severity: Informational
-
-**Assessment**: These are best-practice recommendations from Next.js, not functional errors. They can be addressed if image performance optimization is prioritized.
-
-### ✅ Code Structure and Deployment Readiness
-
-**Project Configuration**:
-- **Framework**: Next.js 13.5.11 (App Router)
-- **TypeScript**: Strict mode enabled, configured for bundler resolution
-- **Styling**: Tailwind CSS 3 + Autoprefixer + PostCSS 8
-- **Localization**: Proper i18n setup with 2 locales (en, da)
-
-**App Structure**:
-```
-app/
-├── [locale]/
-│   ├── page.tsx (home)
-│   ├── layout.tsx (shared layout, navigation, footer)
-│   ├── blog/
-│   │   ├── page.tsx (blog listing with reading time)
-│   │   └── [slug]/page.tsx (individual posts)
-│   ├── savings-calculator/
-│   ├── contact/
-│   ├── privacy/
-│   ├── terms/
-│   └── ...
-├── api/
-│   ├── contact/route.ts
-│   └── calculator/submit/route.ts
-├── robots.ts
-└── sitemap.ts
-```
-
-**Middleware Implementation** (middleware.ts):
-- Geo-based locale routing (Denmark → Danish)
-- Accept-Language fallback for browser preferences
-- English as default locale
-- Proper cache headers (Vary: Accept-Language, x-vercel-ip-country)
-- Uses 307 redirects (temporary, not cached) for locale selection
-
-**Content Management**:
-- 16 blog posts with dual-language support (.md and .da.md pairs)
-- Gray-matter for frontmatter parsing
-- Marked for markdown rendering
-- Reading time calculation included
-
-**Deployment Configuration** (vercel.json):
-```json
-{
-  "framework": "nextjs",
-  "buildCommand": "npm run build",
-  "outputDirectory": ".next",
-  "installCommand": "npm install"
-}
-```
-✅ Properly configured for Vercel deployment
-
-### ⚠️ Security Audit: Known Vulnerabilities
-
-**Status**: 5 vulnerabilities detected (4 high, 1 critical)
-
-These are **pre-existing and intentionally pinned** per project guidelines in CLAUDE.md.
-
-#### Critical Severity (1)
-- **next (13.5.11)**: Multiple advisories including SSRF in Server Actions, XSS, Cache confusion, information exposure
-  - **Fix Available**: Requires major version upgrade to next@14+ (product decision)
-  - **Status**: Intentionally pinned; Next.js 13→16 is a breaking change requiring product approval
-
-#### High Severity (4)
-- **minimatch (9.0.6)**: ReDoS vulnerabilities via wildcard patterns
-  - **Chain**: eslint → @typescript-eslint → minimatch
-  - **Fix Available**: npm audit fix
-  - **Mitigation**: Could potentially use `overrides` in package.json (needs testing)
-
-- **postcss (nested in next)**: XSS and source map vulnerabilities
-  - **Fix Available**: Requires next version upgrade
-  - **Status**: Pinned as part of Next.js constraint
-
-#### Note
-Per CLAUDE.md: "next and its nested postcss are knowingly left on their current versions. Fixing them requires Next 13 to 16, a major upgrade that is a product decision, not a monitor action."
-
-**Recommendation**: This is not a blocker for current deployments. The vulnerabilities are known to the team and are product-level decisions.
-
-### ✅ Dependencies
-
-- **Total Packages**: 423 installed
-- **Installation Status**: Successful
-- **Funding**: 154 packages request funding information
-- **Overrides**: 3 strategic pins
-  - ts-api-utils@1.3.0
-  - js-yaml@3.15.2
-  - nanoid@3.3.18
-
-### ✅ Type Checking
-
-TypeScript compilation passed during build:
-- Strict mode enabled
-- No type errors
-- All app routes properly typed
-- Middleware types validated
-
-### ✅ Component Ecosystem
-
-**Key Components Verified**:
-- React 18 + React-DOM
-- Radix UI (slot, tabs)
-- Framer Motion for animations
-- Lucide React icons
-- Class Variance Authority for component variants
-- React Email for transactional emails (via Resend)
-- Vercel Analytics integration
+The website2.0 project successfully builds and runs. However, there are 5 npm security vulnerabilities that should be reviewed (4 high, 1 critical). Linting shows 3 warnings about image optimization. No configuration or locale setup issues detected.
 
 ---
 
-## Environment and Build Artifact Verification
+## 1. Build Status
 
-| Metric | Value | Status |
-|--------|-------|--------|
-| Node Version | System default | ✅ OK |
-| Build Duration | ~30 seconds | ✅ OK |
-| Production Build Size | 100 MB | ✅ OK |
-| Static Pages Generated | 40 | ✅ OK |
-| Type Errors | 0 | ✅ OK |
-| Build Errors | 0 | ✅ OK |
-| Linting Errors | 0 | ✅ OK |
-| Linting Warnings | 3 (non-critical) | ⚠️ Minor |
-| Security Vulnerabilities | 5 (known) | ⚠️ Pre-existing |
+**Result**: ✅ **SUCCESS**
+
+The Next.js build completed successfully with no errors.
+
+- **Build Output**: Compiled without errors
+- **Pages Generated**: 40 static pages
+- **Routes Built**: 
+  - Home pages (`/en`, `/da`)
+  - Blog index and article pages (21 blog routes)
+  - Contact pages (`/en/contact`, `/da/contact`)
+  - Privacy pages (`/en/privacy`, `/da/privacy`)
+  - Savings calculator pages (`/en/savings-calculator`, `/da/savings-calculator`)
+  - Terms pages (`/en/terms`, `/da/terms`)
+  - API routes (calculator/submit, contact)
+  - Middleware enabled
+  - Static files (robots.txt, sitemap.xml)
+
+**First Load JS Size**: 80.6 kB (shared by all routes)
+
+---
+
+## 2. Lint Status
+
+**Result**: ⚠️ **PASSED WITH 3 WARNINGS**
+
+Linting completed successfully with no errors, but 3 warnings about image optimization:
+
+### Warnings
+
+| File | Line | Issue |
+|------|------|-------|
+| `components/MetaPixel.tsx` | 54 | Using `<img>` tag - consider using `<Image />` from `next/image` for optimization |
+| `components/SplitSection.tsx` | 93 | Using `<img>` tag - consider using `<Image />` from `next/image` for optimization |
+| `components/SplitSection.tsx` | 96 | Using `<img>` tag - consider using `<Image />` from `next/image` for optimization |
+
+**Recommendation**: These are informational warnings about performance optimization. Consider converting these `<img>` tags to Next.js `<Image />` components to improve LCP and reduce bandwidth.
+
+---
+
+## 3. Security Audit
+
+**Result**: ⚠️ **5 VULNERABILITIES DETECTED**
+
+### Vulnerability Breakdown
+
+**Critical (1)**:
+- **next** (multiple versions affected): Server-Side Request Forgery in Server Actions and multiple other critical issues
+  - Location: `node_modules/next`
+  - Current: v13.x (old version)
+  - Note: Fixing requires upgrade to Next.js 16.3.5, a major breaking change
+
+**High (4)**:
+- **minimatch** (3 issues): ReDoS vulnerabilities via repeated wildcards
+  - Location: `node_modules/@typescript-eslint/typescript-estree/node_modules/minimatch`
+  - Severity: High
+  - Impact chain: minimatch → @typescript-eslint/typescript-estree → @typescript-eslint/parser
+  
+- **postcss** (4 issues): XSS and path traversal via CSS parsing
+  - Location: `node_modules/next/node_modules/postcss`
+  - Severity: High
+
+### Important Notes (per CLAUDE.md)
+
+As documented in `AUDIT-NOTE.md`, the following are known:
+- Next.js upgrade to v16 is a product decision (major upgrade from v13)
+- Current versions are intentionally kept on their known versions
+- Do NOT run `npm audit fix --force`
+- For transitive dependency issues, patch via `overrides` in `package.json`
+
+**Current Fixes Available**:
+- `npm audit fix` - will fix minimatch issues only
+- `npm audit fix --force` - would upgrade Next.js to v16.3.5 (breaking change, requires product decision)
+
+---
+
+## 4. Key Configuration Files
+
+**Result**: ✅ **ALL PRESENT**
+
+| File | Status | Purpose |
+|------|--------|---------|
+| `package.json` | ✓ Present | Project metadata and dependencies |
+| `next.config.js` | ✓ Present | Next.js configuration |
+| `tsconfig.json` | ✓ Present | TypeScript configuration |
+
+---
+
+## 5. Locale Setup
+
+**Result**: ✅ **VERIFIED**
+
+**Configuration**: Located in `lib/locales.ts`
+- **Locales Configured**: `en` (English), `da` (Danish)
+- **Default Locale**: `en`
+- **Type Safety**: Full TypeScript support with `Locale` type
+
+**Verification**:
+- ✓ Both locales defined in `LOCALES` constant
+- ✓ Both locales built successfully in production build
+- ✓ Locale validation function present
+- ✓ Localized path helper function implemented
+
+**Routes Generated** (per build output):
+- `/en` and `/da` home routes
+- `/en/blog`, `/da/blog` and all blog articles
+- `/en/contact`, `/da/contact`
+- `/en/privacy`, `/da/privacy`
+- `/en/savings-calculator`, `/da/savings-calculator`
+- `/en/terms`, `/da/terms`
+
+---
+
+## 6. Dependencies
+
+**Status**: ⚠️ **422 PACKAGES INSTALLED**
+
+- **Total packages**: 423 (including root)
+- **Packages seeking funding**: 154
+- **Deprecated packages**: 5 (rimraf, inflight, glob, @humanwhocodes/config-array, @humanwhocodes/object-schema, eslint)
+
+**Dependencies installed successfully** despite the vulnerability warnings.
 
 ---
 
 ## Recommendations
 
-1. **Immediate Actions**: None required. The site is deployment-ready.
+### Priority: High
+1. Review AUDIT-NOTE.md for context on known vulnerabilities
+2. Decide on Next.js major version upgrade timeline (v13 → v16)
+3. If deferring Next.js upgrade, monitor security advisories for critical exploits
 
-2. **Short-term Considerations**:
-   - Address the 3 image optimization warnings if performance metrics (LCP) are a priority
-   - Review minimatch vulnerability mitigation via `overrides` entry (low priority)
+### Priority: Medium
+1. Address minimatch ReDoS vulnerabilities using `npm audit fix` when ready
+2. Consider upgrading ESLint from v8 to v9 (currently on deprecated v8.57.1)
 
-3. **Medium-term Decision**:
-   - Plan Next.js 13→16 upgrade when product has capacity (breaking changes)
-   - This would resolve all critical security advisories
-
-4. **Ongoing Monitoring**:
-   - Continue monitoring npm audit reports for new vulnerabilities
-   - Monitor Next.js release notes for security patches to 13.x series
-   - Track Vercel deployment logs for runtime errors
+### Priority: Low
+1. Convert 3 `<img>` tags to Next.js `<Image />` components for performance
+2. Review funding opportunities for dependent packages
 
 ---
 
-## Comparison to Previous Run (2026-09-18)
+## Build Artifacts
 
-**Changes**:
-- Same build status (PASSED)
-- Same linting status (PASSED with 3 warnings)
-- Same security posture (5 vulnerabilities, all pre-existing)
-- No new issues introduced
-- No dependency changes
-
-**Overall**: No regression. Status remains stable and healthy.
+- Output directory: `.next/`
+- Generated files include static pages, middleware, and optimized bundles
+- Ready for deployment to production
 
 ---
 
-## Deployment Readiness Assessment
-
-✅ **READY FOR PRODUCTION**
-
-The website meets all technical requirements for deployment:
-- Build completes without errors
-- All type checking passes
-- Linting passes (warnings are non-critical)
-- Middleware properly configured
-- API routes functional
-- Dual-locale setup working correctly
-- Vercel configuration complete
-- Analytics and tracking integrated
-
-**No blockers identified.** The site can be deployed to production immediately if needed.
+*Report generated by website-monitor health check script*  
+*For detailed logs, refer to git history: `git log reports/monitor-latest.md`*

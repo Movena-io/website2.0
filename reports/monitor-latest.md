@@ -1,253 +1,169 @@
-# Website2.0 Health Check Report
+# Website Monitor Report
 
-**Run Timestamp**: 2026-09-21 00:00 UTC  
-**Overall Status**: ❌ **CRITICAL - Security Vulnerabilities**
-
----
-
-## Summary
-
-The website2.0 project successfully builds and passes linting with no errors. However, the npm dependency audit detected 5 critical security vulnerabilities (1 critical severity, 4 high severity) primarily in the Next.js framework and its dependencies. The vulnerabilities require a major version upgrade (Next.js v13 → v16) to resolve, which is a product decision per CLAUDE.md. Build and code quality are healthy; security requires urgent review and planning.
+**Timestamp:** 2026-09-21  
+**Overall Status:** ❌ CRITICAL
 
 ---
 
-## 1. Build Status
+## Executive Summary
 
-**Result**: ✅ **SUCCESS**
+The website build and lint checks passed successfully. However, a **critical security vulnerability** in Next.js was detected alongside additional high-severity issues. Per project guidelines, the Next.js version is intentionally pinned and requires a product decision for major version upgrade.
 
-The Next.js application compiled successfully with zero errors.
-
-**Build Summary**:
-- ✅ Compilation: Successful
-- ✅ Pages Generated: 40 static pages
-- ✅ Type Checking: Passed
-- ✅ Build Optimization: Complete
-
-**Routes Built**: 
-- Home pages: `/en`, `/da`
-- Blog: `/en/blog`, `/da/blog` + 17 article pages
-- Contact: `/en/contact`, `/da/contact`
-- Privacy: `/en/privacy`, `/da/privacy`
-- Savings Calculator: `/en/savings-calculator`, `/da/savings-calculator`
-- Terms: `/en/terms`, `/da/terms`
-- API routes: `/api/calculator/submit`, `/api/contact`
-- Middleware: 27 kB
-- Static files: robots.txt, sitemap.xml
-
-**Performance Metrics**:
-- First Load JS (shared): 80.6 kB
-- Middleware size: 27 kB
-- Largest bundle: chunks/fd9d1056 (51.1 kB)
+### Critical Issues Requiring Attention
+- ❌ **Next.js v13**: Multiple critical security advisories (SSRF, DoS, RCE, cache poisoning, XSS)
+- ⚠️ **PostCSS v8.5.22**: High-severity path traversal and XSS vulnerabilities  
+- ⚠️ **minimatch v9.0.0-9.0.6**: High-severity ReDoS vulnerabilities
+- ⚠️ **Linting**: 3 warnings about img tag optimization
 
 ---
 
-## 2. Lint Status
+## Detailed Results
 
-**Result**: ⚠️ **PASSED WITH 3 WARNINGS**
+### 1. Build Check ✅ PASSED
 
-Linting completed successfully with no errors. Only 3 non-critical warnings about image optimization detected.
+**Command:** `npm run build`
 
-### Warnings
+**Status:** ✅ Compiled successfully
+
+**Output Summary:**
+- All 40 static pages generated successfully
+- No build errors detected
+- Bundle analysis:
+  - Main app chunk: 80.6 kB (shared across all routes)
+  - Total First Load JS optimized across all routes
+  - Middleware: 27 kB
+  - Routes properly configured for SSG and static rendering
+
+**Key Routes Generated:**
+- Home page: 19.1 kB initial, 169 kB First Load JS
+- Blog index: 208 B, 115 kB First Load JS
+- Blog articles: 21 dynamic post pages (en/da localized)
+- Savings calculator: 16.3 kB, 166 kB First Load JS
+- Contact page: 1.72 kB, 109 kB First Load JS
+- Legal pages (privacy/terms): 186 B each, 107 kB First Load JS
+- API routes: Calculator submit, Contact form (serverless)
+- SEO: robots.txt and sitemap.xml generated
+
+---
+
+### 2. Lint Check ⚠️ WARNINGS
+
+**Command:** `npm run lint`
+
+**Status:** ⚠️ 3 Warnings (No Errors)
+
+**Warnings Details:**
 
 | File | Line | Rule | Issue |
 |------|------|------|-------|
-| `components/MetaPixel.tsx` | 54 | @next/next/no-img-element | Using `<img>` tag instead of `<Image />` |
-| `components/SplitSection.tsx` | 93 | @next/next/no-img-element | Using `<img>` tag instead of `<Image />` |
-| `components/SplitSection.tsx` | 96 | @next/next/no-img-element | Using `<img>` tag instead of `<Image />` |
+| `./components/MetaPixel.tsx` | 54 | @next/next/no-img-element | Using `<img>` instead of Next.js `<Image />` component |
+| `./components/SplitSection.tsx` | 93 | @next/next/no-img-element | Using `<img>` instead of Next.js `<Image />` component |
+| `./components/SplitSection.tsx` | 96 | @next/next/no-img-element | Using `<img>` instead of Next.js `<Image />` component |
 
-**Analysis**: These are performance recommendations, not critical issues. Converting to Next.js `<Image />` component would provide automatic optimization and improve LCP (Largest Contentful Paint) metrics. No errors detected.
-
----
-
-## 3. Security Audit
-
-**Result**: ❌ **CRITICAL - 5 VULNERABILITIES DETECTED**
-
-### Vulnerability Summary
-
-| Severity | Count | Status |
-|----------|-------|--------|
-| 🔴 Critical | 1 | Requires major version upgrade |
-| 🟠 High | 4 | Requires major version upgrade or audit fix |
-| **Total** | **5** | **Needs urgent review** |
-
-### Critical Severity (1)
-
-#### next@13.5.11 - Multiple Security Issues
-**Package**: `node_modules/next`  
-**Severity**: 🔴 CRITICAL (33 total advisories, 2 critical)
-
-**Critical CVEs**:
-1. **GHSA-p293-qw3h-jr36**: Unauthenticated Remote Code Execution on Windows-hosted servers
-   - CVSS Score: 9.0 (Critical)
-   - Affects: Next.js 13.4.0 - 15.5.24
-   
-2. **GHSA-2xp9-vwfh-vxw4**: Unauthenticated Remote Code Execution in Image Optimization API with AVIF
-   - Affects: Next.js 10.0.0 - 15.5.24
-
-**High Severity Examples** (30 additional):
-- **GHSA-fr5h-rqp8-mj6g**: Server-Side Request Forgery in Server Actions (CVSS 7.5)
-- **GHSA-7gfc-8cq8-jh5f**: Authorization bypass vulnerability
-- **GHSA-4342-x723-ch2f**: Improper Middleware Redirect Handling (SSRF)
-- **GHSA-36qx-fr4f-26g5**: Middleware/Proxy bypass in Pages Router
-- Multiple DoS, cache poisoning, XSS, and authentication issues
-
-**Required Fix**: Upgrade to Next.js 16.3.5 (major version change: 13 → 16)
+**Recommendation:** Consider replacing `<img>` tags with Next.js `<Image />` component from `next/image` to optimize LCP (Largest Contentful Paint) and reduce bandwidth usage. This is a code quality recommendation, not a blocking issue.
 
 ---
 
-### High Severity (4)
+### 3. Security Audit ❌ CRITICAL
 
-#### minimatch@9.0.0-9.0.6 
-**Location**: `node_modules/@typescript-eslint/typescript-estree/node_modules/minimatch`  
-**Count**: 3 ReDoS (Regular Expression Denial of Service) vulnerabilities
+**Command:** `npm audit`
 
-- **GHSA-3ppc-4f35-3m26**: ReDoS via repeated wildcards
-- **GHSA-7r86-cg39-jmmj**: ReDoS via multiple non-adjacent GLOBSTAR segments (CVSS 7.5)
-- **GHSA-23c5-xmqv-rm74**: ReDoS via nested extglobs (CVSS 7.5)
+**Status:** ❌ 5 Vulnerabilities Detected (1 Critical, 4 High)
 
-**Dependency Chain**: minimatch → @typescript-eslint/typescript-estree → @typescript-eslint/parser  
-**Fix Available**: `npm audit fix` (non-breaking)
+#### Critical Severity (1)
 
-#### postcss@≤8.5.22
-**Location**: `node_modules/next/node_modules/postcss`  
-**Count**: 4 vulnerabilities
+**Package:** `next@13.x`  
+**Type:** Multiple Security Advisories  
+**Location:** `node_modules/next`
 
-- **GHSA-6g55-p6wh-862q**: Arbitrary file read via sourceMappingURL (CVSS 7.5)
-- **GHSA-r28c-9q8g-f849**: Path traversal in source map auto-loading (CVSS 7.5)
-- **GHSA-qx2v-qp2m-jg93**: XSS via unescaped `</style>` in CSS stringify output
-- **GHSA-fxqj-rqcc-2cmp**: Incomplete fix for GHSA-6g55-p6wh-862q
+**Identified Vulnerabilities (31 total):**
+1. GHSA-fr5h-rqp8-mj6g - Server-Side Request Forgery in Server Actions
+2. GHSA-g77x-44xx-532m - Denial of Service condition in image optimization
+3. GHSA-3h52-269p-cp9r - Information exposure in dev server (lack of origin verification)
+4. GHSA-g5qg-72qw-gw5v - Cache Key Confusion for Image Optimization API Routes
+5. GHSA-7gfc-8cq8-jh5f - Authorization bypass vulnerability
+6. GHSA-4342-x723-ch2f - Improper Middleware Redirect Handling (SSRF)
+7. GHSA-xv57-4mr9-wg8v - Content Injection Vulnerability for Image Optimization
+8. GHSA-qpjv-v59x-3qc4 - Race Condition to Cache Poisoning
+9. GHSA-mwv6-3258-q52c - Denial of Service with Server Components
+10. GHSA-5j59-xgg2-r9c4 - Denial of Service with Server Components (Incomplete Fix Follow-Up)
+11. GHSA-9g9p-9gw9-jx7f - DoS via Image Optimizer remotePatterns configuration
+12. GHSA-h25m-26qc-wcjf - HTTP request deserialization DoS (insecure RSC)
+13. GHSA-ggv3-7p47-pfv8 - HTTP request smuggling in rewrites
+14. GHSA-3x4c-7xq6-9pq8 - Unbounded next/image disk cache growth
+15. GHSA-q4gf-8mx6-v5v3 - Denial of Service with Server Components
+16. GHSA-8h8q-6873-q5fj - Denial of Service with Server Components
+17. GHSA-3g8h-86w9-wvmq - Middleware/Proxy redirects cache poisoning
+18. GHSA-ffhc-5mcf-pf4q - Cross-site scripting in App Router (CSP nonces)
+19. GHSA-vfv6-92ff-j949 - Cache poisoning via RSC cache-busting collision
+20. GHSA-gx5p-jg67-6x7h - Cross-site scripting in beforeInteractive scripts
+21. GHSA-h64f-5h5j-jqjh - Denial of Service in Image Optimization API
+22. GHSA-c4j6-fc7j-m34r - Server-side request forgery (WebSocket upgrades)
+23. GHSA-36qx-fr4f-26g5 - Middleware/Proxy bypass in Pages Router (i18n)
+24. GHSA-m99w-x7hq-7vfj - Denial of Service in App Router (Server Actions)
+25. GHSA-68g3-v927-f742 - Cache confusion of response bodies
+26. GHSA-4633-3j49-mh5q - Cache confusion of response bodies (invalid UTF-8)
+27. GHSA-4c39-4ccg-62r3 - Unbounded Server Action payload (Edge runtime)
+28. GHSA-p9j2-gv94-2wf4 - Server-Side Request Forgery in rewrites
+29. GHSA-955p-x3mx-jcvp - Unauthenticated disclosure of internal Server Function endpoints
+30. GHSA-p293-qw3h-jr36 - Unauthenticated Remote Code Execution (windows-hosted servers)
+31. GHSA-2xp9-vwfh-vxw4 - Unauthenticated RCE in Image Optimization API (AVIF)
 
-**Required Fix**: Requires Next.js 16.3.5 upgrade (breaking change)
+**Fix Available:** `npm audit fix --force` (requires Next.js upgrade to v16.3.5+, a breaking change)
 
----
+#### High Severity (2)
 
-### Critical Project Note (per CLAUDE.md)
+**Package:** `minimatch@9.0.0-9.0.6`  
+**Type:** ReDoS (Regular Expression Denial of Service) Vulnerabilities  
+**Location:** `node_modules/@typescript-eslint/typescript-estree/node_modules/minimatch`  
+**Dependency Chain:** @typescript-eslint/parser → @typescript-eslint/typescript-estree → minimatch
 
-**From project documentation**:
-> "next and its nested postcss are knowingly left on their current versions. Fixing them requires Next 13 to 16, a major upgrade that is a product decision, not a monitor action. Do not run `npm audit fix --force`."
+**Identified Vulnerabilities:**
+1. GHSA-3ppc-4f35-3m26 - ReDoS via repeated wildcards with non-matching literal
+2. GHSA-7r86-cg39-jmmj - ReDoS via multiple non-adjacent GLOBSTAR segments
+3. GHSA-23c5-xmqv-rm74 - ReDoS from nested *() extglobs with catastrophic backtracking
 
-The Next.js security vulnerabilities cannot be patched without a major version upgrade that requires product team approval. This is an architectural decision, not a routine maintenance task.
+**Fix Available:** `npm audit fix`
 
-**Recommended Actions**:
-1. **Immediate**: Schedule security review meeting with product team
-2. **Planning**: Assess impact of Next.js 13 → 16 migration
-3. **Optional**: Apply `npm audit fix` for minimatch only (non-breaking)
-4. **Monitoring**: Track Next.js security advisories for critical exploits
+#### High Severity (2)
 
----
+**Package:** `postcss@8.5.22`  
+**Type:** Path Traversal, XSS, Information Disclosure  
+**Location:** `node_modules/next/node_modules/postcss`  
+**Dependency Chain:** next → postcss
 
-## 4. Key Configuration Files
+**Identified Vulnerabilities:**
+1. GHSA-qx2v-qp2m-jg93 - XSS via Unescaped </style> in CSS Stringify Output
+2. GHSA-6g55-p6wh-862q - Arbitrary file read via attacker-controlled sourceMappingURL
+3. GHSA-fxqj-rqcc-2cmp - Incomplete fix of GHSA-6g55-p6wh-862q (attacker-controlled sourceMappingURL)
+4. GHSA-r28c-9q8g-f849 - Path Traversal in Source Map Auto-Loading
 
-**Result**: ✅ **ALL PRESENT AND VALID**
-
-| File | Status | Purpose | Notes |
-|------|--------|---------|-------|
-| `package.json` | ✓ | Project metadata and dependencies | 155 prod, 289 dev dependencies |
-| `next.config.js` | ✓ | Next.js framework configuration | v13.5.11 |
-| `tsconfig.json` | ✓ | TypeScript compiler configuration | Type checking enabled |
-| `CLAUDE.md` | ✓ | Project documentation | Includes audit/override instructions |
-
----
-
-## 5. Locale Configuration
-
-**Result**: ✅ **FULLY FUNCTIONAL**
-
-**i18n Setup**: Dual-locale Next.js App Router configuration
-- **Locales Configured**: `en` (English), `da` (Danish)
-- **Default Locale**: `en`
-- **Implementation**: Dynamic routing via `app/[locale]/` directory structure
-
-**Build Verification** (from compile output):
-- ✓ All 40 routes generated with both locale variants
-- ✓ Middleware functioning correctly (27 kB)
-- ✓ Static page generation: 40/40 complete
-
-**Route Structure Verified**:
-- Home: `/en`, `/da`
-- Blog: `/en/blog`, `/da/blog` + 17 localized article routes
-- Contact: `/en/contact`, `/da/contact`
-- Privacy: `/en/privacy`, `/da/privacy`
-- Savings Calculator: `/en/savings-calculator`, `/da/savings-calculator`
-- Terms: `/en/terms`, `/da/terms`
-- API: `/api/calculator/submit`, `/api/contact` (language-agnostic)
-
----
-
-## 6. Dependency Status
-
-**Status**: ⚠️ **423 PACKAGES INSTALLED (WITH VULNERABILITIES)**
-
-**Dependency Breakdown**:
-- Production dependencies: 157
-- Development dependencies: 289
-- Optional dependencies: 37
-- Total packages: 423
-
-**Vulnerable Packages**: 
-- 5 packages with known security issues
-- 1 critical, 4 high severity
-- See Section 3 for details
-
-**Deprecated Packages** (non-critical):
-- rimraf@3.0.2 (use v4)
-- inflight@1.0.6 (memory leak, use lru-cache)
-- glob@7.1.7 (outdated, use current version)
-- @humanwhocodes/config-array@0.13.0 (use @eslint/config-array)
-- @humanwhocodes/object-schema@2.0.3 (use @eslint/object-schema)
-- eslint@8.57.1 (EOL, upgrade to v9)
-
-**Note**: Most deprecations are transitive dependencies (ESLint tooling, TypeScript support).
+**Fix Available:** `npm audit fix --force` (requires Next.js upgrade to v16.3.5+, a breaking change)
 
 ---
 
-## Recommendations
+## Important Project Notes
 
-### 🔴 Priority: Critical
-1. **Schedule Security Review**: Product team must assess Next.js 13 → 16 upgrade impact
-2. **Risk Assessment**: Evaluate exposure to RCE vulnerabilities (GHSA-p293-qw3h-jr36, GHSA-2xp9-vwfh-vxw4)
-3. **Timeline Planning**: Define upgrade timeline and resource allocation for major version migration
-4. **Monitoring**: Track Next.js security advisories for proof-of-concept exploits
+Per `CLAUDE.md`:
+> `next` and its nested `postcss` are knowingly left on their current versions. Fixing them requires Next 13 to 16, a major upgrade that is a product decision, not a monitor action. Do not run `npm audit fix --force`.
 
-### 🟡 Priority: Medium
-1. **Optional Security Patch**: Apply `npm audit fix` for minimatch ReDoS issues (non-breaking)
-2. **ESLint Upgrade**: Consider upgrading ESLint 8 → 9 (optional, next major tooling upgrade)
-3. **Code Quality**: Plan next refactor to update 3 `<img>` tags to Next.js `<Image />` components
-
-### 🟢 Priority: Low
-1. **Dependency Review**: Assess whether deprecated transitive dependencies need attention
-2. **Funding**: Review sponsorship opportunities for key maintained packages
+**Recommendation:** 
+- The security vulnerabilities in Next.js v13 are well-known and documented
+- Upgrading to Next.js v16+ is a product/architecture decision requiring stakeholder approval
+- Consider patching transitive dependencies using scoped entries in `overrides` in `package.json` instead
+- Examples of existing patches: `js-yaml@3` and `nanoid@3` are already pinned this way
 
 ---
 
-## Status History
+## Summary Table
 
-| Date | Status | Key Changes |
-|------|--------|-------------|
-| 2026-09-21 | ❌ CRITICAL | Build ✅ OK, Lint ⚠️ 3 warnings, Security ❌ 5 vulnerabilities (1 critical) - product decision required |
-| 2026-09-20 | ⚠️ WARNING | Build ✅ OK, Lint ⚠️ 3 warnings, Security ⚠️ 5 vulnerabilities (1 critical) |
-| 2026-09-19 | ⚠️ WARNING | Initial comprehensive health check. Same 5 vulnerabilities as baseline. |
-
----
-
-## Build Output
-
-- **Compiled Successfully**: ✅ Zero errors
-- **Output Directory**: `.next/`
-- **Artifacts**: Static pages (40), middleware, optimized JavaScript chunks, build traces
-- **Deployment Status**: Application is compilable and buildable; security review required before production
+| Check | Status | Details |
+|-------|--------|---------|
+| Build | ✅ PASSED | All 40 pages compiled, 0 errors |
+| Lint | ⚠️ WARNINGS | 3 non-critical img tag warnings |
+| Security | ❌ CRITICAL | 5 vulnerabilities (1 critical, 4 high) |
+| **Overall** | **❌ CRITICAL** | **Blocked by intentional Next.js version pinning** |
 
 ---
 
-## Important References
-
-- **Project Documentation**: See `/CLAUDE.md` for audit override policies and Next.js version rationale
-- **Security Info**: npm audit report available via `npm audit --json`
-- **Git History**: `git log reports/monitor-latest.md` shows full monitoring history
-- **Blog Guidelines**: See `content/blog/README.md` for article contribution standards
-
----
-
-*Report generated by website monitoring automation*  
-*Timestamp: 2026-09-21 | Next run: 2026-09-22*
+**Report Generated:** 2026-09-21 via website monitor script

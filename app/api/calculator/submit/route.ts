@@ -6,7 +6,6 @@ import { getCurrency } from '@/lib/calculator/currency'
 import { getCalculatorCopy } from '@/lib/calculator/copy'
 import { buildVisitorEmail, buildTeamEmail, buildAttioNote, type LeadPayload } from '@/lib/calculator/report'
 import { pushLeadToAttio } from '@/lib/calculator/attio'
-import { appendLead } from '@/lib/calculator/store'
 
 export const runtime = 'nodejs'
 
@@ -14,6 +13,14 @@ const FROM = 'Movena <noreply@movena.io>'
 const TEAM_TO = ['vcl@movena.io', 'vl@movena.io', 'sto@movena.io']
 const TEAM_REPLY_TO = 'sto@movena.io'
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+
+// Leaves enough to match a log line against the Attio or Resend record without
+// putting a lead's address into the runtime logs.
+function maskEmail(email: string): string {
+  const at = email.lastIndexOf('@')
+  if (at < 0) return '***'
+  return `${email.slice(0, 1)}***${email.slice(at)}`
+}
 
 // Trust nothing from the client for the math. Coerce inputs into a clean shape
 // and recompute the result server-side so emailed/stored numbers are authoritative.
@@ -127,12 +134,10 @@ export async function POST(req: NextRequest) {
     status.visitorEmail = status.teamEmail = 'skipped:no_resend_key'
   }
 
-  // 4. Local store (best-effort safety net)
-  await appendLead(payload)
-
   // Always log the outcome so a submission is diagnosable from the runtime logs,
-  // not just on failure. (No PII beyond company + the email we were given.)
-  console.log('[calculator/submit]', JSON.stringify({ company, email, status }))
+  // not just on failure. The address is masked: Attio and the team email are
+  // where a lead is meant to live, not the log stream.
+  console.log('[calculator/submit]', JSON.stringify({ company, email: maskEmail(email), status }))
 
   return NextResponse.json({ success: true, status })
 }

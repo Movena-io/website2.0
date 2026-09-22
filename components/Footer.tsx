@@ -1,16 +1,22 @@
 'use client'
 
 import Image from 'next/image'
+import { COOKIE_SETTINGS_EVENT } from '@/components/CookieConsent'
 import { DATA_PORTABILITY_PATH, DEMO_URL, PRIVACY_URL } from '@/lib/constants'
 import { trackDemoClick } from '@/lib/tracking'
 import { useLanguage, useLocalizedHref } from '@/lib/LanguageContext'
 
+// An item without an href is an action rather than a destination, and renders
+// as a button so it is reachable by keyboard and reads correctly to a screen
+// reader.
 type FooterLink = {
   label: string
-  href: string
+  href?: string
   external?: boolean
   onClick?: () => void
 }
+
+const LINK_CLASS = 'text-[14px] text-[#CBD5E1] hover:text-white transition-colors'
 
 export default function Footer() {
   const { t } = useLanguage()
@@ -44,6 +50,10 @@ export default function Footer() {
         { label: t.footer.links.privacy, href: PRIVACY_URL, external: true },
         // Danish only, and the same URL in both locales by design.
         { label: t.footer.links.dataPortability, href: DATA_PORTABILITY_PATH },
+        {
+          label: t.footer.links.cookieSettings,
+          onClick: () => window.dispatchEvent(new Event(COOKIE_SETTINGS_EVENT)),
+        },
       ],
     },
   ]
@@ -97,15 +107,25 @@ export default function Footer() {
                 <ul className="flex flex-col gap-3">
                   {col.items.map((item) => (
                     <li key={item.label}>
-                      <a
-                        href={item.href}
-                        target={item.external ? '_blank' : undefined}
-                        rel={item.external ? 'noopener noreferrer' : undefined}
-                        onClick={item.onClick}
-                        className="text-[14px] text-[#CBD5E1] hover:text-white transition-colors"
-                      >
-                        {item.label}
-                      </a>
+                      {item.href ? (
+                        <a
+                          href={item.href}
+                          target={item.external ? '_blank' : undefined}
+                          rel={item.external ? 'noopener noreferrer' : undefined}
+                          onClick={item.onClick}
+                          className={LINK_CLASS}
+                        >
+                          {item.label}
+                        </a>
+                      ) : (
+                        <button
+                          type="button"
+                          onClick={item.onClick}
+                          className={`${LINK_CLASS} text-left`}
+                        >
+                          {item.label}
+                        </button>
+                      )}
                     </li>
                   ))}
                 </ul>

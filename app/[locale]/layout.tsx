@@ -123,12 +123,14 @@ function buildOrganizationSchema(locale: Locale) {
   return {
     '@context': 'https://schema.org',
     '@type': 'Organization',
-    name: 'Movena',
+    name: 'Movena ApS',
     legalName: 'Movena ApS',
     url: `https://movena.io/${locale}`,
     logo: 'https://movena.io/favicon.svg',
     description: copy.org,
-    email: 'hello@movena.io',
+    // Kept in step with the address shown in the footer, so the published
+    // markup and the visible page name the same inbox.
+    email: 'villads@movena.io',
     telephone: '+45 28 70 84 02',
     foundingLocation: {
       '@type': 'Place',
@@ -152,10 +154,6 @@ function buildOrganizationSchema(locale: Locale) {
     },
     areaServed: copy.areaServed.map((name) => ({ '@type': 'Place', name })),
     knowsLanguage: ['da', 'en'],
-    parentOrganization: {
-      '@type': 'Organization',
-      name: 'NewNorth I/S',
-    },
     sameAs: [] as string[],
   }
 }

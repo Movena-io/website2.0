@@ -9,11 +9,10 @@ export default function GoogleAnalytics() {
   const [consented, setConsented] = useState(false)
 
   useEffect(() => {
-    const check = () => {
-      if (localStorage.getItem('cookie-consent') === 'accepted') {
-        setConsented(true)
-      }
-    }
+    // Reads the stored answer rather than only latching on to "accepted", so a
+    // consent withdrawn from the footer's cookie settings stops re-adding the
+    // tag. The already-running script goes away with the reload the banner does.
+    const check = () => setConsented(localStorage.getItem('cookie-consent') === 'accepted')
     check()
     window.addEventListener('cookie-consent-update', check)
     return () => window.removeEventListener('cookie-consent-update', check)

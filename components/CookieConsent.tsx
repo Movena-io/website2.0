@@ -4,6 +4,10 @@ import { useState, useEffect } from 'react'
 import { PRIVACY_URL } from '@/lib/constants'
 import { useLanguage } from '@/lib/LanguageContext'
 
+// Dispatched by the footer's cookie settings link to bring the banner back so a
+// visitor can change an answer they already gave.
+export const COOKIE_SETTINGS_EVENT = 'cookie-consent-open'
+
 export default function CookieConsent() {
   const { t } = useLanguage()
   const [visible, setVisible] = useState(false)
@@ -17,6 +21,13 @@ export default function CookieConsent() {
     }
   }, [])
 
+  useEffect(() => {
+    // Reopened on purpose, so no opening delay this time.
+    const open = () => setVisible(true)
+    window.addEventListener(COOKIE_SETTINGS_EVENT, open)
+    return () => window.removeEventListener(COOKIE_SETTINGS_EVENT, open)
+  }, [])
+
   function accept() {
     localStorage.setItem('cookie-consent', 'accepted')
     window.dispatchEvent(new Event('cookie-consent-update'))
@@ -24,8 +35,15 @@ export default function CookieConsent() {
   }
 
   function decline() {
+    const wasAccepted = localStorage.getItem('cookie-consent') === 'accepted'
     localStorage.setItem('cookie-consent', 'declined')
+    window.dispatchEvent(new Event('cookie-consent-update'))
     setVisible(false)
+
+    // Analytics and the pixel cannot be taken back out of the page once their
+    // script has run, so withdrawing consent only really takes effect on a
+    // fresh load. Reload only when there was consent to withdraw.
+    if (wasAccepted) window.location.reload()
   }
 
   if (!visible) return null

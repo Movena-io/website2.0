@@ -130,7 +130,7 @@ function buildOrganizationSchema(locale: Locale) {
     description: copy.org,
     // Kept in step with the address shown in the footer, so the published
     // markup and the visible page name the same inbox.
-    email: 'villads@movena.io',
+    email: 'vl@movena.io',
     telephone: '+45 28 70 84 02',
     foundingLocation: {
       '@type': 'Place',

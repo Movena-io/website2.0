@@ -364,8 +364,8 @@ export const translations = {
       published: 'Published',
     },
     cookieConsent: {
-      message: 'We use cookies to analyse traffic and improve your experience. By continuing you agree to our',
-      privacyLink: 'Privacy Policy',
+      message: 'We use Google Analytics for statistics and the Meta Pixel to measure and target advertising. None of it loads until you press Accept. Read more in our',
+      privacyLink: 'privacy policy',
       accept: 'Accept',
       decline: 'Decline',
     },
@@ -905,8 +905,8 @@ export const translations = {
       published: 'Udgivet',
     },
     cookieConsent: {
-      message: 'Vi bruger cookies til at analysere trafik og forbedre din oplevelse. Ved at fortsætte accepterer du vores',
-      privacyLink: 'Privatlivspolitik',
+      message: 'Vi bruger Google Analytics til statistik og Meta Pixel til måling og målretning af annoncer. Intet af det indlæses, før I trykker Accepter. Læs mere i vores',
+      privacyLink: 'privatlivspolitik',
       accept: 'Accepter',
       decline: 'Afvis',
     },

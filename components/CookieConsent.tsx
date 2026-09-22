@@ -8,6 +8,12 @@ import { useLanguage } from '@/lib/LanguageContext'
 // visitor can change an answer they already gave.
 export const COOKIE_SETTINGS_EVENT = 'cookie-consent-open'
 
+// Both answers share this, so declining is exactly as easy to hit as accepting.
+// The only difference left is fill: accept is solid, decline is outlined. The
+// transparent border on accept keeps the two the same size to the pixel.
+const CONSENT_BUTTON =
+  'text-[13px] font-semibold px-4 py-2 rounded-lg transition-colors whitespace-nowrap'
+
 export default function CookieConsent() {
   const { t } = useLanguage()
   const [visible, setVisible] = useState(false)
@@ -66,13 +72,13 @@ export default function CookieConsent() {
         <div className="flex items-center gap-3 shrink-0">
           <button
             onClick={decline}
-            className="text-[13px] font-medium text-[#64748B] hover:text-[#94A3B8] transition-colors"
+            className={`${CONSENT_BUTTON} border border-white/25 text-white hover:bg-white/10`}
           >
             {t.cookieConsent.decline}
           </button>
           <button
             onClick={accept}
-            className="text-[13px] font-semibold bg-[#1D4ED8] hover:bg-[#1E40AF] text-white px-4 py-2 rounded-lg transition-colors"
+            className={`${CONSENT_BUTTON} border border-transparent bg-[#1D4ED8] hover:bg-[#1E40AF] text-white`}
           >
             {t.cookieConsent.accept}
           </button>

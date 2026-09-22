@@ -364,7 +364,7 @@ export const translations = {
       published: 'Published',
     },
     cookieConsent: {
-      message: 'We use Google Analytics for statistics and the Meta Pixel to measure and target advertising. None of it loads until you press Accept. Read more in our',
+      message: 'We use Google Analytics for statistics and the Meta Pixel to measure and target advertising. None of it loads until you press Accept. We also measure visits without cookies using Vercel Analytics. Read more in our',
       privacyLink: 'privacy policy',
       accept: 'Accept',
       decline: 'Decline',
@@ -905,7 +905,7 @@ export const translations = {
       published: 'Udgivet',
     },
     cookieConsent: {
-      message: 'Vi bruger Google Analytics til statistik og Meta Pixel til måling og målretning af annoncer. Intet af det indlæses, før I trykker Accepter. Læs mere i vores',
+      message: 'Vi bruger Google Analytics til statistik og Meta Pixel til måling og målretning af annoncer. Intet af det indlæses, før I trykker Accepter. Vi måler desuden besøg uden cookies med Vercel Analytics. Læs mere i vores',
       privacyLink: 'privatlivspolitik',
       accept: 'Accepter',
       decline: 'Afvis',

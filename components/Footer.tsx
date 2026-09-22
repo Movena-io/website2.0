@@ -1,15 +1,22 @@
 'use client'
 
 import Image from 'next/image'
-import { DEMO_URL } from '@/lib/constants'
+import { DATA_PORTABILITY_PATH, DEMO_URL, PRIVACY_URL } from '@/lib/constants'
 import { trackDemoClick } from '@/lib/tracking'
 import { useLanguage, useLocalizedHref } from '@/lib/LanguageContext'
+
+type FooterLink = {
+  label: string
+  href: string
+  external?: boolean
+  onClick?: () => void
+}
 
 export default function Footer() {
   const { t } = useLanguage()
   const href = useLocalizedHref()
 
-  const columns = [
+  const columns: { heading: string; items: FooterLink[] }[] = [
     {
       heading: t.footer.product,
       items: [
@@ -23,14 +30,20 @@ export default function Footer() {
       items: [
         { label: t.footer.links.blog, href: href('/blog') },
         { label: t.footer.links.contact, href: href('/contact') },
-        { label: t.footer.links.bookDemo, href: DEMO_URL, external: true },
+        {
+          label: t.footer.links.bookDemo,
+          href: DEMO_URL,
+          external: true,
+          onClick: () => trackDemoClick('footer'),
+        },
       ],
     },
     {
       heading: t.footer.legal,
       items: [
-        { label: t.footer.links.privacy, href: href('/privacy') },
-        { label: t.footer.links.terms, href: href('/terms') },
+        { label: t.footer.links.privacy, href: PRIVACY_URL, external: true },
+        // Danish only, and the same URL in both locales by design.
+        { label: t.footer.links.dataPortability, href: DATA_PORTABILITY_PATH },
       ],
     },
   ]
@@ -86,9 +99,9 @@ export default function Footer() {
                     <li key={item.label}>
                       <a
                         href={item.href}
-                        target={'external' in item && item.external ? '_blank' : undefined}
-                        rel={'external' in item && item.external ? 'noopener noreferrer' : undefined}
-                        onClick={'external' in item && item.external ? () => trackDemoClick('footer') : undefined}
+                        target={item.external ? '_blank' : undefined}
+                        rel={item.external ? 'noopener noreferrer' : undefined}
+                        onClick={item.onClick}
                         className="text-[14px] text-[#CBD5E1] hover:text-white transition-colors"
                       >
                         {item.label}

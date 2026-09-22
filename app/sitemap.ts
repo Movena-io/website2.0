@@ -18,8 +18,18 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { path: '', changeFrequency: 'weekly', priority: 1.0, bilingual: true },
     { path: '/contact', changeFrequency: 'monthly', priority: 0.7, bilingual: true },
     { path: '/blog', changeFrequency: 'weekly', priority: 0.8, bilingual: true },
-    { path: '/privacy', changeFrequency: 'yearly', priority: 0.3, bilingual: false },
-    { path: '/terms', changeFrequency: 'yearly', priority: 0.3, bilingual: false },
+  ]
+
+  // /dataportabilitet is Danish only and has no locale prefix, so it cannot be
+  // expressed as an entry above. Privacy and terms are gone: the policy lives
+  // in the product app and terms are no longer published here.
+  const unprefixedUrls: MetadataRoute.Sitemap = [
+    {
+      url: `${BASE}/dataportabilitet`,
+      lastModified: now,
+      changeFrequency: 'yearly' as const,
+      priority: 0.3,
+    },
   ]
 
   const staticUrls: MetadataRoute.Sitemap = staticEntries.flatMap((entry) => {
@@ -82,5 +92,5 @@ export default function sitemap(): MetadataRoute.Sitemap {
     }
   })
 
-  return [...staticUrls, ...postUrls]
+  return [...staticUrls, ...unprefixedUrls, ...postUrls]
 }

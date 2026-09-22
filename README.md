@@ -51,8 +51,10 @@ The site has a custom built-in waitlist (replaces Typeform). No external service
 - `/` — Main landing page
 - `/waitlist/success` — Post-signup page (position + referral link)
 - `/contact` — Contact page
-- `/privacy` — Privacy policy
-- `/terms` — Terms of service
+- `/dataportabilitet` (Danish only, no locale prefix): data portability and switching provider
+
+The privacy policy is maintained in the product app at `app.movena.io/privatlivspolitik`;
+`/privacy` redirects there. Terms are no longer published here and `/terms` redirects home.
 
 ## Components
 

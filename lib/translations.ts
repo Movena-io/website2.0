@@ -243,7 +243,7 @@ export const translations = {
         },
         {
           question: 'What if we change our mind?',
-          answer: 'Then you are out. You own your data, and we export your customers, jobs, quotes and invoices to a normal spreadsheet format for you to take with you. No multi-year lock-in, no fee for stopping.',
+          answer: 'Then you are out. You own your data, and we export your customers, jobs, quotes and invoices as CSV and JSON files, together with the files you have uploaded, for you to take with you. No multi-year lock-in, no fee for stopping.',
         },
         {
           question: 'What does it cost?',
@@ -274,7 +274,7 @@ export const translations = {
         contact: 'Contact',
         bookDemo: 'Book 15 minutes',
         privacy: 'Privacy policy',
-        terms: 'Terms of service',
+        dataPortability: 'Data portability',
       },
       companyName: 'Movena ApS · CVR 46764129',
       companyAddress: 'Rådhuspladsen 16, kl. 2, 1550 København V',
@@ -788,7 +788,7 @@ export const translations = {
         },
         {
           question: 'Hvad hvis vi fortryder?',
-          answer: 'Så er I ude. I ejer jeres data, og vi trækker kunder, jobs, tilbud og fakturaer ud i et almindeligt regnearksformat, som I kan tage med. Ingen binding i årevis, intet gebyr for at sige stop.',
+          answer: 'Så er I ude. I ejer jeres data, og vi trækker kunder, jobs, tilbud og fakturaer ud som CSV- og JSON-filer sammen med de filer, I har uploadet, så I kan tage det hele med. Ingen binding i årevis, intet gebyr for at sige stop.',
         },
         {
           question: 'Hvad koster det?',
@@ -819,7 +819,7 @@ export const translations = {
         contact: 'Kontakt',
         bookDemo: 'Book 15 minutter',
         privacy: 'Privatlivspolitik',
-        terms: 'Servicevilkår',
+        dataPortability: 'Dataportabilitet',
       },
       companyName: 'Movena ApS · CVR 46764129',
       companyAddress: 'Rådhuspladsen 16, kl. 2, 1550 København V',

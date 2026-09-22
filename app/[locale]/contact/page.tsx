@@ -137,7 +137,9 @@ export default function Contact() {
                   {status === 'error' && (
                     <p className="text-[13px] text-[#DC2626]">
                       {t.contact.errorPrefix}{' '}
-                      <a href="mailto:hello@movena.io" className="underline">hello@movena.io</a>
+                      {/* The address /api/contact delivers to, so a failed form
+                          falls back to the same inbox it would have reached. */}
+                      <a href="mailto:support@movena.io" className="underline">support@movena.io</a>
                     </p>
                   )}
 

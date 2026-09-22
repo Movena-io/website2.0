@@ -43,6 +43,15 @@ export function middleware(request: NextRequest) {
     return NextResponse.next()
   }
 
+  // /dataportabilitet exists in Danish only and both footers link to the same
+  // address, so it keeps its unprefixed URL. Rewrite, not redirect: the page
+  // itself lives in the Danish route tree, but the visitor never sees /da.
+  if (pathname === '/dataportabilitet') {
+    const url = request.nextUrl.clone()
+    url.pathname = '/da/dataportabilitet'
+    return NextResponse.rewrite(url)
+  }
+
   const hasLocalePrefix = (LOCALES as readonly string[]).some(
     (locale) => pathname === `/${locale}` || pathname.startsWith(`/${locale}/`),
   )

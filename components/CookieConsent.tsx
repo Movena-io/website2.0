@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import { PRIVACY_URL } from '@/lib/constants'
 import { useLanguage } from '@/lib/LanguageContext'
 
 export default function CookieConsent() {
@@ -34,7 +35,12 @@ export default function CookieConsent() {
       <div className="max-w-2xl mx-auto bg-[#0B1F3B] border border-white/10 rounded-xl shadow-2xl px-5 py-4 flex flex-col sm:flex-row sm:items-center gap-4">
         <p className="text-[13px] leading-[1.6] text-[#94A3B8] flex-1">
           {t.cookieConsent.message}{' '}
-          <a href="/en/privacy" className="text-white underline underline-offset-2 hover:text-[#93C5FD] transition-colors">
+          <a
+            href={PRIVACY_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-white underline underline-offset-2 hover:text-[#93C5FD] transition-colors"
+          >
             {t.cookieConsent.privacyLink}
           </a>
           .

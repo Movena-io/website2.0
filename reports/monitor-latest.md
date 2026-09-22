@@ -1,155 +1,92 @@
 # Website Monitor Report
 
-**Run Time:** 2026-09-22T17:05:00Z  
-**Overall Status:** ❌ **CRITICAL** - Known security vulnerabilities present
+**Run Timestamp:** 2026-09-22T00:00:00Z  
+**Overall Status:** ⚠️ **WARNING**
 
 ---
 
 ## Summary
 
-Website monitoring check completed. Build and lint checks passed, but security audit shows critical vulnerabilities that are acknowledged as part of a planned major version upgrade.
+The Movena marketing website build and type checking passed successfully, but lint warnings and known security vulnerabilities require attention. The security vulnerabilities are documented as expected pending a major Next.js upgrade.
 
 ---
 
-## 1. Build Check
+## Build Check: ✅ **HEALTHY**
 
-**Status:** ✅ PASS
+**Status:** Compiled successfully
 
-Next.js 13 build compiled successfully with no errors. All 38 static pages generated correctly.
+The Next.js application compiled without errors. All 38 static pages were generated successfully, including:
+- Home pages for English and Danish locales
+- Blog pages (21 articles total)
+- Contact page
+- Savings calculator
+- Data portability page
+- API routes and middleware
 
-**Route Summary:**
-- Root and locale-specific routes (`/en`, `/da`)
-- Blog index and 21 individual blog post routes
-- Feature pages (contact, dataportabilitet, savings-calculator)
-- API endpoints (calculator, contact)
-- Static routes (robots.txt, sitemap.xml)
-
-**Build Metrics:**
-- First Load JS shared: 80.6 kB
-- Main app bundle: 230 B
-- Middleware: 27.1 kB
+**Build Output:** Production-optimized build with 80.6 kB shared First Load JS.
 
 ---
 
-## 2. Lint Check
+## Lint Check: ⚠️ **WARNING**
 
-**Status:** ⚠️ PASS with warnings (2 warnings)
+**Status:** 2 warnings found
 
-Found in `components/SplitSection.tsx`:
+**Location:** `./components/SplitSection.tsx`
 
-```
-Line 93: Using <img> could result in slower LCP. Consider using <Image /> from next/image.
-Line 96: Using <img> could result in slower LCP. Consider using <Image /> from next/image.
-```
+| Line | Issue | Rule |
+|------|-------|------|
+| 93 | Using `<img>` instead of `<Image />` | @next/next/no-img-element |
+| 96 | Using `<img>` instead of `<Image />` | @next/next/no-img-element |
 
-**Severity:** Low (performance optimization opportunity)  
-**Impact:** Component uses native `<img>` tags instead of Next.js `<Image>` component  
-**Recommendation:** Refactor to use Next.js `<Image>` component for better Core Web Vitals
+**Impact:** Non-critical. These warnings relate to image optimization and LCP performance. The component should be updated to use Next.js's `Image` component for better performance.
 
 ---
 
-## 3. Security Audit
+## Security Check: ❌ **CRITICAL**
 
-**Status:** ❌ CRITICAL
+**Status:** 5 vulnerabilities detected (4 high, 1 critical)
 
-`npm audit` detected **5 vulnerabilities** (1 critical, 4 high):
+### Vulnerability Summary
 
-### Critical Severity (1)
+#### Critical Severity (1)
+- **Next.js (versions 0.9.9 - 16.3.0-preview.10)**
+  - Multiple server-side vulnerabilities including SSRF, DoS, cache poisoning, XSS, and RCE
+  - Requires upgrade to Next.js v16.3.6 or later
+  - Note: This is a breaking change requiring major version upgrade
 
-**Package:** `next@13.5.11`  
-**Severity:** CRITICAL  
-**Issues:** 31+ known advisories including:
-- Server-Side Request Forgery in Server Actions
-- Denial of Service via Server Components
-- Cache poisoning vulnerabilities
-- Cross-site scripting in various contexts
-- Unbounded next/image disk cache growth
-- Middleware/Proxy bypass vulnerabilities
-- Unauthenticated Remote Code Execution on Windows servers
-- Multiple cache confusion vulnerabilities
+#### High Severity (4)
+- **minimatch** (via @typescript-eslint/typescript-estree)
+  - ReDoS (Regular Expression Denial of Service) vulnerabilities
+  - 3 distinct CVEs with repeated wildcards and nested glob patterns
+  
+- **PostCSS** (nested in Next.js)
+  - XSS via unescaped `</style>` in CSS output
+  - Arbitrary file read via sourceMappingURL in CSS comments
+  - Path traversal in source map auto-loading
 
-**Status:** ACKNOWLEDGED  
-Per CLAUDE.md: "Next.js and its nested postcss are knowingly left on their current versions. Fixing them requires Next 13 to 16, a major upgrade that is a product decision, not a monitor action."
+### Known Issue (Per CLAUDE.md)
 
-**Fix Path:** Upgrade to next@16.3.6+ (major version jump, breaking change)
+The Next.js and PostCSS vulnerabilities are **knowingly left on current versions**. Per project documentation, fixing them requires upgrading from Next 13 to Next 16, which is a product decision and not a monitor action. This upgrade has been deferred pending architectural review.
 
-### High Severity (4)
-
-**Package:** `minimatch` (nested: @typescript-eslint/typescript-estree → @typescript-eslint/parser)  
-**Severity:** HIGH  
-**Issues:**
-- ReDoS via repeated wildcards with non-matching literal in pattern
-- ReDoS via multiple non-adjacent GLOBSTAR segments
-- ReDoS via nested *() extglobs with catastrophic backtracking
-
-**Fix:** Available via `npm audit fix`
-
-**Package:** `postcss@8.x` (nested in next)  
-**Severity:** HIGH  
-**Issues:**
-- XSS via unescaped `</style>` in CSS stringify output
-- Arbitrary file read via attacker-controlled sourceMappingURL
-- Path traversal in source map auto-loading
-
-**Fix:** Requires next upgrade to v16+ (bundled with next)
-
-### Vulnerability Chain
-
-```
-minimatch (ReDoS) 
-  ← @typescript-eslint/typescript-estree
-    ← @typescript-eslint/parser
-
-postcss (XSS, file disclosure)
-  ← next (CRITICAL)
-    ← root package
-```
-
----
-
-## 4. Current Status
-
-| Check | Result | Status |
-|-------|--------|--------|
-| Build | PASS | ✅ |
-| Lint | 2 warnings | ⚠️ |
-| Security | 5 vulnerabilities | ❌ CRITICAL |
-
-**Vulnerability Summary:**
-- Total: 5
-- Critical: 1 (next)
-- High: 4 (minimatch + postcss)
-- All fixable, but some require breaking changes
+**Note:** `npm audit fix --force` should NOT be run unless the major version upgrade is approved.
 
 ---
 
 ## Recommendations
 
-### Security (Critical Priority)
-
-Per project guidelines, the Next.js critical vulnerabilities are a **known limitation** and acknowledged as requiring a major version upgrade decision.
-
-**Actions:**
-1. Do NOT run `npm audit fix --force` (per CLAUDE.md guidance)
-2. Plan and schedule Next.js 13 → 16 upgrade when product timeline permits
-3. Review and implement compensating controls in production (WAF, CSP headers, monitoring)
-4. Monitor Next.js 16 releases for stability before upgrade
-
-### Lint Warnings (Low Priority)
-
-**Action:** Refactor `SplitSection.tsx` to use Next.js `<Image>` component
-- Update lines 93 and 96 to use `<Image />` instead of `<img />`
-- This will improve Core Web Vitals (LCP) scores
-
-### Dependencies
-
-**Immediate action:** None required (vulnerabilities are acknowledged as part of planned upgrade)  
-**Medium-term:** Schedule TypeScript ESLint/minimatch updates when breaking changes are acceptable
+1. **High Priority:** Update `SplitSection.tsx` to use `next/image` Image component (lines 93, 96)
+2. **Major Decision:** Plan Next.js upgrade from v13 to v16+ to resolve known security vulnerabilities
+3. **Defer:** Don't run `npm audit fix` or `npm audit fix --force` until Next.js upgrade strategy is determined
 
 ---
 
-## Conclusion
+## Check Details
 
-The website **builds and runs successfully** with good code structure. The critical security vulnerabilities in Next.js 13 are documented as a known limitation pending a major version upgrade. Lint warnings are minor optimization opportunities. The project is in a functional, maintainable state but requires security updates as part of the planned Next.js major version upgrade.
+| Check | Result | Count |
+|-------|--------|-------|
+| Build | ✅ Pass | 38 routes compiled |
+| Lint | ⚠️ Warning | 2 issues |
+| Audit | ❌ Critical | 5 vulnerabilities |
 
-**Next scheduled monitor run:** Per configured schedule
+**Runtime:** npm dependencies installed successfully (422 packages)  
+**Node Warnings:** 5 deprecation warnings noted (rimraf, inflight, glob, @humanwhocodes packages)

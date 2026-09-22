@@ -34,7 +34,7 @@ export default function Home() {
           text={t.office.text}
           points={t.office.points}
           bottomHint
-          screenshotSrc="/screenshots/kontor.png"
+          screenshotSrc="/screenshots/kontor-dashboard.png"
           screenshotAlt="Movenas kontormodul med overblik over opgaver og planlægning"
         />
         {/* Team + Chain: continuous dark block */}

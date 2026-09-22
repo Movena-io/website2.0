@@ -214,7 +214,7 @@ export const translations = {
         name: 'Villads Laun',
         role: 'sales and marketing',
         phone: '+45 28 70 84 02',
-        email: 'villads@movena.io',
+        email: 'vl@movena.io',
       },
       items: [
         {
@@ -280,7 +280,7 @@ export const translations = {
       companyName: 'Movena ApS · CVR 46764129',
       companyAddress: 'Rådhuspladsen 16, kl. 2, 1550 København V',
       companyPhone: '28 70 84 02',
-      companyEmail: 'villads@movena.io',
+      companyEmail: 'vl@movena.io',
       copyright: '© 2026 Movena. All rights reserved.',
       compliance: 'GDPR compliant. Data stored in Europe.',
     },
@@ -539,7 +539,7 @@ export const translations = {
         'Data stored in Europe. GDPR from the ground up.',
       ],
       people: [
-        { name: 'Villads Laun', role: 'sales and marketing', phone: '+45 28 70 84 02', email: 'villads@movena.io' },
+        { name: 'Villads Laun', role: 'sales and marketing', phone: '+45 28 70 84 02', email: 'vl@movena.io' },
         { name: 'Valdemar Lorentzen', role: 'engineering and operations', phone: '+45 30 45 87 65', email: 'vcl@movena.io' },
         { name: 'Samuel Odegaard', role: 'strategy and support', phone: '+45 60 54 53 44', email: 'sto@movena.io' },
       ],
@@ -760,7 +760,7 @@ export const translations = {
         name: 'Villads Laun',
         role: 'salg og marketing',
         phone: '28 70 84 02',
-        email: 'villads@movena.io',
+        email: 'vl@movena.io',
       },
       items: [
         {
@@ -826,7 +826,7 @@ export const translations = {
       companyName: 'Movena ApS · CVR 46764129',
       companyAddress: 'Rådhuspladsen 16, kl. 2, 1550 København V',
       companyPhone: '28 70 84 02',
-      companyEmail: 'villads@movena.io',
+      companyEmail: 'vl@movena.io',
       copyright: '© 2026 Movena. Alle rettigheder forbeholdes.',
       compliance: 'GDPR-kompatibel. Data opbevares i Europa.',
     },
@@ -1080,7 +1080,7 @@ export const translations = {
         'Data opbevares i Europa. GDPR fra bunden.',
       ],
       people: [
-        { name: 'Villads Laun', role: 'salg og marketing', phone: '28 70 84 02', email: 'villads@movena.io' },
+        { name: 'Villads Laun', role: 'salg og marketing', phone: '28 70 84 02', email: 'vl@movena.io' },
         { name: 'Valdemar Lorentzen', role: 'udvikling og drift', phone: '30 45 87 65', email: 'vcl@movena.io' },
         { name: 'Samuel Odegaard', role: 'strategi og support', phone: '60 54 53 44', email: 'sto@movena.io' },
       ],

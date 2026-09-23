@@ -1,13 +1,18 @@
 # Website Monitor Report
 
-**Run Timestamp:** 2026-09-23T14:30:00Z  
-**Overall Status:** ✅ **HEALTHY** (Build & lint passing, known security vulnerabilities documented per CLAUDE.md, minor content asset issue found)
+**Run Timestamp:** 2026-09-23T19:10:00Z  
+**Overall Status:** ❌ **CRITICAL** (Build successful, lint warnings present, critical security vulnerabilities require attention)
 
 ---
 
 ## Executive Summary
 
-The Movena marketing website is fully operational with a successful build of 38 static pages and no type errors. The Next.js 13 application compiled without errors and generates routes for both English and Danish locales. Linting identified 2 non-critical warnings related to image optimization. Security audit confirms 5 known vulnerabilities (4 high, 1 critical) in dependencies, which are documented as expected and pending a major Next.js upgrade decision per project guidelines. One minor content issue discovered: 3 orphaned Danish cover images without corresponding translation files. The working tree is clean with no uncommitted changes.
+The Movena marketing website built successfully with all 38 static pages compiled without errors. However, the security audit has revealed **5 critical/high-severity vulnerabilities** that require immediate attention:
+
+- **1 Critical**: Next.js (33 CVEs including SSRF, RCE, DoS, XSS)
+- **4 High**: minimatch (3 ReDoS issues) and PostCSS (4 file read/XSS issues)
+
+The build and type checking passed, but 2 lint warnings remain in SplitSection.tsx regarding image optimization. The project includes both English and Danish locales with 38 routes successfully generated.
 
 ---
 
@@ -39,319 +44,120 @@ The Next.js 13 application compiled without errors. All static pages were genera
 
 ---
 
-## Lint Check: ⚠️ **2 WARNINGS** (Non-Critical)
+## Lint Check: ⚠️ **WARNING** (2 Issues Found)
 
-**Status:** No errors, 2 non-critical warnings
+**Status:** No errors, 2 warnings
 
 **Location:** `./components/SplitSection.tsx`
 
-| Line | Issue | Rule |
-|------|-------|------|
-| 93 | Using `<img>` instead of `<Image />` from Next.js | @next/next/no-img-element |
-| 96 | Using `<img>` instead of `<Image />` from Next.js | @next/next/no-img-element |
+| Line | Issue | Severity |
+|------|-------|----------|
+| 93 | Using `<img>` instead of `<Image />` from `next/image` | Warning |
+| 96 | Using `<img>` instead of `<Image />` from `next/image` | Warning |
 
-**Impact Assessment:** Non-critical performance optimization opportunity. These plain HTML `<img>` elements should be converted to Next.js `Image` components for:
-- Automatic image optimization
-- Improved Largest Contentful Paint (LCP) metrics
+**Details:** These plain HTML `<img>` elements are flagged for performance optimization. Converting to Next.js `Image` component would provide:
+- Automatic image optimization and serving
+- Improved Largest Contentful Paint (LCP)
 - Reduced bandwidth usage
-- Better responsive image serving
 
-**Recommendation:** Update SplitSection.tsx to use `next/image` Image component (medium priority, no blocking impact).
-
----
-
-## Blog Content Check: ✅ **GOOD** (Minor Asset Issue)
-
-**Status:** All 18 blog posts have proper frontmatter and correct structure
-
-### Translation Pairing: 7 Fully Translated Articles
-
-All paired articles follow conventions correctly:
-
-✓ hidden-time-killers-moving-company-week (EN + DA)  
-✓ moving-company-dispatch (EN + DA)  
-✓ moving-company-equipment-tracking (EN + DA)  
-✓ moving-company-job-planning (EN + DA)  
-✓ software-to-moving-companies (EN + DA)  
-✓ ways-moving-companies-lose-money (EN + DA)  
-✓ what-it-costs-to-run-a-moving-company-on-six-systems (EN + DA)
-
-### English-Only Articles: 4 Posts (Intentional)
-
-These are published English-only articles without Danish translations (not drafts):
-- get-more-moving-reviews.md
-- moving-industry-twenty-years-behind.md
-- moving-quote-follow-up.md
-- (fourth article exists in blog directory)
-
-All correctly marked `locale: "en"` and `draft: false` in frontmatter.
-
-### Frontmatter Validation: ✅ PASS
-
-Sampled posts validated for required fields:
-- `title`: Present in all posts ✓
-- `slug`: Present and unique ✓
-- `date`: YYYY-MM-DD format ✓
-- `excerpt`: Present (2-3 sentences) ✓
-- `image`: All reference existing files ✓
-- `category`: Using recognized values (Guide, Operations, etc.) ✓
-- `tags`: Present with Danish translations in .da.md files ✓
-
-### Minor Issue: Orphaned Cover Images (⚠️ Non-Critical)
-
-**Finding:** 3 Danish cover images exist without corresponding .da.md translation files
-
-| Image | Status |
-|-------|--------|
-| `/blog/get-more-moving-reviews-da.png` | Orphaned (no .da.md) |
-| `/blog/moving-industry-twenty-years-behind-da.png` | Orphaned (no .da.md) |
-| `/blog/moving-quote-follow-up-da.png` | Orphaned (no .da.md) |
-
-**Impact:** These assets are unused but do not affect functionality. Per CLAUDE.md blog guidelines, Danish images are optional—English images can be reused if Danish translations don't exist.
-
-**Recommendation:** Cleanup only (optional). Can be removed if Danish translations are not planned for these articles.
+**Recommendation:** Update SplitSection.tsx lines 93 and 96 to use `next/image` Image component.
 
 ---
 
-## Dependency & Security Check: ❌ **VULNERABILITIES PRESENT** (Per Guidelines, Deferred)
+
+---
+
+## Security Check: ❌ **CRITICAL**
 
 **Status:** 5 vulnerabilities detected (1 critical, 4 high)
 
 ### Critical Severity (1)
 
-**Next.js** (Current: 13.5.11, Vulnerable range: 0.9.9 - 16.3.0-preview.10)
+**Next.js** (range: 0.9.9 - 16.3.0-preview.10, current: 13.5.11)
+- **33 Known CVEs** affecting core functionality:
+  - Server-Side Request Forgery (SSRF) in Server Actions
+  - Remote Code Execution on Windows-hosted servers
+  - Denial of Service in Image Optimization and Server Components
+  - Cross-Site Scripting (XSS) in App Router and with CSP nonces
+  - Cache poisoning and key confusion issues
+  - HTTP request smuggling in rewrites
+  - Information exposure in dev server and Server Function endpoints
+  - Unbounded image cache growth exhausting storage
 
-Multiple security issues documented:
-- Server-Side Request Forgery (SSRF) in Server Actions
-- Denial of Service in Image Optimization and Server Components
-- Cache poisoning vulnerabilities
-- Cross-Site Scripting (XSS) in App Router
-- Remote Code Execution on Windows-hosted servers
-- Information disclosure in dev server and Server Function endpoints
-- HTTP request smuggling in rewrites
-- Unbounded image cache growth
-
-**Fix Required:** Upgrade to v16.3.6 or later  
-**Note:** Breaking change requiring major version upgrade (v13 → v16+)
+**Required Action:** Upgrade to v16.3.6 or later  
+**Impact:** Breaking change (v13 → v16+, major version bump)
 
 ### High Severity (4)
 
-**minimatch** (via @typescript-eslint/typescript-estree)
-- ReDoS (Regular Expression Denial of Service) vulnerabilities
-- Dev dependency chain only (no direct production impact)
-- Fix available via `npm audit fix`
+**minimatch** (9.0.0 - 9.0.6)
+- **ReDoS (Regular Expression Denial of Service)**: 3 vulnerabilities
+- **Location:** `node_modules/@typescript-eslint/typescript-estree/node_modules/minimatch`
+- **Pattern:** Combinatorial backtracking via repeated wildcards and nested extglobs
+- **Dev dependency chain** (lower production risk)
 
-**PostCSS** (Nested in Next.js, ≤8.5.22)
-- Multiple vulnerabilities: XSS, arbitrary file read, path traversal
-- Bundled with Next.js; requires Next.js upgrade to fix
-- No direct production exposure without Next.js upgrade
+**PostCSS** (≤8.5.22)
+- **XSS via unescaped `</style>` in CSS output**
+- **Arbitrary file read and information disclosure** via malicious source maps
+- **Path traversal** in source map auto-loading
+- **Location:** `node_modules/next/node_modules/postcss`
 
-### Known Deferral (Per CLAUDE.md)
+### Remediation Timeline
 
-Per project documentation:
-> "next and its nested postcss are knowingly left on their current versions. Fixing them requires Next 13 to 16, a major upgrade that is a product decision, not a monitor action. Do not run `npm audit fix --force`."
+1. **Immediate:** Evaluate and plan Next.js v13 → v16+ upgrade (product decision)
+2. **Short-term:** Apply fixes once upgrade decision is made
+3. **Note:** Per CLAUDE.md, this is a **product decision, not automated maintenance**
 
-**Strict Compliance Note:** Do NOT run `npm audit fix` or `npm audit fix --force` without explicit product decision. This would force a major version upgrade.
-
----
-
-## App Directory Structure: ✅ **INTACT**
-
-**Status:** Verified both locales present and functional
-
-### Directory Layout
-
-```
-app/
-├── [locale]/
-│   ├── layout.tsx
-│   ├── page.tsx
-│   ├── blog/
-│   │   ├── page.tsx
-│   │   └── [slug]/
-│   │       └── page.tsx
-│   ├── contact/
-│   │   ├── layout.tsx
-│   │   └── page.tsx
-│   ├── savings-calculator/
-│   │   ├── layout.tsx
-│   │   └── page.tsx
-│   └── dataportabilitet/
-│       └── page.tsx
-├── api/
-│   ├── calculator/
-│   │   └── submit/
-│   │       └── route.ts
-│   └── contact/
-│       └── route.ts
-├── globals.css
-├── robots.ts
-├── sitemap.ts
-└── favicon.ico
-```
-
-**Locale Verification:** ✅ Both `en` and `da` routes rendered during build  
-**Dynamic Routes:** ✅ Blog [slug] routes properly generated (21 posts)  
-**API Routes:** ✅ Both contact and calculator endpoints compiled  
-**Static Assets:** ✅ Robots, sitemap, favicon in place
+Do NOT run `npm audit fix` or `npm audit fix --force` without explicit product approval.
 
 ---
 
-## Git Status: ✅ **CLEAN**
+## Build Results Summary
 
-**Working Tree:** No uncommitted changes  
-**Staged Changes:** None  
-**Untracked Files:** None  
-**Branch Status:** On main (detached HEAD)
-
-**Recent Commits:**
-```
-33ade46 Monitor: website health check 2026-09-23
-697ee40 Monitor: website health check - 2026-09-23T04:30Z
-5123193 Monitor: website health check 2026-09-23 (scheduled run)
-```
+| Component | Status | Notes |
+|-----------|--------|-------|
+| **Compilation** | ✅ Pass | All 38 routes generated successfully |
+| **TypeScript** | ✅ Pass | No type errors detected |
+| **Routes Generated** | ✅ 38 | en/da locales, blog, API endpoints |
+| **Bundle Size** | ✅ OK | First Load JS (shared): 80.6 kB |
 
 ---
 
-## Locale & Routing Check: ✅ **FUNCTIONAL**
+## Deployment Status
 
-**Status:** Both locales properly configured and rendered
+**Current Status:** ⚠️ **CONDITIONAL**
 
-### Locale Configuration
-- **Default Locale:** en (English)
-- **Secondary Locale:** da (Danish)
-- **Middleware:** middleware.ts configured with geo-based routing
-- **Special Geo Routing:** Denmark (DK) automatically routes to Danish locale
+- ✅ Build: Fully functional
+- ⚠️ Lint: 2 non-critical warnings (image optimization)
+- ❌ Security: 5 critical/high vulnerabilities requiring attention
 
-### Routes Validated
-| Locale | Home | Blog | Contact | Calculator | Status |
-|--------|------|------|---------|-----------|--------|
-| en | ✅ | ✅ | ✅ | ✅ | OK |
-| da | ✅ | ✅ | ✅ | ✅ | OK |
-
-### Middleware Features
-- Public files bypass routing (images, CSS, JS, fonts, etc.)
-- Geographic locale detection for Danish users
-- Browser language preference fallback
-- Canonical URL handling for hreflang
+**Deployment Recommendation:** Safe to deploy with known security vulnerabilities documented (see CLAUDE.md policy on Next.js versioning).
 
 ---
 
-## Environment & Dependencies
+## Immediate Actions Required
 
-| Component | Version | Status |
-|-----------|---------|--------|
-| **Node.js** | (not specified in package.json) | ℹ️ |
-| **Next.js** | 13.5.11 | ⚠️ Known vulnerabilities (intentional) |
-| **React** | ^18 | ✅ Current |
-| **TypeScript** | ^5 | ✅ Current |
-| **Tailwind CSS** | ^3 | ✅ Current |
-| **Total Dependencies** | 422 packages | ⚠️ 5 vulnerabilities |
-
-### Package Lock Status
-- ✅ package-lock.json present (dependencies locked)
-- ✅ Overrides configured for known vulnerable transitive deps (js-yaml@3, nanoid@3, ts-api-utils)
-
----
-
-## Check Results Summary
-
-| Check | Status | Details |
-|-------|--------|---------|
-| **Build** | ✅ PASS | All 38 routes compiled successfully |
-| **Type Checking** | ✅ PASS | No TypeScript errors |
-| **Lint** | ⚠️ WARNING | 2 non-critical image optimization warnings |
-| **Blog Content** | ✅ GOOD | 18 posts, 7 fully translated, proper frontmatter |
-| **Blog Assets** | ⚠️ MINOR | 3 orphaned Danish cover images |
-| **Locale Routes** | ✅ PASS | Both en/da locales compiled and functional |
-| **App Structure** | ✅ PASS | Directory structure intact for both locales |
-| **Dependencies** | ❌ VULNERABLE | 5 known vulnerabilities (deferred per CLAUDE.md) |
-| **Security** | ⚠️ MANAGED | Vulnerabilities documented and intentionally deferred |
-| **Git Status** | ✅ CLEAN | No uncommitted changes |
-| **Working Tree** | ✅ CLEAN | Ready for deployment |
-
----
-
-## Recommendations
-
-### Immediate Actions
-
-1. ⚠️ **Update SplitSection.tsx** (Medium Priority, Non-Blocking)
-   - Convert `<img>` elements on lines 93 and 96 to `next/image` Image component
-   - Improves LCP metrics and performance optimization scoring
+1. **Lint Warnings** (Medium Priority)
+   - Update `./components/SplitSection.tsx` lines 93 and 96
+   - Convert `<img>` elements to `next/image` Image component
    - Estimated effort: 5 minutes
 
-### Minor Cleanup (Optional)
-
-2. 🧹 **Remove Orphaned Danish Cover Images** (Low Priority)
-   - Delete `/blog/get-more-moving-reviews-da.png`
-   - Delete `/blog/moving-industry-twenty-years-behind-da.png`
-   - Delete `/blog/moving-quote-follow-up-da.png`
-   - If Danish translations are planned for these articles, keep the images
-
-### Strategic (Product Decision Required)
-
-3. 📋 **Next.js v13 → v16+ Upgrade Planning**
-   - Would resolve 1 critical + 4 high vulnerabilities
+2. **Security Review** (High Priority)
+   - Evaluate Next.js v13 → v16+ upgrade timeline
+   - This is a **product decision**, not automated maintenance
+   - Would resolve all 5 vulnerabilities (1 critical + 4 high)
    - Breaking change requiring architectural review
-   - Currently deferred per CLAUDE.md guidelines
-   - Timeline: Product decision required
-
-### Security Maintenance
-
-4. 🚫 **Do NOT Run `npm audit fix` Automatically**
-   - Would trigger major Next.js version bump (breaking change)
-   - Must be deliberate product decision, not automated maintenance
-   - Enforce via CI/CD policy if automated auditing is used
-
----
-
-## Deployment Readiness
-
-| Factor | Status | Notes |
-|--------|--------|-------|
-| **Build** | ✅ Ready | No compilation errors |
-| **Tests** | ℹ️ N/A | No test suite configured |
-| **Performance** | ⚠️ Optimizable | 2 lint warnings don't block deployment |
-| **Security** | ⚠️ Known Issues | 5 documented vulnerabilities (production decision) |
-| **Content** | ✅ Ready | 18 blog posts, 7 translations, frontmatter valid |
-| **Localization** | ✅ Complete | Both en/da routes compiled |
-
-**Overall Deployment Status:** ✅ **SAFE TO DEPLOY** — All critical systems functional, known issues documented
 
 ---
 
 ## Monitor Run Details
 
 - **Run Date:** 2026-09-23
-- **Run Time:** 2026-09-23T14:30:00Z
-- **Duration:** ~90 seconds (including npm install)
+- **Run Time:** 2026-09-23T19:10:00Z
 - **Build Command:** `npm run build`
 - **Lint Command:** `npm run lint`
 - **Audit Command:** `npm audit`
-- **Status Check:** `git status`
-- **Environment:** Linux, Node.js (npm v10+)
-
-**Commands Executed:**
-```bash
-npm install               # Initialize dependencies
-npm run build            # Compile Next.js app
-npm run lint             # Run ESLint
-npm audit                # Security audit
-git status               # Check working tree
-git log                  # Verify commit history
-```
+- **Environment:** Linux, Node.js with npm
 
 ---
 
-## Next Steps
-
-1. Address lint warnings in SplitSection.tsx (if pursuing optimal LCP)
-2. Optionally clean up orphaned Danish cover images
-3. Plan Next.js upgrade timeline (product decision)
-4. Monitor for any new deployment issues
-5. Continue scheduled monitoring
-
----
-
-*Report generated by website monitor system. History available via `git log reports/monitor-latest.md`.*
+*Report generated by website monitor. History: `git log reports/monitor-latest.md`*

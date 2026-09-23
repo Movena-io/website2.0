@@ -1,6 +1,6 @@
 # Website Monitor Report
 
-**Run Timestamp:** 2026-09-23T04:30:00Z  
+**Run Timestamp:** 2026-09-23T08:05:00Z  
 **Overall Status:** ✅ **HEALTHY** (Build & lint passing, known security vulnerabilities deferred per CLAUDE.md)
 
 ---
@@ -28,8 +28,6 @@ The Next.js 13 application compiled without errors. All 38 static pages were gen
 
 **Build Metrics:**
 - First Load JS (shared): 80.6 kB
-- Build output directory (.next): 109 MB
-- Node modules: 535 MB
 - Routes compiled: 38
 - Middleware: 27.1 kB
 
@@ -71,6 +69,8 @@ The Next.js 13 application compiled without errors. All 38 static pages were gen
   - XSS in App Router (CSP nonce handling, beforeInteractive scripts)
   - Remote Code Execution on Windows-hosted servers
   - Information disclosure (internal Server Function endpoints)
+  - HTTP request smuggling in rewrites
+  - Unbounded image cache growth
 - **Fix Required:** Upgrade to v16.3.6 or later
 - **Note:** This is a breaking change requiring major version upgrade (v13 → v16+)
 
@@ -83,6 +83,7 @@ The Next.js 13 application compiled without errors. All 38 static pages were gen
   - Nested `*()` extglobs generating catastrophic backtracking
   - Multiple non-adjacent GLOBSTAR segments
 - Dev dependency chain only (no direct production impact)
+- Fix: Available via `npm audit fix`
 
 **PostCSS** (nested in Next.js)
 - Current: ≤8.5.22
@@ -103,21 +104,13 @@ The Next.js and PostCSS vulnerabilities are **knowingly deferred**. Per project 
 
 ## Recent Changes & Git Status
 
-**Last 5 Commits:**
-```
-463092a - Monitor: website health check 2026-09-22
-c13a80f - Monitor: scheduled website health check (2026-09-22)
-c096f2e - Merge branch 'claude/movena-legal-cleanup-2855ea'
-d23478c - Use vl@movena.io, and swap in the new dashboard screenshot
-b0d7269 - website: monitor check - 38 pages built, 5 security vulnerabilities flagged
-```
-
 **Working Tree Status:** ✅ Clean
 - No uncommitted changes
 - No staged changes
 - No untracked files
+- HEAD detached from refs/heads/main
 
-**Branch Status:** Up to date with origin/main
+**Branch Status:** At main branch (detached)
 
 ---
 
@@ -128,7 +121,7 @@ b0d7269 - website: monitor check - 38 pages built, 5 security vulnerabilities fl
 | **Build** | ✅ PASS | All 38 routes compiled successfully |
 | **Type Checking** | ✅ PASS | No TypeScript errors |
 | **Lint** | ⚠️ WARNING | 2 non-critical image optimization warnings |
-| **Dependencies** | ⚠️ VULNERABLE | 5 known vulnerabilities (4 high, 1 critical) |
+| **Dependencies** | ❌ VULNERABLE | 5 known vulnerabilities (4 high, 1 critical) |
 | **Git Status** | ✅ CLEAN | No uncommitted changes |
 | **Working Tree** | ✅ CLEAN | Ready for deployment |
 
@@ -156,8 +149,6 @@ b0d7269 - website: monitor check - 38 pages built, 5 security vulnerabilities fl
 
 ## Environment & Build Details
 
-- **Node Version:** Check locally (`node -v`)
-- **NPM Version:** Check locally (`npm -v`)
 - **Next.js Version:** 13.5.11 (current, intentionally held)
 - **React Version:** ^18
 - **TypeScript Version:** ^5
@@ -171,7 +162,7 @@ b0d7269 - website: monitor check - 38 pages built, 5 security vulnerabilities fl
 
 ## Monitor Run Details
 
-- **Run Time:** 2026-09-23T04:30:00Z
+- **Run Time:** 2026-09-23T08:05:00Z
 - **Build Command:** `npm run build`
 - **Lint Command:** `npm run lint`
 - **Audit Command:** `npm audit`

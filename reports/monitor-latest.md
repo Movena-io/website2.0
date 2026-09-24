@@ -1,18 +1,18 @@
 # Website Monitor Report
 
-**Run Timestamp:** 2026-09-23T19:10:00Z  
-**Overall Status:** ❌ **CRITICAL** (Build successful, lint warnings present, critical security vulnerabilities require attention)
+**Run Timestamp:** 2026-09-24 (automated)  
+**Overall Status:** ⚠️ **WARNING** - Build successful, lint warnings present, security vulnerabilities documented
 
 ---
 
 ## Executive Summary
 
-The Movena marketing website built successfully with all 38 static pages compiled without errors. However, the security audit has revealed **5 critical/high-severity vulnerabilities** that require immediate attention:
+The Movena marketing website built successfully with all 38 static pages compiled without errors. The security audit has revealed **5 vulnerabilities** (4 high, 1 critical):
 
-- **1 Critical**: Next.js (33 CVEs including SSRF, RCE, DoS, XSS)
+- **1 Critical**: Next.js (v13 with 26+ known CVEs)
 - **4 High**: minimatch (3 ReDoS issues) and PostCSS (4 file read/XSS issues)
 
-The build and type checking passed, but 2 lint warnings remain in SplitSection.tsx regarding image optimization. The project includes both English and Danish locales with 38 routes successfully generated.
+The build and type checking passed, but 2 lint warnings remain in SplitSection.tsx regarding image optimization. Per CLAUDE.md, Next.js v13 is intentionally kept at its current version as a product decision. The project includes both English and Danish locales with 38 routes successfully generated.
 
 ---
 
@@ -73,8 +73,8 @@ The Next.js 13 application compiled without errors. All static pages were genera
 
 ### Critical Severity (1)
 
-**Next.js** (range: 0.9.9 - 16.3.0-preview.10, current: 13.5.11)
-- **33 Known CVEs** affecting core functionality:
+**Next.js** (current: v13)
+- **26+ Known CVEs** affecting core functionality:
   - Server-Side Request Forgery (SSRF) in Server Actions
   - Remote Code Execution on Windows-hosted servers
   - Denial of Service in Image Optimization and Server Components
@@ -151,8 +151,8 @@ Do NOT run `npm audit fix` or `npm audit fix --force` without explicit product a
 
 ## Monitor Run Details
 
-- **Run Date:** 2026-09-23
-- **Run Time:** 2026-09-23T19:10:00Z
+- **Run Date:** 2026-09-24
+- **Run Time:** Automated scheduler
 - **Build Command:** `npm run build`
 - **Lint Command:** `npm run lint`
 - **Audit Command:** `npm audit`

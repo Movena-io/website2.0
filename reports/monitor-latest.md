@@ -1,13 +1,13 @@
 # Website Monitor Report
 
-**Run Timestamp:** 2026-09-25T00:00:00Z (Scheduled Run)  
-**Overall Status:** ❌ **CRITICAL** - Build and lint pass; 5 security vulnerabilities present
+**Run Timestamp:** 2026-09-26T00:00:00Z (Scheduled Run)  
+**Overall Status:** ⚠️ **Warning** - Build and lint pass; security vulnerabilities require attention
 
 ---
 
 ## Executive Summary
 
-The Movena marketing website built successfully with all 38 static pages compiled without errors. The Next.js 13 application compiled without errors and generates routes for both English and Danish locales. Linting identified 2 non-critical warnings related to image optimization. Security audit confirms 5 known vulnerabilities (4 high, 1 critical) in dependencies that remain unchanged from the previous run. Per CLAUDE.md, Next.js v13 is intentionally kept at its current version as this requires a major upgrade decision (v13 → v16+).
+The Movena marketing website built successfully with all 38 static pages compiled without errors. The Next.js 13 application compiled without errors and generates routes for both English and Danish locales. Linting identified 2 non-critical warnings related to image optimization. Security audit confirms 5 known vulnerabilities (4 high, 1 critical) in dependencies—unchanged from previous run. Per CLAUDE.md, Next.js v13 is intentionally kept at its current version as this requires a major upgrade decision (v13 → v16+).
 
 ---
 
@@ -127,7 +127,7 @@ A major upgrade to Next.js 16+ would be required to resolve these vulnerabilitie
 
 ## Monitor Run Details
 
-- **Run Date:** 2026-09-25
+- **Run Date:** 2026-09-26
 - **Run Time:** 00:00 UTC (automated scheduler)
 - **Build Command:** `npm run build`
 - **Lint Command:** `npm run lint`

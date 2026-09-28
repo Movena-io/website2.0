@@ -1,13 +1,13 @@
 # Website Monitor Report
 
-**Run Timestamp:** 2026-09-27T06:37:00Z (Automated Scheduled Check)  
-**Overall Status:** ⚠️ **WARNING** - Build succeeds, lint warnings present, known security vulnerabilities acknowledged (unchanged)
+**Run Timestamp:** 2026-09-28T00:00:00Z (Automated Scheduled Check)  
+**Overall Status:** ⚠️ **WARNING** - Build succeeds, lint warnings present, known security vulnerabilities acknowledged (unchanged from 2026-09-27)
 
 ---
 
 ## Executive Summary
 
-The Movena marketing website built successfully with all 38 static pages compiled without errors. The Next.js 13 application compiled without errors and generates routes for both English and Danish locales. Linting identified 2 non-critical warnings related to image optimization. Security audit confirms 5 known vulnerabilities (4 high, 1 critical) in dependencies—consistent with previous runs. Per CLAUDE.md, Next.js v13 is intentionally kept at its current version as this requires a major upgrade decision (v13 → v16+). All checks remain healthy and stable.
+The Movena marketing website built successfully with all 38 static pages compiled without errors. The Next.js 13 application compiled without errors and generates routes for both English and Danish locales. Linting identified 2 non-critical warnings related to image optimization. Security audit confirms 5 known vulnerabilities (4 high, 1 critical) in dependencies—consistent with 2026-09-27 run. Per CLAUDE.md, Next.js v13 is intentionally kept at its current version as this requires a major upgrade decision (v13 → v16+). All checks remain healthy and stable with no changes from the previous run.
 
 ---
 
@@ -127,8 +127,8 @@ A major upgrade to Next.js 16+ would be required to resolve these vulnerabilitie
 
 ## Monitor Run Details
 
-- **Run Date:** 2026-09-27
-- **Run Time:** 06:37:00 UTC (automated scheduler)
+- **Run Date:** 2026-09-28
+- **Run Time:** 00:00:00 UTC (automated scheduler)
 - **Build Command:** `npm run build`
 - **Lint Command:** `npm run lint`
 - **Audit Command:** `npm audit`

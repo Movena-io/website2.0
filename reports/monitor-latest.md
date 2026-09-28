@@ -1,13 +1,13 @@
 # Website Monitor Report
 
-**Run Timestamp:** 2026-09-28T20:30:00Z (Automated Scheduled Check)  
-**Overall Status:** ⚠️ **Warning** - Build succeeds, lint warnings present, known security vulnerabilities in Next.js (documented, requires product decision)
+**Run Timestamp:** 2026-09-28T15:42:30Z (Automated Scheduled Check)  
+**Overall Status:** ❌ **Critical** - Build succeeds; lint warnings present; known security vulnerabilities in Next.js (requires product decision)
 
 ---
 
 ## Executive Summary
 
-The Movena marketing website built successfully with all 38 static pages compiled without errors. The Next.js 13 application compiled without errors and generates routes for both English and Danish locales. Linting identified 2 non-critical warnings related to image optimization. Security audit detected 5 known vulnerabilities (1 critical, 4 high): Next.js 13 carries multiple CVEs including SSRF and DoS risks, along with PostCSS and minimatch vulnerabilities. **Per CLAUDE.md, these are acknowledged vulnerabilities requiring a product decision for major upgrade (v13 → v16+).** The current build status is stable, and no new issues have emerged since the last run.
+The Movena marketing website built successfully with all 38 static pages compiled without errors. The Next.js 13 application compiled without errors and generates routes for both English and Danish locales. Linting identified 2 non-critical warnings related to image optimization. Security audit detected 5 known vulnerabilities (1 critical, 4 high): Next.js 13 carries multiple CVEs including SSRF and DoS risks, along with PostCSS and minimatch vulnerabilities. **Per CLAUDE.md, these are acknowledged vulnerabilities requiring a product decision for major upgrade (v13 → v16+).** Status unchanged from previous run; no new vulnerabilities detected.
 
 ---
 
@@ -131,7 +131,7 @@ A major upgrade to Next.js 16+ would be required to resolve these vulnerabilitie
 ## Monitor Run Details
 
 - **Run Date:** 2026-09-28
-- **Run Time:** 20:30:00 UTC (automated scheduler)
+- **Run Time:** 15:42:30 UTC (automated scheduler)
 - **Build Command:** `npm run build`
 - **Lint Command:** `npm run lint`
 - **Audit Command:** `npm audit`

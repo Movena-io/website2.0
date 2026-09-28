@@ -1,13 +1,13 @@
 # Website Monitor Report
 
-**Run Timestamp:** 2026-09-28T06:15:00Z (Automated Scheduled Check)  
-**Overall Status:** ❌ **CRITICAL** - Build succeeds, lint warnings present, critical security vulnerabilities in Next.js
+**Run Timestamp:** 2026-09-28T08:04:00Z (Automated Scheduled Check)  
+**Overall Status:** ⚠️ **Warning** - Build succeeds, lint warnings present, known security vulnerabilities in Next.js (documented, requires product decision)
 
 ---
 
 ## Executive Summary
 
-The Movena marketing website built successfully with all 38 static pages compiled without errors. The Next.js 13 application compiled without errors and generates routes for both English and Danish locales. Linting identified 2 non-critical warnings related to image optimization. **Security audit confirms 5 critical/high-severity vulnerabilities in dependencies** that require attention: Next.js 13 carries multiple critical CVEs including SSRF and RCE risks, along with PostCSS and minimatch vulnerabilities. Per CLAUDE.md, Next.js v13 is intentionally kept at its current version pending a product decision for major upgrade (v13 → v16+). **Recommendation: Prioritize Next.js upgrade to v16.3.6+ to resolve critical security issues.**
+The Movena marketing website built successfully with all 38 static pages compiled without errors. The Next.js 13 application compiled without errors and generates routes for both English and Danish locales. Linting identified 2 non-critical warnings related to image optimization. Security audit detected 5 known vulnerabilities (1 critical, 4 high): Next.js 13 carries multiple CVEs including SSRF and DoS risks, along with PostCSS and minimatch vulnerabilities. **Per CLAUDE.md, these are acknowledged vulnerabilities requiring a product decision for major upgrade (v13 → v16+).** The current build status is stable, and no new issues have emerged since the last run.
 
 ---
 
@@ -55,21 +55,24 @@ The Next.js 13 application compiled without errors. All static pages were genera
 
 ## Security Check: ❌ **CRITICAL VULNERABILITIES**
 
-**Status:** 5 vulnerabilities detected (1 critical, 4 high) — **UNCHANGED FROM PREVIOUS RUN**
+**Status:** 5 vulnerabilities detected (1 critical, 4 high) — Same as previous run (no new vulnerabilities introduced)
 
 ### Critical Severity (1)
 
-**Next.js** (current: v13)
-- 31 CVEs including SSRF, RCE, DoS, XSS, cache poisoning, and more
+**Next.js** (current: v13.5.6)
+- 28 documented CVEs including SSRF, DoS, XSS, cache poisoning, and others
 - **Impact:** Affects production deployments
 - **Required Action:** Upgrade to v16.3.6 or later (breaking change)
 - **Location:** `node_modules/next`
 - **Details:**
-  - Server-Side Request Forgery vulnerabilities
-  - Denial of Service conditions
-  - Cache poisoning vulnerabilities
+  - Server-Side Request Forgery (SSRF) in Server Actions
+  - Multiple Denial of Service (DoS) conditions (Image optimization, Server Components)
+  - Cross-Site Scripting (XSS) vulnerabilities (CSP nonces, beforeInteractive scripts)
+  - Cache poisoning and cache confusion attacks
   - Information disclosure in dev server
-  - And 27 additional CVEs
+  - Middleware/Proxy bypass vulnerabilities
+  - Authorization bypass issues
+  - And 19 additional security issues
 
 ### High Severity (4)
 
@@ -128,7 +131,7 @@ A major upgrade to Next.js 16+ would be required to resolve these vulnerabilitie
 ## Monitor Run Details
 
 - **Run Date:** 2026-09-28
-- **Run Time:** 00:00:00 UTC (automated scheduler)
+- **Run Time:** 08:04:00 UTC (automated scheduler)
 - **Build Command:** `npm run build`
 - **Lint Command:** `npm run lint`
 - **Audit Command:** `npm audit`

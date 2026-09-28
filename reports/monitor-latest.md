@@ -1,13 +1,13 @@
 # Website Monitor Report
 
-**Run Timestamp:** 2026-09-28T00:00:00Z (Automated Scheduled Check)  
-**Overall Status:** ⚠️ **WARNING** - Build succeeds, lint warnings present, known security vulnerabilities acknowledged (unchanged from 2026-09-27)
+**Run Timestamp:** 2026-09-28T06:15:00Z (Automated Scheduled Check)  
+**Overall Status:** ❌ **CRITICAL** - Build succeeds, lint warnings present, critical security vulnerabilities in Next.js
 
 ---
 
 ## Executive Summary
 
-The Movena marketing website built successfully with all 38 static pages compiled without errors. The Next.js 13 application compiled without errors and generates routes for both English and Danish locales. Linting identified 2 non-critical warnings related to image optimization. Security audit confirms 5 known vulnerabilities (4 high, 1 critical) in dependencies—consistent with 2026-09-27 run. Per CLAUDE.md, Next.js v13 is intentionally kept at its current version as this requires a major upgrade decision (v13 → v16+). All checks remain healthy and stable with no changes from the previous run.
+The Movena marketing website built successfully with all 38 static pages compiled without errors. The Next.js 13 application compiled without errors and generates routes for both English and Danish locales. Linting identified 2 non-critical warnings related to image optimization. **Security audit confirms 5 critical/high-severity vulnerabilities in dependencies** that require attention: Next.js 13 carries multiple critical CVEs including SSRF and RCE risks, along with PostCSS and minimatch vulnerabilities. Per CLAUDE.md, Next.js v13 is intentionally kept at its current version pending a product decision for major upgrade (v13 → v16+). **Recommendation: Prioritize Next.js upgrade to v16.3.6+ to resolve critical security issues.**
 
 ---
 

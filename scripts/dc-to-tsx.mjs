@@ -119,6 +119,10 @@ const TEXT_REPLACEMENTS = [
   ['En af os tre ringer på {{dPhone}} og aftaler et tidspunkt for demoen. ', ''],
   ['One of the three of us will call {{dPhone}} to set up a time for the demo. ', ''],
 
+  // --- The form must never look sent when the lead did not go out ---------
+  ['<sc-if value="{{dErr}}" hint-placeholder-val="{{ false }}"><p role="alert" style="margin: 0; font-size: 14px; font-weight: 600; color: #B42318">Tjek de markerede felter, så vi kan ringe til jer.</p></sc-if>', '<sc-if value="{{dErr}}" hint-placeholder-val="{{ false }}"><p role="alert" style="margin: 0; font-size: 14px; font-weight: 600; color: #B42318">Tjek de markerede felter, så vi kan ringe til jer.</p></sc-if><sc-if value="{{dFailed}}" hint-placeholder-val="{{ false }}"><p role="alert" style="margin: 0; font-size: 14px; font-weight: 600; color: #B42318">Beskeden kunne ikke sendes. Ring til os på <a href="tel:+4550282856" style="color: #B42318">+45 50 28 28 56</a>, så tager vi den med det samme.</p></sc-if>'],
+  ['<sc-if value="{{dErr}}" hint-placeholder-val="{{ false }}"><p role="alert" style="margin: 0; font-size: 14px; font-weight: 600; color: #B42318">Check the marked fields so we can call you.</p></sc-if>', '<sc-if value="{{dErr}}" hint-placeholder-val="{{ false }}"><p role="alert" style="margin: 0; font-size: 14px; font-weight: 600; color: #B42318">Check the marked fields so we can call you.</p></sc-if><sc-if value="{{dFailed}}" hint-placeholder-val="{{ false }}"><p role="alert" style="margin: 0; font-size: 14px; font-weight: 600; color: #B42318">We could not send your message. Call us on <a href="tel:+4550282856" style="color: #B42318">+45 50 28 28 56</a> and we will take it straight away.</p></sc-if>'],
+
   // --- Headline must name the same three things as the tabs below it -----
   // The third tab is "Folkene" / "Crew", so the heading says people, not
   // vehicles. The design export still says "vognene" / "the trucks".
@@ -358,6 +362,11 @@ const SCRIPT_REPLACEMENTS = [
   ],
   ["dBtnLabel: s.dSending ? 'Sender…' : 'Ring mig op',", "dBtnLabel: s.dSending ? 'Sender…' : 'Bliv ringet op',"],
   ["dBtnLabel: s.dSending ? 'Sending…' : 'Call me',", "dBtnLabel: s.dSending ? 'Sending…' : 'Request a call',"],
+
+  // The design has no failure state, so dFailed never reaches the markup.
+  // Without this the form silently does nothing when the lead cannot be sent.
+  ['dShowForm: !dSent, dSent: dSent, dErr: dErr,',
+   'dShowForm: !dSent, dSent: dSent, dErr: dErr, dFailed: s.dFailed === true,'],
 ]
 
 function extractRenderVals(src) {

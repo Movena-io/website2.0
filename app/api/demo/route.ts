@@ -57,8 +57,10 @@ export async function POST(req: NextRequest) {
   ]
   const text = lines.join('\n')
 
-  // Best effort on both sides: the visitor already saw their confirmation, so a
-  // downstream hiccup must not turn into an error for them. Logged either way.
+  // Attio is best effort, but the team email is not: it is the only thing that
+  // actually puts the lead in front of a human. If it does not send, the caller
+  // must find out, so the visitor is told to phone us instead of being thanked
+  // for a lead that went nowhere.
   const status: Record<string, string> = {}
 
   try {
@@ -95,7 +97,16 @@ export async function POST(req: NextRequest) {
     status.teamEmail = 'skipped:no_resend_key'
   }
 
-  console.log('[demo]', JSON.stringify({ company, phone: maskPhone(phone), status }))
+  const delivered = status.teamEmail === 'ok'
+  const line = JSON.stringify({ company, phone: maskPhone(phone), status })
 
+  if (!delivered) {
+    // Loud on purpose: a lead has just been lost, and the only record of it is
+    // this line. Includes the fields so it can be recovered from the log.
+    console.error('[demo] LEAD NOT DELIVERED', line, JSON.stringify({ name, company, phone, email }))
+    return NextResponse.json({ success: false, status }, { status: 502 })
+  }
+
+  console.log('[demo]', line)
   return NextResponse.json({ success: true, status })
 }

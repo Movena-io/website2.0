@@ -4,7 +4,9 @@ import { useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useLanguage } from '@/lib/LanguageContext'
-import { ROUTES, NAV, PHONE_DISPLAY, PHONE_HREF } from '@/lib/site-nav'
+import { ROUTES, NAV, PHONE_DISPLAY, PHONE_HREF, counterpartPath } from '@/lib/site-nav'
+import { useBlogAlternates } from '@/lib/BlogAlternates'
+import type { Locale } from '@/lib/locales'
 import MovenaMark from '@/components/site/MovenaMark'
 
 // The three feature icons from the design, in dropdown order.
@@ -54,11 +56,63 @@ function FeatureIcon({ name }: { name: string }) {
   )
 }
 
+// Danish first, regardless of which language is being shown. LOCALES is ordered
+// en-first for routing, and a switcher that reorders itself per page is jarring.
+const SWITCH_ORDER: Locale[] = ['da', 'en']
+
+// "DA / EN". The current language is plain text, the other one is the link, so
+// the switcher reads as a state rather than as two identical buttons.
+function LanguageSwitch({
+  locale,
+  pathname,
+  pairs,
+  className = '',
+}: {
+  locale: Locale
+  pathname: string
+  pairs: ReturnType<typeof useBlogAlternates>
+  className?: string
+}) {
+  return (
+    <div
+      aria-label={NAV[locale].language}
+      className={`flex items-center gap-1.5 text-[15px] font-semibold ${className}`}
+    >
+      {SWITCH_ORDER.map((code, i) => {
+        const label = code.toUpperCase()
+        return (
+          <span key={code} className="flex items-center gap-1.5">
+            {i > 0 && (
+              <span aria-hidden="true" className="text-[#C9D3E0]">
+                /
+              </span>
+            )}
+            {code === locale ? (
+              <span aria-current="true" className="text-[#0B1F3B]">
+                {label}
+              </span>
+            ) : (
+              <Link
+                href={counterpartPath(pathname, locale, code, pairs)}
+                hrefLang={code}
+                className="text-[#4A5B73] no-underline transition-colors hover:text-[#0B1F3B]"
+              >
+                {label}
+              </Link>
+            )}
+          </span>
+        )
+      })}
+    </div>
+  )
+}
+
 export default function SiteHeader() {
   const { locale } = useLanguage()
   const r = ROUTES[locale]
   const nav = NAV[locale]
-  const pathname = usePathname()
+  const pathname = usePathname() ?? r.home
+  const blogPairs = useBlogAlternates()
 
   const [navOpen, setNavOpen] = useState(false)
   const [mobOpen, setMobOpen] = useState(false)
@@ -178,6 +232,7 @@ export default function SiteHeader() {
           <Link href={r.blog} className="whitespace-nowrap text-[15px] font-semibold leading-[44px] text-[#0B1F3B] no-underline">
             {nav.blog}
           </Link>
+          <LanguageSwitch locale={locale} pathname={pathname} pairs={blogPairs} />
         </nav>
 
         {/* Phone + demo button */}
@@ -271,6 +326,12 @@ export default function SiteHeader() {
             <a href={PHONE_HREF} className="rounded-xl px-3 py-2.5 text-[15px] font-semibold text-[#0B1F3B] no-underline hover:bg-[#F7F9FC]">
               {PHONE_DISPLAY}
             </a>
+            <LanguageSwitch
+              locale={locale}
+              pathname={pathname}
+              pairs={blogPairs}
+              className="px-3 py-2.5"
+            />
             <Link
               href={r.bookDemo}
               className="mt-1 inline-flex h-11 items-center justify-center rounded-lg bg-[#2563EB] px-4 text-[15px] font-semibold text-white no-underline"

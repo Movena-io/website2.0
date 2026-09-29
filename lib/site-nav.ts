@@ -24,6 +24,53 @@ export const ROUTES: Record<Locale, Record<string, string>> = {
   },
 }
 
+// Pages that exist in both languages but are not part of the header nav, so
+// they are absent from ROUTES. The language switcher still has to map them,
+// otherwise it would drop the reader on the front page.
+const EXTRA_ROUTE_PAIRS: Record<Locale, string>[] = [
+  { da: '/da/privatlivspolitik', en: '/en/privacy' },
+  { da: '/da/savings-calculator', en: '/en/savings-calculator' },
+  { da: '/da/contact', en: '/en/contact' },
+  { da: '/da/dataportabilitet', en: '/en/dataportabilitet' },
+]
+
+/** The two blog slugs of one article, keyed by locale. Missing = not translated. */
+export type BlogSlugPair = Partial<Record<Locale, string>>
+
+const strip = (p: string) => (p.length > 1 && p.endsWith('/') ? p.slice(0, -1) : p)
+
+// Where the language switcher should send the reader. Same page in the other
+// language where one exists, and a sensible parent where it does not, so the
+// switcher never dead-ends on a 404.
+export function counterpartPath(
+  pathname: string,
+  from: Locale,
+  to: Locale,
+  blogPairs: BlogSlugPair[] = [],
+): string {
+  const path = strip(pathname)
+
+  if (path === `/${from}` || path === '/') return ROUTES[to].home
+
+  // A blog post goes to its translation, or to the blog front page when the
+  // article only exists in one language.
+  const postPrefix = `/${from}/blog/`
+  if (path.startsWith(postPrefix)) {
+    const slug = path.slice(postPrefix.length)
+    const pair = blogPairs.find((p) => p[from] === slug)
+    const other = pair?.[to]
+    return other ? `/${to}/blog/${other}` : ROUTES[to].blog
+  }
+
+  const byKey = Object.keys(ROUTES[from]).find((k) => ROUTES[from][k] === path)
+  if (byKey) return ROUTES[to][byKey]
+
+  const extra = EXTRA_ROUTE_PAIRS.find((pair) => pair[from] === path)
+  if (extra) return extra[to]
+
+  return ROUTES[to].home
+}
+
 export const PHONE_DISPLAY = '+45 50 28 28 56'
 export const PHONE_HREF = 'tel:+4550282856'
 export const EMAIL = 'info@movena.io'
@@ -41,6 +88,7 @@ type NavCopy = {
   callUs: string
   menu: string
   close: string
+  language: string
   featureItems: { key: 'winMore' | 'runTheDay' | 'getPaid'; label: string; blurb: string }[]
 }
 
@@ -53,6 +101,7 @@ export const NAV: Record<Locale, NavCopy> = {
     callUs: `Ring ${PHONE_DISPLAY}`,
     menu: 'Menu',
     close: 'Luk',
+    language: 'Sprog',
     featureItems: [
       { key: 'winMore', label: 'Vind flere flytninger', blurb: 'Prisformular, leads, tilbud og automatiske beskeder' },
       { key: 'runTheDay', label: 'Hav styr på dagen', blurb: 'Overblik, ruter, kalender, crew og appen til folkene' },
@@ -67,6 +116,7 @@ export const NAV: Record<Locale, NavCopy> = {
     callUs: `Call ${PHONE_DISPLAY}`,
     menu: 'Menu',
     close: 'Close',
+    language: 'Language',
     featureItems: [
       { key: 'winMore', label: 'Win more moves', blurb: 'Price form, leads, quotes and automatic messages' },
       { key: 'runTheDay', label: 'Stay on top of the day', blurb: 'Overview, routes, calendar, crew and the crew app' },

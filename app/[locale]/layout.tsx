@@ -3,6 +3,9 @@ import localFont from 'next/font/local'
 import { notFound } from 'next/navigation'
 import '../globals.css'
 import { LanguageProvider } from '@/lib/LanguageContext'
+import { BlogAlternatesProvider } from '@/lib/BlogAlternates'
+import { getAllPosts } from '@/lib/blog'
+import type { BlogSlugPair } from '@/lib/site-nav'
 import { Analytics } from '@vercel/analytics/react'
 import CookieConsent from '@/components/CookieConsent'
 import DesignMotion from '@/components/site/DesignMotion'
@@ -196,6 +199,16 @@ export default function LocaleLayout({
 
   const locale = params.locale as Locale
 
+  // Read on the server once per render: which articles have both a Danish and
+  // an English version, so the header can switch language on a blog post.
+  const byKey = new Map<string, BlogSlugPair>()
+  for (const post of getAllPosts()) {
+    const pair = byKey.get(post.key) ?? {}
+    pair[post.locale] = post.slug
+    byKey.set(post.key, pair)
+  }
+  const blogPairs = Array.from(byKey.values())
+
   return (
     <html lang={locale}>
       <head>
@@ -210,12 +223,14 @@ export default function LocaleLayout({
       </head>
       <body className={`${manrope.variable} font-sans bg-white text-[#0F172A] antialiased`}>
         <LanguageProvider initialLocale={locale}>
+          <BlogAlternatesProvider pairs={blogPairs}>
           {children}
           <Analytics />
           <GoogleAnalytics />
           <MetaPixel />
           <CookieConsent />
           <DesignMotion />
+          </BlogAlternatesProvider>
         </LanguageProvider>
       </body>
     </html>

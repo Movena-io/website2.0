@@ -60,49 +60,141 @@ function FeatureIcon({ name }: { name: string }) {
 // en-first for routing, and a switcher that reorders itself per page is jarring.
 const SWITCH_ORDER: Locale[] = ['da', 'en']
 
-// "DA / EN". The current language is plain text, the other one is the link, so
-// the switcher reads as a state rather than as two identical buttons.
-function LanguageSwitch({
+// Endonyms: a reader looking for English should see "English", not "Engelsk".
+const LANGUAGE_NAMES: Record<Locale, string> = { da: 'Dansk', en: 'English' }
+
+function GlobeIcon() {
+  return (
+    <svg
+      width="16"
+      height="16"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+      className="shrink-0"
+    >
+      <circle cx="12" cy="12" r="9" />
+      <path d="M3 12h18M12 3a15 15 0 0 1 0 18a15 15 0 0 1 0-18z" />
+    </svg>
+  )
+}
+
+function CheckIcon() {
+  return (
+    <svg
+      width="16"
+      height="16"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="#2563EB"
+      strokeWidth="2.4"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+      className="ml-auto shrink-0"
+    >
+      <path d="M5 12.5l4.5 4.5L19 7.5" />
+    </svg>
+  )
+}
+
+/** One row in the language list, shared by the dropdown and the mobile menu. */
+function LanguageRow({
+  code,
+  active,
+  href,
+  onNavigate,
+}: {
+  code: Locale
+  active: boolean
+  href: string
+  onNavigate?: () => void
+}) {
+  const label = LANGUAGE_NAMES[code]
+  const shared = 'flex items-center gap-2 rounded-xl px-3 py-2.5 text-[15px] font-semibold no-underline'
+
+  if (active) {
+    return (
+      <span aria-current="true" className={`${shared} bg-[#E6EDFC] text-[#0B1F3B]`}>
+        {label}
+        <CheckIcon />
+      </span>
+    )
+  }
+  return (
+    <Link href={href} hrefLang={code} onClick={onNavigate} className={`${shared} text-[#0B1F3B] hover:bg-[#F7F9FC]`}>
+      {label}
+    </Link>
+  )
+}
+
+/** Desktop: globe + active code + chevron, opening the same card as Features. */
+function LanguageDropdown({
   locale,
   pathname,
   pairs,
-  className = '',
+  open,
+  setOpen,
 }: {
   locale: Locale
   pathname: string
   pairs: ReturnType<typeof useBlogAlternates>
-  className?: string
+  open: boolean
+  setOpen: (v: boolean) => void
 }) {
   return (
-    <div
-      aria-label={NAV[locale].language}
-      className={`flex items-center gap-1.5 text-[15px] font-semibold ${className}`}
-    >
-      {SWITCH_ORDER.map((code, i) => {
-        const label = code.toUpperCase()
-        return (
-          <span key={code} className="flex items-center gap-1.5">
-            {i > 0 && (
-              <span aria-hidden="true" className="text-[#C9D3E0]">
-                /
-              </span>
-            )}
-            {code === locale ? (
-              <span aria-current="true" className="text-[#0B1F3B]">
-                {label}
-              </span>
-            ) : (
-              <Link
-                href={counterpartPath(pathname, locale, code, pairs)}
-                hrefLang={code}
-                className="text-[#4A5B73] no-underline transition-colors hover:text-[#0B1F3B]"
-              >
-                {label}
-              </Link>
-            )}
-          </span>
-        )
-      })}
+    <div className="relative">
+      <button
+        type="button"
+        aria-expanded={open}
+        aria-controls="sprog-panel"
+        aria-label={NAV[locale].language}
+        onClick={() => setOpen(!open)}
+        className="inline-flex h-11 cursor-pointer items-center gap-1.5 border-0 bg-transparent p-0 font-[inherit] text-[15px] font-semibold text-[#0B1F3B]"
+      >
+        <GlobeIcon />
+        {locale.toUpperCase()}
+        <svg
+          width="14"
+          height="14"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="#0B1F3B"
+          strokeWidth="2.4"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          aria-hidden="true"
+          className="transition-transform duration-200"
+          style={{ transform: `rotate(${open ? 180 : 0}deg)` }}
+        >
+          <path d="M6 9l6 6 6-6" />
+        </svg>
+      </button>
+
+      {open && (
+        <div
+          id="sprog-panel"
+          className="absolute right-0 top-[calc(100%+8px)] z-10 box-border flex w-[172px] flex-col gap-1 rounded-2xl border border-[#E3E8EF] bg-white p-2"
+          style={{
+            boxShadow:
+              '0 1px 2px rgba(11, 31, 59, 0.06), 0 24px 48px -20px rgba(11, 31, 59, 0.3)',
+          }}
+        >
+          {SWITCH_ORDER.map((code) => (
+            <LanguageRow
+              key={code}
+              code={code}
+              active={code === locale}
+              href={counterpartPath(pathname, locale, code, pairs)}
+              onNavigate={() => setOpen(false)}
+            />
+          ))}
+        </div>
+      )}
     </div>
   )
 }
@@ -116,26 +208,30 @@ export default function SiteHeader() {
 
   const [navOpen, setNavOpen] = useState(false)
   const [mobOpen, setMobOpen] = useState(false)
+  const [langOpen, setLangOpen] = useState(false)
   const shellRef = useRef<HTMLDivElement>(null)
 
   // Both panels close on navigation, on Escape and on an outside click.
   useEffect(() => {
     setNavOpen(false)
     setMobOpen(false)
+    setLangOpen(false)
   }, [pathname])
 
   useEffect(() => {
-    if (!navOpen && !mobOpen) return
+    if (!navOpen && !mobOpen && !langOpen) return
     function onKey(e: KeyboardEvent) {
       if (e.key === 'Escape') {
         setNavOpen(false)
         setMobOpen(false)
+        setLangOpen(false)
       }
     }
     function onClick(e: MouseEvent) {
       if (shellRef.current && !shellRef.current.contains(e.target as Node)) {
         setNavOpen(false)
         setMobOpen(false)
+        setLangOpen(false)
       }
     }
     document.addEventListener('keydown', onKey)
@@ -144,7 +240,7 @@ export default function SiteHeader() {
       document.removeEventListener('keydown', onKey)
       document.removeEventListener('mousedown', onClick)
     }
-  }, [navOpen, mobOpen])
+  }, [navOpen, mobOpen, langOpen])
 
   const featureLinks = nav.featureItems.map((item) => (
     <Link
@@ -206,7 +302,10 @@ export default function SiteHeader() {
             type="button"
             aria-expanded={navOpen}
             aria-controls="menu-panel"
-            onClick={() => setNavOpen((v) => !v)}
+            onClick={() => {
+              setNavOpen((v) => !v)
+              setLangOpen(false)
+            }}
             className="inline-flex h-11 cursor-pointer items-center gap-1.5 border-0 bg-transparent p-0 font-[inherit] text-[15px] font-semibold text-[#0B1F3B]"
           >
             {nav.features}
@@ -232,7 +331,16 @@ export default function SiteHeader() {
           <Link href={r.blog} className="whitespace-nowrap text-[15px] font-semibold leading-[44px] text-[#0B1F3B] no-underline">
             {nav.blog}
           </Link>
-          <LanguageSwitch locale={locale} pathname={pathname} pairs={blogPairs} />
+          <LanguageDropdown
+            locale={locale}
+            pathname={pathname}
+            pairs={blogPairs}
+            open={langOpen}
+            setOpen={(v) => {
+              setLangOpen(v)
+              if (v) setNavOpen(false)
+            }}
+          />
         </nav>
 
         {/* Phone + demo button */}
@@ -326,12 +434,14 @@ export default function SiteHeader() {
             <a href={PHONE_HREF} className="rounded-xl px-3 py-2.5 text-[15px] font-semibold text-[#0B1F3B] no-underline hover:bg-[#F7F9FC]">
               {PHONE_DISPLAY}
             </a>
-            <LanguageSwitch
-              locale={locale}
-              pathname={pathname}
-              pairs={blogPairs}
-              className="px-3 py-2.5"
-            />
+            {SWITCH_ORDER.map((code) => (
+              <LanguageRow
+                key={code}
+                code={code}
+                active={code === locale}
+                href={counterpartPath(pathname, locale, code, blogPairs)}
+              />
+            ))}
             <Link
               href={r.bookDemo}
               className="mt-1 inline-flex h-11 items-center justify-center rounded-lg bg-[#2563EB] px-4 text-[15px] font-semibold text-white no-underline"

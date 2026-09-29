@@ -11,6 +11,14 @@ export const CALL_TZ = 'Europe/Copenhagen'
 /** Length of the call we put in the calendar, in minutes. */
 export const CALL_MINUTES = 15
 
+/** How far ahead the earliest bookable slot must be. */
+export const MIN_LEAD_MINUTES = 120
+
+// The client hides a slot the moment it falls inside the lead time, but the
+// submit arrives seconds later, by which point the boundary has moved. Without
+// this the last visible slot would sometimes be rejected by the server.
+const SERVER_GRACE_MINUTES = 30
+
 export type CallDay = {
   /** ISO date, the select's value. */
   value: string
@@ -73,22 +81,26 @@ export function formatCallDay(ymd: string, locale: string): { label: string; sen
 }
 
 /**
- * The next `count` weekdays, starting tomorrow. Today is never offered: the
- * form is a request for a call back, not a booking for the next few minutes.
+ * The next `count` bookable weekdays. Today is included when it is a weekday
+ * and still has a slot far enough ahead; late in the afternoon it drops off
+ * on its own rather than offering a call nobody can take.
  */
 export function nextWeekdays(now: Date, locale: string, count = 10): CallDay[] {
   const out: CallDay[] = []
   let ymd = todayInCopenhagen(now)
+  let first = true
   while (out.length < count) {
-    ymd = addDays(ymd, 1)
+    if (!first) ymd = addDays(ymd, 1)
+    first = false
     const wd = weekday(ymd)
     if (wd === 0 || wd === 6) continue
+    if (callTimesFor(now, ymd).length === 0) continue
     out.push({ value: ymd, ...formatCallDay(ymd, locale) })
   }
   return out
 }
 
-/** 09:00 to 16:00 in half-hour steps. */
+/** 09:00 to 16:00 in half-hour steps, before any lead time is applied. */
 export function callTimes(): string[] {
   const out: string[] = []
   for (let m = 9 * 60; m <= 16 * 60; m += 30) {
@@ -97,14 +109,27 @@ export function callTimes(): string[] {
   return out
 }
 
-export function isCallTime(t: string): boolean {
-  return callTimes().includes(t)
+/**
+ * The times still bookable on `ymd`. Every slot on a future day; on today,
+ * only those at least MIN_LEAD_MINUTES away, so nobody books a call for two
+ * minutes from now.
+ */
+export function callTimesFor(now: Date, ymd: string, graceMinutes = 0): string[] {
+  if (!ymd) return []
+  const earliest = now.getTime() + (MIN_LEAD_MINUTES - graceMinutes) * 60000
+  return callTimes().filter((t) => copenhagenToUtc(ymd, t).getTime() >= earliest)
 }
 
 export function isCallDay(ymd: string): boolean {
   if (!/^\d{4}-\d{2}-\d{2}$/.test(ymd)) return false
   const wd = weekday(ymd)
   return wd !== 0 && wd !== 6
+}
+
+/** Server-side check for a submitted slot, with the grace window applied. */
+export function isSlotBookable(now: Date, ymd: string, time: string): boolean {
+  if (!isCallDay(ymd)) return false
+  return callTimesFor(now, ymd, SERVER_GRACE_MINUTES).includes(time)
 }
 
 // How far Copenhagen is from UTC at a given instant, in minutes.

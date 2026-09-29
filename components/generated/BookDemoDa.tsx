@@ -8,7 +8,7 @@ import SiteHeader from '@/components/site/SiteHeader'
 import SiteFooter from '@/components/site/SiteFooter'
 import DemoCTA from '@/components/site/DemoCTA'
 import { submitDemoLead } from '@/lib/demo-lead'
-import { nextWeekdays, callTimes, formatCallDay } from '@/lib/call-slots'
+import { nextWeekdays, callTimesFor, formatCallDay } from '@/lib/call-slots'
 
 const DEMO_LOCALE = 'da'
 
@@ -20,6 +20,10 @@ export default function BookDemoDa() {
     const onResize = () => setSt((p) => (p.vw === window.innerWidth ? p : { ...p, vw: window.innerWidth }))
     window.addEventListener('resize', onResize)
     onResize()
+    // The call slots depend on the current time, and this page is statically
+    // generated: computing them during render would bake the build's clock
+    // into the HTML. They are filled in here instead.
+    setSt((p) => (p.nowMs ? p : { ...p, nowMs: Date.now() }))
     return () => window.removeEventListener('resize', onResize)
   }, [])
 
@@ -116,11 +120,12 @@ const s = st || {};
 
     const dPhoneOk = (dv('dPhone', '').replace(/\D/g, '').length >= 8);
     const dDay = dv('dDay', ''); const dTime = dv('dTime', '');
-    const dDayList = nextWeekdays(new Date(), DEMO_LOCALE);
+    const dNow = s.nowMs ? new Date(s.nowMs) : null;
+    const dDayList = dNow ? nextWeekdays(dNow, DEMO_LOCALE) : [];
     const dDayOpts = [createElement('option', { key: '', value: '' }, DEMO_LOCALE === 'da' ? 'Vælg dag' : 'Choose a day')]
       .concat(dDayList.map((o) => createElement('option', { key: o.value, value: o.value }, o.label)));
     const dTimeOpts = [createElement('option', { key: '', value: '' }, DEMO_LOCALE === 'da' ? 'Vælg tidspunkt' : 'Choose a time')]
-      .concat(callTimes().map((t) => createElement('option', { key: t, value: t }, t)));
+      .concat((dNow ? callTimesFor(dNow, dDay) : []).map((t) => createElement('option', { key: t, value: t }, t)));
     const dSlotOk = !!dDay && !!dTime;
     const dDayLabel = dDay ? formatCallDay(dDay, DEMO_LOCALE).sentenceLabel : '';
     const dE = { Name: s.dErr === true && !dv('dName', '').trim(), Firm: s.dErr === true && !dv('dFirm', '').trim(), Phone: s.dErr === true && !dPhoneOk, Day: s.dErr === true && !dDay, Time: s.dErr === true && !dTime };
@@ -152,7 +157,7 @@ const s = st || {};
       on_dName: (e) => set({ dName: e.target.value, dErr: false }), on_dFirm: (e) => set({ dFirm: e.target.value, dErr: false }), on_dPhone: (e) => set({ dPhone: e.target.value, dErr: false }), on_dMail: (e) => set({ dMail: e.target.value }),
       dShowForm: !dSent, dSent: dSent, dErr: dErr, dFailed: s.dFailed === true,
       dDay: dDay, dTime: dTime, dDayOpts: dDayOpts, dTimeOpts: dTimeOpts,
-      on_dDay: (e) => set({ dDay: e.target.value, dErr: false }), on_dTime: (e) => set({ dTime: e.target.value, dErr: false }),
+      on_dDay: (e) => { const nd = e.target.value; const keep = dNow && callTimesFor(dNow, nd).includes(dTime); set({ dDay: nd, dTime: keep ? dTime : '', dErr: false }); }, on_dTime: (e) => set({ dTime: e.target.value, dErr: false }),
       errDay: dE.Day, bdDay: dE.Day ? '#B42318' : '#C9D3E0', invDay: dE.Day ? 'true' : 'false',
       errTime: dE.Time, bdTime: dE.Time ? '#B42318' : '#C9D3E0', invTime: dE.Time ? 'true' : 'false',
       dDayLabel: dDayLabel, dTimeLabel: dTime, dFirstName: (dName.trim().split(' ')[0] || 'tak'),

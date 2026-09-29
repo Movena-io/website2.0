@@ -374,18 +374,19 @@ const SCRIPT_REPLACEMENTS = [
   // The design has no failure state, so dFailed never reaches the markup.
   // Without this the form silently does nothing when the lead cannot be sent.
   ['dShowForm: !dSent, dSent: dSent, dErr: dErr,',
-   "dShowForm: !dSent, dSent: dSent, dErr: dErr, dFailed: s.dFailed === true,\n      dDay: dDay, dTime: dTime, dDayOpts: dDayOpts, dTimeOpts: dTimeOpts,\n      on_dDay: (e) => set({ dDay: e.target.value, dErr: false }), on_dTime: (e) => set({ dTime: e.target.value, dErr: false }),\n      errDay: dE.Day, bdDay: dE.Day ? '#B42318' : '#C9D3E0', invDay: dE.Day ? 'true' : 'false',\n      errTime: dE.Time, bdTime: dE.Time ? '#B42318' : '#C9D3E0', invTime: dE.Time ? 'true' : 'false',\n      dDayLabel: dDayLabel, dTimeLabel: dTime,"],
+   "dShowForm: !dSent, dSent: dSent, dErr: dErr, dFailed: s.dFailed === true,\n      dDay: dDay, dTime: dTime, dDayOpts: dDayOpts, dTimeOpts: dTimeOpts,\n      on_dDay: (e) => { const nd = e.target.value; const keep = dNow && callTimesFor(dNow, nd).includes(dTime); set({ dDay: nd, dTime: keep ? dTime : '', dErr: false }); }, on_dTime: (e) => set({ dTime: e.target.value, dErr: false }),\n      errDay: dE.Day, bdDay: dE.Day ? '#B42318' : '#C9D3E0', invDay: dE.Day ? 'true' : 'false',\n      errTime: dE.Time, bdTime: dE.Time ? '#B42318' : '#C9D3E0', invTime: dE.Time ? 'true' : 'false',\n      dDayLabel: dDayLabel, dTimeLabel: dTime,"],
 
   // The day/time selects are ours, so their state, options and validation have
   // to be grafted onto the design's renderVals.
   ['const dPhoneOk = (dv(\'dPhone\', \'\').replace(/\\D/g, \'\').length >= 8);',
    'const dPhoneOk = (dv(\'dPhone\', \'\').replace(/\\D/g, \'\').length >= 8);\n'
    + '    const dDay = dv(\'dDay\', \'\'); const dTime = dv(\'dTime\', \'\');\n'
-   + '    const dDayList = nextWeekdays(new Date(), DEMO_LOCALE);\n'
+   + '    const dNow = s.nowMs ? new Date(s.nowMs) : null;\n'
+   + '    const dDayList = dNow ? nextWeekdays(dNow, DEMO_LOCALE) : [];\n'
    + '    const dDayOpts = [createElement(\'option\', { key: \'\', value: \'\' }, DEMO_LOCALE === \'da\' ? \'Vælg dag\' : \'Choose a day\')]\n'
    + '      .concat(dDayList.map((o) => createElement(\'option\', { key: o.value, value: o.value }, o.label)));\n'
    + '    const dTimeOpts = [createElement(\'option\', { key: \'\', value: \'\' }, DEMO_LOCALE === \'da\' ? \'Vælg tidspunkt\' : \'Choose a time\')]\n'
-   + '      .concat(callTimes().map((t) => createElement(\'option\', { key: t, value: t }, t)));\n'
+   + '      .concat((dNow ? callTimesFor(dNow, dDay) : []).map((t) => createElement(\'option\', { key: t, value: t }, t)));\n'
    + '    const dSlotOk = !!dDay && !!dTime;\n'
    + '    const dDayLabel = dDay ? formatCallDay(dDay, DEMO_LOCALE).sentenceLabel : \'\';'],
 
@@ -519,11 +520,11 @@ const { jsx, vals, notes } = convert(inFile, componentName, demoNeedle || 'Se Mo
 // the generated body actually uses them. Otherwise every page in the export
 // churns whenever the form changes.
 const usesForm = /submitDemoLead/.test(vals)
-const usesSlots = /nextWeekdays|callTimes|formatCallDay/.test(vals)
+const usesSlots = /nextWeekdays|callTimesFor|formatCallDay/.test(vals)
 const usesCreateElement = /createElement\(/.test(vals)
 const extraImports = [
   usesForm ? "import { submitDemoLead } from '@/lib/demo-lead'" : '',
-  usesSlots ? "import { nextWeekdays, callTimes, formatCallDay } from '@/lib/call-slots'" : '',
+  usesSlots ? "import { nextWeekdays, callTimesFor, formatCallDay } from '@/lib/call-slots'" : '',
 ].filter(Boolean).join('\n')
 
 const out = `// @ts-nocheck -- generated file: the design's own JS is kept verbatim.
@@ -545,7 +546,7 @@ export default function ${componentName}() {
   useEffect(() => {
     const onResize = () => setSt((p) => (p.vw === window.innerWidth ? p : { ...p, vw: window.innerWidth }))
     window.addEventListener('resize', onResize)
-    onResize()
+    onResize()${usesSlots ? "\n    // The call slots depend on the current time, and this page is statically\n    // generated: computing them during render would bake the build's clock\n    // into the HTML. They are filled in here instead.\n    setSt((p) => (p.nowMs ? p : { ...p, nowMs: Date.now() }))" : ''}
     return () => window.removeEventListener('resize', onResize)
   }, [])
 

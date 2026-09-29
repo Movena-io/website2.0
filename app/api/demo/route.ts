@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { sendEmail, TEAM_TO, TEAM_REPLY_TO } from '@/lib/email'
 import { pushLeadToAttio } from '@/lib/calculator/attio'
 import { buildInvite } from '@/lib/ics'
-import { CALL_MINUTES, copenhagenToUtc, formatCallDay, isCallDay, isCallTime } from '@/lib/call-slots'
+import { CALL_MINUTES, copenhagenToUtc, formatCallDay, isSlotBookable } from '@/lib/call-slots'
 
 // Demo requests land exactly where the savings-calculator leads land: an email
 // to the three of us, plus a Deal in Attio's "New lead" stage when a key is
@@ -44,7 +44,9 @@ export async function POST(req: NextRequest) {
   if (!name || !company || phone.replace(/\D/g, '').length < 8) {
     return NextResponse.json({ error: 'Missing or invalid fields.' }, { status: 400 })
   }
-  if (!isCallDay(callDay) || !isCallTime(callTime)) {
+  // Also rejects a slot in the past or inside the two-hour lead time, so a
+  // stale page cannot book a call for a moment that has already gone.
+  if (!isSlotBookable(new Date(), callDay, callTime)) {
     return NextResponse.json({ error: 'Missing or invalid call slot.' }, { status: 400 })
   }
 

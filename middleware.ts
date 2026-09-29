@@ -55,7 +55,17 @@ export function middleware(request: NextRequest) {
   const hasLocalePrefix = (LOCALES as readonly string[]).some(
     (locale) => pathname === `/${locale}` || pathname.startsWith(`/${locale}/`),
   )
-  if (hasLocalePrefix) return NextResponse.next()
+  if (hasLocalePrefix) {
+    // not-found.tsx renders outside the page tree, so it cannot read the
+    // [locale] param or the language context. The locale rides along on a
+    // header instead, which that boundary reads with headers().
+    const current = (LOCALES as readonly string[]).find(
+      (l) => pathname === `/${l}` || pathname.startsWith(`/${l}/`),
+    )
+    const res = NextResponse.next()
+    if (current) res.headers.set('x-movena-locale', current)
+    return res
+  }
 
   // Geo wins, then the browser's stated preference, then English.
   const locale =

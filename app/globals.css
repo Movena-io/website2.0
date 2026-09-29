@@ -2,6 +2,18 @@
 @tailwind components;
 @tailwind utilities;
 
+/* The redesign's markup names the family literally ("Manrope, 'Helvetica
+   Neue', ..."), while next/font/local exposes it under a hashed family name.
+   Without this alias every generated page falls back to Helvetica and the
+   text rewraps, so sections come out taller than the design. Same file. */
+@font-face {
+  font-family: 'Manrope';
+  src: url('/fonts/manrope-variable.woff2') format('woff2');
+  font-weight: 200 800;
+  font-style: normal;
+  font-display: swap;
+}
+
 @layer base {
   * {
     box-sizing: border-box;
@@ -241,3 +253,94 @@
   0% { background-position: -200% center; }
   100% { background-position: 200% center; }
 }
+
+/* Converted design markup was drawn against browser defaults, not Tailwind's
+   preflight. Preflight forces line-height: inherit on form controls, which
+   makes every button in the design 4px taller than drawn. Restore the UA
+   default inside converted pages only. */
+[data-dc] button,
+[data-dc] input,
+[data-dc] select,
+[data-dc] textarea {
+  line-height: normal;
+  /* Form controls are border-box in the UA stylesheet, which is what the
+     design was drawn against. The content-box rule below must not reach them:
+     with content-box a 64px min-height button grew to 100px once its 18px
+     padding stopped counting, adding 186px to the FAQ alone. */
+  box-sizing: border-box;
+}
+
+/* The design has no global border-box reset either: it sets box-sizing
+   explicitly on the elements that need it. Tailwind's preflight sets it on
+   everything, which changes what flex-basis measures. On the About page that
+   split a two-column row 493/493 instead of the design's 445/541, because the
+   card's 48px padding no longer sat outside its 380px basis. Inline
+   box-sizing in the design still wins over this rule. */
+[data-dc] *,
+[data-dc] *::before,
+[data-dc] *::after {
+  box-sizing: content-box;
+}
+
+/* Preflight also makes replaced elements display:block, which removes the
+   inline baseline gap under them. The design counts on that gap: the quote
+   card on the About page was 7px short without it. */
+[data-dc] svg,
+[data-dc] img,
+[data-dc] video,
+[data-dc] canvas {
+  display: inline;
+  vertical-align: baseline;
+}
+
+/* The shared header, footer, demo CTA and cookie banner are the app's own
+   Tailwind components but render inside the design wrapper, so the rule above
+   would reach them too. They opt back in to border-box. */
+[data-app],
+[data-app] *,
+[data-app] *::before,
+[data-app] *::after {
+  box-sizing: border-box;
+}
+
+/* ...and the line-height reset above is for converted markup only. The
+   footer's cookie-settings button inherits its line-height in the design, so
+   forcing `normal` here made the last footer column 4px short on every page. */
+[data-app] button,
+[data-app] input,
+[data-app] select,
+[data-app] textarea {
+  line-height: inherit;
+}
+
+
+/* Prose inside a blog article, matching the design's article column. */
+.dc-article h2 {
+  margin: 44px 0 0;
+  font-size: clamp(22px, 2.2vw, 30px);
+  line-height: 1.2;
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  color: #0B1F3B;
+  scroll-margin-top: 96px;
+}
+.dc-article h3 {
+  margin: 28px 0 0;
+  font-size: 19px;
+  font-weight: 600;
+  color: #0B1F3B;
+}
+.dc-article p { margin: 16px 0 0; }
+.dc-article ul,
+.dc-article ol { margin: 16px 0 0; padding-left: 22px; }
+.dc-article li { margin-top: 8px; }
+.dc-article a { color: #1D4ED8; font-weight: 600; }
+.dc-article strong { color: #0B1F3B; font-weight: 600; }
+.dc-article blockquote {
+  margin: 24px 0 0;
+  padding: 2px 0 2px 18px;
+  border-left: 3px solid #C9D3E0;
+  color: #4A5B73;
+}
+.dc-article img { max-width: 100%; height: auto; border-radius: 14px; margin-top: 24px; }
+.dc-article > *:first-child { margin-top: 0; }

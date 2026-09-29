@@ -1,10 +1,7 @@
 import type { Metadata } from 'next'
-import Link from 'next/link'
-import Image from 'next/image'
 import { notFound } from 'next/navigation'
-import Header from '@/components/Header'
-import Footer from '@/components/Footer'
 import { getAllPosts } from '@/lib/blog'
+import BlogIndexView, { type Card } from '@/components/site/BlogIndex'
 import { translations } from '@/lib/translations'
 import { LOCALES, isLocale, type Locale } from '@/lib/locales'
 
@@ -67,87 +64,33 @@ function formatDate(iso: string, locale: Locale): string {
 export default function BlogIndex({ params }: { params: { locale: string } }) {
   if (!isLocale(params.locale)) notFound()
   const locale = params.locale as Locale
-  const t = translations[locale].blog
   // Only articles actually written in this language. An untranslated article
   // is still reachable at its /da URL as a noindex fallback, but it does not
   // belong in the Danish blog's index.
   const posts = getAllPosts({ locale })
 
-  return (
-    <>
-      <Header />
-      <main className="bg-white">
-        <div className="max-w-6xl mx-auto px-6 py-20">
-          <div className="mb-14 max-w-3xl">
-            <div className="flex items-center gap-4 mb-4">
-              <div className="h-px w-8 bg-gradient-to-r from-transparent to-[#1D4ED8]/30" />
-              <span className="text-[11px] font-semibold uppercase tracking-[0.1em] text-[#1D4ED8]">
-                {t.label}
-              </span>
-              <div className="h-px w-8 bg-gradient-to-l from-transparent to-[#1D4ED8]/30" />
-            </div>
-            <h1 className="text-[28px] sm:text-[40px] lg:text-[52px] font-extrabold tracking-[-0.025em] text-[#0B1F3B] leading-[1.1] mb-4">
-              {t.headline}
-            </h1>
-            <p className="text-[18px] font-normal text-[#475569] leading-[1.7]">
-              {t.subheadline}
-            </p>
-          </div>
+  const cards: Card[] = posts.map((post) => ({
+    slug: post.slug,
+    title: post.title,
+    excerpt: post.excerpt,
+    category: post.category,
+    categoryLabel: categoryLabel(post.category, locale),
+    author: post.author,
+    initials: initials(post.author),
+    date: formatDate(post.date, locale),
+    readingMinutes: post.readingMinutes,
+    image: post.image,
+  }))
 
-          {posts.length === 0 ? (
-            <p className="text-[16px] text-[#475569]">{t.empty}</p>
-          ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {posts.map((post) => (
-                <Link
-                  key={post.key}
-                  href={`/${locale}/blog/${post.slug}`}
-                  className="group flex flex-col rounded-xl border border-[#E2E8F0] bg-white overflow-hidden hover:shadow-md transition-shadow"
-                >
-                  <div className="relative aspect-[16/9] bg-[#F8FAFC] overflow-hidden">
-                    <Image
-                      src={post.image}
-                      alt={post.imageAlt}
-                      fill
-                      sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"
-                      className="object-cover group-hover:scale-[1.02] transition-transform duration-300"
-                    />
-                  </div>
-                  <div className="flex flex-col flex-1 p-6">
-                    <div className="flex items-center gap-3 mb-3">
-                      <span className="text-[11px] font-semibold uppercase tracking-[0.08em] text-[#1D4ED8]">
-                        {categoryLabel(post.category, locale)}
-                      </span>
-                      <span className="text-[11px] text-[#94A3B8]">·</span>
-                      <span className="text-[11px] text-[#94A3B8]">
-                        {formatDate(post.date, locale)}
-                      </span>
-                    </div>
-                    <h2
-                      lang={post.locale}
-                      className="text-[20px] font-bold tracking-[-0.015em] text-[#0B1F3B] leading-[1.3] mb-2 group-hover:text-[#1D4ED8] transition-colors"
-                    >
-                      {post.title}
-                    </h2>
-                    <p
-                      lang={post.locale}
-                      className="text-[14px] text-[#475569] leading-[1.6] mb-5 line-clamp-3"
-                    >
-                      {post.excerpt}
-                    </p>
-                    <div className="mt-auto flex items-center justify-end text-[12px] text-[#94A3B8]">
-                      <span>
-                        {post.readingMinutes} {t.readingTime}
-                      </span>
-                    </div>
-                  </div>
-                </Link>
-              ))}
-            </div>
-          )}
-        </div>
-      </main>
-      <Footer />
-    </>
-  )
+  return <BlogIndexView cards={cards} />
+}
+
+// "Villads Laun" -> "VL". The design shows an avatar disc with initials.
+function initials(name: string): string {
+  return name
+    .split(/\s+/)
+    .filter(Boolean)
+    .slice(0, 3)
+    .map((w) => w[0]?.toUpperCase() ?? '')
+    .join('')
 }

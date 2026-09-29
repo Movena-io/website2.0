@@ -42,6 +42,7 @@ export interface PostMeta extends Required<Pick<PostFrontmatter, 'title' | 'slug
 
 export interface Post extends PostMeta {
   html: string // rendered markdown
+  toc: TocEntry[]
 }
 
 // A post as served at a specific URL. `locale` is the language the body is
@@ -90,9 +91,43 @@ function externalizeLinks(html: string): string {
   })
 }
 
-function renderMarkdown(content: string): string {
-  const html = marked.parse(content, { async: false }) as string
-  return externalizeLinks(html)
+// Turns a heading's text into a URL-safe id. Danish letters are folded rather
+// than dropped so two headings do not collapse onto the same anchor.
+function headingId(text: string): string {
+  return text
+    .toLowerCase()
+    .replace(/&[a-z]+;/g, ' ')
+    .replace(/[æ]/g, 'ae')
+    .replace(/[ø]/g, 'oe')
+    .replace(/[å]/g, 'aa')
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '')
+    .slice(0, 60)
+}
+
+export interface TocEntry {
+  id: string
+  text: string
+}
+
+// Adds an id to every h2 so the article can be linked into and the redesign's
+// table of contents has something to point at. Returns the entries too.
+function renderMarkdown(content: string): { html: string; toc: TocEntry[] } {
+  let html = marked.parse(content, { async: false }) as string
+  const toc: TocEntry[] = []
+  const seen = new Set<string>()
+  html = html.replace(/<h2(?![^>]*\bid=)([^>]*)>([\s\S]*?)<\/h2>/g, (_m, attrs, inner) => {
+    const text = inner.replace(/<[^>]+>/g, '').trim()
+    let id = headingId(text) || `section-${toc.length + 1}`
+    let n = 2
+    while (seen.has(id)) id = `${headingId(text)}-${n++}`
+    seen.add(id)
+    toc.push({ id, text })
+    return `<h2 id="${id}"${attrs}>${inner}</h2>`
+  })
+  return { html: externalizeLinks(html), toc }
 }
 
 // `moving-quote-follow-up.md`    -> key "moving-quote-follow-up", locale from frontmatter
@@ -212,9 +247,11 @@ export function resolvePost(slug: string, locale: PostLocale): ResolvedPost | nu
   const chosen = native ?? all.find((p) => p.meta.slug === slug)
   if (!chosen) return null
 
+  const rendered = renderMarkdown(chosen.content)
   return {
     ...chosen.meta,
-    html: renderMarkdown(chosen.content),
+    html: rendered.html,
+    toc: rendered.toc,
     requestedLocale: locale,
     isFallback: !native,
     slugsByLocale: slugsForKey(chosen.meta.key, all),

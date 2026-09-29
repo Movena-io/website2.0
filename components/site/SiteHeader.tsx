@@ -66,8 +66,8 @@ const LANGUAGE_NAMES: Record<Locale, string> = { da: 'Dansk', en: 'English' }
 function GlobeIcon() {
   return (
     <svg
-      width="16"
-      height="16"
+      width="14"
+      height="14"
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
@@ -154,16 +154,16 @@ function LanguageDropdown({
         aria-controls="sprog-panel"
         aria-label={NAV[locale].language}
         onClick={() => setOpen(!open)}
-        className="inline-flex h-11 cursor-pointer items-center gap-1.5 border-0 bg-transparent p-0 font-[inherit] text-[15px] font-semibold text-[#0B1F3B]"
+        className="inline-flex h-11 cursor-pointer items-center gap-1 border-0 bg-transparent p-0 font-[inherit] text-[13px] font-semibold text-[#6B7A90] transition-colors hover:text-[#0B1F3B]"
       >
         <GlobeIcon />
         {locale.toUpperCase()}
         <svg
-          width="14"
-          height="14"
+          width="12"
+          height="12"
           viewBox="0 0 24 24"
           fill="none"
-          stroke="#0B1F3B"
+          stroke="currentColor"
           strokeWidth="2.4"
           strokeLinecap="round"
           strokeLinejoin="round"
@@ -296,7 +296,7 @@ export default function SiteHeader() {
         {/* Desktop nav */}
         <nav
           aria-label={locale === 'da' ? 'Hovedmenu' : 'Main menu'}
-          className="ml-auto hidden h-11 items-center gap-8 md:flex"
+          className="ml-6 hidden h-11 items-center gap-8 md:flex lg:ml-10"
         >
           <button
             type="button"
@@ -331,20 +331,23 @@ export default function SiteHeader() {
           <Link href={r.blog} className="whitespace-nowrap text-[15px] font-semibold leading-[44px] text-[#0B1F3B] no-underline">
             {nav.blog}
           </Link>
-          <LanguageDropdown
-            locale={locale}
-            pathname={pathname}
-            pairs={blogPairs}
-            open={langOpen}
-            setOpen={(v) => {
-              setLangOpen(v)
-              if (v) setNavOpen(false)
-            }}
-          />
         </nav>
 
-        {/* Phone + demo button */}
-        <div className="ml-auto flex items-center gap-3 md:ml-0">
+        {/* Language, phone and the demo button, kept together on the right */}
+        <div className="ml-auto flex items-center gap-3">
+          <div className="hidden md:block">
+            <LanguageDropdown
+              locale={locale}
+              pathname={pathname}
+              pairs={blogPairs}
+              open={langOpen}
+              setOpen={(v) => {
+                setLangOpen(v)
+                if (v) setNavOpen(false)
+              }}
+            />
+          </div>
+
           <a
             href={PHONE_HREF}
             className="hidden h-11 items-center gap-2 whitespace-nowrap text-[15px] font-semibold text-[#0B1F3B] no-underline lg:inline-flex"

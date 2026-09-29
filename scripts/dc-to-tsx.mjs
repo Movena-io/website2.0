@@ -118,6 +118,12 @@ const TEXT_REPLACEMENTS = [
 
   ['En af os tre ringer på {{dPhone}} og aftaler et tidspunkt for demoen. ', ''],
   ['One of the three of us will call {{dPhone}} to set up a time for the demo. ', ''],
+
+  // --- Headline must name the same three things as the tabs below it -----
+  // The third tab is "Folkene" / "Crew", so the heading says people, not
+  // vehicles. The design export still says "vognene" / "the trucks".
+  ['Kunden, kontoret og vognene', 'Kunden, kontoret og folkene'],
+  ['The customer, the office and the trucks', 'The customer, the office and the crew'],
 ]
 
 const PLACEHOLDERS = {

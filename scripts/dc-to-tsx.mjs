@@ -112,12 +112,20 @@ const TEXT_REPLACEMENTS = [
 
   // Confirmation now names the number we will ring.
   ['Tak, {{dFirstName}}. Vi ringer til dig.',
-   'Tak, {{dFirstName}}. Vi ringer til dig på {{dPhone}}.'],
+   'Tak, {{dFirstName}}. Vi ringer til dig {{dDayLabel}} kl. {{dTimeLabel}} på {{dPhone}}.'],
   ["Thanks, {{dFirstName}}. We'll call you.",
-   "Thanks, {{dFirstName}}. We'll call you on {{dPhone}}."],
+   "Thanks, {{dFirstName}}. We'll call you {{dDayLabel}} at {{dTimeLabel}} on {{dPhone}}."],
 
   ['En af os tre ringer på {{dPhone}} og aftaler et tidspunkt for demoen. ', ''],
   ['One of the three of us will call {{dPhone}} to set up a time for the demo. ', ''],
+
+  // --- The call slot replaces the design's optional "when suits you" ------
+  // Two required selects, so the lead arrives with a real time we can put in
+  // a calendar rather than a vague "morning".
+  ['<div style="min-width: 0"><label for="d-naar" style="display: block; font-size: 14px; font-weight: 600; margin-bottom: 6px">Hvornår passer det at blive ringet op? <span style="font-weight: 500; color: #6B7A90">(valgfri)</span></label><select id="d-naar" value="{{dWhenVal}}" onChange="{{on_dWhen}}" style="width: 100%; box-sizing: border-box; height: 48px; padding: 0 44px 0 14px; border: 1px solid #C9D3E0; border-radius: 10px; font-family: inherit; font-size: 16px; color: #0B1F3B; background: #FFFFFF url(&quot;data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'16\' height=\'16\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'%234A5B73\' stroke-width=\'2.4\' stroke-linecap=\'round\' stroke-linejoin=\'round\'%3E%3Cpath d=\'M6 9l6 6 6-6\'/%3E%3C/svg%3E&quot;) no-repeat right 14px center; -webkit-appearance: none; appearance: none; cursor: pointer"><option value="">Vælg tidspunkt</option><option value="Formiddag">Formiddag</option><option value="Eftermiddag">Eftermiddag</option><option value="Lige meget">Lige meget</option></select></div>',
+   '<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr)); gap: 14px"><div style="min-width: 0"><label for="d-dag" style="display: block; font-size: 14px; font-weight: 600; margin-bottom: 6px">Dag<span style="color: #B42318"> *</span></label><select id="d-dag" aria-invalid="{{invDay}}" value="{{dDay}}" onChange="{{on_dDay}}" style="width: 100%; box-sizing: border-box; height: 48px; padding: 0 44px 0 14px; border: 1px solid {{bdDay}}; border-radius: 10px; font-family: inherit; font-size: 16px; color: #0B1F3B; background: #FFFFFF url(&quot;data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'16\' height=\'16\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'%234A5B73\' stroke-width=\'2.4\' stroke-linecap=\'round\' stroke-linejoin=\'round\'%3E%3Cpath d=\'M6 9l6 6 6-6\'/%3E%3C/svg%3E&quot;) no-repeat right 14px center; -webkit-appearance: none; appearance: none; cursor: pointer">{{dDayOpts}}</select><sc-if value="{{errDay}}" hint-placeholder-val="{{ false }}"><p role="alert" style="margin: 6px 0 0; font-size: 13px; font-weight: 600; color: #B42318">Vælg en dag</p></sc-if></div><div style="min-width: 0"><label for="d-tid" style="display: block; font-size: 14px; font-weight: 600; margin-bottom: 6px">Tidspunkt<span style="color: #B42318"> *</span></label><select id="d-tid" aria-invalid="{{invTime}}" value="{{dTime}}" onChange="{{on_dTime}}" style="width: 100%; box-sizing: border-box; height: 48px; padding: 0 44px 0 14px; border: 1px solid {{bdTime}}; border-radius: 10px; font-family: inherit; font-size: 16px; color: #0B1F3B; background: #FFFFFF url(&quot;data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'16\' height=\'16\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'%234A5B73\' stroke-width=\'2.4\' stroke-linecap=\'round\' stroke-linejoin=\'round\'%3E%3Cpath d=\'M6 9l6 6 6-6\'/%3E%3C/svg%3E&quot;) no-repeat right 14px center; -webkit-appearance: none; appearance: none; cursor: pointer">{{dTimeOpts}}</select><sc-if value="{{errTime}}" hint-placeholder-val="{{ false }}"><p role="alert" style="margin: 6px 0 0; font-size: 13px; font-weight: 600; color: #B42318">Vælg et tidspunkt</p></sc-if></div></div>'],
+  ['<div style="min-width: 0"><label for="d-naar" style="display: block; font-size: 14px; font-weight: 600; margin-bottom: 6px">When is a good time to call? <span style="font-weight: 500; color: #6B7A90">(optional)</span></label><select id="d-naar" value="{{dWhenVal}}" onChange="{{on_dWhen}}" style="width: 100%; box-sizing: border-box; height: 48px; padding: 0 44px 0 14px; border: 1px solid #C9D3E0; border-radius: 10px; font-family: inherit; font-size: 16px; color: #0B1F3B; background: #FFFFFF url(&quot;data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'16\' height=\'16\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'%234A5B73\' stroke-width=\'2.4\' stroke-linecap=\'round\' stroke-linejoin=\'round\'%3E%3Cpath d=\'M6 9l6 6 6-6\'/%3E%3C/svg%3E&quot;) no-repeat right 14px center; -webkit-appearance: none; appearance: none; cursor: pointer"><option value="">Choose a time</option><option value="Formiddag">Morning</option><option value="Eftermiddag">Afternoon</option><option value="Lige meget">Any time</option></select></div>',
+   '<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr)); gap: 14px"><div style="min-width: 0"><label for="d-dag" style="display: block; font-size: 14px; font-weight: 600; margin-bottom: 6px">Day<span style="color: #B42318"> *</span></label><select id="d-dag" aria-invalid="{{invDay}}" value="{{dDay}}" onChange="{{on_dDay}}" style="width: 100%; box-sizing: border-box; height: 48px; padding: 0 44px 0 14px; border: 1px solid {{bdDay}}; border-radius: 10px; font-family: inherit; font-size: 16px; color: #0B1F3B; background: #FFFFFF url(&quot;data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'16\' height=\'16\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'%234A5B73\' stroke-width=\'2.4\' stroke-linecap=\'round\' stroke-linejoin=\'round\'%3E%3Cpath d=\'M6 9l6 6 6-6\'/%3E%3C/svg%3E&quot;) no-repeat right 14px center; -webkit-appearance: none; appearance: none; cursor: pointer">{{dDayOpts}}</select><sc-if value="{{errDay}}" hint-placeholder-val="{{ false }}"><p role="alert" style="margin: 6px 0 0; font-size: 13px; font-weight: 600; color: #B42318">Choose a day</p></sc-if></div><div style="min-width: 0"><label for="d-tid" style="display: block; font-size: 14px; font-weight: 600; margin-bottom: 6px">Time<span style="color: #B42318"> *</span></label><select id="d-tid" aria-invalid="{{invTime}}" value="{{dTime}}" onChange="{{on_dTime}}" style="width: 100%; box-sizing: border-box; height: 48px; padding: 0 44px 0 14px; border: 1px solid {{bdTime}}; border-radius: 10px; font-family: inherit; font-size: 16px; color: #0B1F3B; background: #FFFFFF url(&quot;data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'16\' height=\'16\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'%234A5B73\' stroke-width=\'2.4\' stroke-linecap=\'round\' stroke-linejoin=\'round\'%3E%3Cpath d=\'M6 9l6 6 6-6\'/%3E%3C/svg%3E&quot;) no-repeat right 14px center; -webkit-appearance: none; appearance: none; cursor: pointer">{{dTimeOpts}}</select><sc-if value="{{errTime}}" hint-placeholder-val="{{ false }}"><p role="alert" style="margin: 6px 0 0; font-size: 13px; font-weight: 600; color: #B42318">Choose a time</p></sc-if></div></div>'],
 
   // --- The form must never look sent when the lead did not go out ---------
   ['<sc-if value="{{dErr}}" hint-placeholder-val="{{ false }}"><p role="alert" style="margin: 0; font-size: 14px; font-weight: 600; color: #B42318">Tjek de markerede felter, så vi kan ringe til jer.</p></sc-if>', '<sc-if value="{{dErr}}" hint-placeholder-val="{{ false }}"><p role="alert" style="margin: 0; font-size: 14px; font-weight: 600; color: #B42318">Tjek de markerede felter, så vi kan ringe til jer.</p></sc-if><sc-if value="{{dFailed}}" hint-placeholder-val="{{ false }}"><p role="alert" style="margin: 0; font-size: 14px; font-weight: 600; color: #B42318">Beskeden kunne ikke sendes. Ring til os på <a href="tel:+4550282856" style="color: #B42318">+45 50 28 28 56</a>, så tager vi den med det samme.</p></sc-if>'],
@@ -358,7 +366,7 @@ function valueExprRawCond(raw) {
 const SCRIPT_REPLACEMENTS = [
   [
     "dSubmit: () => { if (!(dName.trim() && dFirm.trim() && dPhoneOk)) { set({ dErr: true }); return; } set({ dSending: true, dErr: false }); setTimeout(() => setState({ dSending: false, dSent: true }), 700); },",
-    "dSubmit: () => { if (!(dName.trim() && dFirm.trim() && dPhoneOk)) { set({ dErr: true }); return; } set({ dSending: true, dErr: false, dFailed: false }); submitDemoLead({ name: dName, company: dFirm, phone: dPhone, email: dMail, sizeIndex: st.dSize, usesToday: st.dNowText, callWindow: st.dWhenStr, locale: DEMO_LOCALE }).then((ok) => set({ dSending: false, dSent: ok, dFailed: !ok })).catch(() => set({ dSending: false, dFailed: true })); },",
+    "dSubmit: () => { if (!(dName.trim() && dFirm.trim() && dPhoneOk && dSlotOk)) { set({ dErr: true }); return; } set({ dSending: true, dErr: false, dFailed: false }); submitDemoLead({ name: dName, company: dFirm, phone: dPhone, email: dMail, sizeIndex: st.dSize, usesToday: st.dNowText, callDay: dDay, callTime: dTime, locale: DEMO_LOCALE }).then((ok) => set({ dSending: false, dSent: ok, dFailed: !ok })).catch(() => set({ dSending: false, dFailed: true })); },",
   ],
   ["dBtnLabel: s.dSending ? 'Sender…' : 'Ring mig op',", "dBtnLabel: s.dSending ? 'Sender…' : 'Bliv ringet op',"],
   ["dBtnLabel: s.dSending ? 'Sending…' : 'Call me',", "dBtnLabel: s.dSending ? 'Sending…' : 'Request a call',"],
@@ -366,7 +374,23 @@ const SCRIPT_REPLACEMENTS = [
   // The design has no failure state, so dFailed never reaches the markup.
   // Without this the form silently does nothing when the lead cannot be sent.
   ['dShowForm: !dSent, dSent: dSent, dErr: dErr,',
-   'dShowForm: !dSent, dSent: dSent, dErr: dErr, dFailed: s.dFailed === true,'],
+   "dShowForm: !dSent, dSent: dSent, dErr: dErr, dFailed: s.dFailed === true,\n      dDay: dDay, dTime: dTime, dDayOpts: dDayOpts, dTimeOpts: dTimeOpts,\n      on_dDay: (e) => set({ dDay: e.target.value, dErr: false }), on_dTime: (e) => set({ dTime: e.target.value, dErr: false }),\n      errDay: dE.Day, bdDay: dE.Day ? '#B42318' : '#C9D3E0', invDay: dE.Day ? 'true' : 'false',\n      errTime: dE.Time, bdTime: dE.Time ? '#B42318' : '#C9D3E0', invTime: dE.Time ? 'true' : 'false',\n      dDayLabel: dDayLabel, dTimeLabel: dTime,"],
+
+  // The day/time selects are ours, so their state, options and validation have
+  // to be grafted onto the design's renderVals.
+  ['const dPhoneOk = (dv(\'dPhone\', \'\').replace(/\\D/g, \'\').length >= 8);',
+   'const dPhoneOk = (dv(\'dPhone\', \'\').replace(/\\D/g, \'\').length >= 8);\n'
+   + '    const dDay = dv(\'dDay\', \'\'); const dTime = dv(\'dTime\', \'\');\n'
+   + '    const dDayList = nextWeekdays(new Date(), DEMO_LOCALE);\n'
+   + '    const dDayOpts = [createElement(\'option\', { key: \'\', value: \'\' }, DEMO_LOCALE === \'da\' ? \'Vælg dag\' : \'Choose a day\')]\n'
+   + '      .concat(dDayList.map((o) => createElement(\'option\', { key: o.value, value: o.value }, o.label)));\n'
+   + '    const dTimeOpts = [createElement(\'option\', { key: \'\', value: \'\' }, DEMO_LOCALE === \'da\' ? \'Vælg tidspunkt\' : \'Choose a time\')]\n'
+   + '      .concat(callTimes().map((t) => createElement(\'option\', { key: t, value: t }, t)));\n'
+   + '    const dSlotOk = !!dDay && !!dTime;\n'
+   + '    const dDayLabel = dDay ? formatCallDay(dDay, DEMO_LOCALE).sentenceLabel : \'\';'],
+
+  ['const dE = { Name: s.dErr === true && !dv(\'dName\', \'\').trim(), Firm: s.dErr === true && !dv(\'dFirm\', \'\').trim(), Phone: s.dErr === true && !dPhoneOk };',
+   'const dE = { Name: s.dErr === true && !dv(\'dName\', \'\').trim(), Firm: s.dErr === true && !dv(\'dFirm\', \'\').trim(), Phone: s.dErr === true && !dPhoneOk, Day: s.dErr === true && !dDay, Time: s.dErr === true && !dTime };'],
 ]
 
 function extractRenderVals(src) {
@@ -491,16 +515,26 @@ if (!inFile) {
 }
 const { jsx, vals, notes } = convert(inFile, componentName, demoNeedle || 'Se Movena med')
 
+// Only the booking page carries the form, so its imports are added only where
+// the generated body actually uses them. Otherwise every page in the export
+// churns whenever the form changes.
+const usesForm = /submitDemoLead/.test(vals)
+const usesSlots = /nextWeekdays|callTimes|formatCallDay/.test(vals)
+const usesCreateElement = /createElement\(/.test(vals)
+const extraImports = [
+  usesForm ? "import { submitDemoLead } from '@/lib/demo-lead'" : '',
+  usesSlots ? "import { nextWeekdays, callTimes, formatCallDay } from '@/lib/call-slots'" : '',
+].filter(Boolean).join('\n')
+
 const out = `// @ts-nocheck -- generated file: the design's own JS is kept verbatim.
 'use client'
 
 // GENERATED from design-export/${path.basename(inFile)} by scripts/dc-to-tsx.mjs.
 // Styles and numbers are the design's own. Hand edits below the marker only.
-import { useState, useEffect } from 'react'
+import { useState, useEffect${usesCreateElement ? ', createElement' : ''} } from 'react'
 import SiteHeader from '@/components/site/SiteHeader'
 import SiteFooter from '@/components/site/SiteFooter'
-import DemoCTA from '@/components/site/DemoCTA'
-import { submitDemoLead } from '@/lib/demo-lead'
+import DemoCTA from '@/components/site/DemoCTA'${extraImports ? '\n' + extraImports : ''}
 
 const DEMO_LOCALE = '${LOCALE}'
 

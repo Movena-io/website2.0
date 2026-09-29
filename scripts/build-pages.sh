@@ -38,4 +38,21 @@ gen EN-Privacy.dc.html         PrivatlivspolitikEn   en
 gen EN-404.dc.html             NotFoundEn            en
 gen EN-Error.dc.html           ErrorEn               en
 
+# --- Guard -----------------------------------------------------------------
+# The call-slot fields and the failure state are grafted onto the design by
+# string replacement in dc-to-tsx.mjs. If a re-export ever changes the markup
+# those replacements match, they stop applying silently and the booking form
+# quietly loses its required fields. Fail loudly instead.
+check() { # <file> <needle> <what>
+  grep -q -- "$2" "$1" || { echo "FAIL: $3 missing from $1" >&2; exit 1; }
+}
+for f in components/generated/BookDemoDa.tsx components/generated/BookDemoEn.tsx; do
+  check "$f" 'id="d-dag"'  "call-day select"
+  check "$f" 'id="d-tid"'  "call-time select"
+  check "$f" 'dDayOpts'    "call-slot options"
+  check "$f" 'V.dFailed'   "send-failure message"
+  check "$f" 'callDay:'    "callDay in the submit payload"
+  grep -q -- 'd-naar' "$f" && { echo "FAIL: old when-suits-you select still in $f" >&2; exit 1; }
+done
+
 echo "done"

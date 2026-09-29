@@ -34,12 +34,22 @@ export function postmarkToken(): string | undefined {
  * Sends one message. Never throws: the caller gets a status string it can log
  * and return, because a lead form must not 500 on a mail provider hiccup.
  */
+export type Attachment = {
+  /** Filename as the recipient sees it. */
+  name: string
+  /** Raw file content; encoded to base64 here. */
+  content: string
+  /** For a calendar invite this must carry the method, or clients treat it as a plain file. */
+  contentType: string
+}
+
 export async function sendEmail(mail: {
   to: string | string[]
   replyTo?: string
   subject: string
   text: string
   html?: string
+  attachments?: Attachment[]
 }): Promise<SendResult> {
   const token = postmarkToken()
   if (!token) return 'skipped:no_postmark_token'
@@ -60,6 +70,11 @@ export async function sendEmail(mail: {
         TextBody: mail.text,
         HtmlBody: mail.html,
         MessageStream: 'outbound',
+        Attachments: mail.attachments?.map((a) => ({
+          Name: a.name,
+          Content: Buffer.from(a.content, 'utf8').toString('base64'),
+          ContentType: a.contentType,
+        })),
       }),
     })
 

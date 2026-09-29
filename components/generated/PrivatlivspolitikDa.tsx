@@ -7,7 +7,6 @@ import { useState, useEffect } from 'react'
 import SiteHeader from '@/components/site/SiteHeader'
 import SiteFooter from '@/components/site/SiteFooter'
 import DemoCTA from '@/components/site/DemoCTA'
-import { submitDemoLead } from '@/lib/demo-lead'
 
 const DEMO_LOCALE = 'da'
 

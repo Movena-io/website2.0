@@ -11,8 +11,10 @@ export interface DemoLeadInput {
   sizeIndex?: number
   /** Free text: what they run today. */
   usesToday?: string
-  /** Preferred time of day for the call, as the select's own value. */
-  callWindow?: string
+  /** Chosen day, as YYYY-MM-DD in Copenhagen. Required. */
+  callDay: string
+  /** Chosen time, as HH:MM in Copenhagen. Required. */
+  callTime: string
   locale: string
 }
 

@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { sendEmail, TEAM_TO, TEAM_REPLY_TO } from '@/lib/email'
 import { pushLeadToAttio } from '@/lib/calculator/attio'
+import { buildInvite } from '@/lib/ics'
+import { CALL_MINUTES, copenhagenToUtc, formatCallDay, isCallDay, isCallTime } from '@/lib/call-slots'
 
 // Demo requests land exactly where the savings-calculator leads land: an email
 // to the three of us, plus a Deal in Attio's "New lead" stage when a key is
@@ -30,16 +32,24 @@ export async function POST(req: NextRequest) {
   const phone = clean(body.phone, 40)
   const email = clean(body.email)
   const usesToday = clean(body.usesToday, 500)
-  const callWindow = clean(body.callWindow, 40)
+  const callDay = clean(body.callDay, 10)
+  const callTime = clean(body.callTime, 5)
   const locale = clean(body.locale, 5) || 'da'
 
   const sizeIndex = Number(body.sizeIndex)
   const size = Number.isInteger(sizeIndex) && SIZE_LABELS[sizeIndex] ? SIZE_LABELS[sizeIndex] : ''
 
-  // The form enforces these three; re-check rather than trust the client.
+  // The form enforces these; re-check rather than trust the client. The slot is
+  // validated too, because it goes straight into a calendar invite.
   if (!name || !company || phone.replace(/\D/g, '').length < 8) {
     return NextResponse.json({ error: 'Missing or invalid fields.' }, { status: 400 })
   }
+  if (!isCallDay(callDay) || !isCallTime(callTime)) {
+    return NextResponse.json({ error: 'Missing or invalid call slot.' }, { status: 400 })
+  }
+
+  const dayLabel = formatCallDay(callDay, locale).label
+  const callStart = copenhagenToUtc(callDay, callTime)
 
   const lines = [
     `Navn: ${name}`,
@@ -48,7 +58,7 @@ export async function POST(req: NextRequest) {
     `E-mail: ${email || '-'}`,
     `Antal medarbejdere: ${size || '-'}`,
     `Bruger i dag: ${usesToday || '-'}`,
-    `Ringes op: ${callWindow || '-'}`,
+    `Ringes op: ${dayLabel} kl. ${callTime} (dansk tid)`,
     `Sprog: ${locale}`,
   ]
   const text = lines.join('\n')
@@ -74,11 +84,31 @@ export async function POST(req: NextRequest) {
     status.attio = `error:${err instanceof Error ? err.message : 'unknown'}`
   }
 
+  // The invite is addressed to vl@: the call is theirs to make. It rides along
+  // on the team mail so everyone sees the lead and one person gets the booking.
+  const invite = buildInvite({
+    uid: `demo-${callDay}-${callTime.replace(':', '')}-${Date.now()}@movena.io`,
+    start: callStart,
+    minutes: CALL_MINUTES,
+    summary: `Ring til ${name}, ${company}`,
+    description: `${text}\n\nRing til ${phone}`,
+    organizerEmail: 'noreply@movena.io',
+    organizerName: 'Movena',
+    attendeeEmail: 'vl@movena.io',
+  })
+
   status.teamEmail = await sendEmail({
     to: TEAM_TO,
     replyTo: email || TEAM_REPLY_TO,
-    subject: `[Demo] ${company} — ${name}`,
+    subject: `[Demo] ${company} — ${name}, ${dayLabel} kl. ${callTime}`,
     text,
+    attachments: [
+      {
+        name: 'ring-til-kunde.ics',
+        content: invite,
+        contentType: 'text/calendar; charset=utf-8; method=REQUEST',
+      },
+    ],
   })
 
   const delivered = status.teamEmail === 'ok'

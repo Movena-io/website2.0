@@ -28,12 +28,13 @@ const nextConfig = {
       { source: '/:locale(en|da)/signup', destination: 'https://app.movena.io/signup', permanent: false },
       { source: '/:locale(en|da)/login', destination: 'https://app.movena.io/login', permanent: false },
 
-      // The privacy policy is maintained in the product app now, so the
-      // marketing site's copy is gone and its URLs point at the real one.
-      // Both the bare and the locale-prefixed form are listed: which one a
-      // visitor hits depends on whether middleware has added the prefix yet.
-      { source: '/privacy', destination: 'https://app.movena.io/privatlivspolitik', permanent: true },
-      { source: '/:locale(en|da)/privacy', destination: 'https://app.movena.io/privatlivspolitik', permanent: true },
+      // The policy lives on the marketing site again with the redesign, so the
+      // redirect to the product app is gone. /privacy is the English page and
+      // /privatlivspolitik the Danish one; the bare forms pick up the locale.
+      { source: '/privacy', destination: '/en/privacy', permanent: false },
+      { source: '/privatlivspolitik', destination: '/da/privatlivspolitik', permanent: false },
+      { source: '/da/privacy', destination: '/da/privatlivspolitik', permanent: true },
+      { source: '/en/privatlivspolitik', destination: '/en/privacy', permanent: true },
 
       // Terms are retired with no replacement page, so those URLs go home.
       { source: '/terms', destination: '/', permanent: true },

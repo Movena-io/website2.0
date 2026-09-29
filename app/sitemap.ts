@@ -20,9 +20,42 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { path: '/blog', changeFrequency: 'weekly', priority: 0.8, bilingual: true },
   ]
 
+  // The redesign's pages use a different slug per language, so they cannot go
+  // through `staticEntries`, which appends one path to both locales.
+  type Pair = {
+    da: string
+    en: string
+    changeFrequency: MetadataRoute.Sitemap[number]['changeFrequency']
+    priority: number
+  }
+  const localisedPairs: Pair[] = [
+    { da: '/da/vind-flere-flytninger', en: '/en/win-more-moves', changeFrequency: 'monthly', priority: 0.9 },
+    { da: '/da/hav-styr-paa-dagen', en: '/en/run-the-day', changeFrequency: 'monthly', priority: 0.9 },
+    { da: '/da/faa-alle-pengene-hjem', en: '/en/get-paid', changeFrequency: 'monthly', priority: 0.9 },
+    { da: '/da/om-os', en: '/en/about', changeFrequency: 'monthly', priority: 0.6 },
+    { da: '/da/book-demo', en: '/en/book-demo', changeFrequency: 'monthly', priority: 0.9 },
+    { da: '/da/privatlivspolitik', en: '/en/privacy', changeFrequency: 'yearly', priority: 0.3 },
+  ]
+
+  const localisedUrls: MetadataRoute.Sitemap = localisedPairs.flatMap((pair) =>
+    (['da', 'en'] as const).map((locale) => ({
+      url: `${BASE}${pair[locale]}`,
+      lastModified: now,
+      changeFrequency: pair.changeFrequency,
+      priority: pair.priority,
+      alternates: {
+        languages: {
+          da: `${BASE}${pair.da}`,
+          en: `${BASE}${pair.en}`,
+          'x-default': `${BASE}${pair.en}`,
+        },
+      },
+    })),
+  )
+
   // /dataportabilitet is Danish only and has no locale prefix, so it cannot be
-  // expressed as an entry above. Privacy and terms are gone: the policy lives
-  // in the product app and terms are no longer published here.
+  // expressed as an entry above. Terms stay retired; the privacy policy is
+  // back on the marketing site and is listed under localisedPairs.
   const unprefixedUrls: MetadataRoute.Sitemap = [
     {
       url: `${BASE}/dataportabilitet`,
@@ -92,5 +125,5 @@ export default function sitemap(): MetadataRoute.Sitemap {
     }
   })
 
-  return [...staticUrls, ...unprefixedUrls, ...postUrls]
+  return [...staticUrls, ...localisedUrls, ...unprefixedUrls, ...postUrls]
 }

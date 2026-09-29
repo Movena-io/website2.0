@@ -2,7 +2,7 @@
 
 import Image from 'next/image'
 import { COOKIE_SETTINGS_EVENT } from '@/components/CookieConsent'
-import { DATA_PORTABILITY_PATH, DEMO_URL, PRIVACY_URL } from '@/lib/constants'
+import { DATA_PORTABILITY_PATH, DEMO_URL, privacyPath } from '@/lib/constants'
 import { trackDemoClick } from '@/lib/tracking'
 import { useLanguage, useLocalizedHref } from '@/lib/LanguageContext'
 
@@ -19,7 +19,7 @@ type FooterLink = {
 const LINK_CLASS = 'text-[14px] text-[#CBD5E1] hover:text-white transition-colors'
 
 export default function Footer() {
-  const { t } = useLanguage()
+  const { t, locale } = useLanguage()
   const href = useLocalizedHref()
 
   const columns: { heading: string; items: FooterLink[] }[] = [
@@ -47,7 +47,7 @@ export default function Footer() {
     {
       heading: t.footer.legal,
       items: [
-        { label: t.footer.links.privacy, href: PRIVACY_URL, external: true },
+        { label: t.footer.links.privacy, href: privacyPath(locale) },
         // Danish only, and the same URL in both locales by design.
         { label: t.footer.links.dataPortability, href: DATA_PORTABILITY_PATH },
         {
@@ -81,7 +81,7 @@ export default function Footer() {
               <span>{t.footer.companyAddress}</span>
               <span>
                 <a
-                  href="tel:+4528708402"
+                  href="tel:+4550282856"
                   className="text-[#94A3B8] hover:text-[#60A5FA] transition-colors"
                 >
                   {t.footer.companyPhone}

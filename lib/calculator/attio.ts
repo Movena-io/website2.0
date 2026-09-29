@@ -19,6 +19,9 @@ export interface AttioLead {
   company: string
   noteTitle: string
   noteBody: string
+  /** Suffix on the deal name, so the source is readable in Attio.
+      Defaults to the savings calculator, the first form to use this. */
+  dealLabel?: string
 }
 
 export interface AttioPushResult {
@@ -59,7 +62,7 @@ export async function pushLeadToAttio(lead: AttioLead): Promise<AttioPushResult>
         body: JSON.stringify({
           data: {
             values: {
-              name: [{ value: `${lead.company} — Savings calculator` }],
+              name: [{ value: `${lead.company} — ${lead.dealLabel ?? 'Savings calculator'}` }],
               stage: [{ status: STAGE_NEW_LEAD }],
               owner: [{ referenced_actor_type: 'workspace-member', referenced_actor_id: DEFAULT_OWNER_MEMBER_ID }],
               contact_name: [{ value: lead.name }],

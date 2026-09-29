@@ -5,6 +5,7 @@ import '../globals.css'
 import { LanguageProvider } from '@/lib/LanguageContext'
 import { Analytics } from '@vercel/analytics/react'
 import CookieConsent from '@/components/CookieConsent'
+import DesignMotion from '@/components/site/DesignMotion'
 import GoogleAnalytics from '@/components/GoogleAnalytics'
 import MetaPixel from '@/components/MetaPixel'
 import { LOCALES, isLocale, type Locale } from '@/lib/locales'
@@ -131,7 +132,7 @@ function buildOrganizationSchema(locale: Locale) {
     // Kept in step with the address shown in the footer, so the published
     // markup and the visible page name the same inbox.
     email: 'vl@movena.io',
-    telephone: '+45 28 70 84 02',
+    telephone: '+45 50 28 28 56',
     foundingLocation: {
       '@type': 'Place',
       address: {
@@ -214,6 +215,7 @@ export default function LocaleLayout({
           <GoogleAnalytics />
           <MetaPixel />
           <CookieConsent />
+          <DesignMotion />
         </LanguageProvider>
       </body>
     </html>

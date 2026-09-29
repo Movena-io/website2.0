@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react'
 import { usePathname } from 'next/navigation'
 import Script from 'next/script'
+import { hasConsent } from '@/components/CookieConsent'
 
 // Movena production pixel. NEXT_PUBLIC_* values ship in the client bundle
 // regardless, so the ID is public — keeping it in code avoids a Vercel
@@ -24,7 +25,7 @@ export default function MetaPixel() {
   // than only latching on to "accepted", so a consent withdrawn from the
   // footer's cookie settings stops re-adding the pixel.
   useEffect(() => {
-    const check = () => setConsented(localStorage.getItem('cookie-consent') === 'accepted')
+    const check = () => setConsented(hasConsent('marketing'))
     check()
     window.addEventListener('cookie-consent-update', check)
     return () => window.removeEventListener('cookie-consent-update', check)

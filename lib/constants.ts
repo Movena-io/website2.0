@@ -8,9 +8,10 @@ export const LOGIN_URL = `${APP_URL}/login`
 
 export const DEMO_URL = 'https://cal.com/valdemar-lorentzen/movena-demo-20min'
 
-// The privacy policy is maintained in the product app, not here. The marketing
-// site links out to it rather than keeping a second copy that drifts.
-export const PRIVACY_URL = `${APP_URL}/privatlivspolitik`
+// The policy is hosted here again with the redesign. Danish and English have
+// their own slugs, so callers pass the locale.
+export const privacyPath = (locale: 'da' | 'en') =>
+  locale === 'da' ? '/da/privatlivspolitik' : '/en/privacy'
 
 // Single Danish page, deliberately without a locale prefix: both footers link
 // to the same address. middleware.ts serves it from the Danish route tree.

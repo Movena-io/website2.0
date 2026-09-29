@@ -1,13 +1,13 @@
 # Website Monitor Report
 
-**Run Timestamp:** 2026-09-29T16:10:00Z (Automated Scheduled Check)  
+**Run Timestamp:** 2026-09-29T00:00:00Z (Automated Scheduled Check)  
 **Overall Status:** ⚠️ **WARNINGS** - Build succeeds; lint errors detected (generated components); known security vulnerabilities in Next.js (product decision)
 
 ---
 
 ## Executive Summary
 
-The Movena marketing website built successfully with all 61 static pages compiled without errors. The Next.js 13 application compiled successfully and generates routes for both English and Danish locales. **Linting identified 58 errors in auto-generated components** (unescaped HTML entities) and 2 warnings about image optimization. Security audit detected 5 known vulnerabilities (1 critical, 4 high) in Next.js, PostCSS, and minimatch. **Per CLAUDE.md, Next.js and PostCSS versions are acknowledged as product decisions requiring evaluation.** The lint errors in generated components require investigation of the content generation process. Major refactoring merged to main: site structure reorganized, Danish component versions added.
+The Movena marketing website built successfully with all 61 static pages compiled without errors. The Next.js 13 application compiled successfully and generates routes for both English and Danish locales. **Linting identified 41 errors in auto-generated components** (unescaped HTML entities) and 2 warnings about image optimization. Security audit detected 5 known vulnerabilities (1 critical, 4 high) in Next.js, PostCSS, and minimatch. **Per CLAUDE.md, Next.js and PostCSS versions are acknowledged as product decisions requiring evaluation.** The lint errors in generated components require investigation of the content generation process. Major refactoring is now on main: site structure reorganized, Danish component versions added.
 
 ---
 
@@ -40,15 +40,15 @@ The Next.js 13 application compiled without errors. All static pages were genera
 
 ## Lint Check: ❌ **ERRORS DETECTED**
 
-**Status:** 58 errors, 2 warnings
+**Status:** 41 errors, 2 warnings
 
-### Errors: 58 (Non-blocking but requiring fixes)
+### Errors: 41 (Non-blocking but requiring fixes)
 
 **Root Cause:** Auto-generated components contain unescaped HTML entities (single quotes `'`)
 
 **Issue:** ESLint rule `react/no-unescaped-entities` requires HTML entities be escaped in JSX.
 
-**Affected Files (13 generated components):**
+**Affected Files (14 generated components):**
 1. `BlogIndexDa.tsx` - 1 error
 2. `BlogIndexEn.tsx` - 1 error
 3. `BlogPostEn.tsx` - 8 errors
@@ -57,12 +57,12 @@ The Next.js 13 application compiled without errors. All static pages were genera
 6. `FaaAllePengeneHjemDa.tsx` - 1 error
 7. `FaaAllePengeneHjemEn.tsx` - 3 errors
 8. `ForsideDa.tsx` - 1 error
-9. `ForsideEn.tsx` - 18 errors (largest issue)
+9. `ForsideEn.tsx` - 19 errors (largest issue)
 10. `HavStyrPaaDagenEn.tsx` - 4 errors
 11. `NotFoundEn.tsx` - 1 error
 12. `OmOsEn.tsx` - 2 errors
 13. `PrivatlivspolitikEn.tsx` - 3 errors
-14. `VindFlereFlytningerEn.tsx` - 9 errors
+14. `VindFlereFlytningerEn.tsx` - 10 errors
 
 **Error Pattern:** Unescaped single quotes in content that should be escaped as `&apos;`, `&lsquo;`, `&#39;`, or `&rsquo;`
 
@@ -141,7 +141,7 @@ Per CLAUDE.md: **"next and its nested postcss are knowingly left on their curren
 |-----------|--------|---------|
 | **Compilation** | ✅ Pass | All 61 routes generated successfully |
 | **TypeScript** | ✅ Pass | No type errors detected |
-| **Linting** | ❌ 58 Errors | Generated components have unescaped entities; 2 img warnings |
+| **Linting** | ❌ 41 Errors | Generated components have unescaped entities; 2 img warnings |
 | **Security** | ❌ Critical | 5 vulnerabilities (1 critical, 4 high) - acknowledged in policy |
 
 ---
@@ -150,7 +150,7 @@ Per CLAUDE.md: **"next and its nested postcss are knowingly left on their curren
 
 ### Priority 1: Fix Lint Errors (Blocks CI/CD)
 
-The 58 lint errors in generated components must be fixed:
+The 41 lint errors in generated components must be fixed:
 
 **Actions:**
 1. Identify the content generation script that creates these components
@@ -183,7 +183,7 @@ Per policy, these require product team evaluation:
 - **Run Date:** 2026-09-29
 - **Run Time:** 16:10:00 UTC (automated scheduler)
 - **Build Command:** `npm run build` — ✅ Passed
-- **Lint Command:** `npm run lint` — ❌ 58 errors (exit code 1)
+- **Lint Command:** `npm run lint` — ❌ 41 errors (exit code 1)
 - **Audit Command:** `npm audit` — ❌ 5 vulnerabilities (1 critical, 4 high)
 - **Dependencies:** 423 packages installed
 - **Environment:** Linux (remote execution)

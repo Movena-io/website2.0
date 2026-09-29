@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { Resend } from 'resend'
+import { sendEmail, TEAM_TO, TEAM_REPLY_TO } from '@/lib/email'
 import { isLocale, type Locale } from '@/lib/locales'
 import { computeSavings, EMPTY_INPUTS, type CalculatorInputs } from '@/lib/calculator/engine'
 import { getCurrency } from '@/lib/calculator/currency'
@@ -9,12 +9,9 @@ import { pushLeadToAttio } from '@/lib/calculator/attio'
 
 export const runtime = 'nodejs'
 
-const FROM = 'Movena <noreply@movena.io>'
-const TEAM_TO = ['vcl@movena.io', 'vl@movena.io', 'sto@movena.io']
-const TEAM_REPLY_TO = 'sto@movena.io'
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
-// Leaves enough to match a log line against the Attio or Resend record without
+// Leaves enough to match a log line against the Attio or Postmark record without
 // putting a lead's address into the runtime logs.
 function maskEmail(email: string): string {
   const at = email.lastIndexOf('@')
@@ -99,45 +96,40 @@ export async function POST(req: NextRequest) {
     status.attio = `error:${err instanceof Error ? err.message : 'unknown'}`
   }
 
-  // 2 + 3. Emails (visitor report + team summary). NOTE: resend.emails.send does
-  // NOT throw on API errors (bad key, unverified domain, rejected recipient) — it
-  // returns { error }. So we must inspect the response, not just catch throws.
-  // Accept either the conventional name or the short name used in Vercel ("Resend").
-  const resendKey = process.env.RESEND_API_KEY || process.env.Resend
-  if (resendKey) {
-    const resend = new Resend(resendKey)
+  // 2 + 3. Emails: the visitor's own report, and the summary that reaches us.
+  const visitor = buildVisitorEmail(payload)
+  const team = buildTeamEmail(payload)
+  status.visitorEmail = await sendEmail({
+    to: email,
+    replyTo: TEAM_REPLY_TO,
+    subject: visitor.subject,
+    text: visitor.text,
+    html: visitor.html,
+  })
+  status.teamEmail = await sendEmail({
+    to: TEAM_TO,
+    replyTo: email,
+    subject: team.subject,
+    text: team.text,
+    html: team.html,
+  })
 
-    const send = async (
-      to: string | string[],
-      replyTo: string,
-      mail: { subject: string; html: string; text: string },
-    ): Promise<string> => {
-      try {
-        const { error } = await resend.emails.send({
-          from: FROM,
-          to,
-          replyTo,
-          subject: mail.subject,
-          html: mail.html,
-          text: mail.text,
-        })
-        if (error) return `error:${error.name ?? ''} ${error.message ?? JSON.stringify(error)}`.trim()
-        return 'ok'
-      } catch (err) {
-        return `throw:${err instanceof Error ? err.message : 'unknown'}`
-      }
-    }
+  // The team email is the only thing that puts the lead in front of a human, so
+  // it alone decides success. Attio is best effort and never blocks: a missing
+  // key is a skip, not a failure.
+  const delivered = status.teamEmail === 'ok'
+  const line = JSON.stringify({ company, email: maskEmail(email), status })
 
-    status.visitorEmail = await send(email, TEAM_REPLY_TO, buildVisitorEmail(payload))
-    status.teamEmail = await send(TEAM_TO, email, buildTeamEmail(payload))
-  } else {
-    status.visitorEmail = status.teamEmail = 'skipped:no_resend_key'
+  if (!delivered) {
+    // Loud on purpose: a lead has just been lost, and this line is the only
+    // record of it. Carries the fields so it can be recovered from the log.
+    console.error('[calculator/submit] LEAD NOT DELIVERED', line, JSON.stringify({ name, company, email }))
+    return NextResponse.json({ success: false, status }, { status: 502 })
   }
 
   // Always log the outcome so a submission is diagnosable from the runtime logs,
   // not just on failure. The address is masked: Attio and the team email are
   // where a lead is meant to live, not the log stream.
-  console.log('[calculator/submit]', JSON.stringify({ company, email: maskEmail(email), status }))
-
+  console.log('[calculator/submit]', line)
   return NextResponse.json({ success: true, status })
 }

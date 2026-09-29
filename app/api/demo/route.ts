@@ -1,15 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { Resend } from 'resend'
+import { sendEmail, TEAM_TO, TEAM_REPLY_TO } from '@/lib/email'
 import { pushLeadToAttio } from '@/lib/calculator/attio'
 
-// Demo requests land exactly where the savings-calculator leads land: a Deal in
-// Attio's "New lead" stage plus an email to the three of us. Same env vars,
-// same recipients, same best-effort handling — see app/api/calculator/submit.
+// Demo requests land exactly where the savings-calculator leads land: an email
+// to the three of us, plus a Deal in Attio's "New lead" stage when a key is
+// configured. The email is what counts — see app/api/calculator/submit.
 export const runtime = 'nodejs'
-
-const FROM = 'Movena <noreply@movena.io>'
-const TEAM_TO = ['vcl@movena.io', 'vl@movena.io', 'sto@movena.io']
-const TEAM_REPLY_TO = 'sto@movena.io'
 
 // The segmented control posts an index; these are its labels, in order.
 const SIZE_LABELS = ['1-5', '6-15', '16-30', 'Over 30']
@@ -78,24 +74,12 @@ export async function POST(req: NextRequest) {
     status.attio = `error:${err instanceof Error ? err.message : 'unknown'}`
   }
 
-  const resendKey = process.env.RESEND_API_KEY || process.env.Resend
-  if (resendKey) {
-    try {
-      // resend.emails.send does not throw on API errors, it returns { error }.
-      const { error } = await new Resend(resendKey).emails.send({
-        from: FROM,
-        to: TEAM_TO,
-        replyTo: email || TEAM_REPLY_TO,
-        subject: `[Demo] ${company} — ${name}`,
-        text,
-      })
-      status.teamEmail = error ? `error:${error.message ?? JSON.stringify(error)}` : 'ok'
-    } catch (err) {
-      status.teamEmail = `throw:${err instanceof Error ? err.message : 'unknown'}`
-    }
-  } else {
-    status.teamEmail = 'skipped:no_resend_key'
-  }
+  status.teamEmail = await sendEmail({
+    to: TEAM_TO,
+    replyTo: email || TEAM_REPLY_TO,
+    subject: `[Demo] ${company} — ${name}`,
+    text,
+  })
 
   const delivered = status.teamEmail === 'ok'
   const line = JSON.stringify({ company, phone: maskPhone(phone), status })

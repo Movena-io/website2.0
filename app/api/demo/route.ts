@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { sendEmail, TEAM_TO, TEAM_REPLY_TO } from '@/lib/email'
+import { sendEmail, TEAM_TO, TEAM_REPLY_TO, FROM_EMAIL } from '@/lib/email'
 import { pushLeadToAttio } from '@/lib/calculator/attio'
 import { buildInvite } from '@/lib/ics'
 import { CALL_MINUTES, copenhagenToUtc, formatCallDay, isSlotBookable } from '@/lib/call-slots'
@@ -94,7 +94,7 @@ export async function POST(req: NextRequest) {
     minutes: CALL_MINUTES,
     summary: `Ring til ${name}, ${company}`,
     description: `${text}\n\nRing til ${phone}`,
-    organizerEmail: 'noreply@movena.io',
+    organizerEmail: FROM_EMAIL,
     organizerName: 'Movena',
     attendeeEmail: 'vl@movena.io',
   })

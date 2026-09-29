@@ -7,8 +7,14 @@
 
 const POSTMARK_URL = 'https://api.postmarkapp.com/email'
 
+// movena.dk, not movena.io: the Postmark account is verified for the domain
+// the product sends from (lib/email/send.ts and the process-lead-messages edge
+// function in the app repo both send from @movena.dk). Postmark rejects any
+// From address on an unverified domain, which is what movena.io was.
+export const FROM_EMAIL = 'noreply@movena.dk'
+
 /** Sender. The domain must be verified in Postmark or every send is rejected. */
-export const FROM = 'Movena <noreply@movena.io>'
+export const FROM = `Movena <${FROM_EMAIL}>`
 
 /** Everyone who should see a new lead. */
 export const TEAM_TO = ['vl@movena.io', 'vcl@movena.io', 'sto@movena.io']

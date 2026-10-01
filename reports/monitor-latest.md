@@ -1,7 +1,7 @@
 # Website Monitor Report
 
-**Run Time**: 2026-10-01
-**Overall Status**: ❌ **FAILED**
+**Run Time**: 2026-10-01T00:00:00Z  
+**Overall Status**: ❌ **Critical** - Lint failures and security vulnerabilities
 
 ---
 
@@ -9,7 +9,7 @@
 
 The website project has **critical issues** requiring immediate attention:
 - **Build**: ✅ Passed
-- **Lint**: ❌ **Failed** (2 warnings, 67 errors)
+- **Lint**: ❌ **Failed** (2 warnings, 76+ errors - increased from previous run)
 - **Security**: ❌ **Critical** (6 vulnerabilities: 1 critical, 5 high)
 
 ---
@@ -38,7 +38,7 @@ The Next.js application compiled successfully. All 61 static pages generated wit
 
 ## 2. Lint Check ❌ **FAILED**
 
-**Status**: **69 Issues Found** (2 warnings, 67 errors)
+**Status**: **78+ Issues Found** (2 warnings, 76+ errors)
 
 ### Warnings (2)
 Located in: `./components/SplitSection.tsx`
@@ -216,6 +216,7 @@ The most critical concern is the Windows RCE if the deployment environment uses 
 ## Monitoring Notes
 
 - Build system is healthy and functional
-- Code generation process is creating invalid ESLint output (unescaped quotes)
+- Code generation process is creating invalid ESLint output (unescaped quotes) — **linting errors increased from 67 to 76+**
 - Dependency vulnerability situation is known and documented in CLAUDE.md
 - Next.js version is intentionally held on v13 pending major upgrade decision
+- **Trend**: Lint errors are growing with each run, suggesting ongoing code generation issues

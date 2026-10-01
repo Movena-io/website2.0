@@ -1,7 +1,7 @@
 # Website Monitor Report
 
-**Run Timestamp:** 2026-09-30 (automated scheduled run)  
-**Overall Status:** ⚠️ **WARNING** - Build successful, but linting and security issues detected
+**Run Timestamp:** 2026-10-01 (automated scheduled run)  
+**Overall Status:** ⚠️ **WARNING** - Build successful, but linting and critical security issues detected
 
 ---
 
@@ -9,21 +9,21 @@
 
 Build completed successfully with no errors.
 
-- Compiled successfully
-- Generated 61 static pages
+- ✓ Compiled successfully
+- ✓ Generated 61 static pages
 - Output: `.next` directory
-- Build time: ~15s
+- Build time: ~12s
 
 Routes generated include homepage, about, blog posts, contact, and multiple localized pages.
 
 ---
 
-## Lint Check: ❌ FAILED (47 errors, 2 warnings)
+## Lint Check: ❌ FAILED (62 errors, 2 warnings)
 
 ESLint violations found in generated components. Most issues are unescaped entities in generated content.
 
-### Errors (47 total)
-- **Unescaped quote entities**: 45 errors across generated blog, homepage, and feature pages
+### Errors (62 total)
+- **Unescaped quote entities**: 60 errors across generated blog, homepage, and feature pages
   - Files affected: `BlogIndexDa.tsx`, `BlogIndexEn.tsx`, `BlogPostEn.tsx`, `BookDemoEn.tsx`, `ErrorEn.tsx`, `FaaAllePengeneHjemDa.tsx`, `FaaAllePengeneHjemEn.tsx`, `ForsideDa.tsx`, `ForsideEn.tsx`, `HavStyrPaaDagenEn.tsx`, `NotFoundEn.tsx`, `OmOsEn.tsx`, `PrivatlivspolitikEn.tsx`, `VindFlereFlytningerEn.tsx`
   - Issue: `'` should be escaped as `&apos;`, `&lsquo;`, `&#39;`, or `&rsquo;` (react/no-unescaped-entities)
 
@@ -33,17 +33,17 @@ ESLint violations found in generated components. Most issues are unescaped entit
   - Impact: Potential LCP and bandwidth performance issues
 
 ### Recommendation
-The errors appear to be in auto-generated component files. Regenerate these components or add ESLint disable rules to these files if they are intentionally generated and cannot be modified directly.
+The errors appear to be in auto-generated component files. Regenerate these components with proper entity escaping or add ESLint disable rules if they are intentionally generated and cannot be modified directly.
 
 ---
 
 ## Security Audit: ❌ FAILED (6 vulnerabilities)
 
 ### Critical (1)
-- **Next.js 0.9.9 - 16.3.0-preview.10**: GHSA-fr5h-rqp8-mj6g and 32 other advisories
-  - SSRF in Server Actions, DoS in image optimization, authorization bypass, middleware bypass, cache poisoning, race conditions, and more
+- **Next.js 0.9.9 - 16.3.0-preview.10**: GHSA-fr5h-rqp8-mj6g and 30+ other advisories
+  - SSRF in Server Actions, Remote Code Execution on Windows, DoS in image optimization, authorization bypass, middleware bypass, cache poisoning, race conditions, XSS vulnerabilities, and more
   - **Fix available**: `npm audit fix --force` → Next.js 16.3.8 (breaking change)
-  - **Status per CLAUDE.md**: Knowingly left on current version. Major upgrade is a product decision, not a monitor action.
+  - **Status per CLAUDE.md**: Knowingly left on current version. Major upgrade is a product decision, not routine maintenance.
 
 ### High (5)
 1. **brace-expansion** (transitive via @typescript-eslint)
@@ -61,7 +61,7 @@ The errors appear to be in auto-generated component files. Regenerate these comp
 
 ### Summary
 - 5 high severity vulnerabilities in transitive dependencies
-- 1 critical vulnerability in Next.js (33 total Next.js advisories)
+- 1 critical vulnerability in Next.js (31 total Next.js advisories)
 - Fix available via `npm audit fix` for transitive deps, but `npm audit fix --force` required for Next.js (breaking change)
 
 ---
@@ -71,14 +71,14 @@ The errors appear to be in auto-generated component files. Regenerate these comp
 Dependencies installed successfully:
 - Total packages: 417 added on fresh install
 - 418 total packages audited
-- Installation time: ~17s
+- Installation time: ~42s
 
 ---
 
 ## Alerts
 
-- ❌ **Critical**: Next.js has 1 critical and 32 high-severity vulnerabilities. Requires major version upgrade (13→16) for fix.
-- ⚠️ **Warning**: 47 ESLint errors in generated components (unescaped quotes).
+- 🔴 **Critical**: Next.js has critical and high-severity vulnerabilities including SSRF, XSS, RCE, and DoS. Requires major version upgrade (13→16) for fix.
+- ⚠️ **Warning**: 62 ESLint errors in generated components (unescaped quotes) - increased from 47.
 - ⚠️ **Warning**: 2 image optimization warnings in SplitSection component.
 - ℹ️ **Info**: Transitive security vulnerabilities in @typescript-eslint dependencies.
 
@@ -86,7 +86,7 @@ Dependencies installed successfully:
 
 ## Recommendations
 
-1. **Security**: Next.js vulnerability requires architectural decision on major version upgrade (out of scope for monitor).
+1. **Security**: Next.js vulnerabilities require architectural decision on major version upgrade (out of scope for monitor action).
 2. **Linting**: Investigate generated component files and either:
    - Regenerate them properly with escaped entities
    - Add `.eslintignore` rules for auto-generated files
@@ -95,4 +95,4 @@ Dependencies installed successfully:
 
 ---
 
-**Last Updated**: 2026-09-30
+**Last Updated**: 2026-10-01

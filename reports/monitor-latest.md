@@ -1,6 +1,6 @@
 # Website Monitor Report
 
-**Run Time**: 2026-10-01T00:00:00Z  
+**Run Time**: 2026-10-01T22:05:00Z  
 **Overall Status**: ❌ **Critical** - Lint failures and security vulnerabilities
 
 ---
@@ -9,7 +9,7 @@
 
 The website project has **critical issues** requiring immediate attention:
 - **Build**: ✅ Passed
-- **Lint**: ❌ **Failed** (2 warnings, 76+ errors - increased from previous run)
+- **Lint**: ❌ **Failed** (2 warnings, 66 errors - unescaped apostrophes in generated components)
 - **Security**: ❌ **Critical** (6 vulnerabilities: 1 critical, 5 high)
 
 ---
@@ -38,7 +38,7 @@ The Next.js application compiled successfully. All 61 static pages generated wit
 
 ## 2. Lint Check ❌ **FAILED**
 
-**Status**: **78+ Issues Found** (2 warnings, 76+ errors)
+**Status**: **68 Issues Found** (2 warnings, 66 errors)
 
 ### Warnings (2)
 Located in: `./components/SplitSection.tsx`
@@ -47,24 +47,24 @@ Located in: `./components/SplitSection.tsx`
   - Impact: Potential LCP and bandwidth issues
   - Fix: Replace with `next/image` Image component
 
-### Errors (67) - All in Generated Files
+### Errors (66) - All in Generated Files
 Located in: `./components/generated/` directory
 
 **Affected Files**:
 - BlogIndexDa.tsx (1 error)
 - BlogIndexEn.tsx (1 error)
-- BlogPostEn.tsx (8 errors)
+- BlogPostEn.tsx (9 errors)
 - BookDemoEn.tsx (3 errors)
 - ErrorEn.tsx (2 errors)
 - FaaAllePengeneHjemDa.tsx (1 error)
 - FaaAllePengeneHjemEn.tsx (3 errors)
 - ForsideDa.tsx (1 error)
-- ForsideEn.tsx (25 errors)
+- ForsideEn.tsx (15 errors)
 - HavStyrPaaDagenEn.tsx (4 errors)
 - NotFoundEn.tsx (1 error)
 - OmOsEn.tsx (2 errors)
 - PrivatlivspolitikEn.tsx (3 errors)
-- VindFlereFlytningerEn.tsx (10 errors)
+- VindFlereFlytningerEn.tsx (15 errors)
 
 **Error Pattern**: Unescaped single quotes (`'`) in JSX text
 - ESLint Rule: `react/no-unescaped-entities`
@@ -216,7 +216,7 @@ The most critical concern is the Windows RCE if the deployment environment uses 
 ## Monitoring Notes
 
 - Build system is healthy and functional
-- Code generation process is creating invalid ESLint output (unescaped quotes) — **linting errors increased from 67 to 76+**
+- Code generation process is creating invalid ESLint output (unescaped quotes in 14 component files)
 - Dependency vulnerability situation is known and documented in CLAUDE.md
 - Next.js version is intentionally held on v13 pending major upgrade decision
-- **Trend**: Lint errors are growing with each run, suggesting ongoing code generation issues
+- **Action Required**: Fix the generated component files by properly escaping apostrophes in the generation pipeline

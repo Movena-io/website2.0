@@ -1,4 +1,6 @@
 import type { Locale } from '@/lib/locales'
+import { translations } from '@/lib/translations'
+import { APP_URL } from '@/lib/constants'
 
 // Route map for the redesigned marketing site. The design export links pages by
 // filename, so the real slugs are defined here: Danish slugs on /da, English on
@@ -71,6 +73,9 @@ export function counterpartPath(
   return ROUTES[to].home
 }
 
+// Existing customers go to the app itself, not to a marketing page.
+export const LOGIN_HREF = APP_URL
+
 export const PHONE_DISPLAY = '+45 50 28 28 56'
 export const PHONE_HREF = 'tel:+4550282856'
 export const EMAIL = 'info@movena.io'
@@ -85,6 +90,7 @@ type NavCopy = {
   about: string
   blog: string
   bookDemo: string
+  logIn: string
   callUs: string
   menu: string
   close: string
@@ -98,6 +104,8 @@ export const NAV: Record<Locale, NavCopy> = {
     about: 'Om os',
     blog: 'Blog',
     bookDemo: 'Book en demo',
+    // Reused from the older header's copy, so both say the same thing.
+    logIn: translations.da.nav.logIn,
     callUs: `Ring ${PHONE_DISPLAY}`,
     menu: 'Menu',
     close: 'Luk',
@@ -113,6 +121,7 @@ export const NAV: Record<Locale, NavCopy> = {
     about: 'About',
     blog: 'Blog',
     bookDemo: 'Book a demo',
+    logIn: translations.en.nav.logIn,
     callUs: `Call ${PHONE_DISPLAY}`,
     menu: 'Menu',
     close: 'Close',

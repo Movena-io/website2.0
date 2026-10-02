@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useLanguage } from '@/lib/LanguageContext'
-import { ROUTES, NAV, PHONE_DISPLAY, PHONE_HREF, counterpartPath } from '@/lib/site-nav'
+import { ROUTES, NAV, PHONE_DISPLAY, PHONE_HREF, LOGIN_HREF, counterpartPath } from '@/lib/site-nav'
 import { useBlogAlternates } from '@/lib/BlogAlternates'
 import type { Locale } from '@/lib/locales'
 import MovenaMark from '@/components/site/MovenaMark'
@@ -369,6 +369,14 @@ export default function SiteHeader() {
             {PHONE_DISPLAY}
           </a>
 
+          {/* Ghost link: secondary to the demo button it sits next to. */}
+          <a
+            href={LOGIN_HREF}
+            className="hidden h-11 flex-[0_0_auto] items-center whitespace-nowrap rounded-lg px-3 text-[15px] font-semibold text-[#0B1F3B] no-underline transition-colors hover:bg-[#F1F5FA] md:inline-flex"
+          >
+            {nav.logIn}
+          </a>
+
           <Link
             href={r.bookDemo}
             className="hidden h-11 flex-[0_0_auto] items-center whitespace-nowrap rounded-lg bg-[#2563EB] text-[15px] font-semibold text-white no-underline transition-transform duration-200 hover:-translate-y-0.5 sm:inline-flex"
@@ -445,6 +453,12 @@ export default function SiteHeader() {
                 href={counterpartPath(pathname, locale, code, blogPairs)}
               />
             ))}
+            <a
+              href={LOGIN_HREF}
+              className="rounded-xl px-3 py-2.5 text-[15px] font-semibold text-[#0B1F3B] no-underline hover:bg-[#F7F9FC]"
+            >
+              {nav.logIn}
+            </a>
             <Link
               href={r.bookDemo}
               className="mt-1 inline-flex h-11 items-center justify-center rounded-lg bg-[#2563EB] px-4 text-[15px] font-semibold text-white no-underline"

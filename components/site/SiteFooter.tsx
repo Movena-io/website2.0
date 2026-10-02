@@ -4,7 +4,7 @@ import Link from 'next/link'
 import { useLanguage } from '@/lib/LanguageContext'
 import { COOKIE_SETTINGS_EVENT } from '@/components/CookieConsent'
 import { DATA_PORTABILITY_PATH, privacyPath } from '@/lib/constants'
-import { ROUTES, NAV, FOOTER, PHONE_DISPLAY, PHONE_HREF, EMAIL } from '@/lib/site-nav'
+import { ROUTES, NAV, FOOTER, PHONE_DISPLAY, PHONE_HREF, EMAIL, LOGIN_HREF } from '@/lib/site-nav'
 import MovenaMark from '@/components/site/MovenaMark'
 
 export default function SiteFooter() {
@@ -47,6 +47,7 @@ export default function SiteFooter() {
           <Link href={r.about} className={linkStyle}>{nav.about}</Link>
           <Link href={r.blog} className={linkStyle}>{nav.blog}</Link>
           <Link href={r.bookDemo} className={linkStyle}>{nav.bookDemo}</Link>
+          <a href={LOGIN_HREF} className={linkStyle}>{nav.logIn}</a>
         </div>
 
         <div>

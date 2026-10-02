@@ -1,6 +1,6 @@
 import type { Locale } from '@/lib/locales'
 import { translations } from '@/lib/translations'
-import { APP_URL } from '@/lib/constants'
+import { LOGIN_URL } from '@/lib/constants'
 
 // Route map for the redesigned marketing site. The design export links pages by
 // filename, so the real slugs are defined here: Danish slugs on /da, English on
@@ -73,8 +73,8 @@ export function counterpartPath(
   return ROUTES[to].home
 }
 
-// Existing customers go to the app itself, not to a marketing page.
-export const LOGIN_HREF = APP_URL
+// Existing customers go straight to the app's login screen.
+export const LOGIN_HREF = LOGIN_URL
 
 export const PHONE_DISPLAY = '+45 50 28 28 56'
 export const PHONE_HREF = 'tel:+4550282856'

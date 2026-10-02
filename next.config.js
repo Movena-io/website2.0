@@ -25,10 +25,10 @@ const nextConfig = {
       { source: '/signup', destination: 'https://app.movena.io/signup', permanent: false },
       // Permanent: /login has moved to the app for good, so search engines and
       // browsers should stop coming back here for it.
-      { source: '/login', destination: 'https://app.movena.io', permanent: true },
+      { source: '/login', destination: 'https://app.movena.io/login', permanent: true },
       { source: '/:locale(en|da)/auth', destination: 'https://app.movena.io/login', permanent: false },
       { source: '/:locale(en|da)/signup', destination: 'https://app.movena.io/signup', permanent: false },
-      { source: '/:locale(en|da)/login', destination: 'https://app.movena.io', permanent: true },
+      { source: '/:locale(en|da)/login', destination: 'https://app.movena.io/login', permanent: true },
 
       // The policy lives on the marketing site again with the redesign, so the
       // redirect to the product app is gone. /privacy is the English page and

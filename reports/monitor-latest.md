@@ -1,13 +1,13 @@
 # Website Health Check Report
 
-**Run Timestamp:** 2026-10-03  
-**Overall Status:** WARNING
+**Run Timestamp:** 2026-10-03 UTC  
+**Overall Status:** ❌ **CRITICAL** – Build passes; Lint and security issues require immediate attention
 
 ---
 
 ## Executive Summary
 
-The Movena marketing website is **buildable but requires attention**. The Next.js build succeeds and generates all 61 static pages successfully. However, the project has significant lint violations (70 errors) and known security vulnerabilities in Next.js and its dependencies. The security issues require a major version upgrade (Next 13 → 16) which is a product decision beyond the scope of automated fixes.
+The Movena marketing website **builds successfully** but has **65 lint violations** and **13 security vulnerabilities** (1 critical, 12 high). The generated components contain unescaped HTML entities, and Next.js 13 has known security vulnerabilities. Per CLAUDE.md, the Next.js upgrade is a product-level decision pending major version migration planning.
 
 ---
 
@@ -39,9 +39,9 @@ The Next.js 13 build completes successfully and generates:
 
 ## Lint Check: FAIL ✗
 
-**Status:** 70 errors, 2 warnings
+**Status:** 65 errors, 2 warnings
 
-### Error Summary: 68 unescaped single quote errors
+### Error Summary: 65 unescaped single quote errors
 
 These are all in auto-generated component files (`components/generated/*`) with unescaped single quotes that should be escaped as `&apos;`, `&lsquo;`, `&#39;`, or `&rsquo;`.
 
@@ -54,14 +54,14 @@ These are all in auto-generated component files (`components/generated/*`) with 
 - `FaaAllePengeneHjemDa.tsx` (1 error)
 - `FaaAllePengeneHjemEn.tsx` (3 errors)
 - `ForsideDa.tsx` (1 error)
-- `ForsideEn.tsx` (18 errors)
+- `ForsideEn.tsx` (22 errors)
 - `HavStyrPaaDagenEn.tsx` (4 errors)
 - `NotFoundEn.tsx` (1 error)
 - `OmOsEn.tsx` (2 errors)
 - `PrivatlivspolitikEn.tsx` (3 errors)
-- `VindFlereFlytningerEn.tsx` (10 errors)
+- `VindFlereFlytningerEn.tsx` (11 errors)
 
-**Note:** These files are auto-generated (likely from a content management system or template generator). The errors suggest the generation process is not properly escaping HTML entities in React strings.
+**Root Cause:** These files are auto-generated (likely from a content management system or template generator). The generation process is not properly escaping HTML entities in React strings. All 65 errors follow the same pattern: unescaped apostrophes in JSX content.
 
 ### Warning Summary: 2 image optimization warnings
 
@@ -82,26 +82,28 @@ Consider using `<Image />` from `next/image` to automatically optimize images.
 
 ### Critical Vulnerability (1)
 
-**Package:** `next` (version constraint: 0.9.9 - 16.3.0-preview.10)
+**Package:** `next` (versions 0.9.9 - 16.3.0-preview.10)
 
-Next.js has 34 known CVEs affecting the current version:
-- Server-Side Request Forgery (SSRF) in Server Actions
-- Denial of Service in image optimization
-- Authorization bypass vulnerabilities
-- Cache poisoning vulnerabilities
-- Cross-site scripting (XSS) in App Router applications
-- Multiple middleware/proxy bypass issues
-- Remote Code Execution on Windows-hosted servers
-- Information exposure in dev server
+Next.js has **33+ known CVEs** affecting the current version, including:
+- **Server-Side Request Forgery (SSRF)** in Server Actions
+- **Denial of Service** in image optimization and Server Components
+- **Authorization bypass** vulnerabilities
+- **Cache poisoning** vulnerabilities
+- **Cross-site scripting (XSS)** in App Router applications with CSP nonces
+- **Middleware/Proxy bypass** issues affecting i18n routing
+- **Remote Code Execution** on Windows-hosted servers with Image Optimization
+- **Information exposure** in dev server due to missing origin verification
+- HTTP request smuggling in rewrites
+- Unbounded disk cache growth in image optimizer
 
 ### High Severity Vulnerabilities (12)
 
-| Package | CVEs | Issue |
-|---------|------|-------|
-| `brace-expansion` | 3 | Quadratic-time expansion and recursive DoS |
-| `braces` | 1 | Stack-exhaustion DoS via nested patterns |
-| `minimatch` | 3 | Regular expression DoS (ReDoS) |
-| `postcss` | 4 | XSS, arbitrary file read, path traversal |
+| Package | Issue | Fix Status |
+|---------|-------|-----------|
+| `brace-expansion` ≤1.1.20 | Quadratic-time expansion and recursive DoS | `npm audit fix` available |
+| `braces` * | Stack-exhaustion DoS via nested patterns | `npm audit fix --force` (breaking change) |
+| `minimatch` 9.0.0-9.0.6 | Regular expression DoS (ReDoS) | `npm audit fix` available |
+| `postcss` ≤8.5.22 | XSS, arbitrary file read, path traversal | `npm audit fix --force` (breaking change) |
 
 ### Known Constraints
 
@@ -111,11 +113,19 @@ Per `CLAUDE.md`:
 - This is a **product decision**, not an automated fix
 - `npm audit fix --force` is **not recommended** (breaking changes)
 
-### Transitive Dependencies
+### Dependency Chain Analysis
 
-Most vulnerabilities are transitive dependencies through Next.js ecosystem:
-- `braces` → `chokidar` → `tailwindcss`
-- `minimatch` → `globby` → `@typescript-eslint/typescript-estree`
+The vulnerabilities are embedded in the Next.js ecosystem and its transitive dependencies:
+
+**brace-expansion** (nested in `@typescript-eslint/typescript-estree`)
+- Path: `@typescript-eslint/typescript-estree` → `globby` → `fast-glob` → `micromatch` → `brace-expansion`
+
+**braces, minimatch, fast-glob** (nested in Tailwind)
+- Path: `tailwindcss` → `chokidar` → `braces` → (stack of vulnerable modules)
+- Also affects: `@tailwindcss/typography` (would break if upgraded alone)
+
+**postcss** (nested in `next`)
+- Path: `next` → `postcss` (can only be fixed with Next.js upgrade to 16.3.8+)
 
 ---
 
@@ -123,35 +133,47 @@ Most vulnerabilities are transitive dependencies through Next.js ecosystem:
 
 ### Priority 1: Fix Lint Errors (Code Quality)
 
-The 68 unescaped quote errors must be fixed in the content generation pipeline:
+**Severity:** High | **Effort:** Medium | **Timeline:** This sprint
 
-1. **Investigate the generation source:** The `components/generated/*` files suggest an automated generation process. Find where these components are generated (likely a CMS, content builder, or template engine).
+The 65 unescaped quote errors must be fixed before the next build passes CI:
 
-2. **Fix the generator:** Update the generator to properly escape HTML entities in React string contexts. Change single quotes in content strings to use HTML entities.
+1. **Investigate the generation source:** The `components/generated/*` files suggest an automated generation process. Find where these components are generated (likely a CMS, content builder, or markdown processor).
+
+2. **Fix the generator:** Update the generator to properly escape HTML entities when inserting content into React components:
+   - Replace `'` with `&apos;` or `&rsquo;` (depending on context)
+   - Consider using HTML entity encoder library in the generation pipeline
 
 3. **Regenerate components:** Once the generator is fixed, regenerate all affected components.
 
-4. **Minor fix:** Update `SplitSection.tsx` to use Next.js `<Image>` component instead of `<img>` tags for better performance.
+4. **Lint-before-commit:** Add a pre-commit hook or CI check to validate generated components pass linting.
 
-### Priority 2: Address Security Vulnerabilities (Strategic)
+5. **Minor optimization:** Update `SplitSection.tsx` to use Next.js `<Image>` component instead of `<img>` tags (2 warnings in lines 93, 96).
 
-This requires a product-level decision:
+### Priority 2: Security Vulnerabilities (Strategic/Product Decision)
 
-1. **Plan Next.js upgrade:** Schedule a migration from Next 13 to Next 16 (or latest stable)
-   - Test thoroughly for breaking changes
-   - Update TypeScript and ESLint configurations
-   - Update Tailwind CSS if needed
+**Severity:** Critical | **Effort:** Major | **Timeline:** Requires product planning
 
-2. **Update transitive dependencies:** Once Next.js is upgraded, the dependent package versions will resolve automatically.
+Per `CLAUDE.md`, Next.js and nested postcss are knowingly left on current versions pending a major upgrade decision:
 
-3. **Interim mitigation:** These are build-time and dev-time dependencies for the most part. Production impact depends on deployment method and whether these dependencies are exposed.
+1. **Next.js 13 → 16+ Migration:** This is a breaking change and product decision:
+   - Estimated effort: 2-4 weeks depending on codebase complexity
+   - Breaking changes in routing, middleware, and API handling
+   - Requires thorough testing of all 61 routes and 3 API endpoints
+   - Will auto-resolve transitive vulnerabilities in braces, minimatch, postcss
 
-### Priority 3: Monitor Generated Components
+2. **Interim patches (low-risk):**
+   - `brace-expansion` and `minimatch` fixes available via `npm audit fix` (low risk)
+   - Add scoped `overrides` in `package.json` similar to existing `js-yaml` and `nanoid` pins
 
-Ensure future content generation:
-- Validates HTML entities in strings
-- Includes lint checks in the generation pipeline
-- Tests generated components before committing
+3. **Do NOT run:**
+   - `npm audit fix --force` (breaks 12 packages)
+   - `npm update` (rewrites ~87 packages)
+
+### Priority 3: Ongoing Monitoring
+
+- Schedule next monitor run to track progress on lint errors
+- Track Next.js upgrade planning status
+- Monitor new vulnerability disclosures in Next.js CVE feed
 
 ---
 
@@ -166,9 +188,25 @@ npm audit        # Security check
 
 ---
 
-**Last Updated:** 2026-10-03  
-**Next.js Version:** 13.x  
-**Static Pages:** 61 generated successfully  
-**Build Status:** HEALTHY  
-**Code Quality:** NEEDS ATTENTION (lint errors)  
-**Security:** NEEDS ATTENTION (known version constraint)
+## Run Details
+
+| Metric | Value |
+|--------|-------|
+| **Last Updated** | 2026-10-03 UTC |
+| **Next.js Version** | 13.x |
+| **Node Modules** | 417 packages (418 audited) |
+| **Static Pages** | 61 generated successfully |
+| **Build Status** | ✅ HEALTHY |
+| **Lint Status** | ❌ 65 errors, 2 warnings |
+| **Security Status** | ❌ 13 vulnerabilities (1 critical, 12 high) |
+| **Overall Status** | ❌ CRITICAL |
+
+---
+
+**Commands to reproduce this report:**
+```bash
+npm install      # Dependencies
+npm run build    # Build check
+npm run lint     # Lint check  
+npm audit        # Security check
+```

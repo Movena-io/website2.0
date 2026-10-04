@@ -1,13 +1,13 @@
 # Website Monitor Report
 
-**Run Timestamp:** 2026-10-03T00:00:00Z  
-**Overall Status:** ⚠️ **Warning** – Build passes; Lint errors and critical security vulnerabilities present
+**Run Timestamp:** 2026-10-04T00:00:00Z  
+**Overall Status:** ❌ **Failed** – Build passes; Lint errors block deployment
 
 ---
 
 ## Summary
 
-The website builds successfully with all 61 static pages generated without errors. However, linting revealed 60+ errors in auto-generated components (unescaped apostrophes), and security audit detected 13 vulnerabilities including critical Next.js issues. Per CLAUDE.md, Next.js upgrade to 16+ is a product decision and not an automatic fix.
+The website builds successfully with all 61 static pages generated without errors. However, the linting step fails with 71 errors in auto-generated component files. All errors are related to unescaped single quotes in JSX strings within components in the `components/generated/` directory. These linting errors must be resolved before deployment.
 
 ---
 
@@ -32,7 +32,7 @@ The Next.js 13 build completes successfully and generates:
 
 ## Lint Check: ❌ FAIL
 
-**Status:** 60+ errors, 2 warnings (Exit code 1)
+**Status:** 71 errors, 2 warnings (Exit code 1)
 
 ### Errors: Unescaped apostrophes in auto-generated components
 
@@ -40,14 +40,21 @@ All errors are in `components/generated/*` files. The generation process is not 
 
 **Error pattern:** `'` should be escaped as `&apos;`, `&lsquo;`, `&#39;`, or `&rsquo;`
 
-**Affected files (14 auto-generated components):**
-- `BlogIndexDa.tsx`, `BlogIndexEn.tsx`, `BlogPostEn.tsx`
-- `BookDemoEn.tsx`, `ErrorEn.tsx`
-- `FaaAllePengeneHjemDa.tsx`, `FaaAllePengeneHjemEn.tsx`
-- `ForsideDa.tsx`, `ForsideEn.tsx` (most errors)
-- `HavStyrPaaDagenEn.tsx`, `NotFoundEn.tsx`
-- `OmOsEn.tsx`, `PrivatlivspolitikEn.tsx`
-- `VindFlereFlytningerEn.tsx`
+**Affected files (16 auto-generated components):**
+- `BlogIndexDa.tsx` (1 error)
+- `BlogIndexEn.tsx` (1 error)
+- `BlogPostEn.tsx` (7 errors)
+- `BookDemoEn.tsx` (3 errors)
+- `ErrorEn.tsx` (2 errors)
+- `FaaAllePengeneHjemDa.tsx` (1 error)
+- `FaaAllePengeneHjemEn.tsx` (3 errors)
+- `ForsideDa.tsx` (1 error)
+- `ForsideEn.tsx` (18 errors – highest concentration)
+- `HavStyrPaaDagenEn.tsx` (4 errors)
+- `NotFoundEn.tsx` (1 error)
+- `OmOsEn.tsx` (2 errors)
+- `PrivatlivspolitikEn.tsx` (3 errors)
+- `VindFlereFlytningerEn.tsx` (10 errors)
 
 **Root cause:** Auto-generation process (CMS/content builder) does not escape HTML entities in React strings.
 
@@ -55,7 +62,7 @@ All errors are in `components/generated/*` files. The generation process is not 
 
 **File:** `components/SplitSection.tsx` (lines 93, 96)
 
-Using native `<img>` instead of Next.js `<Image>` component. Minor LCP and bandwidth impact.
+Using native `<img>` instead of Next.js `<Image>` component. Minor LCP and bandwidth impact. (2 warnings)
 
 ---
 
@@ -97,17 +104,17 @@ Known vulnerabilities include:
 
 ## Recommendations
 
-### 🔴 Priority 1: Fix Lint Errors
+### 🔴 Priority 1: Fix Lint Errors (BLOCKING)
 
-**Severity:** High | **Effort:** Medium | **Timeline:** Next sprint
+**Severity:** Critical | **Effort:** Medium | **Timeline:** Immediate
 
-Fix 60+ unescaped apostrophes in auto-generated components:
+Fix 71 unescaped apostrophes in auto-generated components – this blocks deployment:
 
-1. Find the generation source (CMS, content builder, markdown processor)
-2. Update generator to escape HTML entities (`'` → `&apos;` or `&rsquo;`)
-3. Regenerate all affected components
-4. Add pre-commit hook to validate generated files pass linting
-5. Minor: Replace `<img>` with Next.js `<Image>` in `SplitSection.tsx` (lines 93, 96)
+1. Identify the generation source (CMS, content builder, markdown processor, code generator)
+2. Update generator to escape HTML entities in JSX strings (`'` → `&apos;` or `&rsquo;`)
+3. Regenerate all affected components in `components/generated/`
+4. Run `npm run lint` to verify all 71 errors are resolved
+5. Minor: Replace `<img>` with Next.js `<Image>` in `SplitSection.tsx` (lines 93, 96) to fix warnings
 
 ### 🔴 Priority 2: Security Vulnerabilities (Product Decision)
 
@@ -141,13 +148,13 @@ Next.js upgrade is a product-level decision (per CLAUDE.md):
 
 | Metric | Status |
 |--------|--------|
-| **Timestamp** | 2026-10-03T00:00:00Z |
+| **Timestamp** | 2026-10-04T00:00:00Z |
 | **Build** | ✅ PASS (61 pages, 3 APIs) |
-| **Lint** | ❌ FAIL (60+ errors, 2 warnings) |
-| **Security** | ❌ CRITICAL (13 vulns: 1 crit, 12 high) |
-| **Dependencies** | 418 packages installed |
+| **Lint** | ❌ FAIL (71 errors, 2 warnings) |
+| **Security** | ⚠️ WARNING (13 vulns: 1 crit, 12 high) |
+| **Dependencies** | 417 packages installed |
 | **Node.js** | Working |
-| **Overall** | ⚠️ Warning |
+| **Overall** | ❌ FAILED |
 
 ## Reproduce
 

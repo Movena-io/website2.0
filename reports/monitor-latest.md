@@ -1,13 +1,17 @@
 # Website Monitor Report
 
-**Run Timestamp:** 2026-10-05 (Automated scheduled run)  
-**Overall Status:** ❌ **CRITICAL** – Lint errors block deployment; Critical security vulnerabilities present
+**Run Timestamp:** 2026-10-05 14:35 UTC (Automated scheduled run)  
+**Overall Status:** ❌ **FAILING** – Lint errors + Critical security vulnerabilities
 
 ---
 
 ## Summary
 
-The website builds successfully, but linting fails with **79 errors in auto-generated component files** (increased from 63). All errors relate to unescaped apostrophes in JSX strings. Security audit reveals **13 vulnerabilities** (1 critical, 12 high), primarily in Next.js and its transitive dependencies. The increasing lint error count suggests ongoing issues with the component generation process. Per CLAUDE.md, Next.js version pinning is intentional and requires a product-level decision for upgrade.
+- **Build:** ✅ **PASSING** — Next.js 13 production build successful
+- **Lint:** ❌ **66 ERRORS, 2 WARNINGS** — Unescaped apostrophes in 14 auto-generated components
+- **Security:** ❌ **13 VULNERABILITIES** (1 critical in Next.js, 12 high in dependencies)
+
+Lint error count stabilized at 66 after dropping from 79. All errors remain in auto-generated component files with unescaped apostrophes in JSX. Security vulnerabilities persist with Next.js major version upgrade pending as product decision.
 
 ---
 
@@ -29,10 +33,10 @@ All routes compiled and static page generation completed successfully.
 
 ## Lint Check: ❌ FAIL
 
-**Status:** 79 errors, 2 warnings (Exit code 1)  
-**Trend:** ⬆️ Increased from 63 errors (previous run) – generation process degradation suspected
+**Status:** 66 errors, 2 warnings (Exit code 1)  
+**Trend:** ↓ Decreased from 79 errors (stabilizing; still blocking)
 
-### Errors: Unescaped apostrophes in auto-generated components
+### Errors: Unescaped apostrophes in auto-generated components (66 total)
 
 All errors are in `components/generated/*` files. The generation process does not escape HTML entities in JSX:
 
@@ -41,13 +45,13 @@ All errors are in `components/generated/*` files. The generation process does no
 **Affected files (14 auto-generated components):**
 - `BlogIndexDa.tsx` (1 error)
 - `BlogIndexEn.tsx` (1 error)
-- `BlogPostEn.tsx` (8 errors)
+- `BlogPostEn.tsx` (9 errors)
 - `BookDemoEn.tsx` (3 errors)
 - `ErrorEn.tsx` (2 errors)
 - `FaaAllePengeneHjemDa.tsx` (1 error)
 - `FaaAllePengeneHjemEn.tsx` (3 errors)
 - `ForsideDa.tsx` (1 error)
-- `ForsideEn.tsx` (18 errors)
+- `ForsideEn.tsx` (17 errors)
 - `HavStyrPaaDagenEn.tsx` (4 errors)
 - `NotFoundEn.tsx` (1 error)
 - `OmOsEn.tsx` (2 errors)
@@ -146,12 +150,12 @@ Next.js upgrade is a product-level decision (per CLAUDE.md):
 
 | Metric | Status |
 |--------|--------|
-| **Timestamp** | 2026-10-05 (Automated) |
-| **Build** | ✅ PASS (61 pages × 2 locales, 3 APIs, 1 middleware) |
-| **Lint** | ❌ FAIL (79 errors ⬆, 2 warnings) |
+| **Timestamp** | 2026-10-05 14:35 UTC |
+| **Build** | ✅ PASS (61 pages × 2 locales, 4 APIs, 1 middleware) |
+| **Lint** | ❌ FAIL (66 errors ↓, 2 warnings) |
 | **Security** | ❌ CRITICAL (13 vulns: 1 critical, 12 high) |
-| **Dependencies** | 418 packages (npm install) |
-| **Overall** | ❌ BLOCKED (Lint errors prevent deployment; 1 critical security advisory) |
+| **Dependencies** | 418 packages (417 installed + 1 audit tool) |
+| **Overall** | ❌ BLOCKED (Lint errors + critical vulnerabilities) |
 
 ## Reproduce
 

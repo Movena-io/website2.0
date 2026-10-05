@@ -1,6 +1,6 @@
 # Website Monitor Report
 
-**Run Timestamp:** 2026-10-05 14:35 UTC (Automated scheduled run)  
+**Run Timestamp:** 2026-10-05 00:00 UTC (Automated scheduled run)  
 **Overall Status:** ❌ **FAILING** – Lint errors + Critical security vulnerabilities
 
 ---
@@ -8,10 +8,10 @@
 ## Summary
 
 - **Build:** ✅ **PASSING** — Next.js 13 production build successful
-- **Lint:** ❌ **66 ERRORS, 2 WARNINGS** — Unescaped apostrophes in 14 auto-generated components
+- **Lint:** ❌ **64 ERRORS, 2 WARNINGS** — Unescaped apostrophes in 14 auto-generated components
 - **Security:** ❌ **13 VULNERABILITIES** (1 critical in Next.js, 12 high in dependencies)
 
-Lint error count stabilized at 66 after dropping from 79. All errors remain in auto-generated component files with unescaped apostrophes in JSX. Security vulnerabilities persist with Next.js major version upgrade pending as product decision.
+Lint error count improved to 64 (down from 66). All remaining errors are in auto-generated component files with unescaped apostrophes in JSX. Security vulnerabilities persist with Next.js major version upgrade pending as product decision.
 
 ---
 
@@ -33,8 +33,8 @@ All routes compiled and static page generation completed successfully.
 
 ## Lint Check: ❌ FAIL
 
-**Status:** 66 errors, 2 warnings (Exit code 1)  
-**Trend:** ↓ Decreased from 79 errors (stabilizing; still blocking)
+**Status:** 64 errors, 2 warnings (Exit code 1)  
+**Trend:** ↓ Decreased from 66 errors (progress continues; still blocking)
 
 ### Errors: Unescaped apostrophes in auto-generated components (66 total)
 
@@ -150,9 +150,9 @@ Next.js upgrade is a product-level decision (per CLAUDE.md):
 
 | Metric | Status |
 |--------|--------|
-| **Timestamp** | 2026-10-05 14:35 UTC |
+| **Timestamp** | 2026-10-05 00:00 UTC |
 | **Build** | ✅ PASS (61 pages × 2 locales, 4 APIs, 1 middleware) |
-| **Lint** | ❌ FAIL (66 errors ↓, 2 warnings) |
+| **Lint** | ❌ FAIL (64 errors ↓, 2 warnings) |
 | **Security** | ❌ CRITICAL (13 vulns: 1 critical, 12 high) |
 | **Dependencies** | 418 packages (417 installed + 1 audit tool) |
 | **Overall** | ❌ BLOCKED (Lint errors + critical vulnerabilities) |

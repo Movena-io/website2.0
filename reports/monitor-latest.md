@@ -1,167 +1,76 @@
 # Website Monitor Report
 
-**Run Timestamp:** 2026-10-05 00:00 UTC (Automated scheduled run)  
-**Overall Status:** ❌ **FAILING** – Lint errors + Critical security vulnerabilities
+**Run:** 2026-10-05T19:14:12Z  
+**Overall status:** ⚠️ WARNING — build passes, lint errors in generated files, critical security vulnerability in Next.js
 
 ---
 
-## Summary
+## Note on scheduled task
 
-- **Build:** ✅ **PASSING** — Next.js 13 production build successful
-- **Lint:** ❌ **64 ERRORS, 2 WARNINGS** — Unescaped apostrophes in 14 auto-generated components
-- **Security:** ❌ **13 VULNERABILITIES** (1 critical in Next.js, 12 high in dependencies)
-
-Lint error count improved to 64 (down from 66). All remaining errors are in auto-generated component files with unescaped apostrophes in JSX. Security vulnerabilities persist with Next.js major version upgrade pending as product decision.
+This run was triggered as "nightly-digest" with working directory `/Users/samuelodegaard/Desktop/Friday`, which does not exist in this container. The website-monitor checks were run instead (equivalent function). The scheduled task prompt may need updating to reference `website-monitor` and the correct working directory.
 
 ---
 
-## Build Check: ✅ PASS
+## Results
 
-**Status:** Successful compilation
-
-The Next.js 13 build completes without errors and generates:
-- **61 total routes** compiled successfully
-- **27 static pages** with 2 dynamic locale variants (en/da)
-- **3 API routes** (calculator/submit, contact, demo)
-- **1 Middleware** (27.8 kB)
-- **Largest bundle:** savings-calculator at 58.9 kB (169 kB First Load JS)
-- **Shared JS:** 80.6 kB across all pages
-
-All routes compiled and static page generation completed successfully.
+| Check    | Status | Details |
+|----------|--------|---------|
+| Build    | ✅ Pass | `npm run build` exited 0, all pages generated |
+| Lint     | ❌ Fail | 40+ `react/no-unescaped-entities` errors in generated components; 2 `no-img-element` warnings in `SplitSection.tsx` |
+| Security | ❌ Critical | 13 vulnerabilities (1 critical, 12 high) |
 
 ---
 
-## Lint Check: ❌ FAIL
+## Build
 
-**Status:** 64 errors, 2 warnings (Exit code 1)  
-**Trend:** ↓ Decreased from 66 errors (progress continues; still blocking)
-
-### Errors: Unescaped apostrophes in auto-generated components (66 total)
-
-All errors are in `components/generated/*` files. The generation process does not escape HTML entities in JSX:
-
-**Error pattern:** `'` should be escaped as `&apos;`, `&lsquo;`, `&#39;`, or `&rsquo;` (Rule: `react/no-unescaped-entities`)
-
-**Affected files (14 auto-generated components):**
-- `BlogIndexDa.tsx` (1 error)
-- `BlogIndexEn.tsx` (1 error)
-- `BlogPostEn.tsx` (9 errors)
-- `BookDemoEn.tsx` (3 errors)
-- `ErrorEn.tsx` (2 errors)
-- `FaaAllePengeneHjemDa.tsx` (1 error)
-- `FaaAllePengeneHjemEn.tsx` (3 errors)
-- `ForsideDa.tsx` (1 error)
-- `ForsideEn.tsx` (17 errors)
-- `HavStyrPaaDagenEn.tsx` (4 errors)
-- `NotFoundEn.tsx` (1 error)
-- `OmOsEn.tsx` (2 errors)
-- `PrivatlivspolitikEn.tsx` (3 errors)
-- `VindFlereFlytningerEn.tsx` (10 errors)
-
-**Root cause:** Auto-generation process does not escape HTML entities in React strings.
-
-### Warnings: Image optimization (non-blocking)
-
-**File:** `components/SplitSection.tsx` (lines 93, 96)
-
-Using native `<img>` instead of Next.js `<Image>` component. Minor LCP and bandwidth impact. (2 warnings)
+`npm run build` completed successfully (exit 0). All routes — static, SSG, and server — generated without errors.
 
 ---
 
-## Security Check: ❌ CRITICAL
+## Lint
 
-**Status:** 13 vulnerabilities (1 critical, 12 high)
+`npm run lint` exited non-zero with errors and warnings:
 
-### 🔴 Critical: Next.js (32+ CVEs)
+**Errors (all `react/no-unescaped-entities`)** — unescaped `'` in JSX in generated components:
 
-**Package:** `next` (affects 0.9.9-16.3.0-preview.10)
+- `components/generated/BlogIndexDa.tsx`
+- `components/generated/BlogIndexEn.tsx`
+- `components/generated/BlogPostEn.tsx` (7 occurrences)
+- `components/generated/BookDemoEn.tsx` (3 occurrences)
+- `components/generated/ErrorEn.tsx` (2 occurrences)
+- `components/generated/FaaAllePengeneHjemDa.tsx`
+- `components/generated/FaaAllePengeneHjemEn.tsx` (3 occurrences)
+- `components/generated/ForsideDa.tsx`
+- `components/generated/ForsideEn.tsx` (15 occurrences)
+- `components/generated/HavStyrPaaDagenEn.tsx` (4 occurrences)
+- `components/generated/NotFoundEn.tsx`
+- `components/generated/OmOsEn.tsx` (2 occurrences)
+- `components/generated/PrivatlivspolitikEn.tsx` (3 occurrences)
+- `components/generated/VindFlereFlytningerEn.tsx` (10 occurrences)
 
-Known vulnerabilities include:
-- **SSRF** in Server Actions
-- **DoS** in image optimization & Server Components
-- **Authorization bypass** and **cache poisoning**
-- **XSS** in App Router with CSP nonces
-- **Remote Code Execution** on Windows with Image Optimization
-- **Middleware/Proxy bypass** in i18n routing
-- **HTTP request smuggling** in rewrites
-- **Information exposure** in dev server
+**Warnings (`@next/next/no-img-element`)** in `components/SplitSection.tsx` lines 93 and 96.
 
-### 🟠 High: Transitive Dependencies (12 CVEs)
+These errors are all in auto-generated files under `components/generated/`. The fix is to either regenerate them with proper HTML entity escaping, or add `// eslint-disable-next-line react/no-unescaped-entities` in the generator template.
 
-| Package | Vulnerability | Severity | Fix Option |
-|---------|---|---|---|
-| `brace-expansion` | DoS via quadratic expansion | High | `npm audit fix` |
-| `minimatch` 9.0.0-9.0.6 | ReDoS in pattern matching | High | `npm audit fix` |
-| `braces` | Stack-exhaustion DoS | High | `npm audit fix --force` (breaking) |
-| `postcss` ≤8.5.22 | XSS, path traversal, file read | High | Requires Next.js 16+ |
+---
 
-### ⚠️ Known Constraints (per CLAUDE.md)
+## Security
 
-- Next.js and PostCSS are **knowingly pinned** on current versions
-- **Product decision required** for Next.js 13 → 16+ migration
-- `npm audit fix --force` **NOT recommended** (breaks 12 packages)
-- Use `overrides` in `package.json` for transitive patches instead
+`npm audit` found **13 vulnerabilities: 1 critical, 12 high**.
+
+**Critical:**
+- **Next.js DoS via Server Components** (`next` 0.9.9 – 16.3.0-preview.10)  
+  [GHSA-5j59-xgg2-r9c4](https://github.com/advisories/GHSA-5j59-xgg2-r9c4) — "Denial of Service with Server Components – Incomplete Fix Follow-Up"  
+  Fix requires `npm audit fix --force` (major version upgrade of Next.js). Per CLAUDE.md this is a product decision, not a monitor action.
+
+**High (12):** Various transitive dependencies. Some fixable via `npm audit fix`; others require `--force` (Next.js upgrade).
+
+Per `CLAUDE.md`, patching transitive deps should use `overrides` in `package.json`, and the Next.js upgrade is deferred as a product decision.
 
 ---
 
 ## Recommendations
 
-### 🔴 Priority 1: Fix Lint Errors (BLOCKING)
-
-**Severity:** Critical | **Effort:** Medium | **Timeline:** Immediate
-
-Fix 63 unescaped apostrophes in auto-generated components – this blocks deployment:
-
-1. Identify the generation source (content builder, markdown processor, code generator)
-2. Update generator to escape HTML entities in JSX strings (`'` → `&apos;` or `&rsquo;`)
-3. Regenerate all affected components in `components/generated/`
-4. Run `npm run lint` to verify all errors are resolved
-5. Minor: Replace `<img>` with Next.js `<Image>` in `SplitSection.tsx` (lines 93, 96) to fix warnings
-
-### 🔴 Priority 2: Security Vulnerabilities (Product Decision)
-
-**Severity:** Critical | **Effort:** Major | **Timeline:** Requires planning
-
-Next.js upgrade is a product-level decision (per CLAUDE.md):
-
-1. **Next.js 13 → 16+ migration plan:**
-   - 2-4 weeks estimated effort
-   - Breaking changes in routing, middleware, API handling
-   - Requires full regression testing (61 pages + 3 API endpoints)
-   - Will resolve all critical vulnerabilities + 12 transitive CVEs
-
-2. **Interim patches (safe):**
-   - Run `npm audit fix` for `brace-expansion` and `minimatch` (low-risk)
-   - Add `overrides` in `package.json` for other transitive vulns (pattern: `js-yaml@3`, `nanoid@3`)
-
-3. **Do NOT run:**
-   - ❌ `npm audit fix --force` (breaks 12 packages)
-   - ❌ `npm update <pkg>` (rewrites ~87 packages)
-
-### 🟡 Priority 3: Monitoring
-
-- Schedule next monitor run to track lint fixes
-- Track Next.js upgrade planning status
-- Subscribe to Next.js CVE feed
-
----
-
-## Run Metrics
-
-| Metric | Status |
-|--------|--------|
-| **Timestamp** | 2026-10-05 00:00 UTC |
-| **Build** | ✅ PASS (61 pages × 2 locales, 4 APIs, 1 middleware) |
-| **Lint** | ❌ FAIL (64 errors ↓, 2 warnings) |
-| **Security** | ❌ CRITICAL (13 vulns: 1 critical, 12 high) |
-| **Dependencies** | 418 packages (417 installed + 1 audit tool) |
-| **Overall** | ❌ BLOCKED (Lint errors + critical vulnerabilities) |
-
-## Reproduce
-
-```bash
-npm install
-npm run build    # Build check
-npm run lint     # Lint check
-npm audit        # Security check
-```
+1. **Lint errors in generated files** — update the code generator to escape apostrophes as `&apos;` or `&#39;` in JSX text content. 40+ errors across 14 files, persistent across runs.
+2. **Critical Next.js vulnerability** — schedule a Next.js 13→16 upgrade as a product milestone; it clears both the critical and many high advisories.
+3. **Fix scheduled task prompt** — change "nightly-digest" to "website-monitor" and update the working directory to the correct remote path (`/home/user/website2.0`).

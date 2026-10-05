@@ -1,13 +1,13 @@
 # Website Monitor Report
 
-**Run Timestamp:** 2026-10-05 00:00:00 UTC  
-**Overall Status:** ❌ **FAILED** – Lint errors block deployment (unchanged from previous run)
+**Run Timestamp:** 2026-10-05 (Automated scheduled run)  
+**Overall Status:** ❌ **CRITICAL** – Lint errors block deployment; Critical security vulnerabilities present
 
 ---
 
 ## Summary
 
-The website builds successfully, but linting fails with **63 errors in auto-generated component files**. All errors relate to unescaped apostrophes in JSX strings—consistent with the previous run. Security audit reveals **13 vulnerabilities** (1 critical, 12 high), primarily in Next.js and its transitive dependencies. Per CLAUDE.md, Next.js version pinning is intentional and requires a product-level decision for upgrade.
+The website builds successfully, but linting fails with **79 errors in auto-generated component files** (increased from 63). All errors relate to unescaped apostrophes in JSX strings. Security audit reveals **13 vulnerabilities** (1 critical, 12 high), primarily in Next.js and its transitive dependencies. The increasing lint error count suggests ongoing issues with the component generation process. Per CLAUDE.md, Next.js version pinning is intentional and requires a product-level decision for upgrade.
 
 ---
 
@@ -29,7 +29,8 @@ All routes compiled and static page generation completed successfully.
 
 ## Lint Check: ❌ FAIL
 
-**Status:** 63 errors, 2 warnings (Exit code 1)
+**Status:** 79 errors, 2 warnings (Exit code 1)  
+**Trend:** ⬆️ Increased from 63 errors (previous run) – generation process degradation suspected
 
 ### Errors: Unescaped apostrophes in auto-generated components
 
@@ -145,12 +146,12 @@ Next.js upgrade is a product-level decision (per CLAUDE.md):
 
 | Metric | Status |
 |--------|--------|
-| **Timestamp** | 2026-10-05 00:00:00 UTC |
+| **Timestamp** | 2026-10-05 (Automated) |
 | **Build** | ✅ PASS (61 pages × 2 locales, 3 APIs, 1 middleware) |
-| **Lint** | ❌ FAIL (63 errors, 2 warnings) |
+| **Lint** | ❌ FAIL (79 errors ⬆, 2 warnings) |
 | **Security** | ❌ CRITICAL (13 vulns: 1 critical, 12 high) |
 | **Dependencies** | 418 packages (npm install) |
-| **Overall** | ❌ BLOCKED (Lint errors prevent deployment) |
+| **Overall** | ❌ BLOCKED (Lint errors prevent deployment; 1 critical security advisory) |
 
 ## Reproduce
 

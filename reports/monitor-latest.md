@@ -1,13 +1,13 @@
 # Website Monitor Report
 
-**Run timestamp:** 2026-10-06 at 07:50 UTC  
+**Run timestamp:** 2026-10-06 at 00:00 UTC (automated scheduled run)  
 **Overall status:** ⚠️ **WARNING** — Build passes, but linting failed and security vulnerabilities present
 
 ---
 
 ## Summary
 
-The website build succeeds and all 61 pages generate correctly. However, the codebase has **63 linting errors** related to unescaped entities in generated components, and **20 security vulnerabilities** (1 critical, 12 high, 7 moderate) detected via npm audit.
+The website build succeeds and all 61 pages generate correctly. However, the codebase has **56 linting errors** related to unescaped entities in generated components, plus 2 warnings about image optimization, and **20 security vulnerabilities** (1 critical, 12 high, 7 moderate) detected via npm audit.
 
 ---
 
@@ -25,27 +25,31 @@ The website build succeeds and all 61 pages generate correctly. However, the cod
 
 ## Lint Check
 
-❌ **FAIL** — 63 errors found
+❌ **FAIL** — 56 errors + 2 warnings found
 
 **Summary:** All errors are of type `react/no-unescaped-entities` in generated component files. The apostrophe character `'` must be escaped as `&apos;`, `&lsquo;`, `&#39;`, or `&rsquo;` in JSX.
 
-**Affected files (9 generated components):**
+**Affected files (14 generated components):**
 - `components/generated/BlogIndexDa.tsx` — 1 error
 - `components/generated/BlogIndexEn.tsx` — 1 error
-- `components/generated/BlogPostEn.tsx` — 7 errors
+- `components/generated/BlogPostEn.tsx` — 9 errors
 - `components/generated/BookDemoEn.tsx` — 3 errors
 - `components/generated/ErrorEn.tsx` — 2 errors
 - `components/generated/FaaAllePengeneHjemDa.tsx` — 1 error
 - `components/generated/FaaAllePengeneHjemEn.tsx` — 3 errors
 - `components/generated/ForsideDa.tsx` — 1 error
-- `components/generated/ForsideEn.tsx` — 26 errors
+- `components/generated/ForsideEn.tsx` — 18 errors
 - `components/generated/HavStyrPaaDagenEn.tsx` — 4 errors
 - `components/generated/NotFoundEn.tsx` — 1 error
 - `components/generated/OmOsEn.tsx` — 2 errors
 - `components/generated/PrivatlivspolitikEn.tsx` — 3 errors
-- `components/generated/VindFlereFlytningerEn.tsx` — 7 errors
+- `components/generated/VindFlereFlytningerEn.tsx` — 8 errors
 
-**Note:** These are generated files. The issue likely originates in the generation process or source data. Non-generated files also have 2 warnings in `components/SplitSection.tsx` about using `<img>` instead of `<Image />` from `next/image`.
+**Warnings:**
+- `components/SplitSection.tsx:93` — Using `<img>` instead of `<Image />` from `next/image`
+- `components/SplitSection.tsx:96` — Using `<img>` instead of `<Image />` from `next/image`
+
+**Note:** The 56 lint errors are in auto-generated component files. The issue likely originates in the generation process or source data. The 2 warnings suggest using Next.js `<Image />` component for automatic optimization.
 
 ---
 

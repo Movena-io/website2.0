@@ -1,13 +1,13 @@
 # Website Monitor Report
 
-**Run timestamp:** 2026-10-06T17:03 UTC (automated scheduled run)  
-**Overall status:** ❌ **FAILING** — Build passes, but linting failed and security vulnerabilities present
+**Run timestamp:** 2026-10-07T16:04:02 UTC (automated scheduled run)  
+**Overall status:** ❌ **FAILING** — Build passes, but linting failed and critical security vulnerability present
 
 ---
 
 ## Summary
 
-The website build succeeds and all 61 pages generate correctly. However, the codebase has **60+ linting errors** related to unescaped entities in generated components, plus 2 warnings about image optimization, and **20 security vulnerabilities** (1 critical, 12 high, 7 moderate) detected via npm audit. **Linting must be fixed to unblock the build pipeline.**
+The website build succeeds and all 61 pages generate correctly. However, the codebase has **62 linting errors** related to unescaped entities in generated components, plus 2 warnings about image optimization, and **20 security vulnerabilities** (1 critical, 12 high, 7 moderate) detected via npm audit. **Linting must be fixed and the critical security vulnerability requires attention.**
 
 ---
 
@@ -17,15 +17,14 @@ The website build succeeds and all 61 pages generate correctly. However, the cod
 
 - All 61 pages generated successfully
 - No compilation errors
-- Build completed: ~8.5 seconds
-
-**Output:** Next.js optimized production build completed with TypeScript type checking passing.
+- Production build completed and optimized correctly
+- Static site generation working as expected
 
 ---
 
 ## Lint Check
 
-❌ **FAIL** — 60+ errors + 2 warnings found
+❌ **FAIL** — 62 errors + 2 warnings found
 
 **Summary:** All errors are of type `react/no-unescaped-entities` in generated component files. The apostrophe character `'` must be escaped as `&apos;`, `&lsquo;`, `&#39;`, or `&rsquo;` in JSX.
 
@@ -49,7 +48,7 @@ The website build succeeds and all 61 pages generate correctly. However, the cod
 - `components/SplitSection.tsx:93` — Using `<img>` instead of `<Image />` from `next/image`
 - `components/SplitSection.tsx:96` — Using `<img>` instead of `<Image />` from `next/image`
 
-**Note:** The 60+ lint errors are in auto-generated component files. The issue originates in the generation process or source data (Markdown files, frontmatter, or content templates). These must be fixed to allow linting to pass. The 2 warnings suggest using Next.js `<Image />` component for automatic optimization.
+**Note:** The 62 lint errors are in auto-generated component files. The issue originates in the generation process or source data. These must be fixed to allow linting to pass.
 
 ---
 
@@ -58,54 +57,74 @@ The website build succeeds and all 61 pages generate correctly. However, the cod
 ❌ **FAIL** — 20 vulnerabilities detected
 
 **Breakdown:**
-- **1 Critical**: `next` (0.9.9 - 16.3.0-preview.10)
-- **12 High**: `brace-expansion`, `braces`, `minimatch`, `next` (nested), `postcss`, `source-map-js`
-- **7 Moderate**: `braces`, `postcss-selector-parser`, `sprintf-js`
+- **1 Critical**: Next.js RCE (Windows servers)
+- **12 High**: brace-expansion, braces, minimatch, next (nested), postcss, source-map-js
+- **7 Moderate**: braces, postcss-selector-parser, sprintf-js, @tailwindcss/typography, argparse, js-yaml, next
 
-### Critical Vulnerability
+### ⚠️ CRITICAL Vulnerability
 
-**Next.js** (current: 13.x) has **31 known CVEs** ranging from Server-Side Request Forgery (SSRF), Denial of Service, cache poisoning, information disclosure, and authentication bypass.
+**Next.js Remote Code Execution (GHSA-p293-qw3h-jr36)**
+- **Affected versions:** 13.4.0 - 15.5.23
+- **Current version:** 13.x (in vulnerable range)
+- **Impact:** Unauthenticated RCE on Windows-hosted servers
+- **CVSS Score:** 9.0 (Critical)
+- **Fix:** Upgrade to Next.js 15.5.24 or later
 
-**Known decision:** Per CLAUDE.md, `next` and its nested `postcss` are knowingly left on their current versions. Fixing requires upgrading Next.js 13 to 16, a major upgrade that is a product decision, not a monitor action.
+**Note:** Per CLAUDE.md, `next` and nested `postcss` are knowingly left on current versions. Fixing requires Next.js 13→16 major upgrade, a product decision. However, this critical RCE vulnerability on Windows may require immediate action.
 
 ### High-Severity Vulnerabilities
 
 1. **brace-expansion** (≤1.1.20 | 2.0.0-2.1.6) — 3 CVEs: Quadratic-time expansion and stack exhaustion DoS
 2. **braces** (*) — Stack-exhaustion DoS via deeply nested patterns
-3. **minimatch** (9.0.0-9.0.6) — 3 CVEs: ReDoS via repeated wildcards, nested segments, and extglobs
-4. **postcss** (≤8.5.22) — 4 CVEs: XSS via unescaped `</style>`, arbitrary file read via sourceMappingURL
+3. **minimatch** (9.0.0-9.0.6) — 3 CVEs: ReDoS via repeated wildcards and nested segments
+4. **postcss** (≤8.5.22) — 4 CVEs: XSS via unescaped `</style>`, arbitrary file read via sourceMappingURL, path traversal
 5. **source-map-js** (1.0.0-1.2.1) — Event-loop DoS through indexed offsets
 
 ### Moderate Vulnerabilities
 
-1. **postcss-selector-parser** (<7.1.6) — Quadratic complexity in flat selector parsing (CPU exhaustion)
-2. **sprintf-js** (*) — DoS via unbounded precision specifiers
-
-### Dependency Chain Notes
-
-- `tailwindcss` and `@tailwindcss/typography` depend on vulnerable transitive dependencies
-- `@typescript-eslint/parser` chain includes multiple vulnerabilities
-- `gray-matter` (used for blog posts) depends on vulnerable `js-yaml`
-
-**Note:** Per CLAUDE.md, `npm audit fix` and `npm update` both rewrite ~87 packages far beyond what has an advisory. Use scoped `overrides` in `package.json` for patching transitive dependencies instead (like the existing `js-yaml@3` and `nanoid@3` pins).
+1. **@tailwindcss/typography** (≤0.4.0) — Transitive postcss-selector-parser vulnerabilities
+2. **postcss-selector-parser** (<7.1.6) — Quadratic complexity in flat selector parsing
+3. **sprintf-js** (*) — DoS via unbounded precision specifiers
+4. **argparse** (1.0.0-1.0.10) — Transitive via gray-matter
+5. **js-yaml** — Transitive via gray-matter
+6. **next** (moderate) — Unauthenticated disclosure of Server Function endpoints
 
 ---
 
 ## Recommendations
 
 ### Priority 1 (Blocking)
+
 1. **Fix generated component linting errors** — Either:
-   - Escape apostrophes in source data before generation, or
-   - Regenerate components from source with proper entity escaping
+   - Escape apostrophes in source data (Markdown, JSON, templates) before generation, or
+   - Regenerate components with proper entity escaping
+   - This blocks the linting pipeline
 
 ### Priority 2 (Should Address)
-2. **Security vulnerabilities in transitive dependencies** — Consider patching via `overrides` in `package.json` for:
-   - `source-map-js` (high)
-   - `brace-expansion` and `minimatch` (high)
+
+2. **Security vulnerabilities in transitive dependencies** — Consider patching via `overrides` in `package.json`:
+   - `source-map-js` to ≥1.2.2+ (high)
+   - `brace-expansion` to ≥1.1.21+ (high)
+   - `minimatch` to ≥9.0.7+ (high)
    - These do not require Next.js upgrade
 
-### Priority 3 (Product Decision)
-3. **Next.js major version upgrade** — The 31 CVEs in `next` require upgrade to v16. This is a known decision per CLAUDE.md.
+### Priority 3 (Product Decision - Critical)
+
+3. **Next.js major version upgrade** — Address the critical RCE vulnerability:
+   - Requires upgrade from v13 to v15.5.24 or later (potentially v16)
+   - This is a major version upgrade requiring comprehensive testing
+   - Per CLAUDE.md, this is a product decision, not a routine maintenance action
+   - However, the critical CVSS 9.0 RCE on Windows may warrant immediate consideration
+
+---
+
+## Dependency Health
+
+- **npm version**: 10.9.1 (12.2.0 available)
+- **Total packages**: 417 audited
+- **Vulnerabilities**: 20 (1 critical, 12 high, 7 moderate)
+- **Direct vulnerabilities**: 1
+- **Transitive vulnerabilities**: 19
 
 ---
 

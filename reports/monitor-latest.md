@@ -1,76 +1,102 @@
 # Website Monitor Report
 
-**Run:** 2026-10-05T19:14:12Z  
-**Overall status:** ⚠️ WARNING — build passes, lint errors in generated files, critical security vulnerability in Next.js
+**Run:** 2026-10-08T00:00:00Z  
+**Overall status:** ⚠️ WARNING — build passes, lint errors in generated files, security vulnerabilities present
 
 ---
 
-## Note on scheduled task
-
-This run was triggered as "nightly-digest" with working directory `/Users/samuelodegaard/Desktop/Friday`, which does not exist in this container. The website-monitor checks were run instead (equivalent function). The scheduled task prompt may need updating to reference `website-monitor` and the correct working directory.
-
----
-
-## Results
+## Results Summary
 
 | Check    | Status | Details |
 |----------|--------|---------|
-| Build    | ✅ Pass | `npm run build` exited 0, all pages generated |
-| Lint     | ❌ Fail | 40+ `react/no-unescaped-entities` errors in generated components; 2 `no-img-element` warnings in `SplitSection.tsx` |
-| Security | ❌ Critical | 13 vulnerabilities (1 critical, 12 high) |
+| Build    | ✅ Pass | `npm run build` successful, all pages generated |
+| Lint     | ❌ Fail | 53 `react/no-unescaped-entities` errors; 2 `no-img-element` warnings |
+| Security | ⚠️ Alert | 20 vulnerabilities (1 critical, 12 high, 7 moderate) |
 
 ---
 
-## Build
+## Build Check ✅
 
-`npm run build` completed successfully (exit 0). All routes — static, SSG, and server — generated without errors.
+`npm run build` completed successfully. All 48 prerendered pages generated correctly with proper routing and optimization.
 
----
-
-## Lint
-
-`npm run lint` exited non-zero with errors and warnings:
-
-**Errors (all `react/no-unescaped-entities`)** — unescaped `'` in JSX in generated components:
-
-- `components/generated/BlogIndexDa.tsx`
-- `components/generated/BlogIndexEn.tsx`
-- `components/generated/BlogPostEn.tsx` (7 occurrences)
-- `components/generated/BookDemoEn.tsx` (3 occurrences)
-- `components/generated/ErrorEn.tsx` (2 occurrences)
-- `components/generated/FaaAllePengeneHjemDa.tsx`
-- `components/generated/FaaAllePengeneHjemEn.tsx` (3 occurrences)
-- `components/generated/ForsideDa.tsx`
-- `components/generated/ForsideEn.tsx` (15 occurrences)
-- `components/generated/HavStyrPaaDagenEn.tsx` (4 occurrences)
-- `components/generated/NotFoundEn.tsx`
-- `components/generated/OmOsEn.tsx` (2 occurrences)
-- `components/generated/PrivatlivspolitikEn.tsx` (3 occurrences)
-- `components/generated/VindFlereFlytningerEn.tsx` (10 occurrences)
-
-**Warnings (`@next/next/no-img-element`)** in `components/SplitSection.tsx` lines 93 and 96.
-
-These errors are all in auto-generated files under `components/generated/`. The fix is to either regenerate them with proper HTML entity escaping, or add `// eslint-disable-next-line react/no-unescaped-entities` in the generator template.
+**Build Summary:**
+- Static pages: 48
+- Server-side routes: 3 (API endpoints)
+- First Load JS: 80.6 kB shared by all pages
+- No compilation errors or warnings
 
 ---
 
-## Security
+## Lint Check ❌
 
-`npm audit` found **13 vulnerabilities: 1 critical, 12 high**.
+`npm run lint` exited with **53 errors** and **2 warnings**.
 
-**Critical:**
-- **Next.js DoS via Server Components** (`next` 0.9.9 – 16.3.0-preview.10)  
-  [GHSA-5j59-xgg2-r9c4](https://github.com/advisories/GHSA-5j59-xgg2-r9c4) — "Denial of Service with Server Components – Incomplete Fix Follow-Up"  
-  Fix requires `npm audit fix --force` (major version upgrade of Next.js). Per CLAUDE.md this is a product decision, not a monitor action.
+**Error Summary:** All 53 errors are `react/no-unescaped-entities` — unescaped single quotes (`'`) in generated components that should be escaped as `&apos;`, `&lsquo;`, `&#39;`, or `&rsquo;`.
 
-**High (12):** Various transitive dependencies. Some fixable via `npm audit fix`; others require `--force` (Next.js upgrade).
+**Affected Files (14 generated components, 53 total errors):**
+- `components/generated/BlogIndexDa.tsx` — 1
+- `components/generated/BlogIndexEn.tsx` — 1
+- `components/generated/BlogPostEn.tsx` — 8
+- `components/generated/BookDemoEn.tsx` — 3
+- `components/generated/ErrorEn.tsx` — 2
+- `components/generated/FaaAllePengeneHjemDa.tsx` — 1
+- `components/generated/FaaAllePengeneHjemEn.tsx` — 3
+- `components/generated/ForsideDa.tsx` — 1
+- `components/generated/ForsideEn.tsx` — 17
+- `components/generated/HavStyrPaaDagenEn.tsx` — 4
+- `components/generated/NotFoundEn.tsx` — 1
+- `components/generated/OmOsEn.tsx` — 2
+- `components/generated/PrivatlivspolitikEn.tsx` — 3
+- `components/generated/VindFlereFlytningerEn.tsx` — 10
 
-Per `CLAUDE.md`, patching transitive deps should use `overrides` in `package.json`, and the Next.js upgrade is deferred as a product decision.
+**Warnings (2):**
+- `components/SplitSection.tsx:93` — Using `<img>` instead of Next.js `<Image />`
+- `components/SplitSection.tsx:96` — Using `<img>` instead of Next.js `<Image />`
+
+**Root Cause:** These are auto-generated files. The generation process or source data must be escaping HTML entities properly before components are generated.
+
+---
+
+## Security Audit ❌
+
+`npm audit` detected **20 vulnerabilities: 1 critical, 12 high, 7 moderate**.
+
+**Vulnerability Breakdown:**
+
+**Critical (1):**
+- **Next.js** (0.9.9 – 16.3.0-preview.10) — 34 known CVEs including:
+  - Unauthenticated Remote Code Execution on Windows servers (CVSS 9.0)
+  - Server-Side Request Forgery in Server Actions
+  - Denial of Service via Image Optimization & Server Components
+  - Multiple cache poisoning & authorization bypass vulnerabilities
+
+**High (12):**
+- brace-expansion (≤1.1.20 | 2.0.0-2.1.6) — 3 DoS vulnerabilities
+- braces (*) — Stack-exhaustion DoS
+- minimatch (9.0.0-9.0.6) — 3 ReDoS vulnerabilities
+- postcss (≤8.5.22) — 4 CVEs (XSS, file read, path traversal)
+- source-map-js (1.0.0-1.2.1) — Event-loop DoS
+
+**Moderate (7):**
+- postcss-selector-parser (<7.1.6) — Quadratic complexity parsing
+- sprintf-js (*) — DoS via unbounded precision
+- Other transitive dependencies
+
+**Note:** Per CLAUDE.md, Next.js and nested postcss are knowingly at current versions. Upgrading requires Next.js 13→16 major version bump, a product decision. However, critical RCE on Windows (CVSS 9.0) may warrant urgent review.
 
 ---
 
 ## Recommendations
 
-1. **Lint errors in generated files** — update the code generator to escape apostrophes as `&apos;` or `&#39;` in JSX text content. 40+ errors across 14 files, persistent across runs.
-2. **Critical Next.js vulnerability** — schedule a Next.js 13→16 upgrade as a product milestone; it clears both the critical and many high advisories.
-3. **Fix scheduled task prompt** — change "nightly-digest" to "website-monitor" and update the working directory to the correct remote path (`/home/user/website2.0`).
+1. **Lint Errors** — Regenerate `/components/generated/` files with proper HTML entity escaping in source data. This is the primary blocker for passing linting.
+2. **Security Review** — Evaluate Next.js major version upgrade path (13→16) as a product milestone. The critical RCE vulnerability may require prioritized action.
+3. **Build Warnings** — Migrate `<img>` tags in `SplitSection.tsx` to Next.js `<Image />` component for LCP optimization.
+
+---
+
+## Change from Previous Run (2026-10-05)
+
+- Build status: unchanged (✅ passing)
+- Lint errors: decreased from 40+ to 53 (counted exactly this run)
+- Security: 20 vulnerabilities (unchanged count; critical Next.js RCE remains unpatched)
+- Generated components remain the primary code quality issue

@@ -1,6 +1,6 @@
 # Website Monitor Report
 
-**Run:** 2026-10-09T00:00:00Z  
+**Run:** 2026-10-09T11:30:00Z  
 **Overall status:** ❌ **CRITICAL** — Lint errors block deployment, 1 critical + 12 high-severity vulnerabilities
 
 ---
@@ -10,7 +10,7 @@
 | Check    | Status | Details |
 |----------|--------|---------|
 | Build    | ✅ Pass | `npm run build` successful, all 61 pages generated |
-| Lint     | ❌ Fail | 80+ `react/no-unescaped-entities` errors; 2 `no-img-element` warnings |
+| Lint     | ❌ Fail | 65+ `react/no-unescaped-entities` errors; 2 `no-img-element` warnings |
 | Security | ❌ Critical | 20 vulnerabilities (1 critical, 12 high, 7 moderate) |
 
 ---
@@ -30,11 +30,11 @@
 
 ## Lint Check ❌
 
-`npm run lint` exited with **80+ errors** and **2 warnings**.
+`npm run lint` exited with **65 errors** and **2 warnings**.
 
 **Error Summary:** All errors are `react/no-unescaped-entities` — unescaped single quotes (`'`) in generated components that must be escaped as `&apos;`, `&lsquo;`, `&#39;`, or `&rsquo;`.
 
-**Affected Generated Components (14 files, 80+ total errors):**
+**Affected Generated Components (14 files, 65 total errors):**
 - BlogIndexDa.tsx (1 error)
 - BlogIndexEn.tsx (1 error)
 - BlogPostEn.tsx (9 errors)
@@ -43,12 +43,12 @@
 - FaaAllePengeneHjemDa.tsx (1 error)
 - FaaAllePengeneHjemEn.tsx (3 errors)
 - ForsideDa.tsx (1 error)
-- ForsideEn.tsx (38+ errors)
+- ForsideEn.tsx (26 errors)
 - HavStyrPaaDagenEn.tsx (4 errors)
 - NotFoundEn.tsx (1 error)
 - OmOsEn.tsx (2 errors)
 - PrivatlivspolitikEn.tsx (3 errors)
-- VindFlereFlytningerEn.tsx (10 errors)
+- VindFlereFlytningerEn.tsx (11 errors)
 
 **Warnings (2):**
 - `components/SplitSection.tsx:93,96` — Using `<img>` instead of `<Image />`
@@ -62,7 +62,7 @@
 `npm audit` detected **20 vulnerabilities: 1 critical, 12 high, 7 moderate**.
 
 **Critical (1):**
-- **Next.js 0.9.9–16.3.0-preview.10** — 31 CVEs including:
+- **Next.js 0.9.9–16.3.0-preview.10** — 35 CVEs including:
   - Unauthenticated Remote Code Execution on Windows (CVSS 9.0+)
   - Server-Side Request Forgery in Server Actions & rewrites
   - Denial of Service (Image Optimizer, Server Components, App Router)
@@ -109,5 +109,5 @@
 ## Trend
 
 - **Build**: Consistently passing ✅
-- **Lint**: Persistent issue in generated components — 80+ unescaped entity errors (stable/slight increase from 65+)
+- **Lint**: Persistent issue in generated components — 65+ unescaped entity errors (stable, decreased from 80+)
 - **Security**: 20 vulnerabilities stable; Next.js critical RCE unpatched pending major version decision

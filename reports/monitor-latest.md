@@ -1,6 +1,6 @@
 # Website Monitor Report
 
-**Run:** 2026-10-08T16:25:00Z  
+**Run:** 2026-10-09T00:00:00Z  
 **Overall status:** ❌ **CRITICAL** — Lint errors block deployment, 1 critical + 12 high-severity vulnerabilities
 
 ---
@@ -10,7 +10,7 @@
 | Check    | Status | Details |
 |----------|--------|---------|
 | Build    | ✅ Pass | `npm run build` successful, all 61 pages generated |
-| Lint     | ❌ Fail | 65+ `react/no-unescaped-entities` errors; 2 `no-img-element` warnings |
+| Lint     | ❌ Fail | 80+ `react/no-unescaped-entities` errors; 2 `no-img-element` warnings |
 | Security | ❌ Critical | 20 vulnerabilities (1 critical, 12 high, 7 moderate) |
 
 ---
@@ -30,17 +30,20 @@
 
 ## Lint Check ❌
 
-`npm run lint` exited with **65+ errors** and **2 warnings**.
+`npm run lint` exited with **80+ errors** and **2 warnings**.
 
 **Error Summary:** All errors are `react/no-unescaped-entities` — unescaped single quotes (`'`) in generated components that must be escaped as `&apos;`, `&lsquo;`, `&#39;`, or `&rsquo;`.
 
-**Affected Generated Components (14 files, 65+ total errors):**
-- BlogIndexDa.tsx, BlogIndexEn.tsx
+**Affected Generated Components (14 files, 80+ total errors):**
+- BlogIndexDa.tsx (1 error)
+- BlogIndexEn.tsx (1 error)
 - BlogPostEn.tsx (9 errors)
 - BookDemoEn.tsx (3 errors)
 - ErrorEn.tsx (2 errors)
-- FaaAllePengeneHjemDa.tsx, FaaAllePengeneHjemEn.tsx (4 total)
-- ForsideDa.tsx, ForsideEn.tsx (1 + 38 errors)
+- FaaAllePengeneHjemDa.tsx (1 error)
+- FaaAllePengeneHjemEn.tsx (3 errors)
+- ForsideDa.tsx (1 error)
+- ForsideEn.tsx (38+ errors)
 - HavStyrPaaDagenEn.tsx (4 errors)
 - NotFoundEn.tsx (1 error)
 - OmOsEn.tsx (2 errors)
@@ -59,7 +62,7 @@
 `npm audit` detected **20 vulnerabilities: 1 critical, 12 high, 7 moderate**.
 
 **Critical (1):**
-- **Next.js 0.9.9–16.3.0-preview.10** — 34+ CVEs including:
+- **Next.js 0.9.9–16.3.0-preview.10** — 31 CVEs including:
   - Unauthenticated Remote Code Execution on Windows (CVSS 9.0+)
   - Server-Side Request Forgery in Server Actions & rewrites
   - Denial of Service (Image Optimizer, Server Components, App Router)
@@ -67,6 +70,7 @@
   - XSS (CSP nonces, beforeInteractive scripts)
   - Authorization bypass & Middleware/Proxy bypass
   - Unbounded disk cache growth & server-side request forgery via WebSocket
+  - HTTP request deserialization & smuggling vulnerabilities
 
 **High (12):**
 - brace-expansion — 3 DoS CVEs (quadratic expansion, nested recursion)
@@ -105,5 +109,5 @@
 ## Trend
 
 - **Build**: Consistently passing ✅
-- **Lint**: Persistent issue in generated components — 65+ unescaped entity errors
+- **Lint**: Persistent issue in generated components — 80+ unescaped entity errors (stable/slight increase from 65+)
 - **Security**: 20 vulnerabilities stable; Next.js critical RCE unpatched pending major version decision

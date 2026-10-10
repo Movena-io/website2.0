@@ -1,7 +1,7 @@
 # Website Monitor Report
 
-**Run:** 2026-10-09T06:47:00Z  
-**Overall status:** ❌ **CRITICAL** — Lint errors block deployment, 1 critical + 12 high-severity vulnerabilities
+**Run:** 2026-10-10T00:00:00Z  
+**Overall status:** ❌ **CRITICAL** — Lint errors regressed (54→91), 1 critical + 12 high-severity vulnerabilities
 
 ---
 
@@ -10,8 +10,8 @@
 | Check    | Status | Details |
 |----------|--------|---------|
 | Build    | ✅ Pass | `npm run build` successful, all 61 pages generated |
-| Lint     | ❌ Fail | 54 `react/no-unescaped-entities` errors; 2 `no-img-element` warnings |
-| Security | ❌ Critical | 20 vulnerabilities (1 critical, 12 high, 7 moderate) |
+| Lint     | ❌ Fail | 91 `react/no-unescaped-entities` errors; 2 `no-img-element` warnings (regression: +37 errors from previous run) |
+| Security | ❌ Critical | 20 vulnerabilities (1 critical, 12 high, 7 moderate) — unchanged |
 
 ---
 
@@ -28,13 +28,15 @@
 
 ---
 
-## Lint Check ❌
+## Lint Check ❌ — REGRESSION ALERT
 
-`npm run lint` exited with **54 errors** and **2 warnings**.
+`npm run lint` exited with **91 errors** and **2 warnings**.
+
+⚠️ **REGRESSION:** Error count increased from 54 (previous run) to 91 (+37 errors). This indicates generated components were recently updated with unescaped entities.
 
 **Error Summary:** All errors are `react/no-unescaped-entities` — unescaped single quotes (`'`) in generated components that must be escaped as `&apos;`, `&lsquo;`, `&#39;`, or `&rsquo;`.
 
-**Affected Generated Components (14 files, 54 total errors):**
+**Affected Generated Components (14 files, 91 total errors):**
 - BlogIndexDa.tsx (1 error)
 - BlogIndexEn.tsx (1 error)
 - BlogPostEn.tsx (9 errors)
@@ -43,7 +45,7 @@
 - FaaAllePengeneHjemDa.tsx (1 error)
 - FaaAllePengeneHjemEn.tsx (3 errors)
 - ForsideDa.tsx (1 error)
-- ForsideEn.tsx (17 errors)
+- ForsideEn.tsx (31 errors)
 - HavStyrPaaDagenEn.tsx (4 errors)
 - NotFoundEn.tsx (1 error)
 - OmOsEn.tsx (2 errors)
@@ -62,7 +64,7 @@
 `npm audit` detected **20 vulnerabilities: 1 critical, 12 high, 7 moderate**.
 
 **Critical (1):**
-- **Next.js 0.9.9–16.3.0-preview.10** — 33 CVEs including:
+- **Next.js 0.9.9–16.3.0-preview.10** — 35+ CVEs including:
   - Unauthenticated Remote Code Execution on Windows (CVSS 9.0+)
   - Server-Side Request Forgery in Server Actions & rewrites
   - Denial of Service (Image Optimizer, Server Components, App Router)
@@ -91,9 +93,9 @@
 
 ## Recommendations
 
-### Immediate (Blocking)
+### URGENT (Blocking)
 
-1. **Fix lint errors** — Regenerate or manually escape apostrophes in 14 generated components. Lint failure blocks CI/CD deployment.
+1. **Fix lint regression** — Regenerate or manually escape apostrophes in 14 generated components. Lint failure blocks CI/CD deployment. Error count increased 54→91, indicating recent content changes introduced unescaped entities.
 
 ### High Priority
 
@@ -106,8 +108,16 @@
 
 ---
 
-## Trend
+## Trend Analysis
 
 - **Build**: Consistently passing ✅
-- **Lint**: Persistent issue in generated components — 54 unescaped entity errors (improving: 62 → 54)
+- **Lint**: REGRESSION — Was 54 errors, now 91 errors (+37). Trend shows generated components worsening.
 - **Security**: 20 vulnerabilities stable; Next.js critical RCE unpatched pending major version decision
+
+---
+
+## Action Items
+
+- [ ] Investigate source of lint regression (what generated content changed?)
+- [ ] Regenerate affected components with proper HTML entity escaping
+- [ ] Schedule Next.js upgrade discussion with product team (13→16 requires evaluation)

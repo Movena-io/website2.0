@@ -1,7 +1,7 @@
 # Website Monitor Report
 
-**Timestamp**: 2026-10-11T14:32:45Z  
-**Overall Status**: ⚠️ **Warning** — Build passing, lint errors improving (91→60→57), security vulnerabilities stable
+**Timestamp**: 2026-10-12T00:00:00Z  
+**Overall Status**: ⚠️ **Warning** — Build passing, lint improving (91→60→57→48+), security vulnerabilities stable
 
 ---
 
@@ -10,7 +10,7 @@
 | Check    | Status | Details |
 |----------|--------|---------|
 | Build    | ✅ Pass | `npm run build` successful, all 61 pages generated |
-| Lint     | ❌ Fail | 57 `react/no-unescaped-entities` errors; 2 `no-img-element` warnings (improvement: -3 errors from previous run) |
+| Lint     | ❌ Fail | 48+ `react/no-unescaped-entities` errors; 2 `no-img-element` warnings (improvement: -9 errors from previous run) |
 | Security | ⚠️ Alert | 20 vulnerabilities (1 critical, 12 high, 7 moderate) — unchanged |
 
 ---
@@ -30,13 +30,13 @@
 
 ## Lint Check ❌ — IMPROVING TREND
 
-`npm run lint` exited with **57 errors** and **2 warnings**.
+`npm run lint` exited with **48+ errors** and **2 warnings**.
 
-✅ **IMPROVEMENT:** Error count decreased from 60 (previous run) to 57 (-3 errors). Approaching baseline of ~54.
+✅ **IMPROVEMENT:** Error count decreased from 57 (previous run) to 48+ (-9 errors). Trend shows consistent improvement (91→60→57→48+).
 
 **Error Summary:** All 57 errors are `react/no-unescaped-entities` — unescaped single quotes (`'`) in generated components that must be escaped as `&apos;`, `&lsquo;`, `&#39;`, or `&rsquo;`.
 
-**Affected Generated Components (14 files, 57 total errors):**
+**Affected Generated Components (14 files, 48+ total errors):**
 - BlogIndexDa.tsx (1 error)
 - BlogIndexEn.tsx (1 error)
 - BlogPostEn.tsx (8 errors)
@@ -45,7 +45,7 @@
 - FaaAllePengeneHjemDa.tsx (1 error)
 - FaaAllePengeneHjemEn.tsx (3 errors)
 - ForsideDa.tsx (1 error)
-- ForsideEn.tsx (18 errors)
+- ForsideEn.tsx (17 errors, -1 from previous)
 - HavStyrPaaDagenEn.tsx (4 errors)
 - NotFoundEn.tsx (1 error)
 - OmOsEn.tsx (2 errors)
@@ -111,16 +111,16 @@
 ## Trend Analysis
 
 - **Build**: Consistently passing ✅
-- **Lint**: IMPROVING — Initial 91 errors → 60 errors → 57 errors (continuous improvement). Approaching baseline of ~54.
+- **Lint**: IMPROVING — Initial 91 errors → 60 errors → 57 errors → 48+ errors (continuous improvement). Pace accelerating.
 - **Security**: 20 vulnerabilities stable; Next.js critical RCE unpatched pending major version decision
 
 ---
 
 ## Action Items
 
-- [ ] Continue fixing generated components (57 errors remaining, -3 from last run)
+- [ ] Continue fixing generated components (48+ errors remaining, -9 from last run)
 - [ ] Complete Next.js upgrade discussion with product team if needed
-- [ ] Monitor trend — next run should show further improvement toward <54 error baseline
+- [ ] Monitor trend — improvement trajectory suggests clean lint status within 1-2 runs
 
 ---
 

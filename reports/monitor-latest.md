@@ -1,7 +1,7 @@
 # Website Monitor Report
 
-**Timestamp**: 2026-10-11T14:32:45Z  
-**Overall Status**: ⚠️ **Warning** — Build passing, lint errors improving (91→60→57), security vulnerabilities stable
+**Timestamp**: 2026-10-12T00:00:00Z  
+**Overall Status**: ⚠️ **Warning** — Build passing, lint errors stable at 57, security vulnerabilities unchanged (20 total)
 
 ---
 
@@ -10,8 +10,8 @@
 | Check    | Status | Details |
 |----------|--------|---------|
 | Build    | ✅ Pass | `npm run build` successful, all 61 pages generated |
-| Lint     | ❌ Fail | 57 `react/no-unescaped-entities` errors; 2 `no-img-element` warnings (improvement: -3 errors from previous run) |
-| Security | ⚠️ Alert | 20 vulnerabilities (1 critical, 12 high, 7 moderate) — unchanged |
+| Lint     | ❌ Fail | 57 `react/no-unescaped-entities` errors; 2 `no-img-element` warnings |
+| Security | ⚠️ Alert | 20 vulnerabilities (1 critical, 12 high, 7 moderate) — unchanged from previous run |
 
 ---
 
@@ -28,24 +28,24 @@
 
 ---
 
-## Lint Check ❌ — IMPROVING TREND
+## Lint Check ❌ — ERROR COUNT STABLE
 
 `npm run lint` exited with **57 errors** and **2 warnings**.
 
-✅ **IMPROVEMENT:** Error count decreased from 60 (previous run) to 57 (-3 errors). Approaching baseline of ~54.
+**Status**: Error count unchanged from previous run. Generation pipeline continues to produce unescaped apostrophes.
 
 **Error Summary:** All 57 errors are `react/no-unescaped-entities` — unescaped single quotes (`'`) in generated components that must be escaped as `&apos;`, `&lsquo;`, `&#39;`, or `&rsquo;`.
 
 **Affected Generated Components (14 files, 57 total errors):**
 - BlogIndexDa.tsx (1 error)
 - BlogIndexEn.tsx (1 error)
-- BlogPostEn.tsx (8 errors)
+- BlogPostEn.tsx (9 errors)
 - BookDemoEn.tsx (3 errors)
 - ErrorEn.tsx (2 errors)
 - FaaAllePengeneHjemDa.tsx (1 error)
 - FaaAllePengeneHjemEn.tsx (3 errors)
 - ForsideDa.tsx (1 error)
-- ForsideEn.tsx (18 errors)
+- ForsideEn.tsx (29 errors)
 - HavStyrPaaDagenEn.tsx (4 errors)
 - NotFoundEn.tsx (1 error)
 - OmOsEn.tsx (2 errors)
@@ -55,13 +55,13 @@
 **Warnings (2):**
 - `components/SplitSection.tsx:93,96` — Using `<img>` instead of `<Image />` (performance recommendation)
 
-**Root Cause:** Auto-generated components contain unescaped apostrophes. The generation process should escape HTML entities in source content before component emission.
+**Root Cause:** Auto-generated components in `components/generated/` are emitted with unescaped apostrophes. The content generation pipeline needs to escape HTML entities (or use JSX text properly) before component emission.
 
 ---
 
 ## Security Audit ⚠️
 
-`npm audit` detected **20 vulnerabilities: 1 critical, 12 high, 7 moderate**.
+`npm audit` detected **20 vulnerabilities: 1 critical, 12 high, 7 moderate**. Unchanged from previous run.
 
 **Critical (1):**
 - **Next.js 0.9.9–16.3.0-preview.10** — 35+ CVEs including:
@@ -95,7 +95,7 @@
 
 ### URGENT (Blocking)
 
-1. **Address lint errors** — 57 remaining errors prevent clean CI/CD. The -3 error improvement suggests content generation is being corrected. Continue fixing: regenerate or manually escape apostrophes in remaining 14 generated components.
+1. **Address lint errors** — 57 errors prevent clean CI/CD. These are all in `components/generated/` — the source content generation pipeline must escape HTML entities before component emission. Check the content source (likely frontmatter, markdown parser, or a content script).
 
 ### High Priority
 
@@ -111,16 +111,16 @@
 ## Trend Analysis
 
 - **Build**: Consistently passing ✅
-- **Lint**: IMPROVING — Initial 91 errors → 60 errors → 57 errors (continuous improvement). Approaching baseline of ~54.
+- **Lint**: Stable at 57 errors. No improvement from previous run; generation pipeline still emitting unescaped apostrophes.
 - **Security**: 20 vulnerabilities stable; Next.js critical RCE unpatched pending major version decision
 
 ---
 
 ## Action Items
 
-- [ ] Continue fixing generated components (57 errors remaining, -3 from last run)
+- [ ] Fix lint errors in generated components (57 remaining) — investigate generation pipeline
 - [ ] Complete Next.js upgrade discussion with product team if needed
-- [ ] Monitor trend — next run should show further improvement toward <54 error baseline
+- [ ] Monitor next run for any change in error count
 
 ---
 

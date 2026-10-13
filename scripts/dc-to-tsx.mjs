@@ -440,7 +440,7 @@ const SCRIPT_REPLACEMENTS = [
 // old calculator's currency choice (lib/calculator/currency.ts): a select as
 // the first basics question, every amount labelled with the chosen code, and
 // switching currency resets the pre-filled hourly cost to that currency's
-// default. The Danish calculator stays DKK.
+// default. It starts on EUR; the Danish calculator stays DKK.
 const PAGE_TEXT_REPLACEMENTS = {
   'EN-Calculator.dc.html': [
     ['<label for="c-moves" style="font-size: 17px; font-weight: 600; line-height: 1.35">How many moves do you handle per month?</label>',
@@ -457,7 +457,7 @@ const PAGE_SCRIPT_REPLACEMENTS = {
   'EN-Calculator.dc.html': [
     ["const yn = (k) => (s['cy_' + k] === undefined ? null : s['cy_' + k]);",
      "const yn = (k) => (s['cy_' + k] === undefined ? null : s['cy_' + k]);\n"
-     + "    const curCode = getCurrency(s.cur || DEFAULT_CURRENCY).code; const curHourly = getCurrency(curCode).defaultHourly;\n"
+     + "    const curCode = getCurrency(s.cur || 'EUR').code; const curHourly = getCurrency(curCode).defaultHourly;\n"
      + "    const curOpts = CURRENCIES.map((c) => createElement('option', { key: c.code, value: c.code }, c.label));"],
     ["hourly: num('hourly', '250') || 250,", "hourly: num('hourly', String(curHourly)) || curHourly,"],
     ["cv['cv_' + k] = raw(k, k === 'hourly' ? '250' : '');", "cv['cv_' + k] = raw(k, k === 'hourly' ? String(curHourly) : '');"],
@@ -615,7 +615,7 @@ const usesCurrency = /getCurrency\(/.test(vals)
 const extraImports = [
   usesForm ? "import { submitDemoLead } from '@/lib/demo-lead'" : '',
   usesCalc ? "import { submitCalculatorLead } from '@/lib/calculator-lead'" : '',
-  usesCurrency ? "import { CURRENCIES, DEFAULT_CURRENCY, getCurrency } from '@/lib/calculator/currency'" : '',
+  usesCurrency ? "import { CURRENCIES, getCurrency } from '@/lib/calculator/currency'" : '',
   usesCalc ? "import { trackCalculatorStart, trackCalculatorComplete, trackCalculatorUnlock, trackDemoClick } from '@/lib/tracking'" : '',
   usesSlots ? "import { nextWeekdays, callTimesFor, formatCallDay } from '@/lib/call-slots'" : '',
 ].filter(Boolean).join('\n')

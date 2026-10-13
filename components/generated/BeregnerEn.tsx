@@ -8,7 +8,7 @@ import SiteHeader from '@/components/site/SiteHeader'
 import SiteFooter from '@/components/site/SiteFooter'
 import DemoCTA from '@/components/site/DemoCTA'
 import { submitCalculatorLead } from '@/lib/calculator-lead'
-import { CURRENCIES, DEFAULT_CURRENCY, getCurrency } from '@/lib/calculator/currency'
+import { CURRENCIES, getCurrency } from '@/lib/calculator/currency'
 import { trackCalculatorStart, trackCalculatorComplete, trackCalculatorUnlock, trackDemoClick } from '@/lib/tracking'
 
 const DEMO_LOCALE = 'en'
@@ -129,7 +129,7 @@ const s = st || {};
     const raw = (k, d) => (s['cv_' + k] === undefined ? d : s['cv_' + k]);
     const num = (k, d) => { const v = parseFloat(String(raw(k, d === undefined ? '' : d)).replace(/\s/g, '').replace(/,/g, '')); return isFinite(v) && v > 0 ? v : 0; };
     const yn = (k) => (s['cy_' + k] === undefined ? null : s['cy_' + k]);
-    const curCode = getCurrency(s.cur || DEFAULT_CURRENCY).code; const curHourly = getCurrency(curCode).defaultHourly;
+    const curCode = getCurrency(s.cur || 'EUR').code; const curHourly = getCurrency(curCode).defaultHourly;
     const curOpts = CURRENCIES.map((c) => createElement('option', { key: c.code, value: c.code }, c.label));
     const I = { moves: num('moves'), hourly: num('hourly', String(curHourly)) || curHourly, planMin: num('planMin'), quote: yn('quote') === true, quotes: num('quotes'), quoteMin: num('quoteMin'),
       follow: yn('follow') === true, followNo: yn('follow') === false, leads: num('leads'), followMin: num('followMin'), uplift: num('uplift'),

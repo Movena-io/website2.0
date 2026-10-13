@@ -11,6 +11,7 @@ export const ROUTES: Record<Locale, Record<string, string>> = {
     winMore: '/da/vind-flere-flytninger',
     runTheDay: '/da/hav-styr-paa-dagen',
     getPaid: '/da/faa-alle-pengene-hjem',
+    calculator: '/da/savings-calculator',
     about: '/da/om-os',
     blog: '/da/blog',
     bookDemo: '/da/book-demo',
@@ -20,6 +21,7 @@ export const ROUTES: Record<Locale, Record<string, string>> = {
     winMore: '/en/win-more-moves',
     runTheDay: '/en/run-the-day',
     getPaid: '/en/get-paid',
+    calculator: '/en/savings-calculator',
     about: '/en/about',
     blog: '/en/blog',
     bookDemo: '/en/book-demo',
@@ -31,7 +33,6 @@ export const ROUTES: Record<Locale, Record<string, string>> = {
 // otherwise it would drop the reader on the front page.
 const EXTRA_ROUTE_PAIRS: Record<Locale, string>[] = [
   { da: '/da/privatlivspolitik', en: '/en/privacy' },
-  { da: '/da/savings-calculator', en: '/en/savings-calculator' },
   { da: '/da/contact', en: '/en/contact' },
   { da: '/da/dataportabilitet', en: '/en/dataportabilitet' },
 ]
@@ -87,6 +88,8 @@ export const DATA_PORTABILITY_URL = 'https://www.movena.io/dataportabilitet'
 
 type NavCopy = {
   features: string
+  calculator: string
+  calculatorLong: string
   about: string
   blog: string
   bookDemo: string
@@ -101,6 +104,8 @@ type NavCopy = {
 export const NAV: Record<Locale, NavCopy> = {
   da: {
     features: 'Funktioner',
+    calculator: 'Beregner',
+    calculatorLong: 'Besparelsesberegner',
     about: 'Om os',
     blog: 'Blog',
     bookDemo: 'Book en demo',
@@ -118,6 +123,8 @@ export const NAV: Record<Locale, NavCopy> = {
   },
   en: {
     features: 'Features',
+    calculator: 'Calculator',
+    calculatorLong: 'Savings calculator',
     about: 'About',
     blog: 'Blog',
     bookDemo: 'Book a demo',

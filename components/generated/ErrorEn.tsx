@@ -113,7 +113,12 @@ const s = st || {};
     const vwNow = s.vw || (typeof window !== 'undefined' ? window.innerWidth : 1440);
     const pageZoom = vwNow >= 2500 ? 1.45 : vwNow >= 2200 ? 1.3 : vwNow >= 1800 ? 1.125 : 1;
 
+    const langOpen = s.langOpen === true;
+    const langMobOpen = s.langMobOpen === true;
+
     return {
+      langOpen: langOpen, langExp: langOpen ? 'true' : 'false', langRot: langOpen ? 180 : 0, toggleLang: () => set({ langOpen: !langOpen }),
+      langMobOpen: langMobOpen, langMobExp: langMobOpen ? 'true' : 'false', langMobRot: langMobOpen ? 180 : 0, toggleLangMob: () => set({ langMobOpen: !langMobOpen }),
       pageZoom: pageZoom,
       pageMinH: (100 / pageZoom).toFixed(2) + 'vh',
       ckShow: !ckDone, ckOpen: ckOpen, ckClosed: !ckOpen,
@@ -152,7 +157,7 @@ const s = st || {};
       pickSmall: () => set({ home: 'small' }),
       pickMedium: () => set({ home: 'medium' }),
       pickHouse: () => set({ home: 'house' }),
-      priceText: 'DKK ' + fmt(Math.floor(price / 500) * 500) + '–' + fmt(Math.floor(price / 500) * 500 + 500),
+      priceText: 'DKK ' + fmt(Math.floor(price / 500) * 500) + '-' + fmt(Math.floor(price / 500) * 500 + 500),
       crewText: c.men + ' movers, about ' + c.hours + ' hours',
       showForm: !sent,
       sent: sent,
@@ -173,7 +178,7 @@ const s = st || {};
       officeInc: () => set({ office: clamp(office + 1, 1, 50) }),
       crewDec: () => set({ crew: clamp(crew - 1, 0, 200) }),
       crewInc: () => set({ crew: clamp(crew + 1, 0, 200) }),
-      totalText: 'DKK ' + fmt(office * 250 + crew * 99),
+      totalText: fmt(office * 250 + crew * 99) + ' kr.',
       jobLabel: started ? 'Stop' : 'Start job',
       jobBg: started ? '#0B1F3B' : '#1D4ED8',
       jobStatus: started ? 'Started at 08:02' : 'Tap when you arrive',
@@ -187,9 +192,9 @@ const s = st || {};
 
 <SiteHeader />
 
-<section id="top" style={{ background: "radial-gradient(ellipse 60% 60% at 50% 20%, rgba(245, 158, 11, 0.12) 0%, rgba(245, 158, 11, 0.03) 45%, rgba(255, 255, 255, 0) 75%), #FFFFFF", padding: "clamp(64px, 9vw, 140px) 0" }}>
+<section id="top" style={{ background: "radial-gradient(ellipse 60% 60% at 50% 20%, rgba(14, 165, 233, 0.12) 0%, rgba(14, 165, 233, 0.03) 45%, rgba(255, 255, 255, 0) 75%), #FFFFFF", padding: "clamp(64px, 9vw, 140px) 0" }}>
 <div style={{ maxWidth: "640px", margin: "0 auto", padding: "0 clamp(20px, 5vw, 64px)", boxSizing: "border-box", width: "100%", textAlign: "center" }}>
-<span aria-hidden="true" style={{ width: "72px", height: "72px", borderRadius: "22px", background: "#FFF8EC", border: "1px solid #FBE3BC", display: "inline-flex", alignItems: "center", justifyContent: "center" }}><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#B45309" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round"><path d="M12 3l9.5 17h-19z"></path><path d="M12 10v4.5M12 17.5v.01"></path></svg></span>
+<span aria-hidden="true" style={{ width: "72px", height: "72px", borderRadius: "24px", background: "#F0F9FF", border: "1px solid #BAE6FD", display: "inline-flex", alignItems: "center", justifyContent: "center" }}><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#0369A1" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round"><path d="M12 3l9.5 17h-19z"></path><path d="M12 10v4.5M12 17.5v.01"></path></svg></span>
 <h1 style={{ margin: "22px 0 0", fontSize: "clamp(30px, 3.6vw, 46px)", lineHeight: "1.1", fontWeight: "600", letterSpacing: "-0.035em" }}>Something went wrong</h1>
 <p style={{ margin: "14px 0 0", fontSize: "18px", lineHeight: "1.6", color: "#4A5B73" }}>It's our fault, not yours. Try again in a moment. If it's urgent, call us on <a href="tel:+4550282856" style={{ color: "#2563EB", fontWeight: "600" }}>+45 50 28 28 56</a>.</p>
 <div style={{ marginTop: "28px", display: "flex", flexWrap: "wrap", justifyContent: "center", gap: "10px" }}><a href="EN-Error.dc.html" data-lift="" style={{ display: "inline-flex", alignItems: "center", height: "48px", padding: "0 20px", borderRadius: "8px", background: "#2563EB", color: "#FFFFFF", fontSize: "16px", fontWeight: "600", textDecoration: "none" }}>Try again</a><a href="/en" data-lift="" style={{ display: "inline-flex", alignItems: "center", height: "48px", padding: "0 20px", borderRadius: "8px", background: "#FFFFFF", border: "1px solid #C9D3E0", boxSizing: "border-box", color: "#0B1F3B", fontSize: "16px", fontWeight: "600", textDecoration: "none" }}>To the home page</a></div>

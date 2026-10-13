@@ -131,7 +131,7 @@ function Row({ title, desc, right }: { title: string; desc: string; right: React
 // then an underlined text button underneath.
 const actionBtn = (bg: string): React.CSSProperties => ({
   height: '44px',
-  borderRadius: '10px',
+  borderRadius: '8px',
   fontFamily: 'inherit',
   fontSize: '14px',
   fontWeight: 600,
@@ -221,8 +221,7 @@ export default function CookieConsent() {
         boxSizing: 'border-box',
         background: '#FFFFFF',
         color: '#0B1F3B',
-        border: '1px solid #E3E8EF',
-        borderRadius: '18px',
+        borderRadius: '16px',
         padding: '20px',
         boxShadow: '0 2px 4px rgba(11, 31, 59, 0.06), 0 30px 60px -20px rgba(11, 31, 59, 0.45)',
         fontSize: '14px',
@@ -230,24 +229,6 @@ export default function CookieConsent() {
       }}
     >
       <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-        <span
-          aria-hidden="true"
-          style={{
-            width: '34px',
-            height: '34px',
-            borderRadius: '10px',
-            background: '#E6EDFC',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            flexShrink: 0,
-          }}
-        >
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2563EB" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round">
-            <path d="M12 3a9 9 0 1 0 9 9 4 4 0 0 1-5-5 4 4 0 0 1-4-4z" />
-            <path d="M8.5 11.5h.01M12.5 15.5h.01M8 16h.01M15.5 11h.01" />
-          </svg>
-        </span>
         <h2 id="ck-title" style={{ margin: 0, fontSize: '17px', fontWeight: 600 }}>
           {c.title}
         </h2>
@@ -255,7 +236,7 @@ export default function CookieConsent() {
 
       <p style={{ margin: '10px 0 0', color: '#4A5B73' }}>
         {c.body}
-        <a href={c.privacyHref} style={{ color: '#2563EB', fontWeight: 600 }}>
+        <a href={c.privacyHref} style={{ color: '#2563EB', fontWeight: 600, textDecoration: 'underline' }}>
           {c.readMore}
         </a>
       </p>
@@ -282,7 +263,7 @@ export default function CookieConsent() {
                   fontWeight: 600,
                   color: '#1E6B43',
                   background: '#DDF3E6',
-                  borderRadius: '10px',
+                  borderRadius: '8px',
                   padding: '3px 8px',
                 }}
               >

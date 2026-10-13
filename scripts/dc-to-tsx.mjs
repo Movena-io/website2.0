@@ -58,15 +58,16 @@ const ATTR_MAP = {
 // Design pages link each other by export filename; rewrite to real routes.
 const HREF_MAP = {
   da: {
-    'Forside-v6.dc.html': '/da',
-    'Vind-flere-flytninger-v5.dc.html': '/da/vind-flere-flytninger',
-    'Hav-styr-paa-dagen-v5.dc.html': '/da/hav-styr-paa-dagen',
-    'Faa-alle-pengene-hjem-v5.dc.html': '/da/faa-alle-pengene-hjem',
-    'Om-os-v5.dc.html': '/da/om-os',
-    'Book-demo-v5.dc.html': '/da/book-demo',
-    'Blog-v5.dc.html': '/da/blog',
-    'Blog-post-v5.dc.html': '/da/blog',
-    'Privatlivspolitik-v5.dc.html': '/da/privatlivspolitik',
+    'Forside-v7.dc.html': '/da',
+    'Vind-flere-flytninger-v7.dc.html': '/da/vind-flere-flytninger',
+    'Hav-styr-paa-dagen-v7.dc.html': '/da/hav-styr-paa-dagen',
+    'Faa-alle-pengene-hjem-v7.dc.html': '/da/faa-alle-pengene-hjem',
+    'Om-os-v7.dc.html': '/da/om-os',
+    'Book-demo-v7.dc.html': '/da/book-demo',
+    'Blog-v7.dc.html': '/da/blog',
+    'Blog-post-v7.dc.html': '/da/blog',
+    'Privatlivspolitik-v7.dc.html': '/da/privatlivspolitik',
+    'Beregner-v7.dc.html': '/da/savings-calculator',
   },
   en: {
     'EN-Home.dc.html': '/en',
@@ -78,6 +79,7 @@ const HREF_MAP = {
     'EN-Blog.dc.html': '/en/blog',
     'EN-Blog-post.dc.html': '/en/blog',
     'EN-Privacy.dc.html': '/en/privacy',
+    'EN-Calculator.dc.html': '/en/savings-calculator',
   },
 }
 let LOCALE = 'da'
@@ -122,10 +124,10 @@ const TEXT_REPLACEMENTS = [
   // --- The call slot replaces the design's optional "when suits you" ------
   // Two required selects, so the lead arrives with a real time we can put in
   // a calendar rather than a vague "morning".
-  ['<div style="min-width: 0"><label for="d-naar" style="display: block; font-size: 14px; font-weight: 600; margin-bottom: 6px">Hvornår passer det at blive ringet op? <span style="font-weight: 500; color: #6B7A90">(valgfri)</span></label><select id="d-naar" value="{{dWhenVal}}" onChange="{{on_dWhen}}" style="width: 100%; box-sizing: border-box; height: 48px; padding: 0 44px 0 14px; border: 1px solid #C9D3E0; border-radius: 10px; font-family: inherit; font-size: 16px; color: #0B1F3B; background: #FFFFFF url(&quot;data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'16\' height=\'16\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'%234A5B73\' stroke-width=\'2.4\' stroke-linecap=\'round\' stroke-linejoin=\'round\'%3E%3Cpath d=\'M6 9l6 6 6-6\'/%3E%3C/svg%3E&quot;) no-repeat right 14px center; -webkit-appearance: none; appearance: none; cursor: pointer"><option value="">Vælg tidspunkt</option><option value="Formiddag">Formiddag</option><option value="Eftermiddag">Eftermiddag</option><option value="Lige meget">Lige meget</option></select></div>',
-   '<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr)); gap: 14px"><div style="min-width: 0"><label for="d-dag" style="display: block; font-size: 14px; font-weight: 600; margin-bottom: 6px">Dag<span style="color: #B42318"> *</span></label><select id="d-dag" aria-invalid="{{invDay}}" value="{{dDay}}" onChange="{{on_dDay}}" style="width: 100%; box-sizing: border-box; height: 48px; padding: 0 44px 0 14px; border: 1px solid {{bdDay}}; border-radius: 10px; font-family: inherit; font-size: 16px; color: #0B1F3B; background: #FFFFFF url(&quot;data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'16\' height=\'16\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'%234A5B73\' stroke-width=\'2.4\' stroke-linecap=\'round\' stroke-linejoin=\'round\'%3E%3Cpath d=\'M6 9l6 6 6-6\'/%3E%3C/svg%3E&quot;) no-repeat right 14px center; -webkit-appearance: none; appearance: none; cursor: pointer">{{dDayOpts}}</select><sc-if value="{{errDay}}" hint-placeholder-val="{{ false }}"><p role="alert" style="margin: 6px 0 0; font-size: 13px; font-weight: 600; color: #B42318">Vælg en dag</p></sc-if></div><div style="min-width: 0"><label for="d-tid" style="display: block; font-size: 14px; font-weight: 600; margin-bottom: 6px">Tidspunkt<span style="color: #B42318"> *</span></label><select id="d-tid" aria-invalid="{{invTime}}" value="{{dTime}}" onChange="{{on_dTime}}" style="width: 100%; box-sizing: border-box; height: 48px; padding: 0 44px 0 14px; border: 1px solid {{bdTime}}; border-radius: 10px; font-family: inherit; font-size: 16px; color: #0B1F3B; background: #FFFFFF url(&quot;data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'16\' height=\'16\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'%234A5B73\' stroke-width=\'2.4\' stroke-linecap=\'round\' stroke-linejoin=\'round\'%3E%3Cpath d=\'M6 9l6 6 6-6\'/%3E%3C/svg%3E&quot;) no-repeat right 14px center; -webkit-appearance: none; appearance: none; cursor: pointer">{{dTimeOpts}}</select><sc-if value="{{errTime}}" hint-placeholder-val="{{ false }}"><p role="alert" style="margin: 6px 0 0; font-size: 13px; font-weight: 600; color: #B42318">Vælg et tidspunkt</p></sc-if></div></div>'],
-  ['<div style="min-width: 0"><label for="d-naar" style="display: block; font-size: 14px; font-weight: 600; margin-bottom: 6px">When is a good time to call? <span style="font-weight: 500; color: #6B7A90">(optional)</span></label><select id="d-naar" value="{{dWhenVal}}" onChange="{{on_dWhen}}" style="width: 100%; box-sizing: border-box; height: 48px; padding: 0 44px 0 14px; border: 1px solid #C9D3E0; border-radius: 10px; font-family: inherit; font-size: 16px; color: #0B1F3B; background: #FFFFFF url(&quot;data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'16\' height=\'16\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'%234A5B73\' stroke-width=\'2.4\' stroke-linecap=\'round\' stroke-linejoin=\'round\'%3E%3Cpath d=\'M6 9l6 6 6-6\'/%3E%3C/svg%3E&quot;) no-repeat right 14px center; -webkit-appearance: none; appearance: none; cursor: pointer"><option value="">Choose a time</option><option value="Formiddag">Morning</option><option value="Eftermiddag">Afternoon</option><option value="Lige meget">Any time</option></select></div>',
-   '<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr)); gap: 14px"><div style="min-width: 0"><label for="d-dag" style="display: block; font-size: 14px; font-weight: 600; margin-bottom: 6px">Day<span style="color: #B42318"> *</span></label><select id="d-dag" aria-invalid="{{invDay}}" value="{{dDay}}" onChange="{{on_dDay}}" style="width: 100%; box-sizing: border-box; height: 48px; padding: 0 44px 0 14px; border: 1px solid {{bdDay}}; border-radius: 10px; font-family: inherit; font-size: 16px; color: #0B1F3B; background: #FFFFFF url(&quot;data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'16\' height=\'16\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'%234A5B73\' stroke-width=\'2.4\' stroke-linecap=\'round\' stroke-linejoin=\'round\'%3E%3Cpath d=\'M6 9l6 6 6-6\'/%3E%3C/svg%3E&quot;) no-repeat right 14px center; -webkit-appearance: none; appearance: none; cursor: pointer">{{dDayOpts}}</select><sc-if value="{{errDay}}" hint-placeholder-val="{{ false }}"><p role="alert" style="margin: 6px 0 0; font-size: 13px; font-weight: 600; color: #B42318">Choose a day</p></sc-if></div><div style="min-width: 0"><label for="d-tid" style="display: block; font-size: 14px; font-weight: 600; margin-bottom: 6px">Time<span style="color: #B42318"> *</span></label><select id="d-tid" aria-invalid="{{invTime}}" value="{{dTime}}" onChange="{{on_dTime}}" style="width: 100%; box-sizing: border-box; height: 48px; padding: 0 44px 0 14px; border: 1px solid {{bdTime}}; border-radius: 10px; font-family: inherit; font-size: 16px; color: #0B1F3B; background: #FFFFFF url(&quot;data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'16\' height=\'16\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'%234A5B73\' stroke-width=\'2.4\' stroke-linecap=\'round\' stroke-linejoin=\'round\'%3E%3Cpath d=\'M6 9l6 6 6-6\'/%3E%3C/svg%3E&quot;) no-repeat right 14px center; -webkit-appearance: none; appearance: none; cursor: pointer">{{dTimeOpts}}</select><sc-if value="{{errTime}}" hint-placeholder-val="{{ false }}"><p role="alert" style="margin: 6px 0 0; font-size: 13px; font-weight: 600; color: #B42318">Choose a time</p></sc-if></div></div>'],
+  ['<div style="min-width: 0"><label for="d-naar" style="display: block; font-size: 14px; font-weight: 600; margin-bottom: 6px">Hvornår passer det at blive ringet op? <span style="font-weight: 500; color: #56667D">(valgfri)</span></label><select id="d-naar" value="{{dWhenVal}}" onChange="{{on_dWhen}}" style="width: 100%; box-sizing: border-box; height: 48px; padding: 0 44px 0 14px; border: 1px solid #C9D3E0; border-radius: 8px; font-family: inherit; font-size: 16px; color: #0B1F3B; background: #FFFFFF url(&quot; data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'16\' height=\'16\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'%234A5B73\' stroke-width=\'2.4\' stroke-linecap=\'round\' stroke-linejoin=\'round\'%3E%3Cpath d=\'M6 9l6 6 6-6\'/%3E%3C/svg%3E&quot; ) no-repeat right 14px center; -webkit-appearance: none; appearance: none; cursor: pointer"><option value="">Vælg tidspunkt</option><option value="Formiddag">Formiddag</option><option value="Eftermiddag">Eftermiddag</option><option value="Lige meget">Lige meget</option></select></div>',
+   '<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr)); gap: 14px"><div style="min-width: 0"><label for="d-dag" style="display: block; font-size: 14px; font-weight: 600; margin-bottom: 6px">Dag<span style="color: #B42318"> *</span></label><select id="d-dag" aria-invalid="{{invDay}}" value="{{dDay}}" onChange="{{on_dDay}}" style="width: 100%; box-sizing: border-box; height: 48px; padding: 0 44px 0 14px; border: 1px solid {{bdDay}}; border-radius: 8px; font-family: inherit; font-size: 16px; color: #0B1F3B; background: #FFFFFF url(&quot; data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'16\' height=\'16\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'%234A5B73\' stroke-width=\'2.4\' stroke-linecap=\'round\' stroke-linejoin=\'round\'%3E%3Cpath d=\'M6 9l6 6 6-6\'/%3E%3C/svg%3E&quot; ) no-repeat right 14px center; -webkit-appearance: none; appearance: none; cursor: pointer">{{dDayOpts}}</select><sc-if value="{{errDay}}" hint-placeholder-val="{{ false }}"><p role="alert" style="margin: 6px 0 0; font-size: 13px; font-weight: 600; color: #B42318">Vælg en dag</p></sc-if></div><div style="min-width: 0"><label for="d-tid" style="display: block; font-size: 14px; font-weight: 600; margin-bottom: 6px">Tidspunkt<span style="color: #B42318"> *</span></label><select id="d-tid" aria-invalid="{{invTime}}" value="{{dTime}}" onChange="{{on_dTime}}" style="width: 100%; box-sizing: border-box; height: 48px; padding: 0 44px 0 14px; border: 1px solid {{bdTime}}; border-radius: 8px; font-family: inherit; font-size: 16px; color: #0B1F3B; background: #FFFFFF url(&quot; data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'16\' height=\'16\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'%234A5B73\' stroke-width=\'2.4\' stroke-linecap=\'round\' stroke-linejoin=\'round\'%3E%3Cpath d=\'M6 9l6 6 6-6\'/%3E%3C/svg%3E&quot; ) no-repeat right 14px center; -webkit-appearance: none; appearance: none; cursor: pointer">{{dTimeOpts}}</select><sc-if value="{{errTime}}" hint-placeholder-val="{{ false }}"><p role="alert" style="margin: 6px 0 0; font-size: 13px; font-weight: 600; color: #B42318">Vælg et tidspunkt</p></sc-if></div></div>'],
+  ['<div style="min-width: 0"><label for="d-naar" style="display: block; font-size: 14px; font-weight: 600; margin-bottom: 6px">When is a good time to call? <span style="font-weight: 500; color: #56667D">(optional)</span></label><select id="d-naar" value="{{dWhenVal}}" onChange="{{on_dWhen}}" style="width: 100%; box-sizing: border-box; height: 48px; padding: 0 44px 0 14px; border: 1px solid #C9D3E0; border-radius: 8px; font-family: inherit; font-size: 16px; color: #0B1F3B; background: #FFFFFF url(&quot; data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'16\' height=\'16\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'%234A5B73\' stroke-width=\'2.4\' stroke-linecap=\'round\' stroke-linejoin=\'round\'%3E%3Cpath d=\'M6 9l6 6 6-6\'/%3E%3C/svg%3E&quot; ) no-repeat right 14px center; -webkit-appearance: none; appearance: none; cursor: pointer"><option value="">Choose a time</option><option value="Formiddag">Morning</option><option value="Eftermiddag">Afternoon</option><option value="Lige meget">Any time</option></select></div>',
+   '<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr)); gap: 14px"><div style="min-width: 0"><label for="d-dag" style="display: block; font-size: 14px; font-weight: 600; margin-bottom: 6px">Day<span style="color: #B42318"> *</span></label><select id="d-dag" aria-invalid="{{invDay}}" value="{{dDay}}" onChange="{{on_dDay}}" style="width: 100%; box-sizing: border-box; height: 48px; padding: 0 44px 0 14px; border: 1px solid {{bdDay}}; border-radius: 8px; font-family: inherit; font-size: 16px; color: #0B1F3B; background: #FFFFFF url(&quot; data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'16\' height=\'16\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'%234A5B73\' stroke-width=\'2.4\' stroke-linecap=\'round\' stroke-linejoin=\'round\'%3E%3Cpath d=\'M6 9l6 6 6-6\'/%3E%3C/svg%3E&quot; ) no-repeat right 14px center; -webkit-appearance: none; appearance: none; cursor: pointer">{{dDayOpts}}</select><sc-if value="{{errDay}}" hint-placeholder-val="{{ false }}"><p role="alert" style="margin: 6px 0 0; font-size: 13px; font-weight: 600; color: #B42318">Choose a day</p></sc-if></div><div style="min-width: 0"><label for="d-tid" style="display: block; font-size: 14px; font-weight: 600; margin-bottom: 6px">Time<span style="color: #B42318"> *</span></label><select id="d-tid" aria-invalid="{{invTime}}" value="{{dTime}}" onChange="{{on_dTime}}" style="width: 100%; box-sizing: border-box; height: 48px; padding: 0 44px 0 14px; border: 1px solid {{bdTime}}; border-radius: 8px; font-family: inherit; font-size: 16px; color: #0B1F3B; background: #FFFFFF url(&quot; data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'16\' height=\'16\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'%234A5B73\' stroke-width=\'2.4\' stroke-linecap=\'round\' stroke-linejoin=\'round\'%3E%3Cpath d=\'M6 9l6 6 6-6\'/%3E%3C/svg%3E&quot; ) no-repeat right 14px center; -webkit-appearance: none; appearance: none; cursor: pointer">{{dTimeOpts}}</select><sc-if value="{{errTime}}" hint-placeholder-val="{{ false }}"><p role="alert" style="margin: 6px 0 0; font-size: 13px; font-weight: 600; color: #B42318">Choose a time</p></sc-if></div></div>'],
 
   // --- The form must never look sent when the lead did not go out ---------
   ['<sc-if value="{{dErr}}" hint-placeholder-val="{{ false }}"><p role="alert" style="margin: 0; font-size: 14px; font-weight: 600; color: #B42318">Tjek de markerede felter, så vi kan ringe til jer.</p></sc-if>', '<sc-if value="{{dErr}}" hint-placeholder-val="{{ false }}"><p role="alert" style="margin: 0; font-size: 14px; font-weight: 600; color: #B42318">Tjek de markerede felter, så vi kan ringe til jer.</p></sc-if><sc-if value="{{dFailed}}" hint-placeholder-val="{{ false }}"><p role="alert" style="margin: 0; font-size: 14px; font-weight: 600; color: #B42318">Beskeden kunne ikke sendes. Ring til os på <a href="tel:+4550282856" style="color: #B42318">+45 50 28 28 56</a>, så tager vi den med det samme.</p></sc-if>'],
@@ -136,11 +138,25 @@ const TEXT_REPLACEMENTS = [
   // vehicles. The design export still says "vognene" / "the trucks".
   ['Kunden, kontoret og vognene', 'Kunden, kontoret og folkene'],
   ['The customer, the office and the trucks', 'The customer, the office and the crew'],
+
+  // --- Savings calculator: real lead, real tracking ---------------------------
+  // The result page's demo button reports the click like the old calculator did.
+  ['<a href="Book-demo-v7.dc.html" style="display: inline-flex; align-items: center; justify-content: center; gap: 8px; height: 48px; padding: 0 22px;',
+   '<a href="Book-demo-v7.dc.html" onClick="{{calcDemoClick}}" style="display: inline-flex; align-items: center; justify-content: center; gap: 8px; height: 48px; padding: 0 22px;'],
+  ['<a href="EN-Book-demo.dc.html" style="display: inline-flex; align-items: center; justify-content: center; gap: 8px; height: 48px; padding: 0 22px;',
+   '<a href="EN-Book-demo.dc.html" onClick="{{calcDemoClick}}" style="display: inline-flex; align-items: center; justify-content: center; gap: 8px; height: 48px; padding: 0 22px;'],
+  // The design's unlock never fails, so it has no failure state to show.
+  ['<sc-if value="{{gErr}}" hint-placeholder-val="{{ false }}"><div role="alert" style="font-size: 14px; font-weight: 600; color: #B42318">{{gErrText}}</div></sc-if>',
+   '<sc-if value="{{gErr}}" hint-placeholder-val="{{ false }}"><div role="alert" style="font-size: 14px; font-weight: 600; color: #B42318">{{gErrText}}</div></sc-if><sc-if value="{{gFailed}}" hint-placeholder-val="{{ false }}"><div role="alert" style="font-size: 14px; font-weight: 600; color: #B42318">{{gFailText}}</div></sc-if>'],
+
+  // --- House style: "et system", never the accented "ét system" ------------
+  ['ét system', 'et system'],
+  ['Ét system', 'Et system'],
 ]
 
 const PLACEHOLDERS = {
-  '[dato]': '28. september 2026',
-  '[date]': '28 September 2026',
+  '[dato]': '13. oktober 2026',
+  '[date]': '13 October 2026',
   '[Udbyder af e-mail og kundesystem]': 'Postmark (e-mail) og Supabase (database)',
   '[Email and CRM provider]': 'Postmark (email) and Supabase (database)',
   '[antal]': '12',
@@ -392,6 +408,29 @@ const SCRIPT_REPLACEMENTS = [
 
   ['const dE = { Name: s.dErr === true && !dv(\'dName\', \'\').trim(), Firm: s.dErr === true && !dv(\'dFirm\', \'\').trim(), Phone: s.dErr === true && !dPhoneOk };',
    'const dE = { Name: s.dErr === true && !dv(\'dName\', \'\').trim(), Firm: s.dErr === true && !dv(\'dFirm\', \'\').trim(), Phone: s.dErr === true && !dPhoneOk, Day: s.dErr === true && !dDay, Time: s.dErr === true && !dTime };'],
+  // --- Savings calculator --------------------------------------------------
+  // The design's maths is lib/calculator/engine.ts line for line, but its
+  // unlock just flips a flag. It now posts the answers to the same endpoint the
+  // old calculator used (Attio plus both emails, numbers recomputed on the
+  // server), and fires the same three funnel events at the same moments.
+  ['cStart: () => set({ cStep: 1 }),',
+   'cStart: () => { trackCalculatorStart(); set({ cStep: 1 }); },'],
+  ['cNext: () => { set({ cStep: Math.min(8, cStep + 1) }); scrollTop(); },',
+   'cNext: () => { if (cStep === 7) trackCalculatorComplete(); set({ cStep: Math.min(8, cStep + 1) }); scrollTop(); },'],
+  ["gSubmit: () => { if (gv('name').trim() && gv('firm').trim() && mailOk) set({ gUnlocked: true, gErr: false }); else set({ gErr: true }); },",
+   "gFailed: s.gFailed === true,\n"
+   + "      gFailText: DEMO_LOCALE === 'da' ? 'Noget gik galt. Tjek din forbindelse og prøv igen.' : 'Something went wrong. Check your connection and try again.',\n"
+   + "      calcDemoClick: () => trackDemoClick('savings_calculator'),\n"
+   + "      gSubmit: () => { if (!(gv('name').trim() && gv('firm').trim() && mailOk)) { set({ gErr: true }); return; } if (s.gSending) return; set({ gSending: true, gErr: false, gFailed: false });\n"
+   + "        submitCalculatorLead({ name: gv('name').trim(), email: gv('mail').trim(), company: gv('firm').trim(), locale: DEMO_LOCALE, inputs: {\n"
+   + "          currency: 'DKK', movesPerMonth: I.moves, hourlyCost: I.hourly, planningMinutesPerMove: I.planMin,\n"
+   + "          doesQuoting: I.quote, quotesPerMonth: I.quotes, minutesPerQuote: I.quoteMin,\n"
+   + "          doesFollowup: I.follow, leadsPerMonth: I.leads, minutesPerFollowup: I.followMin, followupUpliftPct: I.uplift,\n"
+   + "          reviewsPerMonth: num('reviews'), sendsReviewRequest: I.ask, extraReviewsPerMonth: I.extra, reviewMinutesPerMonth: I.reviewMin,\n"
+   + "          doesMessaging: I.msg, messagingHoursPerWeek: I.msgHours,\n"
+   + "          tracksInventory: yn('inv') === true, itemsLostPerMonth: I.items, minutesChasingPerItem: I.chaseMin, costPerItem: I.cost } })\n"
+   + "          .then((ok) => { if (ok) trackCalculatorUnlock(); set({ gSending: false, gUnlocked: ok, gFailed: !ok }); })\n"
+   + "          .catch(() => set({ gSending: false, gFailed: true })); },"],
 ]
 
 function extractRenderVals(src) {
@@ -522,8 +561,11 @@ const { jsx, vals, notes } = convert(inFile, componentName, demoNeedle || 'Se Mo
 const usesForm = /submitDemoLead/.test(vals)
 const usesSlots = /nextWeekdays|callTimesFor|formatCallDay/.test(vals)
 const usesCreateElement = /createElement\(/.test(vals)
+const usesCalc = /submitCalculatorLead/.test(vals)
 const extraImports = [
   usesForm ? "import { submitDemoLead } from '@/lib/demo-lead'" : '',
+  usesCalc ? "import { submitCalculatorLead } from '@/lib/calculator-lead'" : '',
+  usesCalc ? "import { trackCalculatorStart, trackCalculatorComplete, trackCalculatorUnlock, trackDemoClick } from '@/lib/tracking'" : '',
   usesSlots ? "import { nextWeekdays, callTimesFor, formatCallDay } from '@/lib/call-slots'" : '',
 ].filter(Boolean).join('\n')
 

@@ -1,7 +1,7 @@
 # Website Monitor Report
 
-**Run Time:** 2026-10-13 04:15 UTC  
-**Overall Status:** ❌ **CRITICAL** - Build passes but linting fails and critical security vulnerabilities present
+**Run Time:** 2026-10-13 20:15 UTC  
+**Overall Status:** ❌ **FAILED** - Linting failures block deployment (76 errors in generated components)
 
 ---
 
@@ -11,9 +11,9 @@ The Movena website project has critical issues that require attention:
 
 | Check | Status | Details |
 |-------|--------|---------|
-| **Build** | ✅ PASS | Next.js build compiled successfully (61 static pages generated) |
-| **Lint** | ❌ FAIL | 60+ ESLint errors in generated components |
-| **Security** | ❌ CRITICAL | 20 vulnerabilities (1 critical, 12 high, 7 moderate) |
+| **Build** | ✅ PASS | Next.js build compiled successfully |
+| **Lint** | ❌ FAIL | 76 ESLint errors in 14 generated components |
+| **Security** | ⚠️ WARNING | 20 vulnerabilities (1 critical, 12 high, 7 moderate) |
 
 ---
 
@@ -38,13 +38,18 @@ Route sizes: 80.6 kB First Load JS shared by all
 
 ## Lint Check
 
-❌ **FAILED** - 60+ errors
+❌ **FAILED** - 76 errors
 
 **Issue:** Unescaped entities in generated React components  
 **Rule:** `react/no-unescaped-entities`  
 **Solution:** Must escape single quotes as `&apos;`, `&lsquo;`, `&#39;`, or `&rsquo;`
 
-### Affected Files (Sample)
+**Run Details:**
+- Total errors: 76 (up from 60+ in previous run)
+- Error distribution: 14 generated component files
+- Primary issue: Single quotes (') in JSX content not escaped
+
+### Affected Files (All 14)
 - `components/generated/BeregnerEn.tsx` - 2 errors
 - `components/generated/BlogIndexDa.tsx` - 1 error
 - `components/generated/BlogIndexEn.tsx` - 1 error
@@ -53,12 +58,14 @@ Route sizes: 80.6 kB First Load JS shared by all
 - `components/generated/ErrorEn.tsx` - 2 errors
 - `components/generated/FaaAllePengeneHjemEn.tsx` - 5 errors
 - `components/generated/ForsideDa.tsx` - 1 error
-- `components/generated/ForsideEn.tsx` - 17 errors
+- `components/generated/ForsideEn.tsx` - 26 errors (increased from previous)
 - `components/generated/HavStyrPaaDagenEn.tsx` - 8 errors
 - `components/generated/NotFoundEn.tsx` - 1 error
 - `components/generated/OmOsEn.tsx` - 2 errors
 - `components/generated/PrivatlivspolitikEn.tsx` - 3 errors
 - `components/generated/VindFlereFlytningerEn.tsx` - 8 errors
+
+**Total: 76 errors across 14 files** (concentrated in ForsideEn.tsx with 26 errors)
 
 **Additional Warnings:** 2 Next.js warnings about using `<img>` instead of `<Image />` component in `SplitSection.tsx`
 
@@ -68,7 +75,7 @@ Route sizes: 80.6 kB First Load JS shared by all
 
 ## Security Audit
 
-❌ **CRITICAL** - 20 Vulnerabilities Detected
+⚠️ **WARNING** - 20 Vulnerabilities Detected (no new vulnerabilities since last run)
 
 ### Critical Severity (1)
 - **next** (0.9.9 - 16.3.0-preview.10): Multiple critical vulnerabilities including SSRF, authorization bypass, cache poisoning, DoS, XSS, and RCE issues
@@ -122,6 +129,15 @@ Most vulnerabilities trace back to:
 
 ## Environment
 
-- Node.js npm version: Current (with notice of npm v12.2.0 available)
+- Node.js npm version: Current (npm v12.2.0 available)
 - Dependencies: 418 packages installed and audited
-- Last `npm install`: 51s, updated dependencies as needed
+- Last `npm install`: 59s, completed successfully
+- Platform: Linux remote execution environment
+
+---
+
+## Monitor Status
+
+**Last Run:** 2026-10-13 20:15 UTC  
+**Next Expected Run:** Scheduled based on task configuration  
+**Report Updated:** 2026-10-13 20:15 UTC

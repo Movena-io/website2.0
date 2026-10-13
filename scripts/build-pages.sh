@@ -67,4 +67,9 @@ for f in components/generated/BeregnerDa.tsx components/generated/BeregnerEn.tsx
   check "$f" 'V.gFailed'                "send-failure message"
 done
 
+# The English calculator keeps its currency choice; the Danish one is DKK only.
+check components/generated/BeregnerEn.tsx 'id="c-currency"' "currency select"
+check components/generated/BeregnerEn.tsx 'currency: curCode' "currency in the lead payload"
+grep -q -- 'c-currency' components/generated/BeregnerDa.tsx && { echo "FAIL: currency select leaked into BeregnerDa" >&2; exit 1; }
+
 echo "done"

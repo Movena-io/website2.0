@@ -433,7 +433,48 @@ const SCRIPT_REPLACEMENTS = [
    + "          .catch(() => set({ gSending: false, gFailed: true })); },"],
 ]
 
-function extractRenderVals(src) {
+// Replacements for one page only, keyed by export filename. Markup first, then
+// the page's renderVals(), each applied after the site-wide lists above.
+//
+// EN-Calculator: the design shows DKK only. The English calculator keeps the
+// old calculator's currency choice (lib/calculator/currency.ts): a select as
+// the first basics question, every amount labelled with the chosen code, and
+// switching currency resets the pre-filled hourly cost to that currency's
+// default. The Danish calculator stays DKK.
+const PAGE_TEXT_REPLACEMENTS = {
+  'EN-Calculator.dc.html': [
+    ['<label for="c-moves" style="font-size: 17px; font-weight: 600; line-height: 1.35">How many moves do you handle per month?</label>',
+     '<label for="c-currency" style="font-size: 17px; font-weight: 600; line-height: 1.35">Which currency do you work in?</label><div style="font-size: 15px; line-height: 1.5; color: #4A5B73">Every figure in the calculator will be shown in this currency.</div><div style="display: flex; align-items: center; gap: 10px"><select id="c-currency" value="{{curCode}}" onChange="{{set_cur}}" style="width: 320px; max-width: 100%; box-sizing: border-box; height: 52px; padding: 0 44px 0 14px; border: 1px solid #C9D3E0; border-radius: 8px; font-family: inherit; font-size: 18px; font-weight: 600; color: #0B1F3B; background: #FFFFFF url(&quot; data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'16\' height=\'16\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'%234A5B73\' stroke-width=\'2.4\' stroke-linecap=\'round\' stroke-linejoin=\'round\'%3E%3Cpath d=\'M6 9l6 6 6-6\'/%3E%3C/svg%3E&quot; ) no-repeat right 14px center; -webkit-appearance: none; appearance: none; cursor: pointer">{{curOpts}}</select></div><details style="font-size: 14px; color: #4A5B73"><summary style="cursor: pointer; font-weight: 600; color: #1D4ED8">More info</summary><div style="margin-top: 6px; line-height: 1.55">The currency every figure here is shown in. Pick the one your business works in.</div></details></div><div style="display: flex; flex-direction: column; gap: 8px"><label for="c-moves" style="font-size: 17px; font-weight: 600; line-height: 1.35">How many moves do you handle per month?</label>'],
+    ['<span style="font-size: 15px; color: #4A5B73">DKK/hour</span>', '<span style="font-size: 15px; color: #4A5B73">{{curCode}}/hour</span>'],
+    ['What does one moving box cost to replace? (DKK)</label>', 'What does one moving box cost to replace? ({{curCode}})</label>'],
+    ['<span style="font-size: 15px; color: #4A5B73">DKK</span>', '<span style="font-size: 15px; color: #4A5B73">{{curCode}}</span>'],
+    ['≈ DKK {{headMonth}}', '≈ {{curCode}} {{headMonth}}'],
+    ['≈ DKK {{headYear}} a year', '≈ {{curCode}} {{headYear}} a year'],
+    ['About DKK {{exposure}} a month', 'About {{curCode}} {{exposure}} a month'],
+  ],
+}
+const PAGE_SCRIPT_REPLACEMENTS = {
+  'EN-Calculator.dc.html': [
+    ["const yn = (k) => (s['cy_' + k] === undefined ? null : s['cy_' + k]);",
+     "const yn = (k) => (s['cy_' + k] === undefined ? null : s['cy_' + k]);\n"
+     + "    const curCode = getCurrency(s.cur || DEFAULT_CURRENCY).code; const curHourly = getCurrency(curCode).defaultHourly;\n"
+     + "    const curOpts = CURRENCIES.map((c) => createElement('option', { key: c.code, value: c.code }, c.label));"],
+    ["hourly: num('hourly', '250') || 250,", "hourly: num('hourly', String(curHourly)) || curHourly,"],
+    ["cv['cv_' + k] = raw(k, k === 'hourly' ? '250' : '');", "cv['cv_' + k] = raw(k, k === 'hourly' ? String(curHourly) : '');"],
+    ["' DKK × 30% recovered'", "' ' + curCode + ' × 30% recovered'"],
+    ["' DKK each, which is '", "' ' + curCode + ' each, which is '"],
+    ["' DKK a month. Movena recovers about 30% of that. That is '", "' ' + curCode + ' a month. Movena recovers about 30% of that. That is '"],
+    ["' DKK a month.'); }", "' ' + curCode + ' a month.'); }"],
+    ["'DKK ' + nf.format(Math.round(r.money))", "curCode + ' ' + nf.format(Math.round(r.money))"],
+    ["' hrs/mo · DKK ' + nf", "' hrs/mo · ' + curCode + ' ' + nf"],
+    // The lead carries the chosen currency (the grafted submit says DKK).
+    ["currency: 'DKK',", 'currency: curCode,'],
+    ["gFailed: s.gFailed === true,",
+     "gFailed: s.gFailed === true,\n      curCode: curCode, curOpts: curOpts, set_cur: (e) => set({ cur: e.target.value, cv_hourly: undefined }),"],
+  ],
+}
+
+function extractRenderVals(src, file) {
   const i = src.indexOf('renderVals()')
   if (i < 0) return { body: '', ret: '{}' }
   const braceStart = src.indexOf('{', i)
@@ -445,6 +486,10 @@ function extractRenderVals(src) {
   let body = src.slice(braceStart + 1, end).trim()
   body = body.replace(/this\.setState/g, 'setState').replace(/this\.state/g, 'st')
   for (const [k, v] of SCRIPT_REPLACEMENTS) body = body.split(k).join(v)
+  for (const [k, v] of PAGE_SCRIPT_REPLACEMENTS[file] || []) {
+    if (!body.includes(k)) throw new Error(`${file}: script replacement no longer matches: ${k.slice(0, 60)}`)
+    body = body.split(k).join(v)
+  }
   return { body }
 }
 
@@ -513,6 +558,10 @@ function convert(file, componentName, demoNeedle) {
   body = body.replace(/<helmet>[\s\S]*?<\/helmet>/, '')
   for (const [k, v] of Object.entries(PLACEHOLDERS)) body = body.split(k).join(v)
   for (const [k, v] of TEXT_REPLACEMENTS) body = body.split(k).join(v)
+  for (const [k, v] of PAGE_TEXT_REPLACEMENTS[path.basename(file)] || []) {
+    if (!body.includes(k)) throw new Error(`${path.basename(file)}: text replacement no longer matches: ${k.slice(0, 60)}`)
+    body = body.split(k).join(v)
+  }
 
   const notes = []
   let r = stripChrome(body); body = r.html; notes.push(...r.notes)
@@ -537,7 +586,7 @@ function convert(file, componentName, demoNeedle) {
     .replace(/ SITEHEADER/g, `<SiteHeader />`)
     .replace(/ SITEFOOTER/g, `<SiteFooter />`)
 
-  const { body: vals } = extractRenderVals(src)
+  const { body: vals } = extractRenderVals(src, path.basename(file))
 
   // Mark the design root so globals.css can undo Tailwind's preflight inside
   // converted markup only (see the [data-dc] rule).
@@ -562,9 +611,11 @@ const usesForm = /submitDemoLead/.test(vals)
 const usesSlots = /nextWeekdays|callTimesFor|formatCallDay/.test(vals)
 const usesCreateElement = /createElement\(/.test(vals)
 const usesCalc = /submitCalculatorLead/.test(vals)
+const usesCurrency = /getCurrency\(/.test(vals)
 const extraImports = [
   usesForm ? "import { submitDemoLead } from '@/lib/demo-lead'" : '',
   usesCalc ? "import { submitCalculatorLead } from '@/lib/calculator-lead'" : '',
+  usesCurrency ? "import { CURRENCIES, DEFAULT_CURRENCY, getCurrency } from '@/lib/calculator/currency'" : '',
   usesCalc ? "import { trackCalculatorStart, trackCalculatorComplete, trackCalculatorUnlock, trackDemoClick } from '@/lib/tracking'" : '',
   usesSlots ? "import { nextWeekdays, callTimesFor, formatCallDay } from '@/lib/call-slots'" : '',
 ].filter(Boolean).join('\n')

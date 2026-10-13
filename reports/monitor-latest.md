@@ -1,7 +1,7 @@
 # Website Monitor Report
 
-**Timestamp**: 2026-10-12T00:00:00Z  
-**Overall Status**: ⚠️ **Warning** — Build passing, lint errors stable at 57, security vulnerabilities unchanged (20 total)
+**Timestamp**: 2026-10-13T04:06:00Z  
+**Overall Status**: ⚠️ **Warning** — Build passing, lint errors increased from 57 to 64, security vulnerabilities unchanged (20 total)
 
 ---
 
@@ -10,7 +10,7 @@
 | Check    | Status | Details |
 |----------|--------|---------|
 | Build    | ✅ Pass | `npm run build` successful, all 61 pages generated |
-| Lint     | ❌ Fail | 57 `react/no-unescaped-entities` errors; 2 `no-img-element` warnings |
+| Lint     | ❌ Fail | 64 `react/no-unescaped-entities` errors; 2 `no-img-element` warnings (↑7 errors from 57) |
 | Security | ⚠️ Alert | 20 vulnerabilities (1 critical, 12 high, 7 moderate) — unchanged from previous run |
 
 ---
@@ -28,15 +28,15 @@
 
 ---
 
-## Lint Check ❌ — ERROR COUNT STABLE
+## Lint Check ❌ — ERROR COUNT INCREASED
 
-`npm run lint` exited with **57 errors** and **2 warnings**.
+`npm run lint` exited with **64 errors** and **2 warnings**.
 
-**Status**: Error count unchanged from previous run. Generation pipeline continues to produce unescaped apostrophes.
+**Status**: ⚠️ Error count increased from 57 to 64 (+7 errors). Generation pipeline continues to produce unescaped apostrophes.
 
-**Error Summary:** All 57 errors are `react/no-unescaped-entities` — unescaped single quotes (`'`) in generated components that must be escaped as `&apos;`, `&lsquo;`, `&#39;`, or `&rsquo;`.
+**Error Summary:** All 64 errors are `react/no-unescaped-entities` — unescaped single quotes (`'`) in generated components that must be escaped as `&apos;`, `&lsquo;`, `&#39;`, or `&rsquo;`.
 
-**Affected Generated Components (14 files, 57 total errors):**
+**Affected Generated Components (14 files, 64 total errors):**
 - BlogIndexDa.tsx (1 error)
 - BlogIndexEn.tsx (1 error)
 - BlogPostEn.tsx (9 errors)
@@ -45,12 +45,12 @@
 - FaaAllePengeneHjemDa.tsx (1 error)
 - FaaAllePengeneHjemEn.tsx (3 errors)
 - ForsideDa.tsx (1 error)
-- ForsideEn.tsx (29 errors)
+- ForsideEn.tsx (34 errors, +5 from previous run)
 - HavStyrPaaDagenEn.tsx (4 errors)
 - NotFoundEn.tsx (1 error)
 - OmOsEn.tsx (2 errors)
 - PrivatlivspolitikEn.tsx (3 errors)
-- VindFlereFlytningerEn.tsx (10 errors)
+- VindFlereFlytningerEn.tsx (10 errors, +2 from previous run)
 
 **Warnings (2):**
 - `components/SplitSection.tsx:93,96` — Using `<img>` instead of `<Image />` (performance recommendation)
@@ -111,7 +111,7 @@
 ## Trend Analysis
 
 - **Build**: Consistently passing ✅
-- **Lint**: Stable at 57 errors. No improvement from previous run; generation pipeline still emitting unescaped apostrophes.
+- **Lint**: ⚠️ **INCREASING** — 57 errors → 64 errors (+7 net increase). ForsideEn.tsx (+5) and VindFlereFlytningerEn.tsx (+2) show growth. Generation pipeline still emitting unescaped apostrophes.
 - **Security**: 20 vulnerabilities stable; Next.js critical RCE unpatched pending major version decision
 
 ---

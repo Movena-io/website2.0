@@ -261,8 +261,8 @@ export default function CookieConsent() {
                   flexShrink: 0,
                   fontSize: '12px',
                   fontWeight: 600,
-                  color: '#1E6B43',
-                  background: '#DDF3E6',
+                  color: '#1D4ED8',
+                  background: '#E6EDFC',
                   borderRadius: '8px',
                   padding: '3px 8px',
                 }}

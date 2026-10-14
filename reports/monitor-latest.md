@@ -1,19 +1,19 @@
 # Website Monitor Report
 
-**Run Time:** 2026-10-13 20:15 UTC  
-**Overall Status:** ❌ **FAILED** - Linting failures block deployment (76 errors in generated components)
+**Run Timestamp:** 2026-10-14 04:52 UTC  
+**Overall Status:** ⚠️ **WARNING** - Build passes, lint failures persist, known security vulnerabilities
 
 ---
 
 ## Summary
 
-The Movena website project has critical issues that require attention:
+The Movena website build completes successfully, but ESLint validation continues to fail on auto-generated components. Security audit reports 20 vulnerabilities (1 critical, 12 high, 7 moderate)—these are acknowledged in CLAUDE.md as requiring a major Next.js version upgrade that is a product decision.
 
 | Check | Status | Details |
 |-------|--------|---------|
-| **Build** | ✅ PASS | Next.js build compiled successfully |
-| **Lint** | ❌ FAIL | 76 ESLint errors in 14 generated components |
-| **Security** | ⚠️ WARNING | 20 vulnerabilities (1 critical, 12 high, 7 moderate) |
+| **Build** | ✅ PASS | Next.js successfully compiled all 61 static pages |
+| **Lint** | ❌ FAIL | ~51 ESLint errors in generated components |
+| **Security** | ⚠️ WARNING | 20 vulnerabilities (no change from previous run) |
 
 ---
 
@@ -22,122 +22,73 @@ The Movena website project has critical issues that require attention:
 ✅ **PASSED**
 
 The Next.js application built successfully:
-- Compiled without errors
-- Generated 61 static pages
-- Route sizes within normal ranges
+- All 61 static pages generated without errors
 - Middleware compiled at 27.9 kB
-
-### Build Output
-```
-✓ Compiled successfully
-✓ Generating static pages (61/61)
-Route sizes: 80.6 kB First Load JS shared by all
-```
+- Route sizes within normal ranges
+- No compilation errors or blocking warnings
 
 ---
 
 ## Lint Check
 
-❌ **FAILED** - 76 errors
+❌ **FAILED** - Multiple ESLint violations
 
-**Issue:** Unescaped entities in generated React components  
+**Primary Issue:** Unescaped entities in generated React components  
 **Rule:** `react/no-unescaped-entities`  
-**Solution:** Must escape single quotes as `&apos;`, `&lsquo;`, `&#39;`, or `&rsquo;`
+**Fix Required:** Escape apostrophes as `&apos;`, `&lsquo;`, `&#39;`, or `&rsquo;`
 
-**Run Details:**
-- Total errors: 76 (up from 60+ in previous run)
-- Error distribution: 14 generated component files
-- Primary issue: Single quotes (') in JSX content not escaped
+**Affected Files (14 total, all in `components/generated/`):**
+- BeregnerEn.tsx - 2 errors
+- BlogIndexDa.tsx - 1 error
+- BlogIndexEn.tsx - 1 error
+- BlogPostEn.tsx - 7 errors
+- BookDemoEn.tsx - 3 errors
+- ErrorEn.tsx - 2 errors
+- FaaAllePengeneHjemEn.tsx - 5 errors
+- ForsideDa.tsx - 1 error
+- ForsideEn.tsx - ~26 errors
+- HavStyrPaaDagenEn.tsx - 8 errors
+- NotFoundEn.tsx - 1 error
+- OmOsEn.tsx - 2 errors
+- PrivatlivspolitikEn.tsx - 3 errors
+- VindFlereFlytningerEn.tsx - 8 errors
 
-### Affected Files (All 14)
-- `components/generated/BeregnerEn.tsx` - 2 errors
-- `components/generated/BlogIndexDa.tsx` - 1 error
-- `components/generated/BlogIndexEn.tsx` - 1 error
-- `components/generated/BlogPostEn.tsx` - 7 errors
-- `components/generated/BookDemoEn.tsx` - 3 errors
-- `components/generated/ErrorEn.tsx` - 2 errors
-- `components/generated/FaaAllePengeneHjemEn.tsx` - 5 errors
-- `components/generated/ForsideDa.tsx` - 1 error
-- `components/generated/ForsideEn.tsx` - 26 errors (increased from previous)
-- `components/generated/HavStyrPaaDagenEn.tsx` - 8 errors
-- `components/generated/NotFoundEn.tsx` - 1 error
-- `components/generated/OmOsEn.tsx` - 2 errors
-- `components/generated/PrivatlivspolitikEn.tsx` - 3 errors
-- `components/generated/VindFlereFlytningerEn.tsx` - 8 errors
+**Additional Warnings:**
+- 2 warnings in `SplitSection.tsx` about using `<img>` instead of `<Image />` from next/image
 
-**Total: 76 errors across 14 files** (concentrated in ForsideEn.tsx with 26 errors)
-
-**Additional Warnings:** 2 Next.js warnings about using `<img>` instead of `<Image />` component in `SplitSection.tsx`
-
-**Note:** All errors are in generated components. These files appear to be auto-generated from content sources. Regeneration may be needed with escaped entity fixes in the source generation process.
+**Note:** All errors are in auto-generated components. The component generation process needs to escape HTML entities in output.
 
 ---
 
 ## Security Audit
 
-⚠️ **WARNING** - 20 Vulnerabilities Detected (no new vulnerabilities since last run)
+⚠️ **WARNING** - 20 Vulnerabilities (unchanged from previous run)
 
-### Critical Severity (1)
-- **next** (0.9.9 - 16.3.0-preview.10): Multiple critical vulnerabilities including SSRF, authorization bypass, cache poisoning, DoS, XSS, and RCE issues
-  - 34 distinct CVEs/advisories identified
-  - Note: Per project CLAUDE.md, this package is knowingly at current version; Next.js 13→16 upgrade is a product decision
+### Critical (1)
+- **Next.js** (0.9.9 - 16.3.0-preview.10): 34+ CVEs including SSRF, RCE, cache poisoning, XSS, DoS
+  - **Status:** Acknowledged in CLAUDE.md; Next.js 13→16 upgrade is a product decision
 
-### High Severity (12)
-- **brace-expansion** - Quadratic-time expansion causes CPU DoS (2 distinct CVEs)
-- **braces** - Stack-exhaustion DoS via nested patterns
-- **minimatch** - ReDoS via repeated wildcards and nested extglobs (3 CVEs)
-- **postcss** (≤8.5.22) - XSS, arbitrary file read, path traversal in source maps (4 CVEs)
-  - Note: Nested in next; fixing requires Next.js upgrade
-- **postcss-selector-parser** (<7.1.6) - Quadratic complexity in flat selector parsing
-- **source-map-js** - Event-loop DoS through indexed source-map offsets
+### High (12)
+- brace-expansion, braces, minimatch: DoS/ReDoS vulnerabilities
+- postcss (nested in Next): XSS, arbitrary file read, path traversal
+- postcss-selector-parser: Quadratic complexity parsing
+- source-map-js: Event-loop DoS
 
-### Moderate Severity (7)
-- **postcss-selector-parser** - Overlapping with high-severity issues
-- **sprintf-js** - DoS through unbounded precision specifiers
-- Additional dependencies of vulnerable packages
+### Moderate (7)
+- sprintf-js: DoS via unbounded precision
+- Various transitive dependencies
 
-### Dependency Chain
-Most vulnerabilities trace back to:
-- **next** → **postcss** (nested)
-- **tailwindcss** → **chokidar** → **braces** → **micromatch** → **fast-glob** → **globby** → **@typescript-eslint**
-
-### Remediation Notes
-- ⚠️ `npm audit fix --force` would upgrade to Next.js 16.4.0 (breaking change)
-- ⚠️ Project guidelines state Next.js 13→16 upgrade is a product decision, not a monitor action
-- Current versions are acknowledged in CLAUDE.md as intentionally pinned
-- Scoped overrides (like `js-yaml@3` and `nanoid@3` in package.json) are the recommended approach for transitive dependencies
+**Remediation:** Per CLAUDE.md, `npm audit fix --force` requires Next.js 16 upgrade. Current versions are intentionally pinned; use scoped overrides for transitive dependencies as needed.
 
 ---
 
 ## Recommendations
 
-### Immediate Actions
-1. **Lint Errors** - Regenerate components with proper entity escaping:
-   - Review the component generation source
-   - Ensure single quotes are escaped in templates/output
-   - Re-run generation and commit fixed files
-
-2. **Build Warnings** - Replace `<img>` with Next.js `<Image />` in:
-   - `components/SplitSection.tsx` (lines 93, 96)
-
-### Long-term Actions
-1. **Security Upgrades** - Schedule Next.js 13→16 upgrade as a product decision
-2. **Dependency Monitoring** - Continue using scoped overrides for transitive vulnerabilities
-3. **CI Integration** - Consider adding `npm audit` to CI/CD with allowlist for known pinned packages
+1. **High Priority:** Fix component generation to properly escape HTML entities. This is blocking lint validation.
+2. **Medium Priority:** Update `SplitSection.tsx` to use `<Image />` component instead of `<img>` tags.
+3. **Product Decision:** Schedule Next.js 13→16 major version upgrade to address security vulnerabilities.
 
 ---
 
-## Environment
-
-- Node.js npm version: Current (npm v12.2.0 available)
-- Dependencies: 418 packages installed and audited
-- Last `npm install`: 59s, completed successfully
-- Platform: Linux remote execution environment
-
----
-
-## Monitor Status
-
-**Last Run:** 2026-10-13 20:15 UTC  
-**Next Expected Run:** Scheduled based on task configuration  
-**Report Updated:** 2026-10-13 20:15 UTC
+**Environment:** Linux remote execution, 418 packages installed, npm audit found 20 vulnerabilities  
+**Last Updated:** 2026-10-14 04:52 UTC

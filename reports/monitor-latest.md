@@ -1,13 +1,13 @@
 # Website Monitor Report
 
-**Run Timestamp:** 2026-10-14 19:55 UTC  
+**Run Timestamp:** 2026-10-15 UTC  
 **Overall Status:** ⚠️ **WARNING** — Build successful, lint errors present, security vulnerabilities found
 
 ---
 
 ## Summary
 
-The website builds successfully but has **71 linting errors** and **20 security vulnerabilities** (1 critical, 12 high, 7 moderate). Most lint errors are in generated components and are pre-existing. Security vulnerabilities in Next.js and dependencies are acknowledged as requiring major version upgrades per project guidance.
+The website builds successfully but has **44 linting issues** (42 errors + 2 warnings) and **20 security vulnerabilities** (1 critical, 12 high, 7 moderate). Lint errors are in auto-generated components. Security vulnerabilities in Next.js and dependencies are acknowledged as requiring major version upgrades per project guidance.
 
 ---
 
@@ -30,12 +30,13 @@ Next.js compiled all routes without errors
 
 ## Lint Check ❌
 
-**Status:** FAILED (71 errors, 2 warnings)
+**Status:** FAILED (42 errors + 2 warnings)
 
 ### Error Summary
-- **71 React errors:** Unescaped entities (`'`) in generated components
-  - Primary files affected: `BeregnerEn.tsx`, `BlogIndexDa.tsx`, `BlogPostEn.tsx`, `ForsideEn.tsx`, and others
-  - These are generated components (in `/components/generated/`) not manually maintained
+- **42 React ESLint errors:** Unescaped entities (`'`) in generated components
+  - Files: BeregnerEn.tsx, BlogIndexDa.tsx, BlogIndexEn.tsx, BlogPostEn.tsx, BookDemoEn.tsx, ErrorEn.tsx, FaaAllePengeneHjemEn.tsx, ForsideDa.tsx, ForsideEn.tsx, HavStyrPaaDagenEn.tsx, NotFoundEn.tsx, OmOsEn.tsx, PrivatlivspolitikEn.tsx, VindFlereFlytningerEn.tsx
+  - Issue: react/no-unescaped-entities — single quotes must be escaped as `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`
+  - These are auto-generated components (in `/components/generated/`) not manually maintained
   
 ### Warning Summary
 - **2 warnings:** Use of `<img>` tag in `SplitSection.tsx` (lines 93, 96)
@@ -92,7 +93,9 @@ Per project CLAUDE.md:
 
 ## Check Details
 
-- **npm install:** 417 packages added, 1 deprecated warning (inflight, glob)
-- **npm run build:** Success
-- **npm run lint:** 1 exit code (linting errors found)
-- **npm audit:** 20 vulnerabilities, 0 immediate fixes without breaking changes
+- **npm install:** 417 packages, 20 vulnerabilities reported
+- **npm run build:** ✓ Success — 61 static pages generated
+- **npm run lint:** ✗ Failed — 42 errors (in generated files), 2 warnings
+- **npm audit:** 20 vulnerabilities (1 critical, 12 high, 7 moderate)
+
+**Trend:** Status stable vs. prior run (2026-10-14). No new vulnerabilities introduced.

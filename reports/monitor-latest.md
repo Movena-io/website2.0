@@ -1,7 +1,7 @@
 # Website Health Monitor Report
 
-**Run Date:** 2026-10-15 at 14:32 UTC
-**Overall Status:** ⚠️ **WARNING** — Build successful, but linting errors and critical security vulnerabilities require attention
+**Run Date:** 2026-10-16 at 14:32 UTC
+**Overall Status:** ❌ **CRITICAL** — Build successful, but linting errors and critical security vulnerabilities require attention
 
 ---
 
@@ -10,7 +10,7 @@
 The website build completes successfully, but the project has significant issues that need remediation:
 
 - **Build:** ✅ Successful
-- **Linting:** ❌ Failed (101 errors, 2 warnings)
+- **Linting:** ❌ Failed (57 errors, 2 warnings)
 - **Security:** ❌ Critical (20 vulnerabilities: 1 critical, 12 high, 7 moderate)
 
 ---
@@ -31,12 +31,12 @@ The Next.js application compiled successfully with no build errors.
 
 ## 2. Linting Status: ❌ FAILED
 
-**Error Count:** 101 errors + 2 warnings
+**Error Count:** 57 errors + 2 warnings
 **Exit Code:** 1
 
 ### Critical Findings:
 
-**Unescaped HTML Entities (101 errors)** — The character `'` (apostrophe) appears unescaped in multiple generated components and should be replaced with HTML entities like `&apos;`, `&lsquo;`, `&#39;`, or `&rsquo;`.
+**Unescaped HTML Entities (57 errors)** — The character `'` (apostrophe) appears unescaped in multiple generated components and should be replaced with HTML entities like `&apos;`, `&lsquo;`, `&#39;`, or `&rsquo;`.
 
 **Affected Components:**
 - `components/generated/BeregnerEn.tsx` — 2 errors
@@ -47,8 +47,8 @@ The Next.js application compiled successfully with no build errors.
 - `components/generated/ErrorEn.tsx` — 2 errors
 - `components/generated/FaaAllePengeneHjemEn.tsx` — 5 errors
 - `components/generated/ForsideDa.tsx` — 1 error
-- `components/generated/ForsideEn.tsx` — 18 errors
-- `components/generated/HavStyrPaaDagenEn.tsx` — 8 errors
+- `components/generated/ForsideEn.tsx` — 17 errors
+- `components/generated/HavStyrPaaDagenEn.tsx` — 9 errors
 - `components/generated/NotFoundEn.tsx` — 1 error
 - `components/generated/OmOsEn.tsx` — 2 errors
 - `components/generated/PrivatlivspolitikEn.tsx` — 3 errors

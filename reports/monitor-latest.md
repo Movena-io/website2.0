@@ -1,17 +1,17 @@
 # Website Monitor Report
 
-**Run Time:** 2026-10-17 02:35 UTC  
-**Status:** ❌ **FAILED** — Lint errors in generated components + Critical security vulnerabilities
+**Run Time:** 2026-10-17T00:00:00Z  
+**Status:** ❌ **FAILED** — 64 lint errors in generated components + 20 security vulnerabilities
 
 ---
 
 ## Summary
 
-The website monitor run identified critical issues requiring immediate attention:
+The website monitor run identified critical issues:
 
-- **Build:** ✅ **PASS** — Next.js compiles successfully
-- **Lint:** ❌ **FAIL** — 88+ unescaped entity errors in generated components
-- **Security:** ❌ **CRITICAL** — 20 vulnerabilities (1 critical, 12 high, 7 moderate)
+- **Build:** ✅ **PASS** — Next.js compiles successfully (61 pages)
+- **Lint:** ❌ **FAIL** — 64 unescaped entity errors in generated components
+- **Security:** ⚠️ **ALERT** — 20 vulnerabilities (1 critical, 12 high, 7 moderate)
 
 ---
 
@@ -31,7 +31,7 @@ The Next.js application compiled successfully without build errors.
 
 ## Lint Status: ❌ FAILING
 
-**Error Count:** 88+ errors across generated components, 2 warnings
+**Error Count:** 64 errors across generated components, 2 warnings
 
 ### Primary Issue: Unescaped HTML Entities
 
@@ -47,7 +47,7 @@ Issue: Apostrophes in text need to be escaped as `&apos;`, `&lsquo;`, `&#39;`, o
 - `components/generated/ErrorEn.tsx` (2 errors)
 - `components/generated/FaaAllePengeneHjemEn.tsx` (5 errors)
 - `components/generated/ForsideDa.tsx` (1 error)
-- `components/generated/ForsideEn.tsx` (21 errors)
+- `components/generated/ForsideEn.tsx` (20 errors)
 - `components/generated/HavStyrPaaDagenEn.tsx` (8 errors)
 - `components/generated/NotFoundEn.tsx` (1 error)
 - `components/generated/OmOsEn.tsx` (2 errors)

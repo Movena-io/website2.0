@@ -1,7 +1,7 @@
 # Website Monitor Report
 
-**Run Time:** 2026-10-16 13:04 UTC  
-**Status:** ❌ **CRITICAL** — Lint errors and critical security vulnerabilities (unchanged)
+**Run Time:** 2026-10-17 00:00 UTC  
+**Status:** ❌ **CRITICAL** — Lint errors increased to 77, critical security vulnerabilities persist
 
 ---
 
@@ -10,7 +10,7 @@
 The website monitor identified critical issues requiring immediate attention:
 
 - **Build:** ✅ PASSING
-- **Lint:** ❌ FAILING (63 unescaped entity errors)
+- **Lint:** ❌ FAILING (77 unescaped entity errors, up from 63)
 - **Security:** ❌ CRITICAL (20 vulnerabilities: 1 critical, 12 high, 7 moderate)
 
 ---
@@ -34,7 +34,7 @@ Route (app)                          Size     First Load JS
 
 ## Lint Status: ❌ FAILING
 
-**Error Count:** 63 errors, 2 warnings
+**Error Count:** 77 errors, 2 warnings (increased from 63)
 
 ### Critical Issues
 
@@ -49,7 +49,7 @@ Most errors are unescaped HTML entities (`'`) in generated component files. Thes
 - `components/generated/ErrorEn.tsx` (2 errors)
 - `components/generated/FaaAllePengeneHjemEn.tsx` (5 errors)
 - `components/generated/ForsideDa.tsx` (1 error)
-- `components/generated/ForsideEn.tsx` (17 errors)
+- `components/generated/ForsideEn.tsx` (21 errors)
 - `components/generated/HavStyrPaaDagenEn.tsx` (8 errors)
 - `components/generated/NotFoundEn.tsx` (1 error)
 - `components/generated/OmOsEn.tsx` (2 errors)

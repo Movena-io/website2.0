@@ -1,5 +1,16 @@
 'use client'
 
+// The header from the v7 design export, written out by hand because it is
+// shared by every page. Styles are the design's own, including its
+// media-query-free switches: calc((100vw - 768px) * 999) is 0 below 768px and
+// huge above it, so the desktop nav, language button and right-hand group
+// collapse to nothing on mobile while the burger opens up (and the reverse).
+//
+// The header is its own [data-dc] root, so it gets the browser-default box
+// model the design was drawn with (see globals.css) on the converted pages and
+// on the hand-built blog views alike. Additions that are not in the design:
+// the Log in link, and real routing for the language switch.
+
 import { useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
@@ -8,6 +19,9 @@ import { ROUTES, NAV, PHONE_DISPLAY, PHONE_HREF, LOGIN_HREF, counterpartPath } f
 import { useBlogAlternates } from '@/lib/BlogAlternates'
 import type { Locale } from '@/lib/locales'
 import MovenaMark from '@/components/site/MovenaMark'
+
+const INK = '#0B1F3B'
+const PANEL_SHADOW = '0 1px 2px rgba(11, 31, 59, 0.06), 0 24px 48px -20px rgba(11, 31, 59, 0.3)'
 
 // The three feature icons from the design, in dropdown order.
 const FEATURE_ICONS: Record<string, React.ReactNode> = {
@@ -33,26 +47,43 @@ const FEATURE_ICONS: Record<string, React.ReactNode> = {
   ),
 }
 
-function FeatureIcon({ name }: { name: string }) {
+function FeatureIcon({ name, box, icon }: { name: string; box: number; icon: number }) {
   return (
     <span
       aria-hidden="true"
-      className="flex h-[38px] w-[38px] shrink-0 items-center justify-center rounded-[10px] bg-[#E6EDFC]"
+      style={{ width: box, height: box, borderRadius: 8, background: '#E6EDFC', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}
     >
-      <svg
-        width="19"
-        height="19"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="#2563EB"
-        strokeWidth="1.9"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        className="shrink-0"
-      >
+      <svg width={icon} height={icon} viewBox="0 0 24 24" fill="none" stroke="#2563EB" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" style={{ flexShrink: 0 }}>
         {FEATURE_ICONS[name]}
       </svg>
     </span>
+  )
+}
+
+function Chevron({ size, stroke, open, transition }: { size: number; stroke: string; open: boolean; transition?: boolean }) {
+  return (
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="#0B1F3B"
+      strokeWidth={stroke}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+      style={{ flexShrink: 0, transform: `rotate(${open ? 180 : 0}deg)`, ...(transition ? { transition: 'transform 0.2s' } : {}) }}
+    >
+      <path d="M6 9l6 6 6-6" />
+    </svg>
+  )
+}
+
+function PhoneIcon({ size }: { size: number }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="#1D4ED8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" style={{ flexShrink: 0 }}>
+      <path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z" />
+    </svg>
   )
 }
 
@@ -63,42 +94,33 @@ const SWITCH_ORDER: Locale[] = ['da', 'en']
 // Endonyms: a reader looking for English should see "English", not "Engelsk".
 const LANGUAGE_NAMES: Record<Locale, string> = { da: 'Dansk', en: 'English' }
 
-function GlobeIcon() {
+function Flag({ code, w, h, clipId }: { code: Locale; w: number; h: number; clipId: string }) {
   return (
-    <svg
-      width="14"
-      height="14"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
+    <span
       aria-hidden="true"
-      className="shrink-0"
+      style={{ width: w, height: h, borderRadius: 3, overflow: 'hidden', flexShrink: 0, boxShadow: '0 0 0 1px rgba(11, 31, 59, 0.12)', display: 'inline-flex' }}
     >
-      <circle cx="12" cy="12" r="9" />
-      <path d="M3 12h18M12 3a15 15 0 0 1 0 18a15 15 0 0 1 0-18z" />
-    </svg>
-  )
-}
-
-function CheckIcon() {
-  return (
-    <svg
-      width="16"
-      height="16"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="#2563EB"
-      strokeWidth="2.4"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      aria-hidden="true"
-      className="ml-auto shrink-0"
-    >
-      <path d="M5 12.5l4.5 4.5L19 7.5" />
-    </svg>
+      {code === 'da' ? (
+        <svg width={w} height={h} viewBox="0 0 37 28" preserveAspectRatio="none">
+          <rect width="37" height="28" fill="#C8102E" />
+          <rect x="12" width="4" height="28" fill="#FFFFFF" />
+          <rect y="12" width="37" height="4" fill="#FFFFFF" />
+        </svg>
+      ) : (
+        <svg width={w} height={h} viewBox="0 0 60 30" preserveAspectRatio="none">
+          <defs>
+            <clipPath id={clipId}>
+              <path d="M30,15 h30 v15 z v15 h-30 z h-30 v-15 z v-15 h30 z" />
+            </clipPath>
+          </defs>
+          <rect width="60" height="30" fill="#012169" />
+          <path d="M0,0 L60,30 M60,0 L0,30" stroke="#FFFFFF" strokeWidth="6" />
+          <path d="M0,0 L60,30 M60,0 L0,30" clipPath={`url(#${clipId})`} stroke="#C8102E" strokeWidth="4" />
+          <path d="M30,0 v30 M0,15 h60" stroke="#FFFFFF" strokeWidth="10" />
+          <path d="M30,0 v30 M0,15 h60" stroke="#C8102E" strokeWidth="6" />
+        </svg>
+      )}
+    </span>
   )
 }
 
@@ -107,97 +129,44 @@ function LanguageRow({
   code,
   active,
   href,
-  onNavigate,
+  clipId,
 }: {
   code: Locale
   active: boolean
   href: string
-  onNavigate?: () => void
+  clipId: string
 }) {
-  const label = LANGUAGE_NAMES[code]
-  const shared = 'flex items-center gap-2 rounded-xl px-3 py-2.5 text-[15px] font-semibold no-underline'
-
+  const row: React.CSSProperties = {
+    display: 'flex', alignItems: 'center', gap: 10, minHeight: 44, padding: '0 12px', borderRadius: 8,
+    fontSize: 15, fontWeight: 600, textDecoration: 'none', color: INK,
+  }
   if (active) {
     return (
-      <span aria-current="true" className={`${shared} bg-[#E6EDFC] text-[#0B1F3B]`}>
-        {label}
-        <CheckIcon />
+      <span aria-current="true" style={{ ...row, background: '#F5F8FF' }}>
+        <Flag code={code} w={22} h={15} clipId={clipId} />
+        {LANGUAGE_NAMES[code]}
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#2563EB" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" style={{ marginLeft: 'auto', flexShrink: 0 }}>
+          <path d="M5 12.5l4.5 4.5L19 7.5" />
+        </svg>
       </span>
     )
   }
   return (
-    <Link href={href} hrefLang={code} onClick={onNavigate} className={`${shared} text-[#0B1F3B] hover:bg-[#F7F9FC]`}>
-      {label}
+    <Link href={href} hrefLang={code} lang={code} style={row}>
+      <Flag code={code} w={22} h={15} clipId={clipId} />
+      {LANGUAGE_NAMES[code]}
     </Link>
   )
 }
 
-/** Desktop: globe + active code + chevron, opening the same card as Features. */
-function LanguageDropdown({
-  locale,
-  pathname,
-  pairs,
-  open,
-  setOpen,
-}: {
-  locale: Locale
-  pathname: string
-  pairs: ReturnType<typeof useBlogAlternates>
-  open: boolean
-  setOpen: (v: boolean) => void
-}) {
-  return (
-    <div className="relative">
-      <button
-        type="button"
-        aria-expanded={open}
-        aria-controls="sprog-panel"
-        aria-label={NAV[locale].language}
-        onClick={() => setOpen(!open)}
-        className="inline-flex h-11 cursor-pointer items-center gap-1 border-0 bg-transparent p-0 font-[inherit] text-[13px] font-semibold text-[#6B7A90] transition-colors hover:text-[#0B1F3B]"
-      >
-        <GlobeIcon />
-        {locale.toUpperCase()}
-        <svg
-          width="12"
-          height="12"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2.4"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          aria-hidden="true"
-          className="transition-transform duration-200"
-          style={{ transform: `rotate(${open ? 180 : 0}deg)` }}
-        >
-          <path d="M6 9l6 6 6-6" />
-        </svg>
-      </button>
-
-      {open && (
-        <div
-          id="sprog-panel"
-          className="absolute right-0 top-[calc(100%+8px)] z-10 box-border flex w-[172px] flex-col gap-1 rounded-2xl border border-[#E3E8EF] bg-white p-2"
-          style={{
-            boxShadow:
-              '0 1px 2px rgba(11, 31, 59, 0.06), 0 24px 48px -20px rgba(11, 31, 59, 0.3)',
-          }}
-        >
-          {SWITCH_ORDER.map((code) => (
-            <LanguageRow
-              key={code}
-              code={code}
-              active={code === locale}
-              href={counterpartPath(pathname, locale, code, pairs)}
-              onNavigate={() => setOpen(false)}
-            />
-          ))}
-        </div>
-      )}
-    </div>
-  )
+// A full-width row in the mobile menu.
+const MOB_ROW: React.CSSProperties = {
+  display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12, minHeight: 54, padding: '0 4px',
+  borderBottom: '1px solid #EEF2F6', fontSize: 17, fontWeight: 600, color: INK, textDecoration: 'none',
 }
+
+// Hidden below 768px, natural width above it.
+const DESKTOP_ONLY = 'calc((100vw - 768px) * 999)'
 
 export default function SiteHeader() {
   const { locale } = useLanguage()
@@ -205,34 +174,34 @@ export default function SiteHeader() {
   const nav = NAV[locale]
   const pathname = usePathname() ?? r.home
   const blogPairs = useBlogAlternates()
+  const hrefFor = (code: Locale) => counterpartPath(pathname, locale, code, blogPairs)
+  const languageLabel = `${nav.language}: ${LANGUAGE_NAMES[locale]}`
 
   const [navOpen, setNavOpen] = useState(false)
   const [mobOpen, setMobOpen] = useState(false)
+  const [mobFeat, setMobFeat] = useState(false)
   const [langOpen, setLangOpen] = useState(false)
+  const [langMobOpen, setLangMobOpen] = useState(false)
   const shellRef = useRef<HTMLDivElement>(null)
 
-  // Both panels close on navigation, on Escape and on an outside click.
-  useEffect(() => {
+  const closeAll = () => {
     setNavOpen(false)
     setMobOpen(false)
+    setMobFeat(false)
     setLangOpen(false)
-  }, [pathname])
+    setLangMobOpen(false)
+  }
+
+  // Every panel closes on navigation, on Escape and on an outside click.
+  useEffect(closeAll, [pathname])
 
   useEffect(() => {
     if (!navOpen && !mobOpen && !langOpen) return
     function onKey(e: KeyboardEvent) {
-      if (e.key === 'Escape') {
-        setNavOpen(false)
-        setMobOpen(false)
-        setLangOpen(false)
-      }
+      if (e.key === 'Escape') closeAll()
     }
     function onClick(e: MouseEvent) {
-      if (shellRef.current && !shellRef.current.contains(e.target as Node)) {
-        setNavOpen(false)
-        setMobOpen(false)
-        setLangOpen(false)
-      }
+      if (shellRef.current && !shellRef.current.contains(e.target as Node)) closeAll()
     }
     document.addEventListener('keydown', onKey)
     document.addEventListener('mousedown', onClick)
@@ -242,61 +211,36 @@ export default function SiteHeader() {
     }
   }, [navOpen, mobOpen, langOpen])
 
-  const featureLinks = nav.featureItems.map((item) => (
-    <Link
-      key={item.key}
-      href={r[item.key]}
-      className="flex items-start gap-3 rounded-xl bg-[#F7F9FC] p-3 text-[#0B1F3B] no-underline transition-colors hover:bg-[#EEF3FA]"
-    >
-      <FeatureIcon name={item.key} />
-      <span className="min-w-0">
-        <span className="block text-[15px] font-semibold">{item.label}</span>
-        <span className="block text-[13px] leading-[1.4] text-[#4A5B73]">{item.blurb}</span>
-      </span>
-    </Link>
-  ))
+  const navLink: React.CSSProperties = { lineHeight: '44px', fontSize: 15, fontWeight: 600, color: INK, textDecoration: 'none', whiteSpace: 'nowrap' }
 
   return (
-    <header
-      className="pointer-events-none sticky top-0 z-20 box-border"
-      data-app=""
-      style={{ padding: '14px clamp(12px, 3vw, 32px) 0' }}
-    >
+    <header data-dc="" style={{ position: 'sticky', top: 0, zIndex: 20, padding: '14px clamp(12px, 3vw, 32px) 0', boxSizing: 'border-box', pointerEvents: 'none' }}>
       <div
         ref={shellRef}
-        className="pointer-events-auto relative mx-auto box-border flex max-w-[1200px] items-center gap-3 rounded-2xl border border-[#E3E8EF]"
         style={{
-          height: 'clamp(58px, 12vw, 64px)',
-          padding: '0 8px 0 clamp(14px, 4vw, 20px)',
-          background: 'rgba(255, 255, 255, 0.9)',
-          backdropFilter: 'blur(14px)',
-          WebkitBackdropFilter: 'blur(14px)',
-          boxShadow:
-            '0 1px 2px rgba(11, 31, 59, 0.06), 0 14px 36px -14px rgba(11, 31, 59, 0.28)',
+          pointerEvents: 'auto', position: 'relative', maxWidth: 1200, margin: '0 auto', height: 'clamp(58px, 12vw, 64px)',
+          padding: '0 8px 0 clamp(14px, 4vw, 20px)', boxSizing: 'border-box', background: 'rgba(255, 255, 255, 0.9)',
+          WebkitBackdropFilter: 'blur(14px)', backdropFilter: 'blur(14px)', border: '1px solid #E3E8EF', borderRadius: 16,
+          boxShadow: '0 1px 2px rgba(11, 31, 59, 0.06)', display: 'flex', alignItems: 'center', gap: 12,
         }}
       >
         <Link
           href={r.home}
-          aria-label={locale === 'da' ? 'Movena, til forsiden' : 'Movena, to the front page'}
-          className="flex flex-[0_0_auto] items-center gap-1.5 text-[#0B1F3B] no-underline"
+          aria-label={locale === 'da' ? 'Movena, til forsiden' : 'Movena, to the home page'}
+          style={{ display: 'flex', alignItems: 'center', gap: 6, textDecoration: 'none', color: INK, flex: '0 0 auto' }}
         >
-          <MovenaMark
-            width={26}
-            height={32}
-            style={{ width: 'clamp(21px, 5.8vw, 26px)', height: 'auto' }}
-          />
-          <span
-            className="font-semibold leading-none tracking-[-0.04em]"
-            style={{ fontSize: 'clamp(20px, 5.4vw, 24px)' }}
-          >
-            movena
-          </span>
+          <MovenaMark width={26} height={32} style={{ width: 'clamp(21px, 5.8vw, 26px)', height: 'auto' }} />
+          <span style={{ fontSize: 'clamp(20px, 5.4vw, 24px)', fontWeight: 600, letterSpacing: '-0.04em', lineHeight: 1 }}>movena</span>
         </Link>
 
         {/* Desktop nav */}
         <nav
           aria-label={locale === 'da' ? 'Hovedmenu' : 'Main menu'}
-          className="ml-6 hidden h-11 items-center gap-8 md:flex lg:ml-10"
+          style={{
+            flex: '1 1 0', minWidth: 0, maxWidth: DESKTOP_ONLY, height: 44, overflow: 'hidden', display: 'flex', flexWrap: 'wrap',
+            justifyContent: 'flex-end', alignContent: 'flex-start', columnGap: 32,
+            padding: '0 clamp(0px, calc(5vw - 20px), 64px) 0 clamp(0px, calc(3vw - 10px), 24px)', boxSizing: 'border-box',
+          }}
         >
           <button
             type="button"
@@ -306,166 +250,202 @@ export default function SiteHeader() {
               setNavOpen((v) => !v)
               setLangOpen(false)
             }}
-            className="inline-flex h-11 cursor-pointer items-center gap-1.5 border-0 bg-transparent p-0 font-[inherit] text-[15px] font-semibold text-[#0B1F3B]"
+            style={{ display: 'inline-flex', alignItems: 'center', gap: 6, height: 44, padding: 0, background: 'none', border: 0, fontFamily: 'inherit', fontSize: 15, fontWeight: 600, color: INK, cursor: 'pointer' }}
           >
             {nav.features}
-            <svg
-              width="14"
-              height="14"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="#0B1F3B"
-              strokeWidth="2.4"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              aria-hidden="true"
-              className="transition-transform duration-200"
-              style={{ transform: `rotate(${navOpen ? 180 : 0}deg)` }}
-            >
-              <path d="M6 9l6 6 6-6" />
-            </svg>
+            <Chevron size={14} stroke="2.4" open={navOpen} />
           </button>
-          <Link href={r.about} className="whitespace-nowrap text-[15px] font-semibold leading-[44px] text-[#0B1F3B] no-underline">
-            {nav.about}
-          </Link>
-          <Link href={r.blog} className="whitespace-nowrap text-[15px] font-semibold leading-[44px] text-[#0B1F3B] no-underline">
-            {nav.blog}
-          </Link>
+          <Link href={r.calculator} style={navLink}>{nav.calculator}</Link>
+          <Link href={r.about} style={navLink}>{nav.about}</Link>
+          <Link href={r.blog} style={navLink}>{nav.blog}</Link>
         </nav>
 
-        {/* Language, phone and the demo button, kept together on the right */}
-        <div className="ml-auto flex items-center gap-3">
-          <div className="hidden md:block">
-            <LanguageDropdown
-              locale={locale}
-              pathname={pathname}
-              pairs={blogPairs}
-              open={langOpen}
-              setOpen={(v) => {
-                setLangOpen(v)
-                if (v) setNavOpen(false)
-              }}
-            />
-          </div>
-
-          <a
-            href={PHONE_HREF}
-            className="hidden h-11 items-center gap-2 whitespace-nowrap text-[15px] font-semibold text-[#0B1F3B] no-underline lg:inline-flex"
-          >
-            <svg
-              width="16"
-              height="16"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="#1D4ED8"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              aria-hidden="true"
-              className="shrink-0"
-            >
-              <path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z" />
-            </svg>
-            {PHONE_DISPLAY}
-          </a>
-
-          {/* Ghost link: secondary to the demo button it sits next to. */}
-          <a
-            href={LOGIN_HREF}
-            className="hidden h-11 flex-[0_0_auto] items-center whitespace-nowrap rounded-lg px-3 text-[15px] font-semibold text-[#0B1F3B] no-underline transition-colors hover:bg-[#F1F5FA] md:inline-flex"
-          >
-            {nav.logIn}
-          </a>
-
-          <Link
-            href={r.bookDemo}
-            className="hidden h-11 flex-[0_0_auto] items-center whitespace-nowrap rounded-lg bg-[#2563EB] text-[15px] font-semibold text-white no-underline transition-transform duration-200 hover:-translate-y-0.5 sm:inline-flex"
-            style={{ padding: '0 clamp(10px, 2.6vw, 14px)' }}
-          >
-            {nav.bookDemo}
-          </Link>
-
-          {/* Burger, below md */}
+        {/* Language */}
+        <div data-lang-switch="" style={{ position: 'relative', flex: '0 0 auto', display: 'flex', alignItems: 'center' }}>
           <button
             type="button"
-            aria-label={nav.menu}
-            aria-expanded={mobOpen}
-            aria-controls="mobil-menu"
-            onClick={() => setMobOpen((v) => !v)}
-            className="flex h-11 w-11 shrink-0 cursor-pointer items-center justify-center rounded-lg border-0 bg-[#F1F5FA] p-0 md:hidden"
+            aria-label={languageLabel}
+            aria-expanded={langOpen}
+            aria-controls="lang-menu"
+            onClick={() => {
+              setLangOpen((v) => !v)
+              setNavOpen(false)
+            }}
+            style={{
+              display: 'inline-flex', alignItems: 'center', gap: 8, height: 40, maxWidth: DESKTOP_ONLY, overflow: 'hidden', boxSizing: 'border-box',
+              padding: `0 clamp(0px, ${DESKTOP_ONLY}, 10px)`, borderStyle: 'solid', borderColor: '#E3E8EF',
+              borderWidth: `clamp(0px, ${DESKTOP_ONLY}, 1px)`, borderRadius: 8, background: '#FFFFFF', fontFamily: 'inherit', fontSize: 14,
+              fontWeight: 700, letterSpacing: '0.02em', color: INK, cursor: 'pointer', whiteSpace: 'nowrap',
+            }}
           >
-            <svg
-              width="20"
-              height="20"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="#0B1F3B"
-              strokeWidth="2.2"
-              strokeLinecap="round"
-              aria-hidden="true"
-              className="shrink-0"
-            >
-              <path d={mobOpen ? 'M6 6l12 12M18 6L6 18' : 'M4 7h16M4 12h16M4 17h16'} />
-            </svg>
+            <Flag code={locale} w={20} h={14} clipId="uk-t-b" />
+            {locale.toUpperCase()}
+            <Chevron size={12} stroke="2.6" open={langOpen} />
           </button>
+          {langOpen && (
+            <div
+              id="lang-menu"
+              role="menu"
+              style={{
+                position: 'absolute', top: 'calc(100% + 16px)', right: 0, zIndex: 30, width: 200, boxSizing: 'border-box', padding: 6,
+                background: '#FFFFFF', borderRadius: 16, boxShadow: PANEL_SHADOW, display: 'flex', flexDirection: 'column', gap: 2,
+              }}
+            >
+              {SWITCH_ORDER.map((code) => (
+                <LanguageRow key={code} code={code} active={code === locale} href={hrefFor(code)} clipId="uk-t-d" />
+              ))}
+            </div>
+          )}
         </div>
+
+        {/* Phone, Log in and the demo button, kept together on the right */}
+        <div style={{ flex: '0 1 auto', minWidth: 0, marginLeft: 'auto', display: 'flex', alignItems: 'center', gap: 12, maxWidth: DESKTOP_ONLY, overflow: 'hidden' }}>
+          {/* The phone wraps out of sight when the bar is too narrow for it. */}
+          <div style={{ flex: '0 1 auto', minWidth: 0, height: 44, overflow: 'hidden', display: 'flex', flexWrap: 'wrap', justifyContent: 'flex-end' }}>
+            <span aria-hidden="true" style={{ width: 0, height: 44 }} />
+            <a href={PHONE_HREF} style={{ display: 'inline-flex', alignItems: 'center', gap: 8, height: 44, whiteSpace: 'nowrap', fontSize: 15, fontWeight: 600, color: INK, textDecoration: 'none' }}>
+              <PhoneIcon size={16} />
+              {PHONE_DISPLAY}
+            </a>
+          </div>
+          <a href={LOGIN_HREF} style={{ ...navLink, flex: '0 0 auto' }}>
+            {nav.logIn}
+          </a>
+          <span style={{ display: 'flex', flex: '0 0 auto', overflow: 'hidden', maxWidth: DESKTOP_ONLY }}>
+            <Link
+              data-lift=""
+              href={r.bookDemo}
+              style={{
+                flex: '0 0 auto', display: 'inline-flex', alignItems: 'center', height: 44, padding: '0 clamp(10px, 2.6vw, 14px)', borderRadius: 8,
+                background: '#2563EB', color: '#FFFFFF', fontSize: 15, fontWeight: 600, textDecoration: 'none', whiteSpace: 'nowrap',
+              }}
+            >
+              {nav.bookDemo}
+            </Link>
+          </span>
+        </div>
+
+        {/* Burger, below 768px */}
+        <button
+          type="button"
+          aria-label={nav.menu}
+          aria-expanded={mobOpen}
+          aria-controls="mobil-menu"
+          onClick={() => setMobOpen((v) => !v)}
+          style={{
+            flex: '0 0 calc((768px - 100vw) * 999)', maxWidth: 44, minWidth: 0, height: 44, overflow: 'hidden', padding: 0, border: 0,
+            borderRadius: 8, background: '#F1F5FA', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer',
+          }}
+        >
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0B1F3B" strokeWidth="2.2" strokeLinecap="round" aria-hidden="true" style={{ flexShrink: 0 }}>
+            <path d={mobOpen ? 'M6 6l12 12M18 6L6 18' : 'M4 7h16M4 12h16M4 17h16'} />
+          </svg>
+        </button>
 
         {/* Features dropdown */}
         {navOpen && (
           <div
             id="menu-panel"
-            className="absolute left-0 right-0 top-[calc(100%+8px)] box-border grid gap-2 rounded-2xl border border-[#E3E8EF] bg-white p-3"
             style={{
-              gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 240px), 1fr))',
-              boxShadow:
-                '0 1px 2px rgba(11, 31, 59, 0.06), 0 24px 48px -20px rgba(11, 31, 59, 0.3)',
+              position: 'absolute', left: 0, right: 0, top: 'calc(100% + 8px)', background: '#FFFFFF', borderRadius: 16, boxShadow: PANEL_SHADOW,
+              padding: 12, boxSizing: 'border-box', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 240px), 1fr))', gap: 8,
             }}
           >
-            {featureLinks}
+            {nav.featureItems.map((item) => (
+              <Link
+                key={item.key}
+                href={r[item.key]}
+                style={{ display: 'flex', alignItems: 'flex-start', gap: 12, padding: 12, borderRadius: 16, textDecoration: 'none', color: INK, background: '#F7F9FC' }}
+              >
+                <FeatureIcon name={item.key} box={38} icon={19} />
+                <span style={{ minWidth: 0 }}>
+                  <span style={{ display: 'block', fontSize: 15, fontWeight: 600 }}>{item.label}</span>
+                  <span style={{ display: 'block', fontSize: 13, lineHeight: 1.4, color: '#4A5B73' }}>{item.blurb}</span>
+                </span>
+              </Link>
+            ))}
           </div>
         )}
 
         {/* Mobile menu */}
         {mobOpen && (
-          <div
+          <nav
             id="mobil-menu"
-            className="absolute left-0 right-0 top-[calc(100%+8px)] box-border flex flex-col gap-2 rounded-2xl border border-[#E3E8EF] bg-white p-3 md:hidden"
+            aria-label={nav.menu}
             style={{
-              boxShadow:
-                '0 1px 2px rgba(11, 31, 59, 0.06), 0 24px 48px -20px rgba(11, 31, 59, 0.3)',
+              position: 'absolute', left: 0, right: 0, top: 'calc(100% + 8px)', background: '#FFFFFF', borderRadius: 16, boxShadow: PANEL_SHADOW,
+              padding: '6px 16px 16px', boxSizing: 'border-box', display: 'flex', flexDirection: 'column',
             }}
           >
-            {featureLinks}
-            <Link href={r.about} className="rounded-xl px-3 py-2.5 text-[15px] font-semibold text-[#0B1F3B] no-underline hover:bg-[#F7F9FC]">
-              {nav.about}
-            </Link>
-            <Link href={r.blog} className="rounded-xl px-3 py-2.5 text-[15px] font-semibold text-[#0B1F3B] no-underline hover:bg-[#F7F9FC]">
-              {nav.blog}
-            </Link>
-            <a href={PHONE_HREF} className="rounded-xl px-3 py-2.5 text-[15px] font-semibold text-[#0B1F3B] no-underline hover:bg-[#F7F9FC]">
-              {PHONE_DISPLAY}
-            </a>
-            {SWITCH_ORDER.map((code) => (
-              <LanguageRow
-                key={code}
-                code={code}
-                active={code === locale}
-                href={counterpartPath(pathname, locale, code, blogPairs)}
-              />
-            ))}
-            <a
-              href={LOGIN_HREF}
-              className="rounded-xl px-3 py-2.5 text-[15px] font-semibold text-[#0B1F3B] no-underline hover:bg-[#F7F9FC]"
+            <button
+              type="button"
+              aria-expanded={mobFeat}
+              aria-controls="mobil-funktioner"
+              onClick={() => setMobFeat((v) => !v)}
+              style={{ ...MOB_ROW, width: '100%', background: 'none', borderTop: 0, borderLeft: 0, borderRight: 0, fontFamily: 'inherit', cursor: 'pointer', textAlign: 'left' }}
             >
+              {nav.features}
+              <Chevron size={18} stroke="2.4" open={mobFeat} transition />
+            </button>
+            {mobFeat && (
+              <div id="mobil-funktioner" style={{ display: 'flex', flexDirection: 'column', padding: '4px 0 8px 8px', borderBottom: '1px solid #EEF2F6' }}>
+                {nav.featureItems.map((item) => (
+                  <Link key={item.key} href={r[item.key]} style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '10px 4px', textDecoration: 'none', color: INK }}>
+                    <FeatureIcon name={item.key} box={32} icon={16} />
+                    <span style={{ minWidth: 0 }}>
+                      <span style={{ display: 'block', fontSize: 16, fontWeight: 600 }}>{item.label}</span>
+                      <span style={{ display: 'block', fontSize: 13, lineHeight: 1.4, color: '#4A5B73' }}>{item.blurb}</span>
+                    </span>
+                  </Link>
+                ))}
+              </div>
+            )}
+            <Link href={r.calculator} style={MOB_ROW}>{nav.calculator}</Link>
+            <Link href={r.about} style={MOB_ROW}>{nav.about}</Link>
+            <Link href={r.blog} style={MOB_ROW}>{nav.blog}</Link>
+            <div data-lang-switch="" style={{ borderBottom: '1px solid #EEF2F6' }}>
+              <button
+                type="button"
+                aria-expanded={langMobOpen}
+                aria-controls="lang-mobil"
+                onClick={() => setLangMobOpen((v) => !v)}
+                style={{
+                  width: '100%', display: 'flex', alignItems: 'center', gap: 10, minHeight: 54, padding: '0 4px', border: 0, background: 'none',
+                  fontFamily: 'inherit', fontSize: 17, fontWeight: 600, color: INK, cursor: 'pointer', textAlign: 'left',
+                }}
+              >
+                <Flag code={locale} w={22} h={15} clipId="uk-t-mb" />
+                <span style={{ flex: '1 1 auto' }}>{languageLabel}</span>
+                <Chevron size={12} stroke="2.6" open={langMobOpen} />
+              </button>
+              {langMobOpen && (
+                <div id="lang-mobil" style={{ display: 'flex', flexDirection: 'column', gap: 2, padding: '0 0 10px' }}>
+                  {SWITCH_ORDER.map((code) => (
+                    <LanguageRow key={code} code={code} active={code === locale} href={hrefFor(code)} clipId="uk-t-m" />
+                  ))}
+                </div>
+              )}
+            </div>
+            <a href={PHONE_HREF} style={MOB_ROW}>
+              <span style={{ display: 'inline-flex', alignItems: 'center', gap: 10 }}>
+                <PhoneIcon size={18} />
+                {nav.callUs}
+              </span>
+            </a>
+            <a href={LOGIN_HREF} style={MOB_ROW}>
               {nav.logIn}
             </a>
             <Link
               href={r.bookDemo}
-              className="mt-1 inline-flex h-11 items-center justify-center rounded-lg bg-[#2563EB] px-4 text-[15px] font-semibold text-white no-underline"
+              data-lift=""
+              style={{
+                marginTop: 16, display: 'flex', alignItems: 'center', justifyContent: 'center', height: 52, borderRadius: 8, background: '#2563EB',
+                color: '#FFFFFF', fontSize: 16, fontWeight: 600, textDecoration: 'none',
+              }}
             >
               {nav.bookDemo}
             </Link>
-          </div>
+          </nav>
         )}
       </div>
     </header>

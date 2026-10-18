@@ -116,17 +116,7 @@ export default function DemoCTA() {
             style={{ fontSize: 'clamp(34px, 4.2vw, 56px)' }}
           >
             {c.headLead}
-            <span
-              style={{
-                background: 'linear-gradient(90deg, #4F8FF7 0%, #7CC0F5 100%)',
-                WebkitBackgroundClip: 'text',
-                backgroundClip: 'text',
-                color: 'transparent',
-                WebkitTextFillColor: 'transparent',
-              }}
-            >
-              {c.headAccent}
-            </span>
+            <span style={{ color: '#7CC0F5' }}>{c.headAccent}</span>
           </h2>
 
           <p
@@ -174,7 +164,7 @@ export default function DemoCTA() {
           <div className="relative pl-[18px] pt-[18px]">
             <div className="absolute bottom-[18px] left-0 right-[18px] top-0 rounded-[24px] bg-[#1D4ED8]" />
             <div
-              className="relative flex flex-col gap-4 rounded-[20px] bg-white text-[#0B1F3B]"
+              className="relative flex flex-col gap-4 rounded-[24px] bg-white text-[#0B1F3B]"
               style={{
                 padding: 'clamp(20px, 2.4vw, 28px)',
                 boxShadow: '0 24px 48px -16px rgba(0, 0, 0, 0.45)',

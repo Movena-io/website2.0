@@ -9,21 +9,22 @@ gen() { # <file> <Component> <locale> [needleOverride]
   local needle="Se Movena med"
   [ "$loc" = "en" ] && needle="See Movena with"
   [ "${4:-}" = "-" ] && needle="-"
-  node scripts/dc-to-tsx.mjs "design-export/$file" "components/generated/$comp.tsx" "$comp" "$needle" "$loc"
+  node scripts/dc-to-tsx.mjs "design-export/project/$file" "components/generated/$comp.tsx" "$comp" "$needle" "$loc"
 }
 
 # --- Danish ---------------------------------------------------------------
-gen Forside-v6.dc.html                ForsideDa               da
-gen Vind-flere-flytninger-v5.dc.html  VindFlereFlytningerDa   da
-gen Hav-styr-paa-dagen-v5.dc.html     HavStyrPaaDagenDa       da
-gen Faa-alle-pengene-hjem-v5.dc.html  FaaAllePengeneHjemDa    da
-gen Om-os-v5.dc.html                  OmOsDa                  da
-gen Book-demo-v5.dc.html              BookDemoDa              da -   # page owns its hero
-gen Blog-v5.dc.html                   BlogIndexDa             da
-gen Blog-post-v5.dc.html              BlogPostDa              da
-gen Privatlivspolitik-v5.dc.html      PrivatlivspolitikDa     da
-gen 404-v5.dc.html                    NotFoundDa              da
-gen Fejl-v5.dc.html                   ErrorDa                 da
+gen Forside-v7.dc.html                ForsideDa               da
+gen Vind-flere-flytninger-v7.dc.html  VindFlereFlytningerDa   da
+gen Hav-styr-paa-dagen-v7.dc.html     HavStyrPaaDagenDa       da
+gen Faa-alle-pengene-hjem-v7.dc.html  FaaAllePengeneHjemDa    da
+gen Om-os-v7.dc.html                  OmOsDa                  da
+gen Book-demo-v7.dc.html              BookDemoDa              da -   # page owns its hero
+gen Blog-v7.dc.html                   BlogIndexDa             da
+gen Blog-post-v7.dc.html              BlogPostDa              da
+gen Privatlivspolitik-v7.dc.html      PrivatlivspolitikDa     da
+gen 404-v7.dc.html                    NotFoundDa              da
+gen Fejl-v7.dc.html                   ErrorDa                 da
+gen Beregner-v7.dc.html               BeregnerDa              da
 
 # --- English --------------------------------------------------------------
 gen EN-Home.dc.html            ForsideEn             en
@@ -37,6 +38,7 @@ gen EN-Blog-post.dc.html       BlogPostEn            en
 gen EN-Privacy.dc.html         PrivatlivspolitikEn   en
 gen EN-404.dc.html             NotFoundEn            en
 gen EN-Error.dc.html           ErrorEn               en
+gen EN-Calculator.dc.html      BeregnerEn            en
 
 # --- Guard -----------------------------------------------------------------
 # The call-slot fields and the failure state are grafted onto the design by
@@ -54,5 +56,20 @@ for f in components/generated/BookDemoDa.tsx components/generated/BookDemoEn.tsx
   check "$f" 'callDay:'    "callDay in the submit payload"
   grep -q -- 'd-naar' "$f" && { echo "FAIL: old when-suits-you select still in $f" >&2; exit 1; }
 done
+
+# Same for the calculator: its lead submit and funnel events are grafted on.
+for f in components/generated/BeregnerDa.tsx components/generated/BeregnerEn.tsx; do
+  check "$f" 'submitCalculatorLead'     "calculator lead submit"
+  check "$f" 'trackCalculatorStart()'   "calculator_start event"
+  check "$f" 'trackCalculatorComplete()' "calculator_complete event"
+  check "$f" 'trackCalculatorUnlock()'  "calculator_unlock event"
+  check "$f" 'onClick={V.calcDemoClick}' "demo click event"
+  check "$f" 'V.gFailed'                "send-failure message"
+done
+
+# The English calculator keeps its currency choice; the Danish one is DKK only.
+check components/generated/BeregnerEn.tsx 'id="c-currency"' "currency select"
+check components/generated/BeregnerEn.tsx 'currency: curCode' "currency in the lead payload"
+grep -q -- 'c-currency' components/generated/BeregnerDa.tsx && { echo "FAIL: currency select leaked into BeregnerDa" >&2; exit 1; }
 
 echo "done"

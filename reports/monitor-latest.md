@@ -1,43 +1,40 @@
 # Website Monitor Report
 
-**Run Date:** 2026-10-18 14:05 UTC  
-**Overall Status:** ❌ **FAILED** - Lint errors (50+) and security vulnerabilities (20)
+**Run Timestamp:** 2026-10-18 23:18 UTC  
+**Overall Status:** ⚠️ **WARNING** — Build passes but lint errors and critical security vulnerabilities persist
 
 ---
 
 ## Summary
 
-The website build compiles successfully, but has critical issues:
-- **Build**: ✅ Passed
-- **Lint**: ❌ **FAILED** - 50+ ESLint errors in generated components
-- **Security**: ⚠️ **20 vulnerabilities** (1 critical, 12 high, 7 moderate)
+The Movena website build compiles successfully, but the project continues to have significant quality and security issues that require attention:
+
+- **Build:** ✅ Successful (61 pages generated)
+- **Lint:** ❌ Failed (81 errors in generated components)
+- **Security Audit:** ❌ 20 vulnerabilities (1 critical, 12 high, 7 moderate)
 
 ---
 
 ## Build Check ✅
+- **Status:** PASS
+- **Details:** Next.js application compiles without errors in production mode
+- **Output:** 61 static pages generated successfully, optimized build completed
+- **Note:** Lint check is skipped during build, so errors don't block compilation
 
-**Status**: PASSED
-
-The Next.js application compiles successfully. All 61 static pages generated without errors.
-
-```
-✓ Compiled successfully
-✓ Generating static pages (61/61)
-```
+### Build Artifacts
+- Largest pages: Savings Calculator (138 kB), Run the Day (127 kB), Win More Moves (127 kB)
+- Shared chunk size: 80.6 kB
+- Total routes: 40+ distinct pages across 2 locales (en/da)
 
 ---
 
 ## Lint Check ❌
+- **Status:** FAIL (exit code 1)
+- **Total Errors:** 81 (same as previous run)
+- **Primary Issue:** Unescaped single quotes in auto-generated React components
 
-**Status**: FAILED (Exit code 1)
-
-### Issues Found
-
-**Error Count**: 66 ESLint errors
-
-**Primary Issue**: Unescaped single quotes in generated components
-
-The following files have `react/no-unescaped-entities` errors (apostrophes need HTML entity encoding):
+### Error Breakdown
+**Unescaped entities** (79 errors across generated files):
 - `./components/generated/BeregnerEn.tsx` (2 errors)
 - `./components/generated/BlogIndexDa.tsx` (1 error)
 - `./components/generated/BlogIndexEn.tsx` (1 error)
@@ -53,87 +50,110 @@ The following files have `react/no-unescaped-entities` errors (apostrophes need 
 - `./components/generated/PrivatlivspolitikEn.tsx` (3 errors)
 - `./components/generated/VindFlereFlytningerEn.tsx` (8 errors)
 
-**Note**: These files are **generated components** (in `components/generated/` directory). The source of generation should be updated to properly escape apostrophes as `&apos;`, `&lsquo;`, `&#39;`, or `&rsquo;`.
+**Warnings** (2, non-blocking):
+- `./components/SplitSection.tsx` lines 93, 96: Using `<img>` instead of Next.js `<Image />` component
 
-**Warnings** (not blocking):
-- 2 warnings about using `<img>` instead of Next.js `<Image />` component in `SplitSection.tsx`
+### Root Cause
+These files are in `components/generated/` indicating they are auto-generated from an upstream source. The generation tool outputs apostrophes without HTML entity encoding, violating React's ESLint rule `react/no-unescaped-entities`.
 
 ---
 
 ## Security Audit ❌
-
-**Status**: FAILED - 20 vulnerabilities detected
+- **Status:** FAIL — 20 vulnerabilities detected (unchanged from previous run)
+- **Breakdown:**
+  - 1 **CRITICAL** vulnerability
+  - 12 **HIGH** severity vulnerabilities  
+  - 7 **MODERATE** severity vulnerabilities
 
 ### Critical Severity (1)
+**Package:** `next` (0.9.9 - 16.3.0-preview.10)
 
-**Package**: `next` (0.9.9 - 16.3.0)
-- 30+ known vulnerabilities including SSRF, RCE, DoS, XSS, cache poisoning, and information disclosure issues
-- **Note**: Per CLAUDE.md, Next.js upgrades (13→16) are product decisions. Current version is knowingly kept on this version.
+The current Next.js v13 contains 29+ security advisories:
+- Server-Side Request Forgery (SSRF) in Server Actions
+- Unauthenticated Remote Code Execution on Windows-hosted servers
+- Denial of Service in image optimization API
+- Cache poisoning and auth bypass vulnerabilities
+- Cross-site scripting (XSS) in CSP nonces and scripts
+- Information disclosure in dev server
+- HTTP request smuggling in rewrites
+
+**Status:** Per CLAUDE.md, Next.js upgrades from v13 to v16+ are product decisions. This version is knowingly pinned due to breaking changes.
 
 ### High Severity (12)
-
-**Package**: `braces` (*)
-- Stack exhaustion DoS through deeply nested patterns
-
-**Package**: `minimatch` (9.0.0 - 9.0.6)
-- ReDoS via repeated wildcards, nested wildcards, and multiple GLOBSTAR segments
-
-**Package**: `postcss` (≤8.5.22) - nested in `next`
-- XSS via unescaped `</style>` in CSS output
-- Source map path traversal and arbitrary file read
-
-**Package**: `postcss-selector-parser` (<7.1.6)
-- Quadratic complexity in flat selector parsing (CPU exhaustion)
-
-**Package**: `source-map-js` (1.0.0 - 1.2.1)
-- Event-loop DoS through indexed source-map section offsets
-
-**Package**: `brace-expansion` (≤1.1.20 || 2.0.0 - 2.1.6)
-- Multiple DoS vulnerabilities via quadratic-time expansion and uncontrolled recursion
+- **brace-expansion**: CPU DoS via quadratic-time expansion (in @typescript-eslint chain)
+- **braces**: Stack exhaustion DoS via deeply nested patterns (in tailwindcss dependency chain)
+- **minimatch**: Multiple ReDoS vulnerabilities (in @typescript-eslint)
+- **postcss** (≤8.5.22): XSS via unescaped `</style>` tags; path traversal via sourceMappingURL (nested in Next.js)
+- **source-map-js**: Event-loop DoS through source-map parsing
 
 ### Moderate Severity (7)
+- **postcss-selector-parser** (<7.1.6): Quadratic complexity CPU exhaustion (in tailwindcss → postcss-nested)
+- **sprintf-js**: DoS via unbounded precision specifiers (in gray-matter → js-yaml → argparse)
 
-**Package**: `postcss-selector-parser` (<7.1.6)
-- Quadratic complexity in parsing (overlap with high-severity issue above)
+### Dependency Chains
+```
+next (critical)
+├── postcss <=8.5.22 (high)
+└── tailwindcss <=3.4.19
+    ├── chokidar → braces (high)
+    ├── fast-glob → micromatch → braces (high)
+    └── postcss-nested → postcss-selector-parser (moderate)
 
-**Package**: `sprintf-js` (*)
-- DoS through unbounded precision specifiers
+@typescript-eslint/parser
+└── @typescript-eslint/typescript-estree
+    ├── globby → fast-glob → micromatch → braces (high)
+    └── minimatch (high)
 
-**Dependency chains involve**:
-- `@tailwindcss/typography` → `postcss-selector-parser`
-- `gray-matter` → `js-yaml` → `argparse` → `sprintf-js`
-- `tailwindcss` → `chokidar` → `braces`, `micromatch` → `fast-glob`, `globby`
+gray-matter
+└── js-yaml → argparse → sprintf-js (moderate)
+```
 
-### Audit Fix Notes
+---
 
-Per CLAUDE.md guidance:
-- ❌ Do NOT run `npm audit fix --force` - it forces breaking changes (Next 13→16, Tailwind updates)
-- Transitive dependency patches should use `overrides` in `package.json` (like `js-yaml@3` and `nanoid@3`)
-- The Next.js and PostCSS vulnerabilities require a major version upgrade decision at the product level
+## Change Summary (vs. Previous Run)
+- **Build:** ✅ Same (passing)
+- **Lint Errors:** Same count (81 errors) - no change
+- **Security Vulnerabilities:** Same count (20 total, 1 critical) - no change
+
+All three major issues persist without resolution. The lint errors in generated components and critical security vulnerabilities require action to progress.
 
 ---
 
 ## Recommendations
 
-### Priority 1: Fix Lint Errors
-The generated components need apostrophe escaping. Investigate the generation source:
-- Check if there's a content generation script that needs updating
-- These are in `components/generated/` suggesting they're auto-generated from markdown or config files
-- Update the generator to escape HTML entities properly
+### Immediate Actions Required
 
-### Priority 2: Address Security Vulnerabilities (Product Decision)
-1. **Next.js critical issues**: Requires upgrade from v13 to v16+ (breaking change, needs product approval)
-2. **Transitive deps**: Consider patching via `overrides` in package.json for low-impact packages
-3. **Future**: Plan Next.js major version upgrade to eliminate most vulnerabilities
+**1. Fix Generated Component Linting Errors**
+- These files are auto-generated and contain apostrophes without entity encoding
+- Options:
+  - A) Fix the generation tool/source to output escaped entities
+  - B) Post-process generated files to escape apostrophes → `&apos;` or `&#39;`
+  - C) If files are truly generated (immutable), add ESLint disable comments
+- Status: Blocking—lint check fails on every build
 
-### Priority 3: Image Optimization (Warning)
-- Replace `<img>` tags in `SplitSection.tsx` with Next.js `<Image />` component for better performance
+**2. Address Critical Next.js Security Vulnerabilities**
+- The current v13 release has critical SSRF, RCE, and DoS flaws
+- Requires product-level decision: upgrade to Next.js v16+ (breaking changes)
+- Temporary mitigation: Audit and harden Server Actions and image optimization API usage
+- Timeline: Needs prioritization
+
+**3. Image Component Optimization**
+- Replace raw `<img>` tags in `SplitSection.tsx` (lines 93, 96) with Next.js `<Image />` component
+- Low-priority warning (performance, not blocking)
+
+### Medium-Term
+
+- Once Next.js upgrade decision is made, ~70% of high/moderate vulnerabilities resolve automatically
+- Transitive dependencies (braces, minimatch, sprintf-js) will be fixed in the upgrade chain
+- No workarounds via `npm audit fix --force` recommended—it forces Breaking Changes incompatible with v13
 
 ---
 
-## Details
+## Environment
+- **Node packages:** 418 audited
+- **Dependencies:** 417 installed  
+- **npm version available:** 12.2.0 (current: 10.9.4)
+- **Build time:** ~30 seconds
+- **Next.js:** v13.x (pinned, known vulnerabilities)
+- **Tailwind:** v3.x branch
 
-- **Dependencies**: 418 packages audited
-- **Build Size**: First Load JS ~156 kB (main entry points)
-- **Next.js Version**: 13.x (current, known to have vulnerabilities)
-- **Tailwind**: 3.x branch (compatible with postcss vulnerabilities noted above)

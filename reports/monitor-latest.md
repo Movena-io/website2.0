@@ -1,15 +1,15 @@
 # Website Monitor Report
 
-**Run Date:** 2026-10-18 (UTC)  
-**Overall Status:** ❌ **CRITICAL** - Lint errors and security vulnerabilities require attention
+**Run Date:** 2026-10-18 14:05 UTC  
+**Overall Status:** ❌ **FAILED** - Lint errors (50+) and security vulnerabilities (20)
 
 ---
 
 ## Summary
 
-The website build compiles successfully, but the project has critical issues:
+The website build compiles successfully, but has critical issues:
 - **Build**: ✅ Passed
-- **Lint**: ❌ **FAILED** - 66 ESLint errors in generated components
+- **Lint**: ❌ **FAILED** - 50+ ESLint errors in generated components
 - **Security**: ⚠️ **20 vulnerabilities** (1 critical, 12 high, 7 moderate)
 
 ---

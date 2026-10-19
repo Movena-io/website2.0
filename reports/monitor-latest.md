@@ -1,17 +1,17 @@
 # Website Monitor Report
 
-**Run Timestamp:** 2026-10-18 23:18 UTC  
-**Overall Status:** ⚠️ **WARNING** — Build passes but lint errors and critical security vulnerabilities persist
+**Run Timestamp:** 2026-10-19 02:30 UTC  
+**Overall Status:** ❌ **FAILED** — Lint errors must be fixed (58 errors blocking deployment)
 
 ---
 
 ## Summary
 
-The Movena website build compiles successfully, but the project continues to have significant quality and security issues that require attention:
+The Movena website build compiles successfully, but linting fails with 58 errors that must be resolved before deployment:
 
-- **Build:** ✅ Successful (61 pages generated)
-- **Lint:** ❌ Failed (81 errors in generated components)
-- **Security Audit:** ❌ 20 vulnerabilities (1 critical, 12 high, 7 moderate)
+- **Build:** ✅ Successful (61 pages generated) 
+- **Lint:** ❌ Failed (58 errors in generated components) — **BLOCKING ISSUE**
+- **Security Audit:** ⚠️ 20 vulnerabilities (1 critical, 12 high, 7 moderate) — intentionally pinned or known
 
 ---
 
@@ -30,11 +30,11 @@ The Movena website build compiles successfully, but the project continues to hav
 
 ## Lint Check ❌
 - **Status:** FAIL (exit code 1)
-- **Total Errors:** 81 (same as previous run)
+- **Total Errors:** 58 in generated components, 2 warnings
 - **Primary Issue:** Unescaped single quotes in auto-generated React components
 
 ### Error Breakdown
-**Unescaped entities** (79 errors across generated files):
+**Unescaped entities** (56 errors across generated files):
 - `./components/generated/BeregnerEn.tsx` (2 errors)
 - `./components/generated/BlogIndexDa.tsx` (1 error)
 - `./components/generated/BlogIndexEn.tsx` (1 error)
@@ -110,36 +110,42 @@ gray-matter
 
 ---
 
-## Change Summary (vs. Previous Run)
+## Change Summary (vs. Previous Run - 2026-10-18)
 - **Build:** ✅ Same (passing)
-- **Lint Errors:** Same count (81 errors) - no change
+- **Lint Errors:** Steady at 58 errors (no change from last run)
 - **Security Vulnerabilities:** Same count (20 total, 1 critical) - no change
 
-All three major issues persist without resolution. The lint errors in generated components and critical security vulnerabilities require action to progress.
+**Status:** After code regeneration on 2026-10-18, the lint error count stabilized at 58. These errors persist and must be addressed. The generated components consistently have unescaped entities indicating a systematic issue in the code generation process.
 
 ---
 
 ## Recommendations
 
-### Immediate Actions Required
+### PRIORITY 1: BLOCKING — Fix Lint Errors
 
-**1. Fix Generated Component Linting Errors**
-- These files are auto-generated and contain apostrophes without entity encoding
-- Options:
-  - A) Fix the generation tool/source to output escaped entities
-  - B) Post-process generated files to escape apostrophes → `&apos;` or `&#39;`
-  - C) If files are truly generated (immutable), add ESLint disable comments
-- Status: Blocking—lint check fails on every build
+**Generate components have unescaped HTML entities**
+- 56 errors across generated components in `components/generated/*`
+- All errors are apostrophes (`'`) that need HTML entity encoding
+- **Impact:** Lint fails, blocks all deployments
+- **Root Cause:** Auto-generation tool outputs raw apostrophes without escaping
 
-**2. Address Critical Next.js Security Vulnerabilities**
-- The current v13 release has critical SSRF, RCE, and DoS flaws
-- Requires product-level decision: upgrade to Next.js v16+ (breaking changes)
-- Temporary mitigation: Audit and harden Server Actions and image optimization API usage
-- Timeline: Needs prioritization
+**Action Items:**
+1. Review the code generation script (likely in `scripts/`) 
+2. Fix the generator to output `&apos;` or `&#39;` instead of `'`
+3. Re-generate all affected component files
+4. Verify lint passes with `npm run lint`
 
-**3. Image Component Optimization**
-- Replace raw `<img>` tags in `SplitSection.tsx` (lines 93, 96) with Next.js `<Image />` component
-- Low-priority warning (performance, not blocking)
+### PRIORITY 2: Security — Next.js Vulnerabilities
+
+- Current Next.js v13 has 29+ security advisories (1 critical)
+- Per CLAUDE.md: This is a **product decision** (requires major upgrade to v16+)
+- **Not actionable** by the monitor—requires business/product prioritization
+- Known issues documented; breaking changes on upgrade path
+
+### PRIORITY 3: Code Quality — Image Optimization
+
+- Replace `<img>` tags in `SplitSection.tsx` (lines 93, 96) with Next.js `<Image />` component
+- Low-priority warning (performance optimization, non-blocking)
 
 ### Medium-Term
 

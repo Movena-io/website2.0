@@ -1,132 +1,134 @@
 # Website Monitor Report
 
-**Timestamp**: 2026-10-19T16:45:00Z  
-**Overall Status**: ❌ **Failed** — Build passing, lint errors increased to 69, security vulnerabilities unchanged (20 total, 1 critical)
+**Run Timestamp:** 2026-10-19T19:45:00Z  
+**Overall Status:** ⚠️ **WARNINGS** - Build successful, but lint errors and security vulnerabilities present
 
 ---
 
-## Results Summary
+## Summary
 
-| Check    | Status | Details |
-|----------|--------|---------|
-| Build    | ✅ Pass | `npm run build` successful, all 61 pages generated |
-| Lint     | ❌ Fail | 69 `react/no-unescaped-entities` errors; 2 `no-img-element` warnings (↑ from 57) |
-| Security | ❌ Critical | 20 vulnerabilities (1 critical RCE, 12 high, 7 moderate) — unchanged count |
+The website build compiles successfully, but the codebase has linting errors and multiple security vulnerabilities that require attention.
+
+| Check | Status | Details |
+|-------|--------|---------|
+| **Build** | ✅ Pass | Next.js build compiled successfully, all 61 routes generated |
+| **Lint** | ❌ 74 Issues | 2 warnings, 72 errors (mostly unescaped entities in generated files) |
+| **Security** | ⚠️ Critical | 20 vulnerabilities: 1 critical, 12 high, 7 moderate |
 
 ---
 
 ## Build Check ✅
 
-`npm run build` completed successfully. All pages prerendered without compilation errors.
+**Status:** PASS  
+**Details:** Next.js production build completed successfully.
 
-**Build Summary:**
-- Static pages: 61 prerendered
-- Server-side routes: 3 API endpoints
-- First Load JS: 80.6 kB shared
-- Largest page: 58.9 kB (savings-calculator)
-- No build-time errors detected
+- All 61 routes generated successfully
+- Total First Load JS: 156 kB
+- Middleware: 27.9 kB
+- Server functions working correctly
+
+No build errors detected.
 
 ---
 
-## Lint Check ❌ — ERROR COUNT INCREASED
+## Lint Check ⚠️
 
-`npm run lint` exited with **69 errors** and **2 warnings**.
+**Status:** FAIL - 74 issues found
 
-**Status**: Error count **INCREASED from 57 to 69** (12 new errors detected). Generation pipeline continues to produce unescaped apostrophes, potentially accelerating.
+### Summary
+- **Warnings:** 2
+- **Errors:** 72
 
-**Error Summary:** All 69 errors are `react/no-unescaped-entities` — unescaped single quotes (`'`) in generated components that must be escaped as `&apos;`, `&lsquo;`, `&#39;`, or `&rsquo;`.
-
-**Affected Generated Components (14 files, 69 total errors):**
-- BeregnerEn.tsx (2 errors) — newly detected
-- BlogIndexDa.tsx (1 error)
-- BlogIndexEn.tsx (1 error)
-- BlogPostEn.tsx (7 errors)
-- BookDemoEn.tsx (3 errors)
-- ErrorEn.tsx (2 errors)
-- FaaAllePengeneHjemEn.tsx (5 errors)
-- ForsideDa.tsx (1 error)
-- ForsideEn.tsx (22 errors) — ↑ from 29 previous reports
-- HavStyrPaaDagenEn.tsx (8 errors)
-- NotFoundEn.tsx (1 error)
-- OmOsEn.tsx (2 errors)
-- PrivatlivspolitikEn.tsx (3 errors)
-- VindFlereFlytningerEn.tsx (8 errors)
+### Key Issues
 
 **Warnings (2):**
-- `components/SplitSection.tsx:93,96` — Using `<img>` instead of `<Image />` (performance recommendation)
+- `SplitSection.tsx:93,96` - Missing `next/image` usage for image optimization (2 occurrences)
 
-**Root Cause:** Auto-generated components in `components/generated/` are emitted with unescaped apostrophes. The content generation pipeline needs to escape HTML entities (or use JSX text properly) before component emission.
+**Errors (72):**
+- `react/no-unescaped-entities` - Unescaped apostrophes in generated component files
+  - Most errors are in generated components (BeregnerEn, BlogIndexDa/En, BlogPostEn, BookDemoEn, ErrorEn, FaaAllePengeneHjemEn, ForsideDa/En, HavStyrPaaDagenEn, NotFoundEn, OmOsEn, PrivatlivspolitikEn, VindFlereFlytningerEn)
+  - These files appear to be auto-generated from another source
+  - Total: 72 errors across multiple files
+
+### Recommendation
+The errors in generated files (`components/generated/*`) suggest these are output from an external generator. Either:
+1. Configure the generator to escape HTML entities properly
+2. Add ESLint exceptions for auto-generated files
+3. Fix the source that generates these files
 
 ---
 
 ## Security Audit ⚠️
 
-`npm audit` detected **20 vulnerabilities: 1 critical, 12 high, 7 moderate**. Unchanged from previous run.
+**Status:** WARNINGS - 20 vulnerabilities detected
 
-**Critical (1):**
-- **Next.js 0.9.9–16.3.0-preview.10** — 35+ CVEs including:
-  - Unauthenticated Remote Code Execution on Windows (CVSS 9.0+)
-  - Server-Side Request Forgery in Server Actions & rewrites
-  - Denial of Service (Image Optimizer, Server Components, App Router)
-  - Cache poisoning (collision-based, response body confusion)
-  - XSS (CSP nonces, beforeInteractive scripts)
-  - Authorization bypass & Middleware/Proxy bypass
-  - Unbounded disk cache growth & WebSocket SSRF
-  - HTTP request deserialization & smuggling vulnerabilities
+### Vulnerability Summary
+- **Critical:** 1
+- **High:** 12
+- **Moderate:** 7
 
-**High (12):**
-- brace-expansion — 3 DoS CVEs (quadratic expansion, nested recursion)
-- braces — Stack-exhaustion DoS via nested patterns
-- minimatch — 3 ReDoS via wildcard/GLOBSTAR combinations
-- postcss — 4 CVEs (XSS in CSS stringify, arbitrary file read via sourceMappingURL, path traversal)
-- postcss-selector-parser — Quadratic complexity parsing (CPU DoS)
-- source-map-js — Event-loop DoS
+### Critical Vulnerabilities (1)
 
-**Moderate (7):**
-- sprintf-js — DoS via unbounded precision
-- postcss-selector-parser transitive dependencies
-- Other nested dependencies
+**Next.js (v13.x)** - 1 CRITICAL
+- Multiple Server-Side Request Forgery (SSRF) vulnerabilities
+- DoS vulnerabilities in Server Components
+- Authorization bypass vulnerabilities
+- Cache poisoning issues
+- Image optimization vulnerabilities
+- **Note:** Per CLAUDE.md, Next.js 13→16 is a major upgrade requiring product decision. This is left intentionally unpatched.
 
-**Policy Note:** Per CLAUDE.md, Next.js is intentionally pinned to current version. Upgrading requires Next.js 13→16 major bump (product decision). However, critical RCE on Windows merits urgent review. Other high-severity issues could be addressed via `npm audit fix` for non-breaking changes or `overrides` for transitive deps.
+### High Severity Vulnerabilities (12)
 
----
+1. **brace-expansion** - Quadratic-time expansion DoS
+   - Multiple CVEs affecting nested brace groups
+   - Transitive dependency via @typescript-eslint
 
-## Recommendations
+2. **braces** - Stack exhaustion DoS via deeply nested patterns
+   - Affects: tailwindcss, chokidar, fast-glob, micromatch, globby
 
-### URGENT (Blocking)
+3. **minimatch** (v9.0.0-9.0.6) - ReDoS vulnerabilities
+   - Quadratic backtracking on certain patterns
+   - Transitive via @typescript-eslint
 
-1. **Address lint errors IMMEDIATELY** — **69 errors prevent clean CI/CD, count increasing**. These are all in `components/generated/` — the source content generation pipeline must escape HTML entities before component emission. The 12-error increase in 7 days suggests regeneration is occurring. Check:
-   - Content source (frontmatter, markdown parser, or content script)
-   - Whether auto-regeneration is triggered on each run
-   - Git history of `components/generated/` files for recent changes
+4. **postcss** (v8.5.22 or earlier) - Multiple issues
+   - XSS via unescaped `</style>`
+   - Arbitrary file read via sourceMappingURL
+   - Path traversal vulnerabilities
+   - **Note:** Per CLAUDE.md, postcss in Next.js is knowingly left on current version
 
-### High Priority
+5. **source-map-js** - Event-loop DoS via indexed source-map offsets
 
-2. **Security review** — Next.js RCE on Windows (CVSS 9.0+) and SSRF/DoS issues warrant product team discussion on upgrade timing.
+### Moderate Severity Vulnerabilities (7)
 
-### Medium Priority
+1. **postcss-selector-parser** (<7.1.6) - Quadratic complexity in flat selector parsing
+2. **sprintf-js** - DoS through unbounded precision specifiers
+3. **js-yaml, gray-matter** chain - Multiple transitive vulnerabilities
 
-3. **Transitive dependency hardening** — Consider `overrides` in package.json for brace-expansion, minimatch, source-map-js (per CLAUDE.md patterns).
-4. **Build warnings** — Replace `<img>` with `<Image />` in SplitSection.tsx (LCP optimization, non-blocking).
+### Fix Status
+- `npm audit fix` would address some vulnerabilities
+- `npm audit fix --force` required for others (involves major version upgrades)
+- **Constraint:** Next.js and postcss cannot be force-upgraded per CLAUDE.md project policy
 
----
+### Recommended Actions
+1. Update transitive dependencies that don't require major version bumps:
+   - brace-expansion, braces, minimatch (via @typescript-eslint updates)
+   - source-map-js (available via `npm audit fix`)
 
-## Trend Analysis
-
-- **Build**: Consistently passing ✅
-- **Lint**: **WORSENING** — 57 errors (2026-10-12) → 69 errors (2026-10-19); +12 errors in 7 days. Generation pipeline accelerating unescaped apostrophe output.
-- **Security**: 20 vulnerabilities stable; Next.js critical RCE unpatched pending major version decision
-
----
-
-## Action Items
-
-- [ ] **URGENT**: Fix lint errors in generated components (69 remaining, increasing) — investigate generation pipeline
-- [ ] Determine why lint errors increased from 57 to 69 in past 7 days
-- [ ] Check if content regeneration is being triggered automatically
-- [ ] Complete Next.js upgrade discussion with product team if needed (1 critical RCE)
-- [ ] Monitor next run closely for continued error count changes
+2. For major upgrades blocked by policy:
+   - Document Next.js 13 EOL risk
+   - Plan migration to Next.js 16 as separate project initiative
+   - Review if product can accept current vulnerability posture
 
 ---
 
-**Generated with Claude Code monitoring agent**
+## Next Steps
+
+1. **Address Lint Errors:** Investigate the generated component files' source generator
+2. **Security Review:** Prioritize updates to indirect dependencies (brace-expansion, source-map-js)
+3. **Next.js Migration:** Plan for major version upgrade to address critical vulnerabilities
+4. **Image Optimization:** Update SplitSection to use next/image for better LCP performance
+
+---
+
+**Report Generated:** 2026-10-19 at 19:45 UTC  
+**Next Scheduled Run:** Pending schedule

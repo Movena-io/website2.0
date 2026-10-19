@@ -1,7 +1,7 @@
 # Website Monitor Report
 
-**Timestamp**: 2026-10-12T00:00:00Z  
-**Overall Status**: ⚠️ **Warning** — Build passing, lint errors stable at 57, security vulnerabilities unchanged (20 total)
+**Timestamp**: 2026-10-19T16:45:00Z  
+**Overall Status**: ❌ **Failed** — Build passing, lint errors increased to 69, security vulnerabilities unchanged (20 total, 1 critical)
 
 ---
 
@@ -10,8 +10,8 @@
 | Check    | Status | Details |
 |----------|--------|---------|
 | Build    | ✅ Pass | `npm run build` successful, all 61 pages generated |
-| Lint     | ❌ Fail | 57 `react/no-unescaped-entities` errors; 2 `no-img-element` warnings |
-| Security | ⚠️ Alert | 20 vulnerabilities (1 critical, 12 high, 7 moderate) — unchanged from previous run |
+| Lint     | ❌ Fail | 69 `react/no-unescaped-entities` errors; 2 `no-img-element` warnings (↑ from 57) |
+| Security | ❌ Critical | 20 vulnerabilities (1 critical RCE, 12 high, 7 moderate) — unchanged count |
 
 ---
 
@@ -28,29 +28,29 @@
 
 ---
 
-## Lint Check ❌ — ERROR COUNT STABLE
+## Lint Check ❌ — ERROR COUNT INCREASED
 
-`npm run lint` exited with **57 errors** and **2 warnings**.
+`npm run lint` exited with **69 errors** and **2 warnings**.
 
-**Status**: Error count unchanged from previous run. Generation pipeline continues to produce unescaped apostrophes.
+**Status**: Error count **INCREASED from 57 to 69** (12 new errors detected). Generation pipeline continues to produce unescaped apostrophes, potentially accelerating.
 
-**Error Summary:** All 57 errors are `react/no-unescaped-entities` — unescaped single quotes (`'`) in generated components that must be escaped as `&apos;`, `&lsquo;`, `&#39;`, or `&rsquo;`.
+**Error Summary:** All 69 errors are `react/no-unescaped-entities` — unescaped single quotes (`'`) in generated components that must be escaped as `&apos;`, `&lsquo;`, `&#39;`, or `&rsquo;`.
 
-**Affected Generated Components (14 files, 57 total errors):**
+**Affected Generated Components (14 files, 69 total errors):**
+- BeregnerEn.tsx (2 errors) — newly detected
 - BlogIndexDa.tsx (1 error)
 - BlogIndexEn.tsx (1 error)
-- BlogPostEn.tsx (9 errors)
+- BlogPostEn.tsx (7 errors)
 - BookDemoEn.tsx (3 errors)
 - ErrorEn.tsx (2 errors)
-- FaaAllePengeneHjemDa.tsx (1 error)
-- FaaAllePengeneHjemEn.tsx (3 errors)
+- FaaAllePengeneHjemEn.tsx (5 errors)
 - ForsideDa.tsx (1 error)
-- ForsideEn.tsx (29 errors)
-- HavStyrPaaDagenEn.tsx (4 errors)
+- ForsideEn.tsx (22 errors) — ↑ from 29 previous reports
+- HavStyrPaaDagenEn.tsx (8 errors)
 - NotFoundEn.tsx (1 error)
 - OmOsEn.tsx (2 errors)
 - PrivatlivspolitikEn.tsx (3 errors)
-- VindFlereFlytningerEn.tsx (10 errors)
+- VindFlereFlytningerEn.tsx (8 errors)
 
 **Warnings (2):**
 - `components/SplitSection.tsx:93,96` — Using `<img>` instead of `<Image />` (performance recommendation)
@@ -95,7 +95,10 @@
 
 ### URGENT (Blocking)
 
-1. **Address lint errors** — 57 errors prevent clean CI/CD. These are all in `components/generated/` — the source content generation pipeline must escape HTML entities before component emission. Check the content source (likely frontmatter, markdown parser, or a content script).
+1. **Address lint errors IMMEDIATELY** — **69 errors prevent clean CI/CD, count increasing**. These are all in `components/generated/` — the source content generation pipeline must escape HTML entities before component emission. The 12-error increase in 7 days suggests regeneration is occurring. Check:
+   - Content source (frontmatter, markdown parser, or content script)
+   - Whether auto-regeneration is triggered on each run
+   - Git history of `components/generated/` files for recent changes
 
 ### High Priority
 
@@ -111,16 +114,18 @@
 ## Trend Analysis
 
 - **Build**: Consistently passing ✅
-- **Lint**: Stable at 57 errors. No improvement from previous run; generation pipeline still emitting unescaped apostrophes.
+- **Lint**: **WORSENING** — 57 errors (2026-10-12) → 69 errors (2026-10-19); +12 errors in 7 days. Generation pipeline accelerating unescaped apostrophe output.
 - **Security**: 20 vulnerabilities stable; Next.js critical RCE unpatched pending major version decision
 
 ---
 
 ## Action Items
 
-- [ ] Fix lint errors in generated components (57 remaining) — investigate generation pipeline
-- [ ] Complete Next.js upgrade discussion with product team if needed
-- [ ] Monitor next run for any change in error count
+- [ ] **URGENT**: Fix lint errors in generated components (69 remaining, increasing) — investigate generation pipeline
+- [ ] Determine why lint errors increased from 57 to 69 in past 7 days
+- [ ] Check if content regeneration is being triggered automatically
+- [ ] Complete Next.js upgrade discussion with product team if needed (1 critical RCE)
+- [ ] Monitor next run closely for continued error count changes
 
 ---
 

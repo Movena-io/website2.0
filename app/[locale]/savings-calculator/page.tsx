@@ -1,17 +1,10 @@
-'use client'
+import { notFound } from 'next/navigation'
+import { isLocale } from '@/lib/locales'
+import BeregnerDa from '@/components/generated/BeregnerDa'
+import BeregnerEn from '@/components/generated/BeregnerEn'
 
-import Header from '@/components/Header'
-import Footer from '@/components/Footer'
-import SavingsCalculator from '@/components/calculator/SavingsCalculator'
-
-export default function SavingsCalculatorPage() {
-  return (
-    <>
-      <Header />
-      <main className="bg-white">
-        <SavingsCalculator />
-      </main>
-      <Footer />
-    </>
-  )
+// One slug for both locales. Metadata, canonical and hreflang live in layout.tsx.
+export default function SavingsCalculatorPage({ params }: { params: { locale: string } }) {
+  if (!isLocale(params.locale)) notFound()
+  return params.locale === 'da' ? <BeregnerDa /> : <BeregnerEn />
 }

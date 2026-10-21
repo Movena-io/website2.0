@@ -1,18 +1,18 @@
 # Website Monitor Report
 
-**Run Timestamp:** 2026-10-21T12:04:00Z  
-**Overall Status:** ❌ **FAILED** — Lint errors and security vulnerabilities
+**Run Timestamp:** 2026-10-21T13:04:00Z  
+**Overall Status:** ❌ **CRITICAL** — Lint errors blocking CI, security vulnerabilities requiring attention
 
 ---
 
 ## Summary
 
-The website build compiles successfully, but the codebase has linting errors in generated components and multiple critical security vulnerabilities.
+The website build compiles successfully, but linting fails with 62 errors and 2 warnings. Multiple critical security vulnerabilities exist, particularly in Next.js.
 
 | Check | Status | Details |
 |-------|--------|---------|
-| **Build** | ✅ Pass | Next.js build compiled successfully |
-| **Lint** | ❌ Failed | 56 errors (unescaped entities), 2 warnings |
+| **Build** | ✅ Pass | Next.js build compiled successfully (61 pages) |
+| **Lint** | ❌ Failed | 62 errors (unescaped entities), 2 warnings (img tags) |
 | **Security** | ❌ Critical | 20 vulnerabilities: 1 critical, 12 high, 7 moderate |
 
 ---
@@ -39,16 +39,16 @@ The Next.js application compiled successfully without errors.
 **Exit Code:** 1
 
 ### Summary
-- **Errors:** 56 (unescaped entities)
+- **Errors:** 62 (unescaped entities)
 - **Warnings:** 2 (img tags)
 
-### Errors (56 unescaped entities)
+### Errors (62 unescaped entities)
 **Rule:** `react/no-unescaped-entities` — Single quotes must be escaped
 
 **Affected files:**
 - BeregnerEn.tsx (2), BlogIndexDa.tsx (1), BlogIndexEn.tsx (1), BlogPostEn.tsx (7)
 - BookDemoEn.tsx (3), ErrorEn.tsx (2), FaaAllePengeneHjemEn.tsx (5)
-- ForsideDa.tsx (1), ForsideEn.tsx (18), HavStyrPaaDagenEn.tsx (8)
+- ForsideDa.tsx (1), ForsideEn.tsx (20), HavStyrPaaDagenEn.tsx (8)
 - NotFoundEn.tsx (1), OmOsEn.tsx (2), PrivatlivspolitikEn.tsx (3), VindFlereFlytningerEn.tsx (8)
 
 Unescaped `'` should be `&apos;`, `&lsquo;`, `&#39;`, or `&rsquo;`.

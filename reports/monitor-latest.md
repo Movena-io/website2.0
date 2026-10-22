@@ -1,18 +1,18 @@
 # Website Monitor Report
 
-**Run Timestamp:** 2026-10-21T21:04:00Z (automated scheduled check)  
+**Run Timestamp:** 2026-10-22T00:00:00Z (automated scheduled check)  
 **Overall Status:** 🔴 **CRITICAL** — Build passes, lint fails, security vulnerabilities require attention
 
 ---
 
 ## Summary
 
-The website build compiles successfully and generates all 61 static pages, but linting fails with 70+ errors and 2 warnings. Multiple critical security vulnerabilities exist in Next.js (known issue, product decision pending).
+The website build compiles successfully and generates all 61 static pages, but linting fails with 66 errors and 2 warnings. Multiple critical security vulnerabilities exist in Next.js (known issue, product decision pending).
 
 | Check | Status | Details |
 |-------|--------|---------|
 | **Build** | ✅ Pass | Next.js app compiled successfully (61 static pages, 2 locales) |
-| **Lint** | ❌ Failed | 70+ errors (unescaped entities in generated components), 2 warnings (img tags) |
+| **Lint** | ❌ Failed | 66 errors (unescaped entities in generated components), 2 warnings (img tags) |
 | **Security** | ❌ Critical | 20 vulnerabilities: 1 critical, 12 high, 7 moderate |
 | **Dependencies** | ✅ Installed | 418 packages, 20 vulnerabilities found |
 
@@ -43,27 +43,27 @@ The Next.js application compiled successfully without errors. All pages generate
 **Exit Code:** 1
 
 ### Summary
-- **Errors:** 70+ (unescaped entities in generated components)
+- **Errors:** 66 (unescaped entities in generated components)
 - **Warnings:** 2 (img tags in SplitSection.tsx)
 
-### Errors (70+ unescaped entities)
+### Errors (66 unescaped entities)
 **Rule:** `react/no-unescaped-entities` — Single quotes must be escaped in JSX text
 
 **Affected files (all in components/generated/):**
-- BeregnerEn.tsx
-- BlogIndexDa.tsx
-- BlogIndexEn.tsx
-- BlogPostEn.tsx
-- BookDemoEn.tsx
-- ErrorEn.tsx
-- FaaAllePengeneHjemEn.tsx
-- ForsideDa.tsx
-- ForsideEn.tsx
-- HavStyrPaaDagenEn.tsx
-- NotFoundEn.tsx
-- OmOsEn.tsx
-- PrivatlivspolitikEn.tsx
-- VindFlereFlytningerEn.tsx
+- BeregnerEn.tsx (2 errors)
+- BlogIndexDa.tsx (1 error)
+- BlogIndexEn.tsx (1 error)
+- BlogPostEn.tsx (7 errors)
+- BookDemoEn.tsx (3 errors)
+- ErrorEn.tsx (2 errors)
+- FaaAllePengeneHjemEn.tsx (5 errors)
+- ForsideDa.tsx (1 error)
+- ForsideEn.tsx (17 errors)
+- HavStyrPaaDagenEn.tsx (8 errors)
+- NotFoundEn.tsx (1 error)
+- OmOsEn.tsx (2 errors)
+- PrivatlivspolitikEn.tsx (3 errors)
+- VindFlereFlytningerEn.tsx (8 errors)
 
 **Pattern:** Apostrophes in text content are not escaped. Must use `&apos;`, `&lsquo;`, `&#39;`, or `&rsquo;`.
 
@@ -129,7 +129,7 @@ This project uses Next.js 13.x, which has 30+ documented critical and high-sever
 - **Next.js Security Vulnerabilities:** 30+ known CVEs affecting versions 0.9.9-16.3.0. Upgrade to v16.4.2+ required for full resolution. This is a documented product decision awaiting team action per CLAUDE.md.
 
 ### 🟠 WARNING
-- **Lint Errors:** 70+ errors block deployment. Generated components contain unescaped HTML entities that must be fixed before merging any changes.
+- **Lint Errors:** 66 errors block deployment. Generated components contain unescaped HTML entities that must be fixed before merging any changes.
 - **Build Warnings:** `<img>` elements should migrate to Next.js `<Image />` component (non-blocking but recommended).
 
 ### ✅ HEALTHY
@@ -142,7 +142,7 @@ This project uses Next.js 13.x, which has 30+ documented critical and high-sever
 ### Immediate Actions
 1. **Fix Lint Errors (High Priority):** 
    - Identify the source generating components in `components/generated/`
-   - Either regenerate with proper HTML entity escaping or manually fix the 70+ apostrophe escaping errors
+   - Either regenerate with proper HTML entity escaping or manually fix the 66 apostrophe escaping errors
    - All unescaped `'` must become `&apos;`, `&lsquo;`, `&#39;`, or `&rsquo;`
 
 2. **Next.js Upgrade (Product Decision):**
@@ -156,5 +156,5 @@ This project uses Next.js 13.x, which has 30+ documented critical and high-sever
 
 ---
 
-**Report generated at 2026-10-21 21:04:00 UTC**  
+**Report generated at 2026-10-22 00:00:00 UTC**  
 **Monitor agent:** website-monitor

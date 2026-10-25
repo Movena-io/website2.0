@@ -1,7 +1,7 @@
 # Website Monitor Report
 
-**Run Time:** 2026-10-25T15:06 UTC  
-**Overall Status:** ❌ **CRITICAL** — Build succeeds, but linting blocks deployment and 11 security vulnerabilities remain
+**Run Time:** 2026-10-25 17:05:08 UTC  
+**Overall Status:** ⚠️ **PARTIAL FAILURE** — Build succeeds, linting errors persist, security vulnerabilities remain
 
 ---
 
@@ -10,7 +10,7 @@
 | Check | Status | Finding |
 |-------|--------|---------|
 | **Build** | ✅ Pass | 61 pages compiled successfully |
-| **Lint** | ❌ Fail | 87 errors (unescaped entities in generated components) — **improved from 93** |
+| **Lint** | ❌ Fail | 82 errors (unescaped entities in generated components) — **improved from 87** |
 | **Security** | ⚠️ Critical | 11 vulnerabilities: 1 critical, 6 high, 4 moderate |
 
 ---
@@ -26,24 +26,26 @@
 
 ---
 
-## Linting Status: ❌ FAIL (87 errors, down from 93)
+## Linting Status: ❌ FAIL (82 errors, continued improvement)
 
 **Blocking issue**: Unescaped HTML entities in generated React components.
 
 ### Error Breakdown
 
-- **Type**: `react/no-unescaped-entities` rule violations
+- **Type**: `react/no-unescaped-entities` rule violations (80 errors)
 - **Root cause**: Raw apostrophes in JSX should be escaped as `&apos;`, `&lsquo;`, `&#39;`, or `&rsquo;`
-- **Error count**: 87 unescaped apostrophes
-- **Affected**: 12+ auto-generated components in `components/generated/`
+- **Error count**: 82 total (80 unescaped apostrophes + 2 image warnings)
+- **Affected**: 14 auto-generated components in `components/generated/`
 
 ### Files with Errors (selection)
-- `ForsideEn.tsx`: 19 errors
+- `ForsideEn.tsx`: 18 errors
 - `HavStyrPaaDagenEn.tsx`: 8 errors
-- `BlogPostEn.tsx`: 7 errors
-- `FaaAllePengeneHjemEn.tsx`: 5 errors
 - `VindFlereFlytningerEn.tsx`: 8 errors
-- And 7 other generated files...
+- `FaaAllePengeneHjemEn.tsx`: 5 errors
+- `BlogPostEn.tsx`: 7 errors
+- `BookDemoEn.tsx`: 3 errors
+- `PrivatlivspolitikEn.tsx`: 3 errors
+- And 8 other generated files...
 
 ### Minor Issues (2 warnings)
 - `SplitSection.tsx` lines 93, 96: Using `<img>` instead of Next.js `<Image/>` component
@@ -118,13 +120,13 @@ This constraint is appropriate given the scope.
 
 ## Trends Since Last Run
 
-| Metric | Previous | Current | Change |
-|--------|----------|---------|--------|
-| Lint Errors | 93 | 87 | ✅ **–6 errors** (improved) |
-| Build Status | ✅ Pass | ✅ Pass | — |
-| Security Issues | 11 | 11 | — |
+| Metric | 2 Runs Ago | Last Run | Current | Trend |
+|--------|-----------|----------|---------|-------|
+| Lint Errors | 93 | 87 | 82 | ✅ **–11 total** (steadily improving) |
+| Build Status | ✅ Pass | ✅ Pass | ✅ Pass | — |
+| Security Issues | 11 | 11 | 11 | ⚠️ **stable** |
 
-**Positive**: Linting errors decreased by 6 since last run (93→87).
+**Positive trend**: Linting errors have improved consistently (93→87→82). Generation pipeline improvements are reducing violations.
 
 ---
 

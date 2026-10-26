@@ -1,6 +1,6 @@
 # Website Monitor Report
 
-**Run Time:** 2026-10-26 00:00:00 UTC  
+**Run Time:** 2026-10-26 09:04:21 UTC  
 **Overall Status:** ❌ **CRITICAL** — Build passes, linting fails, critical security vulnerabilities present
 
 ---
@@ -9,8 +9,8 @@
 
 | Check | Status | Finding |
 |-------|--------|---------|
-| **Build** | ✅ Pass | 61 pages compiled successfully |
-| **Lint** | ❌ Fail | 81 errors (unescaped entities in generated components) |
+| **Build** | ✅ Pass | All pages compiled successfully |
+| **Lint** | ❌ Fail | 60 errors (unescaped entities in generated components) |
 | **Security** | ❌ Critical | 11 vulnerabilities: 1 critical, 6 high, 4 moderate |
 
 ---
@@ -26,18 +26,18 @@
 
 ---
 
-## Linting Status: ❌ FAIL (81 errors, 2 warnings)
+## Linting Status: ❌ FAIL (60 errors, 2 warnings)
 
 **Blocking issue**: Unescaped HTML entities in generated React components.
 
 ### Error Breakdown
 
-- **Type**: `react/no-unescaped-entities` rule violations (81 errors)
+- **Type**: `react/no-unescaped-entities` rule violations (60 errors)
 - **Root cause**: Raw apostrophes in JSX should be escaped as `&apos;`, `&lsquo;`, `&#39;`, or `&rsquo;`
 - **Affected**: 14 auto-generated components in `components/generated/`
 
 ### Files with Errors
-- `ForsideEn.tsx`: 17 errors
+- `ForsideEn.tsx`: 16 errors
 - `HavStyrPaaDagenEn.tsx`: 8 errors
 - `VindFlereFlytningerEn.tsx`: 8 errors
 - `FaaAllePengeneHjemEn.tsx`: 5 errors
@@ -124,7 +124,7 @@ These are **auto-generated components**. The lint errors suggest the generation 
 
 ### 🟠 High Priority
 
-**Fix linting errors** (81 errors in generated components)
+**Fix linting errors** (60 errors in generated components)
 - Root cause is in the component generation pipeline
 - Fix generator to escape HTML entities automatically, or regenerate with proper escaping
 - **Blockers**: Linting must pass for CI/CD to succeed
@@ -141,13 +141,11 @@ These are **auto-generated components**. The lint errors suggest the generation 
 
 ## Environment Details
 
-- **npm**: 10.2.0
-- **node**: v20.18.1
-- **Total packages**: 418
-- **Dependencies audited**: Yes
+- **npm**: 10.9.4
+- **node**: v22.22.0
+- **Dependencies**: Fresh install successful
 
 ---
 
 **Report Generated:** Website Monitor (Claude Haiku 4.5)  
-**Environment:** Remote execution, linux (session_01PJZtrakW5iTJCnTqRW5Rm9)  
 **Tools Run:** npm install, npm run build, npm run lint, npm audit

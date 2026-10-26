@@ -1,7 +1,7 @@
 # Website Monitor Report
 
-**Run Timestamp**: 2026-10-26 14:19:59 UTC  
-**Overall Status**: ⚠️ **WARNING** — Build passes, but linting fails and security vulnerabilities present
+**Run Timestamp**: 2026-10-26 UTC  
+**Overall Status**: ❌ **CRITICAL** — Build passes, but linting fails and security vulnerabilities present
 
 ---
 
@@ -10,8 +10,8 @@
 | Check | Status | Details |
 |-------|--------|---------|
 | **Build** | ✅ PASSED | Next.js build completed successfully, 63 static pages generated |
-| **Lint** | ❌ FAILED | 77 errors, 2 warnings in generated components |
-| **Security** | ⚠️ WARNING | 11 vulnerabilities: 1 critical, 6 high, 4 moderate |
+| **Lint** | ❌ FAILED | 78 errors, 2 warnings in generated components |
+| **Security** | ❌ CRITICAL | 9 vulnerabilities: 1 critical, 6 high, 2 moderate |
 
 ---
 
@@ -39,7 +39,7 @@ Next.js build completed successfully without errors. All 63 static pages were ge
 **Result**: FAILED — Exit code 1
 
 **Error Summary**:
-- Total issues: 79 (77 errors + 2 warnings)
+- Total issues: 80 (78 errors + 2 warnings)
 - All errors are in generated component files (`components/generated/*`)
 - Errors: Unescaped entities (`react/no-unescaped-entities`) — single quotes in JSX text
 - Warnings: 2 instances in `SplitSection.tsx` recommending `<Image />` over `<img>`
@@ -67,22 +67,31 @@ Next.js build completed successfully without errors. All 63 static pages were ge
 
 ---
 
-## Security Check ⚠️
+## Security Check ❌
 
-**Result**: WARNING — 11 vulnerabilities found (1 critical, 6 high, 4 moderate)
+**Result**: CRITICAL — 9 vulnerabilities found (1 critical, 6 high, 2 moderate)
 
 **Critical Vulnerabilities** (1):
 
-1. **Next.js 0.9.9 - 16.3.0** — Critical severity
-   - 31 documented vulnerabilities in Next.js versions before 16.4.3
-   - Includes: SSRF, Cache poisoning, DoS, XSS, RCE, and more
+1. **Next.js 0.9.9 - 16.3.0-preview.10** — Critical severity
+   - 31 documented vulnerabilities including:
+     - Server-Side Request Forgery (SSRF) in Server Actions and rewrites
+     - Remote Code Execution (RCE) on Windows-hosted servers, Image Optimization API (AVIF/SVG)
+     - Denial of Service in App Router and Server Components
+     - Cache poisoning vulnerabilities
+     - Authorization bypass
+     - Cross-site scripting (CSP nonces, beforeInteractive scripts)
+     - HTTP request smuggling and deserialization attacks
+     - Unauthenticated disclosure of internal endpoints
+     - Middleware/Proxy bypass in Pages Router with i18n
    - Fix requires: `npm audit fix --force` (breaking change to Next 16.4.3)
    - **Status**: Acknowledged in CLAUDE.md — Next.js 13→16 upgrade is a product decision, knowingly kept on current version
 
 **High Severity Vulnerabilities** (6):
 
 1. **brace-expansion** — DoS via quadratic-time expansion and uncontrolled recursion
-   - Locations: `node_modules/@typescript-eslint/typescript-estree/node_modules/brace-expansion`
+   - Multiple recursion stack exhaustion attacks
+   - Locations: `node_modules/@typescript-eslint/typescript-estree/node_modules/brace-expansion`, root
    - Fix available via `npm audit fix`
 
 2. **minimatch 9.0.0-9.0.6** — ReDoS (Regular Expression Denial of Service)
@@ -93,6 +102,7 @@ Next.js build completed successfully without errors. All 63 static pages were ge
 3. **postcss ≤8.5.22** — XSS and information disclosure
    - Unescaped `</style>` in CSS stringify output
    - Arbitrary file read via attacker-controlled `sourceMappingURL`
+   - Path traversal in source map auto-loading
    - Location: `node_modules/next/node_modules/postcss`
    - Fix requires: `npm audit fix --force` (breaking change to Next 16.4.3)
 
@@ -100,9 +110,9 @@ Next.js build completed successfully without errors. All 63 static pages were ge
    - Denial of service via indexed source-map section offsets
    - Fix available via `npm audit fix`
 
-**Moderate Severity Vulnerabilities** (4):
+**Moderate Severity Vulnerabilities** (2):
 
-1. **postcss-selector-parser <7.1.6** — CPU exhaustion via quadratic complexity
+1. **postcss-selector-parser <6.1.5** — CPU exhaustion via quadratic complexity in flat selector parsing
    - Affects: `@tailwindcss/typography`, `tailwindcss`, `postcss-nested`
    - Fix available via `npm audit fix --force` (breaking change)
 

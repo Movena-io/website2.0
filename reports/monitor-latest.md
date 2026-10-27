@@ -1,7 +1,7 @@
 # Website Monitor Report
 
-**Run Timestamp:** 2026-10-27 at 00:00 UTC  
-**Overall Status:** ⚠️ **NEEDS ATTENTION** (Build OK, Lint Failed, Critical Security Vulnerabilities)
+**Run Timestamp:** 2026-10-27T16:30:00Z  
+**Overall Status:** ❌ UNHEALTHY (Build Passed, Lint Failed, Critical Security Vulnerabilities)
 
 ---
 
@@ -9,8 +9,8 @@
 
 The Movena website build completes successfully, but there are significant issues:
 - **Build**: ✅ Passing (65 static pages generated)
-- **Lint**: ❌ Failing (48 ESLint errors + 2 warnings)
-- **Security**: 🔴 **CRITICAL** (9 vulnerabilities: 1 critical, 6 high, 2 moderate)
+- **Lint**: ❌ Failing (65 ESLint errors + 2 warnings, all in generated components)
+- **Security**: 🔴 **CRITICAL** (9 vulnerabilities: 1 critical in Next.js, 6 high, 2 moderate)
 
 ---
 
@@ -35,7 +35,7 @@ The Movena website build completes successfully, but there are significant issue
 
 ### Issues Found:
 
-**Errors (48 total):** Unescaped apostrophes in HTML entities across generated components:
+**Errors (65 total):** Unescaped apostrophes in HTML entities across generated components:
 - `./components/generated/BeregnerEn.tsx` - 2 errors
 - `./components/generated/BlogIndexDa.tsx` - 1 error
 - `./components/generated/BlogIndexEn.tsx` - 1 error
@@ -44,10 +44,12 @@ The Movena website build completes successfully, but there are significant issue
 - `./components/generated/ErrorEn.tsx` - 2 errors
 - `./components/generated/FaaAllePengeneHjemEn.tsx` - 5 errors
 - `./components/generated/ForsideDa.tsx` - 1 error
-- `./components/generated/ForsideEn.tsx` - 15 errors
+- `./components/generated/ForsideEn.tsx` - 29 errors
 - `./components/generated/HavStyrPaaDagenEn.tsx` - 8 errors
 - `./components/generated/NotFoundEn.tsx` - 1 error
 - `./components/generated/OmOsEn.tsx` - 2 errors
+- `./components/generated/PrivatlivspolitikEn.tsx` - 3 errors
+- `./components/generated/VindFlereFlytningerEn.tsx` - 8 errors
 - `./components/generated/PrivatlivspolitikEn.tsx` - 3 errors
 - `./components/generated/VindFlereFlytningerEn.tsx` - 8 errors
 

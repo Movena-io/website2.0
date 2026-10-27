@@ -1,7 +1,7 @@
 # Website Monitor Report
 
-**Run Timestamp**: 2026-10-26T22:04:00Z  
-**Overall Status**: ❌ **CRITICAL** — Build passes; linting failed; 9 security vulnerabilities
+**Run Timestamp**: 2026-10-27T00:00:00Z  
+**Overall Status**: ⚠️ **WARNING** — Build passes; linting failed; 9 critical security vulnerabilities
 
 ---
 
@@ -10,9 +10,9 @@
 | Check | Status | Details |
 |-------|--------|---------|
 | **Build** | ✅ PASSED | Next.js build completed successfully |
-| **Lint** | ❌ FAILED | 57 errors + 2 warnings in generated components |
+| **Lint** | ❌ FAILED | 51 errors + 2 warnings in generated components |
 | **Security** | ❌ CRITICAL | 9 vulnerabilities: 1 critical, 6 high, 2 moderate |
-| **Dependencies** | ✅ OK | 418 packages installed |
+| **Dependencies** | ✅ OK | 417 packages installed |
 
 ---
 
@@ -33,10 +33,10 @@ Next.js application compiled without errors. All routes including dynamically lo
 ## Lint Check ❌
 
 **Result**: FAILED — Exit code 1  
-**Issues**: 57 errors + 2 warnings
+**Issues**: 51 errors + 2 warnings
 
 **Error Categories**:
-- **57 unescaped entity errors** (`react/no-unescaped-entities`): Single quotes in JSX not properly escaped
+- **51 unescaped entity errors** (`react/no-unescaped-entities`): Single quotes in JSX not properly escaped
 - **2 warnings** in `SplitSection.tsx` (lines 93, 96): Recommend using Next.js `<Image />` component instead of `<img>`
 
 **Affected Generated Components** (all in `components/generated/`):
@@ -48,7 +48,7 @@ Next.js application compiled without errors. All routes including dynamically lo
 - `ErrorEn.tsx` (2 errors)
 - `FaaAllePengeneHjemEn.tsx` (5 errors)
 - `ForsideDa.tsx` (1 error)
-- `ForsideEn.tsx` (16 errors)
+- `ForsideEn.tsx` (20 errors)
 - `HavStyrPaaDagenEn.tsx` (8 errors)
 - `NotFoundEn.tsx` (1 error)
 - `OmOsEn.tsx` (2 errors)
@@ -125,4 +125,4 @@ Next.js application compiled without errors. All routes including dynamically lo
 
 ---
 
-*Automated monitor check | Timestamp: 2026-10-26T22:04:00Z*
+*Automated monitor check | Timestamp: 2026-10-27T00:00:00Z*

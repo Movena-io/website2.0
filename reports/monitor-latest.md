@@ -1,19 +1,19 @@
 # Website Monitor Report
-**Run:** 2026-10-27 14:04:21 UTC  
+**Run:** 2026-10-27 15:05:17 UTC  
 **Status:** ⚠️ **WARNING** — Build successful, lint errors in generated files, security vulnerabilities present
 
 ---
 
 ## Summary
 
-The Movena website build completes successfully, but the project has lint failures in auto-generated files and known security vulnerabilities. The lint errors (59) are all in the `components/generated/` directory and do not affect the build output. Security issues are predominantly in Next.js (per CLAUDE.md, knowingly deferred) and transitive dependencies.
+The Movena website build completes successfully with all 65 static pages generated. However, the project has lint failures in auto-generated files and known security vulnerabilities that require attention. The lint errors are all in the `components/generated/` directory and do not affect the build output. Security issues are predominantly in Next.js (per CLAUDE.md, knowingly deferred) and transitive dependencies.
 
 | Check | Status | Details |
 |-------|--------|---------|
-| **Build** | ✅ PASSED | Next.js build completed; 65 pages generated |
-| **Lint** | ❌ FAILED | 59 errors in generated components; 2 warnings |
+| **Build** | ✅ PASSED | Next.js build completed; 65 pages generated successfully |
+| **Lint** | ❌ FAILED | 48 errors in generated components; 2 warnings |
 | **Security Audit** | ⚠️ WARNING | 9 vulnerabilities: 1 critical, 6 high, 2 moderate |
-| **Dependencies** | ✅ OK | 417 packages installed successfully |
+| **Dependencies** | ✅ OK | 418 packages installed successfully |
 
 ---
 
@@ -34,9 +34,9 @@ Next.js application compiled and generated successfully. All 65 routes built wit
 
 ## Lint Check ❌
 
-**Result**: FAILED with 59 errors + 2 warnings
+**Result**: FAILED with 48 errors + 2 warnings
 
-### Errors (59): Unescaped HTML Entities in Generated Components
+### Errors (48): Unescaped HTML Entities in Generated Components
 
 All errors are the same rule violation: `react/no-unescaped-entities` — apostrophes (') not escaped in JSX output.
 
@@ -49,7 +49,7 @@ All errors are the same rule violation: `react/no-unescaped-entities` — apostr
 - ErrorEn.tsx: 2
 - FaaAllePengeneHjemEn.tsx: 5
 - ForsideDa.tsx: 1
-- ForsideEn.tsx: 24
+- ForsideEn.tsx: 16
 - HavStyrPaaDagenEn.tsx: 8
 - NotFoundEn.tsx: 1
 - OmOsEn.tsx: 2
@@ -185,4 +185,4 @@ git diff reports/monitor-latest.md   # See changes since last run
 
 ---
 
-*Automated monitor run | 2026-10-27 14:04:21 UTC*
+*Automated monitor run | 2026-10-27 15:05:17 UTC*

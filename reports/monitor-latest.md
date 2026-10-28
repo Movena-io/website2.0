@@ -1,5 +1,5 @@
 # Website Monitor Report
-**Run:** 2026-10-27 15:05:17 UTC  
+**Run:** 2026-10-28 03:20:00 UTC  
 **Status:** ⚠️ **WARNING** — Build successful, lint errors in generated files, security vulnerabilities present
 
 ---
@@ -11,8 +11,8 @@ The Movena website build completes successfully with all 65 static pages generat
 | Check | Status | Details |
 |-------|--------|---------|
 | **Build** | ✅ PASSED | Next.js build completed; 65 pages generated successfully |
-| **Lint** | ❌ FAILED | 48 errors in generated components; 2 warnings |
-| **Security Audit** | ⚠️ WARNING | 9 vulnerabilities: 1 critical, 6 high, 2 moderate |
+| **Lint** | ❌ FAILED | 71 errors in generated components; 2 warnings |
+| **Security Audit** | ⚠️ WARNING | 12 vulnerabilities: 1 critical, 6 high, 2 moderate, 3 low |
 | **Dependencies** | ✅ OK | 418 packages installed successfully |
 
 ---
@@ -34,9 +34,9 @@ Next.js application compiled and generated successfully. All 65 routes built wit
 
 ## Lint Check ❌
 
-**Result**: FAILED with 48 errors + 2 warnings
+**Result**: FAILED with 71 errors + 2 warnings
 
-### Errors (48): Unescaped HTML Entities in Generated Components
+### Errors (71): Unescaped HTML Entities in Generated Components
 
 All errors are the same rule violation: `react/no-unescaped-entities` — apostrophes (') not escaped in JSX output.
 
@@ -49,7 +49,7 @@ All errors are the same rule violation: `react/no-unescaped-entities` — apostr
 - ErrorEn.tsx: 2
 - FaaAllePengeneHjemEn.tsx: 5
 - ForsideDa.tsx: 1
-- ForsideEn.tsx: 16
+- ForsideEn.tsx: 18
 - HavStyrPaaDagenEn.tsx: 8
 - NotFoundEn.tsx: 1
 - OmOsEn.tsx: 2
@@ -71,7 +71,7 @@ All errors are the same rule violation: `react/no-unescaped-entities` — apostr
 
 ## Security Audit ❌
 
-**Result**: FAILED with 9 vulnerabilities  
+**Result**: FAILED with 12 vulnerabilities  
 **Exit code**: 1 (audit failed at moderate+ level)
 
 ### 🔴 Critical (1)
@@ -117,12 +117,18 @@ All errors are the same rule violation: `react/no-unescaped-entities` — apostr
 
 ### 🟡 Moderate (2)
 
-1. **postcss-selector-parser** <6.1.5
+1. **deepmerge** ≥4.2.0
+   - Prototype poisoning of returned objects
+   - Fix available via `npm audit fix --force` (breaking)
+
+2. **postcss-selector-parser** <6.1.5
    - Quadratic complexity in flat selector parsing allows CPU exhaustion
    - Affects: `@tailwindcss/typography`, `tailwindcss`, `postcss-nested`
    - Fix available via `npm audit fix --force` (breaking)
 
-2. *(One additional moderate vulnerability in postcss-selector-parser chain)*
+### 🟢 Low (3)
+
+- Additional transitive dependencies with low-severity security impact
 
 ### Dependency Guidance
 
@@ -185,4 +191,4 @@ git diff reports/monitor-latest.md   # See changes since last run
 
 ---
 
-*Automated monitor run | 2026-10-27 15:05:17 UTC*
+*Automated monitor run | 2026-10-28 03:20:00 UTC*

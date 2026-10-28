@@ -1,140 +1,161 @@
 # Website Monitor Report
 
-**Run Date:** 2026-10-28  
-**Run Time:** 13:14 UTC  
-**Overall Status:** ⚠️ **WARNING** — Build succeeds, but lint errors and known critical vulnerabilities detected
-
----
+**Timestamp**: 2026-10-28T00:00:00Z  
+**Overall Status**: ⚠️ **Warning**
 
 ## Summary
 
-The Movena website project compiles successfully with Next.js 13 App Router and Tailwind CSS. However, there are:
-
-- **Build**: ✅ **PASS** — Production build completed successfully (65 static pages generated)
-- **Lint**: ❌ **FAIL** — ESLint errors in generated components and warnings in manual code
-- **Security**: ⚠️ **WARNING** — 12 vulnerabilities detected (3 low, 2 moderate, 6 high, 1 critical)
+The Movena marketing site has successfully built but has multiple security vulnerabilities requiring attention. The lint check failed due to ESLint errors in generated components (unescaped entities), and npm audit detected 12 vulnerabilities including 1 critical issue in Next.js.
 
 ---
 
-## Build Check
+## Checks Performed
 
-✅ **Status: PASS**
+### 1. Dependencies Installation ✅
 
-```
-✓ Compiled successfully
-✓ Generating static pages (65/65)
-✓ Finalizing page optimization
-```
+- **Command**: `npm install`
+- **Result**: Success
+- **Details**: 417 packages installed, 418 audited
+- **Issues**: 12 vulnerabilities detected during install (see Security Audit section)
 
-**Details:**
-- Routes generated: 65 pages (43 content pages, 5 API routes, 1 middleware)
-- First Load JS: 80.6 kB shared + page-specific bundles
-- Total project size: ~156 kB (English homepage)
-- Deployment ready
+### 2. Lint Check ❌
 
----
+- **Command**: `npm run lint`
+- **Result**: Failed (exit code 1)
+- **Errors Found**: 65 ESLint violations
+  - **Type**: Primarily unescaped entities (`'` characters not escaped as `&apos;`, etc.)
+  - **Affected Files** (generated components):
+    - `BeregnerEn.tsx` (2 errors)
+    - `BlogIndexDa.tsx` (1 error)
+    - `BlogIndexEn.tsx` (1 error)
+    - `BlogPostEn.tsx` (7 errors)
+    - `BookDemoEn.tsx` (3 errors)
+    - `ErrorEn.tsx` (2 errors)
+    - `FaaAllePengeneHjemEn.tsx` (5 errors)
+    - `ForsideDa.tsx` (1 error)
+    - `ForsideEn.tsx` (24 errors)
+    - `HavStyrPaaDagenEn.tsx` (8 errors)
+    - `NotFoundEn.tsx` (1 error)
+    - `OmOsEn.tsx` (2 errors)
+    - `PrivatlivspolitikEn.tsx` (3 errors)
+    - `VindFlereFlytningerEn.tsx` (8 errors)
+  - **Warnings Found**: 2
+    - `SplitSection.tsx` (2 warnings about `<img>` usage - should use Next.js `<Image />` component)
 
-## Lint Check
+**Note**: Most errors are in files under `components/generated/`, suggesting these are auto-generated files that need code generation fixes at the source.
 
-❌ **Status: FAIL** — 90 ESLint violations (Exit code 1)
+### 3. Build Check ✅
 
-**Violations by type:**
+- **Command**: `npm run build`
+- **Result**: Success
+- **Details**:
+  - ✓ Compiled successfully
+  - ✓ Generated 65 static pages
+  - ✓ Build completed without errors
+  - Production build optimized for deployment
+  - Middleware compiled: 27.9 kB
+  - First Load JS shared by all: 80.6 kB
 
-### Critical Errors: Unescaped single quotes in generated components (87 errors)
-- **Files affected:** 10 auto-generated components
-  - `BeregnerEn.tsx` (2 errors)
-  - `BlogIndexDa.tsx`, `BlogIndexEn.tsx` (2 total)
-  - `BlogPostEn.tsx` (7 errors)
-  - `BookDemoEn.tsx` (3 errors)
-  - `ErrorEn.tsx` (2 errors)
-  - `FaaAllePengeneHjemEn.tsx` (5 errors)
-  - `ForsideDa.tsx`, `ForsideEn.tsx` (26 errors)
-  - `HavStyrPaaDagenEn.tsx` (8 errors)
-  - `NotFoundEn.tsx` (1 error)
-  - `OmOsEn.tsx` (2 errors)
-  - `PrivatlivspolitikEn.tsx` (3 errors)
-  - `VindFlereFlytningerEn.tsx` (8 errors)
+**Build Output Highlights**:
+- Largest page: `/[locale]` (42.7 kB page size, 156 kB First Load JS)
+- Savings Calculator page: 24.6 kB (largest feature page)
+- All routes rendered as static (●) or SSG, indicating good performance optimization
 
-- **Rule:** `react/no-unescaped-entities`
-- **Issue:** Single quotes (`'`) should be escaped as `&apos;`, `&lsquo;`, `&#39;`, or `&rsquo;`
-- **Note:** These files are auto-generated (in `components/generated/`) — likely from content management or build tooling
+### 4. Security Audit ❌
 
-### Warnings: Image optimization (2 warnings)
-- **File:** `SplitSection.tsx` (lines 93, 96)
-- **Rule:** `@next/next/no-img-element`
-- **Issue:** Using `<img>` instead of Next.js `<Image />` component
-- **Impact:** Slower LCP, higher bandwidth
+- **Command**: `npm audit`
+- **Result**: 12 vulnerabilities found (exit code 1)
 
----
+#### Critical Issues (1)
 
-## Security Audit
+**Next.js** (node_modules/next) - **CRITICAL SEVERITY**
+- 35 reported security advisories across versions 0.9.9 - 16.3.0-preview.10
+- **Impact Areas**:
+  - Server-Side Request Forgery (SSRF) in Server Actions
+  - Denial of Service conditions (multiple instances)
+  - Information exposure in dev server
+  - Cache key confusion and cache poisoning attacks
+  - Authorization bypass vulnerability
+  - Content injection in image optimization
+  - Remote Code Execution vulnerabilities (Windows servers, AVIF/SVG files)
+  - HTTP request smuggling in rewrites
+  - Cross-site scripting in App Router with CSP nonces
+- **Fix Available**: `npm audit fix --force` will upgrade to next@16.4.3 (breaking change)
+- **Current Version**: 13.x (from package.json)
+- **Note**: As documented in CLAUDE.md, Next.js 13→16 upgrade is a product decision requiring approval
 
-⚠️ **Status: WARNING** — 12 vulnerabilities found
+#### High Severity Issues (6)
 
-### Vulnerability Summary
-- **Total:** 12 vulnerabilities
-  - 🔴 **Critical:** 1
-  - 🟠 **High:** 6
-  - 🟡 **Moderate:** 2
-  - 🟢 **Low:** 3
+1. **brace-expansion** (node_modules/brace-expansion)
+   - Quadratic-time expansion DoS (GHSA-q2hr-2g5m-vwwr, GHSA-qhr7-859c-m2p7)
+   - Uncontrolled recursion DoS causing stack exhaustion (GHSA-6j4f-fj2g-mc7p)
+   - Fix Available: `npm audit fix`
 
-### Breakdown by Package
+2. **minimatch** (node_modules/@typescript-eslint/typescript-estree/node_modules/minimatch)
+   - ReDoS via repeated wildcards (GHSA-3ppc-4f35-3m26)
+   - Combinatorial backtracking in matchOne() (GHSA-7r86-cg39-jmmj)
+   - Catastrophic backtracking in nested extglobs (GHSA-23c5-xmqv-rm74)
+   - Fix Available: `npm audit fix`
 
-#### Critical (1)
-- **`next@13.x`** — 1 critical vulnerability
-  - Unauthenticated Remote Code Execution in Image Optimization API (SVG files)
-  - CVE: GHSA-2464-fhr4-w9xw, GHSA-hc6r-7m96-88cp, GHSA-2xp9-vwfh-vxw4
-  - **Note:** Known issue acknowledged in CLAUDE.md — Next 13→16 major upgrade required for fix
+3. **postcss** (node_modules/next/node_modules/postcss)
+   - XSS via unescaped </style> in CSS (GHSA-qx2v-qp2m-jg93)
+   - Arbitrary file read via sourceMappingURL (GHSA-6g55-p6wh-862q)
+   - Path traversal in source map auto-loading (GHSA-r28c-9q8g-f849)
+   - Fix Available: `npm audit fix --force` (will upgrade Next.js)
 
-#### High (6)
-- **`next@13.x`** — 4 high-severity issues
-  - Image Optimization API vulnerabilities (ReDoS in responsive image parsing)
-  - Denial of Service in App Router via Server Actions (CVE: GHSA-p3m5-59mp-jv5r)
-- **`@typescript-eslint/parser` & related** — 2 high-severity issues
-  - brace-expansion DoS via uncontrolled recursion (GHSA-qhr7-859c-m2p7, GHSA-6j4f-fj2g-mc7p)
-- **`postcss@<8.5.23`** — High-severity file read vulnerabilities
-  - Path Traversal via sourceMappingURL (GHSA-6g55-p6wh-862q, GHSA-r28c-9q8g-f849)
+4. **source-map-js** (node_modules/source-map-js)
+   - Event-loop denial of service (GHSA-68fv-2mgg-jv7q)
+   - Fix Available: `npm audit fix`
 
-#### Moderate (2)
-- **`@tailwindcss/typography@0.5.x`** — postcss-selector-parser DoS (GHSA-rj75-hqrm-r3gf)
-- **`@react-email/render`** — Indirect via html-to-text
+#### Moderate Severity Issues (2)
 
-#### Low (3)
-- Deprecation warnings: `rimraf@3`, `inflight@1.0.6`, `glob@7.1.7`, `@eslint` packages, `eslint@8.57`
+1. **deepmerge** (node_modules/deepmerge)
+   - Prototype poisoning of returned objects (GHSA-gcqx-w48m-w2h4)
+   - Dependency chain: deepmerge ← html-to-text ← @react-email/render
+   - Fix Available: `npm audit fix --force` (will break @react-email/render to 2.2.0)
 
-### Mitigation Notes
-- **Next.js & PostCSS:** CLAUDE.md explicitly states these are knowingly left on current versions. A Next 13→16 major upgrade is required for fixes; this is a product decision, not a monitor action. **Do not run `npm audit fix --force`.**
-- **Transitive dependencies:** Per CLAUDE.md, use scoped entries in `overrides` in `package.json` (as done with `js-yaml@3` and `nanoid@3`) for patching transitive deps instead of sweeping `npm audit fix`.
+2. **postcss-selector-parser** (node_modules/postcss-selector-parser)
+   - Quadratic complexity in flat selector parsing (GHSA-rj75-hqrm-r3gf)
+   - Allows CPU exhaustion attacks
+   - Fix Available: `npm audit fix --force` (will upgrade @tailwindcss/typography to 0.5.4)
+
+#### Low Severity Issues (3)
+
+- rimraf@3.0.2 (deprecated, no longer supported)
+- inflight@1.0.6 (memory leak issue, deprecated)
+- glob@7.1.7 (old version with known security issues, deprecated)
 
 ---
 
 ## Recommendations
 
-### 🔴 Critical Issues (Action Required)
-1. **Generated component lint errors** — These need fixing to restore lint compliance:
-   - Escape single quotes in auto-generated `.tsx` files, or
-   - Configure ESLint to ignore `react/no-unescaped-entities` in `components/generated/`
-   - Check generation source for quote escaping
+### Priority 1: Address Next.js Vulnerabilities
+The critical Next.js vulnerabilities require evaluation:
+- The project is on v13; current advisories span through v16
+- Upgrading requires `npm audit fix --force` which bumps Next to v16.4.3 (breaking change)
+- **Product decision needed**: Assess if upgrade to Next 16 is feasible for the application
 
-### 🟡 Medium Priority (Consider)
-2. **Image optimization warnings** — Replace `<img>` with Next.js `<Image />` in `SplitSection.tsx` for better performance
-3. **Deprecation notices** — ESLint 8.x is EOL; consider planning upgrade path for future major version
+### Priority 2: Fix Generated Component Linting Issues
+- The 65 ESLint errors are concentrated in `components/generated/` files
+- These appear to be code-generated files (check generation source)
+- Options:
+  1. Update the code generator to emit properly escaped entities
+  2. Add ESLint suppressions for generated files (`.eslintignore`)
+  3. Implement a post-generation linting fix step
 
-### ℹ️ Known/Acknowledged (No Action)
-- **Next.js critical CVE:** Documented as awaiting product decision on major version upgrade
-- **PostCSS vulnerabilities:** Same — part of Next 13 stack
+### Priority 3: Upgrade Other Dependencies
+- Run `npm audit fix` to patch brace-expansion, minimatch, and source-map-js (high severity, non-breaking)
+- Evaluate deepmerge and postcss-selector-parser fixes for breaking changes
+
+### Priority 4: Convert `<img>` to `<Image />`
+- Update `SplitSection.tsx` to use Next.js `<Image />` component for better performance optimization
 
 ---
 
-## Dependencies
-- Total: 450 packages
-  - Production: 152
-  - Development: 289
-  - Optional: 37
+## Severity Classification
 
----
+- **❌ Critical**: 1 critical Next.js vulnerability with 35 advisories (requires product approval to fix)
+- **⚠️ Warning**: 6 high-severity vulnerabilities in dependencies, 2 moderate vulnerabilities, lint failures in generated files, deprecated npm packages
+- **✅ Healthy**: Build succeeds, 65/65 pages generated successfully, no runtime errors
 
-## Next Steps
-1. Resolve lint errors in `components/generated/` (or adjust linting config)
-2. Plan Next.js major version upgrade (Next 16+) for security fixes
-3. Monitor for new security advisories
+**Overall Assessment**: Site builds and deploys successfully, but has unresolved security vulnerabilities and linting issues that should be addressed before production deployment.

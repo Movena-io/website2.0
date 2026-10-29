@@ -1,11 +1,15 @@
 # Website Monitor Report
 
-**Run Timestamp**: 2026-10-29T03:15:00Z  
-**Overall Status**: ⚠️ **Warning** — Build passing, lint errors present, 12 security vulnerabilities (1 critical)
+**Run Timestamp**: 2026-10-29T17:12:00Z  
+**Overall Status**: ❌ **FAILING** — Build passing, critical security vulnerabilities, lint errors in generated code
 
 ## Summary
 
-The Movena marketing website builds successfully. However, **linting fails with 67 errors** across generated components due to unescaped HTML entities in JSX, and **security audit identifies 12 vulnerabilities** (1 critical in Next.js, 6 high-severity transitive dependencies). The critical Next.js issue is a known product decision per CLAUDE.md.
+The Movena marketing website builds successfully but has significant linting and security issues:
+
+- **Build**: ✅ PASSED (65 pages generated)
+- **Lint**: ❌ FAILED (73 errors across generated components, up from 67)
+- **Security**: ❌ CRITICAL (12 vulnerabilities: 3 low, 2 moderate, 6 high, 1 critical RCE)
 
 ---
 
@@ -37,38 +41,38 @@ The Movena marketing website builds successfully. However, **linting fails with 
 
 - **Command**: `npm run lint`
 - **Result**: Failed (exit code 1)
-- **Total Issues**: 67 errors + 2 warnings
+- **Total Issues**: 73 errors + 2 warnings (increased from 67)
 
-#### Errors (67 total)
+#### Errors (73 total)
 
-**Root Cause**: Unescaped single quotes in JSX/TSX generated components  
-**ESLint Rule Violated**: `react/no-unescaped-entities`  
+**Root Cause**: Unescaped single quotes in JSX strings in auto-generated components  
+**ESLint Rule**: `react/no-unescaped-entities`  
 **Error Message**: `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`
 
-**Affected Generated Components** (in `components/generated/`):
-- `BeregnerEn.tsx` (2 errors)
-- `BlogIndexDa.tsx` (1 error)
-- `BlogIndexEn.tsx` (1 error)
-- `BlogPostEn.tsx` (7 errors)
-- `BookDemoEn.tsx` (3 errors)
-- `ErrorEn.tsx` (2 errors)
-- `FaaAllePengeneHjemEn.tsx` (5 errors)
-- `ForsideDa.tsx` (1 error)
-- `ForsideEn.tsx` (26 errors) — largest offender
-- `HavStyrPaaDagenEn.tsx` (8 errors)
-- `NotFoundEn.tsx` (1 error)
-- `OmOsEn.tsx` (2 errors)
-- `PrivatlivspolitikEn.tsx` (3 errors)
-- `VindFlereFlytningerEn.tsx` (8 errors)
+**Affected Files** (components/generated/):
+- `BeregnerEn.tsx` - 2 errors
+- `BlogIndexDa.tsx` - 1 error
+- `BlogIndexEn.tsx` - 1 error
+- `BlogPostEn.tsx` - 7 errors
+- `BookDemoEn.tsx` - 3 errors
+- `ErrorEn.tsx` - 2 errors
+- `FaaAllePengeneHjemEn.tsx` - 5 errors
+- `ForsideDa.tsx` - 1 error
+- `ForsideEn.tsx` - 26 errors (largest)
+- `HavStyrPaaDagenEn.tsx` - 8 errors
+- `NotFoundEn.tsx` - 1 error
+- `OmOsEn.tsx` - 2 errors
+- `PrivatlivspolitikEn.tsx` - 3 errors
+- `VindFlereFlytningerEn.tsx` - 8 errors
 
-**Note**: Errors isolated to `components/generated/` directory; these are auto-generated files. Source generator needs updating to emit properly escaped HTML entities.
+**Solution**: Update the component generator to properly escape HTML entities in output.
 
 #### Warnings (2 total)
 
 **File**: `components/SplitSection.tsx` (lines 93, 96)  
 **Rule**: `@next/next/no-img-element`  
-**Issue**: Using native `<img>` instead of Next.js `<Image />` component  
-**Impact**: Slower LCP (Largest Contentful Paint), higher bandwidth usage
+**Issue**: Using `<img>` instead of `<Image />` component  
+**Impact**: Slower LCP, higher bandwidth
 
 ### 4. Security Audit ❌
 
@@ -79,65 +83,53 @@ The Movena marketing website builds successfully. However, **linting fails with 
 
 | Severity | Count | Notes |
 |----------|-------|-------|
-| Critical | 1 | Next.js (acknowledged in CLAUDE.md) |
+| Critical | 1 | Next.js RCE (acknowledged in CLAUDE.md) |
 | High | 6 | Transitive dependencies |
 | Moderate | 2 | Lower priority |
 | Low | 3 | Deprecated packages |
 
-#### Critical (1)
+#### Critical Severity (1)
 
-**Next.js** (v13.5.11) — **CRITICAL & ACKNOWLEDGED**
-- **Issues**: 33 advisories affecting versions 0.9.9–16.3.0-preview.10
-- **Key CVEs**:
-  - SSRF in Server Actions (GHSA-fr5h-rqp8-mj6g)
-  - DoS in Image Optimization (GHSA-g77x-44xx-532m)
-  - Authorization bypass (GHSA-7gfc-8cq8-jh5f)
-  - RCE in Image Optimization on Windows (GHSA-2xp9-vwfh-vxw4)
-  - Cache poisoning & key confusion
-  - HTTP request smuggling in rewrites
-  - XSS with CSP nonces
-  - Middleware bypass (Pages Router)
-- **Known Decision**: CLAUDE.md states "Fixing requires Next 13 to 16, a major upgrade that is a product decision, not a monitor action."
-- **Status**: Deferred pending product team approval
+**Next.js** (v13.5.11)
+- **Vulnerability**: Unauthenticated RCE in Image Optimization API when SVG files are used
+- **CVSS**: Critical severity
+- **Advisory**: GHSA-2464-fhr4-w9xw
+- **Affected Range**: >=10.0.0 <=15.5.27
+- **Additional Issues**:
+  - DoS in App Router (Server Actions)
+  - SSRF in Server Actions
+  - Authorization bypass
+  - Cache poisoning
+- **Status**: Per CLAUDE.md, this is a known product decision. Fixing requires upgrading from Next.js 13 to 16+.
 
 #### High Severity (6)
 
-1. **minimatch** (via @typescript-eslint/typescript-estree)
-   - ReDoS vulnerabilities via repeated wildcards and nested extglobs
-   - Fix: `npm audit fix`
+1. **@typescript-eslint/typescript-estree** → **minimatch**
+   - ReDoS via repeated wildcards and nested extglobs
+   - Affects: TypeScript parsing
 
-2. **postcss** (nested in node_modules/next/node_modules/postcss)
-   - XSS via unescaped `</style>` in CSS stringify
+2. **brace-expansion**
+   - Multiple DoS vectors: quadratic expansion, uncontrolled recursion
+   - CVSS: 7.5 (stack exhaustion)
+   - Affects: Shell glob pattern expansion
+
+3. **postcss** (nested in next/node_modules/)
    - Arbitrary file read via sourceMappingURL
    - Path traversal in source map auto-loading
-   - Fix: Requires Next.js upgrade
-
-3. **source-map-js**
-   - Event-loop DoS via indexed source-map offsets
-   - Fix: `npm audit fix`
-
-4. **deepmerge** (html-to-text ← @react-email/render)
-   - Prototype poisoning in mergeObject()
-   - Fix: `npm audit fix --force` (@react-email/render breaking change)
-
-5. **postcss-selector-parser** (@tailwindcss/typography)
-   - Quadratic complexity in flat selector parsing
-   - CPU exhaustion attack vector
-   - Fix: `npm audit fix --force` (@tailwindcss/typography breaking change)
-
-6. **brace-expansion**
-   - DoS via quadratic-time expansion and uncontrolled recursion
-   - Fix: `npm audit fix`
+   - XSS via unescaped `</style>`
+   - CVSS: 7.5
+   - Affects: CSS processing (requires Next.js upgrade)
 
 #### Moderate Severity (2)
 
-- Transitive dependencies from above vulnerability chains
+- **@tailwindcss/typography** → postcss-selector-parser (quadratic complexity)
+- Transitive from high-severity chains
 
 #### Low Severity (3)
 
-- Deprecated packages: rimraf, inflight, glob (old versions)
+- rimraf@3, inflight, glob@7 (deprecated, non-critical)
 
-**Note**: Per CLAUDE.md: "npm audit fix and npm update both rewrite ~87 packages. Patch transitive dependencies with a scoped entry in `overrides` in `package.json` instead."
+**Analysis**: Per CLAUDE.md, "Next and postcss are knowingly left on current versions. Fixing them requires Next 13 to 16, a major upgrade that is a product decision."
 
 ---
 
@@ -147,38 +139,51 @@ The Movena marketing website builds successfully. However, **linting fails with 
 |----------|--------|-------|--------|
 | **Build** | Success | Yes | ✅ |
 | **Pages Generated** | Static + SSG | 65 total (2 locales) | ✅ |
-| **Lint Errors** | Count | 67 | ❌ |
+| **Lint Errors** | Count | 73 | ❌ |
 | **Lint Warnings** | Count | 2 | ⚠️ |
-| **Security Vulns** | Total | 12 | ❌ |
-| **—** | Critical | 1 (acknowledged) | ⚠️ |
-| **—** | High | 6 (transitive) | ❌ |
+| **Security Vulnerabilities** | Total | 12 | ❌ |
+| **—** | Critical | 1 (RCE in Next.js) | ❌ |
+| **—** | High | 6 | ❌ |
 
 ---
 
 ## Blocking Issues
 
-### High Priority: Lint Errors (67 errors)
+### 1. Linting Errors (73 errors) - P1
 
-**Status**: Blocking code quality gates
+**Impact**: Prevents clean merges in many CI/CD pipelines  
+**Root Cause**: Auto-generated components not escaping JSX entities  
+**Options**:
+- Update source generator to escape `'` → `&apos;`
+- Suppress errors in `.eslintignore` for `components/generated/`
+- Post-generation script to auto-escape
 
-**Root Cause**: Auto-generated components contain unescaped HTML entities in JSX strings.
+### 2. Critical Next.js RCE - P2
 
-**Options to Fix**:
-1. **Update the source generator** (recommended): Ensure generator emits properly escaped entities
-2. **Suppress in ESLint**: Add `components/generated/` to `.eslintignore`
-3. **Fix manually**: Edit files, but fragile if regenerated
-4. **Post-generation script**: Auto-escape entities after generation
+**Impact**: Security risk for SVG image optimization  
+**Options**:
+- Disable SVG handling in Image Optimization component if not needed
+- Upgrade to Next.js 16.4.3 (requires product team decision)
+- Monitor for active exploits and patch urgently if detected
+
+### 3. Transitive Dependency DoS Issues - P3
+
+**Impact**: Potential availability risk from glob/pattern expansion attacks  
+**Options**:
+- Apply selective `npm audit fix` for non-breaking patches
+- Use `overrides` in package.json for safe transitive pins (per CLAUDE.md)
+- Await fixes from upstream (minimatch, brace-expansion maintainers)
 
 ---
 
 ## Recommendations
 
-| Priority | Item | Action |
-|----------|------|--------|
-| **P1** | Fix lint errors (67) | Update code generator or suppress ESLint for generated files |
-| **P2** | Convert `<img>` to `<Image />` | Update 2 tags in SplitSection.tsx for LCP optimization |
-| **P3** | Evaluate Next.js 13→16 upgrade | Product decision required for 33 CVEs |
-| **P4** | Apply available audit patches | Fix minimatch, source-map-js, brace-expansion (non-breaking) |
+| Priority | Item | Effort | Action |
+|----------|------|--------|--------|
+| **P1** | Fix 73 lint errors | Low | Update component generator to escape HTML entities |
+| **P2** | Replace `<img>` tags | Low | Convert 2 instances in SplitSection.tsx to `<Image />` |
+| **P3** | Evaluate Next.js 13→16 upgrade | High | Product team decision; roadmap planning required |
+| **P4** | Patch safe vulnerabilities | Medium | Apply `npm audit fix` for minimatch, source-map-js, brace-expansion |
 
 ---
 
@@ -192,14 +197,14 @@ The Movena marketing website builds successfully. However, **linting fails with 
 | **Security Posture** | ⚠️ Fair | 1 critical (known), 6 high (transitive) — Next.js decision pending |
 | **Performance** | ✅ Mostly | Pages lean; 2 img tags could use Image component |
 
-**Overall**: The site is **functionally sound and deployable**, but **linting issues block merges** and **security decisions on Next.js pending product approval**.
+**Verdict**: The site **builds and functions correctly** but **fails linting and has a critical security vulnerability**. Linting must be fixed before merging. Security requires product decision on Next.js upgrade timeline.
 
 ---
 
 ## Environment
 
-- **Next.js**: 13.5.11
 - **Node Packages**: 417 installed, 418 audited
-- **Locales**: English (en), Danish (da)
-- **Run Environment**: Automated scheduled monitor
+- **Next.js**: 13.5.11 (known vulnerabilities acknowledged)
+- **Locales**: en, da
+- **Run**: Automated scheduled monitor
 

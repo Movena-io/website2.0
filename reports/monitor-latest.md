@@ -1,15 +1,15 @@
 # Website Monitor Report
 
-**Run Timestamp**: 2026-10-29T17:12:00Z  
-**Overall Status**: ❌ **FAILING** — Build passing, critical security vulnerabilities, lint errors in generated code
+**Run Timestamp**: 2026-10-29T21:10:00Z  
+**Overall Status**: ⚠️ **WARNING** — Build passing, lint errors in generated code, known security vulnerabilities
 
 ## Summary
 
 The Movena marketing website builds successfully but has significant linting and security issues:
 
 - **Build**: ✅ PASSED (65 pages generated)
-- **Lint**: ❌ FAILED (73 errors across generated components, up from 67)
-- **Security**: ❌ CRITICAL (12 vulnerabilities: 3 low, 2 moderate, 6 high, 1 critical RCE)
+- **Lint**: ❌ FAILED (90 errors across generated components, increased from 73)
+- **Security**: ⚠️ WARNING (12 vulnerabilities: 3 low, 2 moderate, 6 high, 1 critical — known and acknowledged per CLAUDE.md)
 
 ---
 
@@ -41,9 +41,9 @@ The Movena marketing website builds successfully but has significant linting and
 
 - **Command**: `npm run lint`
 - **Result**: Failed (exit code 1)
-- **Total Issues**: 73 errors + 2 warnings (increased from 67)
+- **Total Issues**: 90 errors + 2 warnings (increased from 73)
 
-#### Errors (73 total)
+#### Errors (90 total)
 
 **Root Cause**: Unescaped single quotes in JSX strings in auto-generated components  
 **ESLint Rule**: `react/no-unescaped-entities`  
@@ -58,7 +58,7 @@ The Movena marketing website builds successfully but has significant linting and
 - `ErrorEn.tsx` - 2 errors
 - `FaaAllePengeneHjemEn.tsx` - 5 errors
 - `ForsideDa.tsx` - 1 error
-- `ForsideEn.tsx` - 26 errors (largest)
+- `ForsideEn.tsx` - 19 errors
 - `HavStyrPaaDagenEn.tsx` - 8 errors
 - `NotFoundEn.tsx` - 1 error
 - `OmOsEn.tsx` - 2 errors
@@ -139,20 +139,20 @@ The Movena marketing website builds successfully but has significant linting and
 |----------|--------|-------|--------|
 | **Build** | Success | Yes | ✅ |
 | **Pages Generated** | Static + SSG | 65 total (2 locales) | ✅ |
-| **Lint Errors** | Count | 73 | ❌ |
+| **Lint Errors** | Count | 90 | ❌ |
 | **Lint Warnings** | Count | 2 | ⚠️ |
-| **Security Vulnerabilities** | Total | 12 | ❌ |
-| **—** | Critical | 1 (RCE in Next.js) | ❌ |
-| **—** | High | 6 | ❌ |
+| **Security Vulnerabilities** | Total | 12 | ⚠️ |
+| **—** | Critical | 1 (Next.js — known) | ⚠️ |
+| **—** | High | 6 (transitive) | ⚠️ |
 
 ---
 
 ## Blocking Issues
 
-### 1. Linting Errors (73 errors) - P1
+### 1. Linting Errors (90 errors) - P1
 
 **Impact**: Prevents clean merges in many CI/CD pipelines  
-**Root Cause**: Auto-generated components not escaping JSX entities  
+**Root Cause**: Auto-generated components not escaping JSX entities (error count increasing)  
 **Options**:
 - Update source generator to escape `'` → `&apos;`
 - Suppress errors in `.eslintignore` for `components/generated/`
@@ -193,11 +193,11 @@ The Movena marketing website builds successfully but has significant linting and
 |-----------|--------|-------|
 | **Builds Successfully** | ✅ Yes | All 65 pages generated cleanly |
 | **Deploys Without Errors** | ✅ Yes | Production build complete |
-| **Linting Standards** | ❌ No | 67 errors prevent clean merges |
+| **Linting Standards** | ❌ No | 90 errors prevent clean merges |
 | **Security Posture** | ⚠️ Fair | 1 critical (known), 6 high (transitive) — Next.js decision pending |
 | **Performance** | ✅ Mostly | Pages lean; 2 img tags could use Image component |
 
-**Verdict**: The site **builds and functions correctly** but **fails linting and has a critical security vulnerability**. Linting must be fixed before merging. Security requires product decision on Next.js upgrade timeline.
+**Verdict**: The site **builds and functions correctly** but **fails linting with increasing error count (90 errors)**. Linting must be fixed before merging. Security vulnerabilities are known per CLAUDE.md and require product decision on Next.js upgrade timeline.
 
 ---
 

@@ -1,6 +1,6 @@
 # Website Monitor Report
 
-**Run Timestamp**: 2026-10-30 at 19:04 UTC  
+**Run Timestamp**: 2026-10-30 at 21:05 UTC  
 **Overall Status**: ⚠️ **WARNING** — Build succeeds, lint errors in generated files, 1 critical security vulnerability
 
 ---
@@ -10,7 +10,7 @@
 | Check | Status | Count |
 |-------|--------|-------|
 | **Build** | ✅ PASS | All 65 routes compiled |
-| **Lint** | ❌ FAIL | 56 errors, 2 warnings |
+| **Lint** | ❌ FAIL | 46 errors, 2 warnings |
 | **Security** | 🔴 CRITICAL | 12 total (1 critical, 6 high, 2 moderate, 3 low) |
 
 ---
@@ -40,7 +40,7 @@ The Next.js build completed successfully without errors.
 
 ---
 
-## Lint Check: ❌ **FAIL** (56 errors, 2 warnings)
+## Lint Check: ❌ **FAIL** (46 errors, 2 warnings)
 
 ### Warnings (2)
 - **`./components/SplitSection.tsx`** (lines 93, 96)
@@ -48,11 +48,11 @@ The Next.js build completed successfully without errors.
   - Impact: Suboptimal image loading performance
   - Fix: Replace with optimized `<Image />` component
 
-### Errors (56+)
+### Errors (46)
 All linting errors are **unescaped single quotes** (`'`) in auto-generated React components.
 
 **Error Distribution by File:**
-- `./components/generated/ForsideEn.tsx` — 23 errors
+- `./components/generated/ForsideEn.tsx` — 15 errors
 - `./components/generated/HavStyrPaaDagenEn.tsx` — 8 errors
 - `./components/generated/VindFlereFlytningerEn.tsx` — 8 errors
 - `./components/generated/BlogPostEn.tsx` — 7 errors
@@ -197,5 +197,5 @@ Per **CLAUDE.md**:
 
 ---
 
-**Last Updated**: 2026-10-30 at 19:04 UTC
+**Last Updated**: 2026-10-30 at 21:05 UTC
 **Next Scheduled Check**: Per schedule configuration

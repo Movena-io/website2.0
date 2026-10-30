@@ -1,7 +1,7 @@
 # Website Monitor Report
 
-**Run Timestamp**: 2026-10-30 13:05:00 UTC  
-**Overall Status**: ⚠️ **WARNING** — Build passing, lint errors in generated code, known security vulnerabilities
+**Run Timestamp**: 2026-10-30 16:10:00 UTC  
+**Overall Status**: ❌ **CRITICAL** — Build passing, lint failures block merge, critical Next.js vulnerabilities
 
 ## Summary
 

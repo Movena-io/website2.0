@@ -1,7 +1,7 @@
 # Website Monitor Report
 
-**Run Timestamp**: 2026-10-31 at 00:00 UTC  
-**Overall Status**: ❌ **FAILED** — Linting errors in generated files + security vulnerabilities
+**Run Timestamp**: 2026-10-31 at 03:05 UTC  
+**Overall Status**: ⚠️ **ISSUES FOUND** — Linting errors in generated files + accepted security vulnerabilities
 
 ---
 
@@ -204,5 +204,5 @@ Per **CLAUDE.md**:
 
 ---
 
-**Last Updated**: 2026-10-31 at 00:00 UTC
+**Last Updated**: 2026-10-31 at 03:05 UTC
 **Next Scheduled Check**: Per schedule configuration

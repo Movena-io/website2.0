@@ -1,7 +1,7 @@
 # Website Monitor Report
 
-**Run Timestamp**: 2026-10-30 at 21:05 UTC  
-**Overall Status**: ⚠️ **WARNING** — Build succeeds, lint errors in generated files, 1 critical security vulnerability
+**Run Timestamp**: 2026-10-31 at 00:00 UTC  
+**Overall Status**: ❌ **FAILED** — Linting errors in generated files + security vulnerabilities
 
 ---
 
@@ -10,8 +10,8 @@
 | Check | Status | Count |
 |-------|--------|-------|
 | **Build** | ✅ PASS | All 65 routes compiled |
-| **Lint** | ❌ FAIL | 46 errors, 2 warnings |
-| **Security** | 🔴 CRITICAL | 12 total (1 critical, 6 high, 2 moderate, 3 low) |
+| **Lint** | ❌ FAIL | 67 errors (66 unescaped entities, 2 img warnings) |
+| **Security** | 🔴 CRITICAL | 25 vulnerabilities (1 critical, 6 high, 15 moderate, 3 low) |
 
 ---
 
@@ -40,19 +40,19 @@ The Next.js build completed successfully without errors.
 
 ---
 
-## Lint Check: ❌ **FAIL** (46 errors, 2 warnings)
+## Lint Check: ❌ **FAIL** (67 issues: 66 errors, 1 warning)
 
-### Warnings (2)
+### Warnings (1)
 - **`./components/SplitSection.tsx`** (lines 93, 96)
   - Issue: Using `<img>` instead of Next.js `<Image />` component
   - Impact: Suboptimal image loading performance
   - Fix: Replace with optimized `<Image />` component
 
-### Errors (46)
-All linting errors are **unescaped single quotes** (`'`) in auto-generated React components.
+### Errors (66)
+All linting errors are **unescaped HTML entities** (primarily single quotes `'`) in auto-generated React components.
 
 **Error Distribution by File:**
-- `./components/generated/ForsideEn.tsx` — 15 errors
+- `./components/generated/ForsideEn.tsx` — 19 errors
 - `./components/generated/HavStyrPaaDagenEn.tsx` — 8 errors
 - `./components/generated/VindFlereFlytningerEn.tsx` — 8 errors
 - `./components/generated/BlogPostEn.tsx` — 7 errors
@@ -73,70 +73,77 @@ All linting errors are **unescaped single quotes** (`'`) in auto-generated React
 
 ---
 
-## Security Audit: 🔴 **CRITICAL** (12 vulnerabilities)
+## Security Audit: 🔴 **CRITICAL** (25 vulnerabilities)
 
 ### Critical Severity (1)
 
-**PostCSS Path Traversal (Arbitrary .map File Disclosure)**
-- **Package**: `postcss` (≤8.5.22, nested in Next.js)
-- **Advisory**: GHSA-6g55-p6wh-862q
-- **Description**: Path traversal in sourceMappingURL auto-loading allows attackers to read arbitrary `.map` files and disclose source code
-- **CVSS Score**: 7.5 (High)
-- **Root Cause**: Incomplete validation of sourceMappingURL in CSS comments
-- **Current Status**: Blocked by Next.js 13 version constraint
-- **Fix Required**: Upgrade to Next.js 16.4.3+ (major version bump)
+**Next.js Multiple Security Vulnerabilities**
+- **Package**: `next` (0.9.9 - 16.3.0-preview.10 affected, current: ~13.x)
+- **Multiple Critical Advisories Including:**
+  - **GHSA-fr5h-rqp8-mj6g**: Server-Side Request Forgery in Server Actions
+  - **GHSA-3h52-269p-cp9r**: Information exposure in dev server
+  - **GHSA-7gfc-8cq8-jh5f**: Authorization bypass vulnerability
+  - **GHSA-4342-x723-ch2f**: Improper Middleware Redirect Handling Leads to SSRF
+  - **GHSA-mwv6-3258-q52c**: DoS with Server Components
+  - **GHSA-2xp9-vwfh-vxw4**: Unauthenticated RCE in Image Optimization API (SVG)
+  - **GHSA-2464-fhr4-w9xw**: Unauthenticated RCE in Image Optimization API (SVG)
+  - Plus 22 additional Next.js security advisories
+- **Impact**: Critical for any production Next.js deployment
+- **Current Status**: Intentionally constrained per CLAUDE.md (product decision pending)
+- **Fix Required**: Upgrade to Next.js 16+ (major version bump)
 
 ### High Severity (6)
 
-1. **Next.js Multiple RCE & Authorization Bypass Vulnerabilities**
-   - Package: `next` (v13.x, 13.0.0 - 15.5.27 affected)
-   - **GHSA-2464-fhr4-w9xw**: Unauthenticated RCE in Image Optimization API when SVG files are used
-   - **GHSA-p3m5-59mp-jv5r**: DoS in App Router using Server Actions
-   - **GHSA-jcpm-2c4f-jj6f**: Unauthorized request handling via internal routing
-   - Critical for production systems using image optimization
-   - Fix Required: Upgrade to Next.js 16.4.3+
+1. **brace-expansion DoS Vulnerabilities**
+   - **Severity**: High
+   - **Affected**: `@typescript-eslint/typescript-estree/node_modules/brace-expansion`
+   - **Issues**:
+     - **GHSA-q2hr-2g5m-vwhr**: Quadratic-time expansion causes CPU DoS
+     - **GHSA-qhr7-859c-m2p7**: Stack exhaustion via nested brace groups
+     - **GHSA-6j4f-fj2g-mc7p**: Stack exhaustion in parseCommaParts
+   - **Impact**: Build-time resource exhaustion
+   - **Fix Available**: Via `npm audit fix`
 
-2. **brace-expansion DoS Vulnerabilities** (via glob → minimatch chain)
-   - Package: Transitive via build tools
-   - **GHSA-q2hr-2g5m-vwhr**: Quadratic-time expansion causes CPU DoS
-   - **GHSA-qhr7-859c-m2p7**: Stack exhaustion via nested brace groups
-   - **GHSA-6j4f-fj2g-mc7p**: Stack exhaustion in parseCommaParts
-   - **GHSA-2xp9-vwfh-vxw4**: Uncontrolled recursion causing DoS
-   - CVSS: 7.5 (High)
-   - Impact: Build-time DoS via malicious file patterns
+2. **minimatch ReDoS Vulnerabilities**
+   - **Severity**: High  
+   - **Affected**: Multiple locations in ESLint dependency chain
+   - **Issues**:
+     - **GHSA-3ppc-4f35-3m26**: ReDoS via repeated wildcards
+     - **GHSA-7r86-cg39-jmmj**: ReDoS from multiple GLOBSTAR segments
+     - **GHSA-23c5-xmqv-rm74**: Catastrophic backtracking via extglobs
+     - **GHSA-g3hv-75wg-m249**: DoS via globparts amplification
+   - **Impact**: Lint check resource exhaustion
+   - **Fix Available**: Requires `npm audit fix --force` (breaking changes)
 
-3. **@typescript-eslint/typescript-estree ReDoS**
-   - Package: `@typescript-eslint/typescript-estree` (6.16.0 - 7.5.0)
-   - Via: `minimatch` dependency
-   - Issue: Regular expression DoS in glob pattern matching
-   - Impact: Lint check resource exhaustion
+3. **PostCSS Vulnerabilities**
+   - **Severity**: High
+   - **Nested in**: `next/node_modules/postcss`
+   - **Issues**:
+     - **GHSA-qx2v-qp2m-jg93**: XSS via unescaped `</style>` in CSS output
+     - **GHSA-6g55-p6wh-862q**: Arbitrary file read via sourceMappingURL
+     - **GHSA-fxqj-rqcc-2cmp**: Incomplete fix of source map disclosure
+     - **GHSA-r28c-9q8g-f849**: Path traversal in sourceMappingURL
+   - **Impact**: Source code disclosure, XSS attacks
+   - **Fix Required**: Blocked by Next.js upgrade
 
-4. **PostCSS XSS & Information Disclosure** (4 advisories)
-   - Package: `postcss` (nested in Next.js)
-   - **GHSA-qx2v-qp2m-jg93**: XSS via unescaped `</style>` in CSS stringify output
-   - **GHSA-6g55-p6wh-862q**: Arbitrary file read via source map path traversal
-   - **GHSA-fxqj-rqcc-2cmp**: Incomplete fix of GHSA-6g55-p6wh-862q
-   - **GHSA-r28c-9q8g-f849**: Path traversal in sourceMappingURL
-   - CVSS: 6.1 - 7.5 (Moderate to High)
+4. **source-map-js Event-Loop DoS**
+   - **Severity**: High
+   - **Affected**: `source-map-js` v1.0.0 - v1.2.1
+   - **Issue**: Event-loop denial of service through indexed source-map offsets
+   - **Fix Available**: Via `npm audit fix`
 
-### Moderate Severity (2)
+### Moderate Severity (15)
 
-1. **@tailwindcss/typography CPU Exhaustion**
-   - Package: `@tailwindcss/typography` (≤0.5.3)
-   - Via: `postcss-selector-parser` (<6.1.5)
-   - Issue: Quadratic complexity in flat selector parsing allows CPU DoS
-   - CVSS: 5.9
-   - **GHSA-rj75-hqrm-r3gf**
-
-2. **@react-email/render Vulnerability**
-   - Package: `@react-email/render` (0.0.4 - 2.1.1)
-   - Via: `html-to-text` dependency
-   - Severity: Low → Moderate in dependency chain
-   - Fix Available: v2.2.0 (semver major bump)
+Multiple packages with moderate vulnerabilities:
+- **@react-email/render** (v0.0.4 - 2.1.1): Depends on vulnerable html-to-text
+- **@tailwindcss/typography**: Depends on vulnerable postcss-selector-parser
+- **deepmerge**: Prototype poisoning vulnerability
+- **postcss-selector-parser**: Quadratic complexity ReDoS
+- **Various transitive dependencies** from eslint ecosystem
 
 ### Low Severity (3)
 
-Various transitive dependencies with low-impact vulnerabilities.
+Minor vulnerabilities in transitive dependencies.
 
 ---
 
@@ -197,5 +204,5 @@ Per **CLAUDE.md**:
 
 ---
 
-**Last Updated**: 2026-10-30 at 21:05 UTC
+**Last Updated**: 2026-10-31 at 00:00 UTC
 **Next Scheduled Check**: Per schedule configuration

@@ -1,13 +1,13 @@
 # Website Monitor Report
 
-**Run timestamp:** 2026-11-01T00:00:00Z  
-**Overall status:** ❌ FAILED (lint errors, known security vulnerabilities)
+**Run timestamp:** 2026-11-01 02:30 UTC  
+**Overall status:** ⚠️ WARNING - Lint failures and known security vulnerabilities
 
 ---
 
 ## Summary
 
-The website build completes successfully, but linting fails due to unescaped HTML entities in auto-generated components. Security audit reveals 25 vulnerabilities, including 1 critical in Next.js. Per project guidelines, the Next.js vulnerabilities require a major version upgrade and are not addressed by this monitor.
+The website build completes successfully. Linting fails due to unescaped HTML entities in auto-generated components (72 errors). Security audit reveals 25 vulnerabilities (1 critical, 6 high, 15 moderate). Per project guidelines, Next.js vulnerabilities require major version upgrade (not addressed by this monitor).
 
 ---
 
@@ -26,7 +26,7 @@ Routes generated: 65 static pages
 
 ## Lint Check
 
-❌ **FAILED** - 100+ errors
+❌ **FAILED** - 72 errors
 
 All errors are `react/no-unescaped-entities` violations in auto-generated component files:
 - `./components/generated/BeregnerEn.tsx` (2 errors)
@@ -37,7 +37,7 @@ All errors are `react/no-unescaped-entities` violations in auto-generated compon
 - `./components/generated/ErrorEn.tsx` (2 errors)
 - `./components/generated/FaaAllePengeneHjemEn.tsx` (5 errors)
 - `./components/generated/ForsideDa.tsx` (1 error)
-- `./components/generated/ForsideEn.tsx` (18 errors)
+- `./components/generated/ForsideEn.tsx` (17 errors)
 - `./components/generated/HavStyrPaaDagenEn.tsx` (8 errors)
 - `./components/generated/NotFoundEn.tsx` (1 error)
 - `./components/generated/OmOsEn.tsx` (2 errors)
@@ -48,7 +48,7 @@ All errors are `react/no-unescaped-entities` violations in auto-generated compon
 
 **Note:** These are generated files. The errors likely originate from the content generation source and should be fixed at generation time, not manually in the generated output.
 
-**Also:** 2 warnings in `./components/SplitSection.tsx` about using `<img>` instead of Next.js `<Image />` component.
+**Also:** 2 warnings in `./components/SplitSection.tsx` about using `<img>` instead of Next.js `<Image />` component for better LCP and bandwidth optimization.
 
 ---
 

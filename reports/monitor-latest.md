@@ -1,13 +1,13 @@
 # Website Monitor Report
 
-**Run timestamp:** 2026-11-02 06:15 UTC  
+**Run timestamp:** 2026-11-02 07:10:24 UTC  
 **Overall status:** ⚠️ WARNING - Lint failures and known security vulnerabilities
 
 ---
 
 ## Summary
 
-The website build completes successfully. Linting fails due to unescaped HTML entities in auto-generated components (68 errors). Security audit reveals 25 vulnerabilities (1 critical, 6 high, 15 moderate). Per project guidelines, Next.js vulnerabilities require major version upgrade (not addressed by this monitor).
+The website build completes successfully. Linting fails due to unescaped HTML entities in auto-generated components (80+ errors). Security audit reveals 25 vulnerabilities (1 critical, 6 high, 15 moderate). Per project guidelines, Next.js vulnerabilities require major version upgrade (not addressed by this monitor).
 
 ---
 
@@ -26,7 +26,7 @@ Routes generated: 65 static pages
 
 ## Lint Check
 
-❌ **FAILED** - 68 errors
+❌ **FAILED** - 80+ errors
 
 All errors are `react/no-unescaped-entities` violations in auto-generated component files:
 - `./components/generated/BeregnerEn.tsx` (2 errors)

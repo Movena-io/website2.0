@@ -1,7 +1,7 @@
 # Website Monitor Report
 
-**Run Timestamp**: 2026-10-30 at 21:05 UTC  
-**Overall Status**: ⚠️ **WARNING** — Build succeeds, lint errors in generated files, 1 critical security vulnerability
+**Run Timestamp**: 2026-11-02 at 20:04 UTC  
+**Overall Status**: ⚠️ **WARNING** — Build succeeds, lint errors in generated files, critical security vulnerabilities present
 
 ---
 
@@ -10,8 +10,8 @@
 | Check | Status | Count |
 |-------|--------|-------|
 | **Build** | ✅ PASS | All 65 routes compiled |
-| **Lint** | ❌ FAIL | 46 errors, 2 warnings |
-| **Security** | 🔴 CRITICAL | 12 total (1 critical, 6 high, 2 moderate, 3 low) |
+| **Lint** | ❌ FAIL | 49 errors, 2 warnings |
+| **Security** | 🔴 CRITICAL | 25 total (1 critical, 6 high, 15 moderate, 3 low) |
 
 ---
 
@@ -34,13 +34,13 @@ The Next.js build completed successfully without errors.
 **Routes Generated:**
 - Homepage and localized variants (`[locale]`, `[locale]/en`, `[locale]/da`)
 - 25+ blog posts across both locales
-- Product pages (win-more-moves, run-the-day, etc.)
+- Product pages (win-more-moves, run-the-day, hav-styr-paa-dagen, etc.)
 - Demo booking, contact, and support pages
 - API endpoints (calculator, contact, demo)
 
 ---
 
-## Lint Check: ❌ **FAIL** (46 errors, 2 warnings)
+## Lint Check: ❌ **FAIL** (49 errors, 2 warnings)
 
 ### Warnings (2)
 - **`./components/SplitSection.tsx`** (lines 93, 96)
@@ -48,7 +48,7 @@ The Next.js build completed successfully without errors.
   - Impact: Suboptimal image loading performance
   - Fix: Replace with optimized `<Image />` component
 
-### Errors (46)
+### Errors (49)
 All linting errors are **unescaped single quotes** (`'`) in auto-generated React components.
 
 **Error Distribution by File:**
@@ -73,70 +73,88 @@ All linting errors are **unescaped single quotes** (`'`) in auto-generated React
 
 ---
 
-## Security Audit: 🔴 **CRITICAL** (12 vulnerabilities)
+## Security Audit: 🔴 **CRITICAL** (25 vulnerabilities)
 
 ### Critical Severity (1)
 
-**PostCSS Path Traversal (Arbitrary .map File Disclosure)**
-- **Package**: `postcss` (≤8.5.22, nested in Next.js)
-- **Advisory**: GHSA-6g55-p6wh-862q
-- **Description**: Path traversal in sourceMappingURL auto-loading allows attackers to read arbitrary `.map` files and disclose source code
-- **CVSS Score**: 7.5 (High)
-- **Root Cause**: Incomplete validation of sourceMappingURL in CSS comments
+**Next.js Multiple RCE & Authorization Bypass Vulnerabilities (37 advisories)**
+- **Package**: `next` (v13.x, affects 0.9.9 - 16.3.0-preview.10)
+- **Key Vulnerabilities**:
+  - **GHSA-2464-fhr4-w9xw**: Unauthenticated RCE in Image Optimization API when SVG files are used
+  - **GHSA-2xp9-vwfh-vxw4**: Unauthenticated RCE in Image Optimization API when AVIF files are used
+  - **GHSA-p293-qw3h-jr36**: Unauthenticated Remote Code Execution on Windows-hosted servers
+  - **GHSA-955p-x3mx-jcvp**: Unauthenticated disclosure of internal Server Function endpoints
+  - **GHSA-fr5h-rqp8-mj6g**: Server-Side Request Forgery in Server Actions
+  - **GHSA-g77x-44xx-532m**: Denial of Service in image optimization
+  - **GHSA-3h52-269p-cp9r**: Information exposure in dev server
+  - Multiple cache poisoning, SSRF, DoS, and XSS vulnerabilities
+- **CVSS Score**: Variable (5.3 - 8.6 range)
 - **Current Status**: Blocked by Next.js 13 version constraint
-- **Fix Required**: Upgrade to Next.js 16.4.3+ (major version bump)
+- **Fix Required**: Upgrade to Next.js 16.4.4+ (major version bump)
 
 ### High Severity (6)
 
-1. **Next.js Multiple RCE & Authorization Bypass Vulnerabilities**
-   - Package: `next` (v13.x, 13.0.0 - 15.5.27 affected)
-   - **GHSA-2464-fhr4-w9xw**: Unauthenticated RCE in Image Optimization API when SVG files are used
-   - **GHSA-p3m5-59mp-jv5r**: DoS in App Router using Server Actions
-   - **GHSA-jcpm-2c4f-jj6f**: Unauthorized request handling via internal routing
-   - Critical for production systems using image optimization
-   - Fix Required: Upgrade to Next.js 16.4.3+
-
-2. **brace-expansion DoS Vulnerabilities** (via glob → minimatch chain)
+1. **brace-expansion DoS Vulnerabilities** (3 CVEs)
    - Package: Transitive via build tools
    - **GHSA-q2hr-2g5m-vwhr**: Quadratic-time expansion causes CPU DoS
    - **GHSA-qhr7-859c-m2p7**: Stack exhaustion via nested brace groups
    - **GHSA-6j4f-fj2g-mc7p**: Stack exhaustion in parseCommaParts
-   - **GHSA-2xp9-vwfh-vxw4**: Uncontrolled recursion causing DoS
-   - CVSS: 7.5 (High)
+   - CVSS: 5.3
    - Impact: Build-time DoS via malicious file patterns
 
-3. **@typescript-eslint/typescript-estree ReDoS**
-   - Package: `@typescript-eslint/typescript-estree` (6.16.0 - 7.5.0)
-   - Via: `minimatch` dependency
-   - Issue: Regular expression DoS in glob pattern matching
-   - Impact: Lint check resource exhaustion
+2. **minimatch ReDoS Vulnerabilities** (4 CVEs)
+   - Package: `minimatch` (≤11.0.0)
+   - **GHSA-3ppc-4f35-3m26**: ReDoS via repeated wildcards
+   - **GHSA-7r86-cg39-jmmj**: ReDoS via GLOBSTAR segments
+   - **GHSA-23c5-xmqv-rm74**: ReDoS via extglobs
+   - **GHSA-g3hv-75wg-m249**: DoS via globparts amplification
+   - CVSS: 7.5
+   - Impact: Lint/build-time resource exhaustion
 
-4. **PostCSS XSS & Information Disclosure** (4 advisories)
-   - Package: `postcss` (nested in Next.js)
+3. **PostCSS XSS & Information Disclosure** (4 CVEs)
+   - Package: `postcss` (≤8.5.22, nested in Next.js)
    - **GHSA-qx2v-qp2m-jg93**: XSS via unescaped `</style>` in CSS stringify output
    - **GHSA-6g55-p6wh-862q**: Arbitrary file read via source map path traversal
-   - **GHSA-fxqj-rqcc-2cmp**: Incomplete fix of GHSA-6g55-p6wh-862q
+   - **GHSA-fxqj-rqcc-2cmp**: Incomplete fix allowing source map disclosure
    - **GHSA-r28c-9q8g-f849**: Path traversal in sourceMappingURL
-   - CVSS: 6.1 - 7.5 (Moderate to High)
+   - CVSS: 6.1 - 7.5
 
-### Moderate Severity (2)
+4. **source-map-js Event-loop DoS**
+   - Package: `source-map-js` (1.0.0 - 1.2.1)
+   - Issue: Denial of service through indexed source-map section offsets
+   - CVSS: High
 
-1. **@tailwindcss/typography CPU Exhaustion**
-   - Package: `@tailwindcss/typography` (≤0.5.3)
-   - Via: `postcss-selector-parser` (<6.1.5)
-   - Issue: Quadratic complexity in flat selector parsing allows CPU DoS
-   - CVSS: 5.9
-   - **GHSA-rj75-hqrm-r3gf**
+5. **@typescript-eslint/parser High Severity Issues**
+   - Package: `@typescript-eslint/parser` and `@typescript-eslint/typescript-estree` (6.16.0 - 7.5.0)
+   - Via: `minimatch` dependency chain
+   - Impact: Lint check resource exhaustion
 
-2. **@react-email/render Vulnerability**
-   - Package: `@react-email/render` (0.0.4 - 2.1.1)
-   - Via: `html-to-text` dependency
-   - Severity: Low → Moderate in dependency chain
-   - Fix Available: v2.2.0 (semver major bump)
+### Moderate Severity (15)
+
+Multiple transitive dependencies including:
+- `@tailwindcss/typography` (postcss-selector-parser CPU exhaustion)
+- `eslint` and ESLint plugin chain
+- `@react-email/render` → `html-to-text` → `deepmerge` chain
+- Various glob and file-entry-cache dependencies
 
 ### Low Severity (3)
 
-Various transitive dependencies with low-impact vulnerabilities.
+- `@react-email/render`: Depends on vulnerable html-to-text
+- `deepmerge`: Prototype poisoning
+- General transitive dependency issues
+
+---
+
+## Vulnerability Trend
+
+**Previous Run (2026-10-30)**: 12 vulnerabilities  
+**Current Run (2026-11-02)**: 25 vulnerabilities  
+**Change**: +13 vulnerabilities (+108% increase)
+
+This significant increase suggests either:
+1. `npm audit` detecting additional transitive vulnerabilities on re-scan
+2. Dependencies being updated with new advisories
+3. Possible new vulnerability disclosures in Next.js ecosystem
 
 ---
 
@@ -147,6 +165,7 @@ Per **CLAUDE.md**:
 - Fixing requires Next.js 13 → 16 (major version upgrade)
 - This is a **product decision deferred** for later
 - **`npm audit fix --force` should NOT be run** — would break compatibility
+- `npm audit fix` alone won't resolve Next.js critical issues
 
 **Deprecated Packages Installed:**
 - `rimraf@3.0.2` (Security fixes in v4)
@@ -159,22 +178,28 @@ Per **CLAUDE.md**:
 
 ## Recommendations
 
-### Priority 1: Fix Generated Code Quality
+### Priority 1: Fix Generated Code Quality ❌
 **Action:** Update the component generation pipeline to properly escape HTML entities
 - Single quotes (`'`) → use `&apos;`, `&lsquo;`, `&#39;`, or `&rsquo;`
 - Affects: 14 files in `components/generated/`
 - Time to Fix: 30 min (generator update) vs. hours (manual per-file)
+- Status: Not yet addressed (49 errors detected)
 
-### Priority 2: Optimize SplitSection.tsx
+### Priority 2: Address Security Vulnerability Increase ⚠️
+**Observation:** Vulnerability count increased from 12 to 25 in 3 days
+- Monitor for pattern: Are new vulnerabilities being disclosed, or is dependency tree changing?
+- Schedule Next.js upgrade planning (requires product decision)
+- Do NOT run `npm audit fix --force` without planning impact
+
+### Priority 3: Optimize SplitSection.tsx
 **Action:** Replace `<img>` with Next.js `<Image />` component
 - Files: `./components/SplitSection.tsx` (lines 93, 96)
 - Benefit: Automatic image optimization, LCP improvement
 
-### Priority 3: Monitor Dependency Updates
-**Action:** No immediate action on Next.js/PostCSS (constrained by product decision)
-- Monitor for non-breaking patches to high-severity packages
-- Plan Next.js 13→16 upgrade as separate initiative
+### Priority 4: Monitor Dependency Updates
+**Action:** Keep watching for non-breaking patches
 - Track brace-expansion, minimatch updates for build tool chain
+- Plan Next.js 13→16 upgrade as separate strategic initiative
 
 ---
 
@@ -186,16 +211,18 @@ Per **CLAUDE.md**:
 - npm: v10+
 
 **Build Metrics:**
-- Build time: ~30 seconds
+- Build time: ~25 seconds
 - Lint check time: ~5 seconds
 - Security audit time: ~10 seconds
 - Total execution: ~2 minutes
 
 **Files Modified:** None (monitoring only)
 **Files Added:** None (monitoring only)
+**Dependencies Installed:** 418 packages
+
 **Test Results:** See sections above
 
 ---
 
-**Last Updated**: 2026-10-30 at 21:05 UTC
+**Last Updated**: 2026-11-02 at 20:04 UTC  
 **Next Scheduled Check**: Per schedule configuration

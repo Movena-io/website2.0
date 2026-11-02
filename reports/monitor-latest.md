@@ -1,13 +1,13 @@
 # Website Monitor Report
 
-**Run timestamp:** 2026-11-02 07:10:24 UTC  
-**Overall status:** ⚠️ WARNING - Lint failures and known security vulnerabilities
+**Run timestamp:** 2026-11-02 09:10:00 UTC  
+**Overall status:** ❌ CRITICAL - Multiple security vulnerabilities and lint failures
 
 ---
 
 ## Summary
 
-The website build completes successfully. Linting fails due to unescaped HTML entities in auto-generated components (80+ errors). Security audit reveals 25 vulnerabilities (1 critical, 6 high, 15 moderate). Per project guidelines, Next.js vulnerabilities require major version upgrade (not addressed by this monitor).
+The website build completes successfully. Linting fails due to unescaped HTML entities in auto-generated components (79 errors). Security audit reveals 25 vulnerabilities (1 critical, 6 high, 15 moderate). The critical Next.js vulnerabilities include SSRF, RCE, DoS, and authorization bypass issues affecting the current version.
 
 ---
 
@@ -20,15 +20,16 @@ Build completed successfully
 Routes generated: 65 static pages
 - First Load JS shared: 80.6 kB
 - Largest route: /[locale]/savings-calculator (24.6 kB)
+- All pages compiled without errors
 ```
 
 ---
 
 ## Lint Check
 
-❌ **FAILED** - 80+ errors
+❌ **FAILED** - 79 errors, 2 warnings
 
-All errors are `react/no-unescaped-entities` violations in auto-generated component files:
+**Errors:** All `react/no-unescaped-entities` violations in auto-generated component files:
 - `./components/generated/BeregnerEn.tsx` (2 errors)
 - `./components/generated/BlogIndexDa.tsx` (1 error)
 - `./components/generated/BlogIndexEn.tsx` (1 error)
@@ -37,7 +38,7 @@ All errors are `react/no-unescaped-entities` violations in auto-generated compon
 - `./components/generated/ErrorEn.tsx` (2 errors)
 - `./components/generated/FaaAllePengeneHjemEn.tsx` (5 errors)
 - `./components/generated/ForsideDa.tsx` (1 error)
-- `./components/generated/ForsideEn.tsx` (18 errors)
+- `./components/generated/ForsideEn.tsx` (25 errors)
 - `./components/generated/HavStyrPaaDagenEn.tsx` (8 errors)
 - `./components/generated/NotFoundEn.tsx` (1 error)
 - `./components/generated/OmOsEn.tsx` (2 errors)
@@ -46,67 +47,81 @@ All errors are `react/no-unescaped-entities` violations in auto-generated compon
 
 **Issue:** Unescaped apostrophes (`'`) in generated JSX content should be escaped as `&apos;`, `&lsquo;`, `&#39;`, or `&rsquo;`.
 
-**Note:** These are generated files. The errors likely originate from the content generation source and should be fixed at generation time, not manually in the generated output.
+**Warnings:** 2 in `./components/SplitSection.tsx` about using `<img>` instead of Next.js `<Image />` component for better LCP and bandwidth optimization.
 
-**Also:** 2 warnings in `./components/SplitSection.tsx` about using `<img>` instead of Next.js `<Image />` component for better LCP and bandwidth optimization.
+**Note:** These are generated files. Fix the content generation source to properly escape HTML entities.
 
 ---
 
 ## Security Audit
 
-⚠️ **25 VULNERABILITIES** (3 low, 15 moderate, 6 high, 1 critical)
+❌ **25 VULNERABILITIES** (3 low, 15 moderate, 6 high, 1 critical)
 
-### Critical Issues
+### 🔴 CRITICAL ISSUES
 
 **Next.js** (node_modules/next)
-- **Severity:** Critical (34 known CVEs affecting versions < 16.4.3)
-- **Key issues:**
-  - Server-Side Request Forgery in Server Actions
-  - Denial of Service in Image Optimization
+- **Severity:** Critical (31+ known CVEs affecting versions < 16.4.3)
+- **Current version:** 13.x
+- **Key vulnerabilities:**
+  - Server-Side Request Forgery (SSRF) in Server Actions and rewrites
+  - Remote Code Execution on Windows-hosted servers and via Image Optimization API (AVIF/SVG files)
+  - Denial of Service in Image Optimization and Server Components
   - Authorization bypass vulnerabilities
-  - Remote Code Execution (Windows-hosted servers, AVIF/SVG image handling)
-  - Cache poisoning and injection vulnerabilities
-  - Middleware/Proxy bypass and redirect handling issues
-  - HTTP request smuggling in rewrites
   - Unauthenticated disclosure of internal Server Function endpoints
+  - Unauthenticated Remote Code Execution in Image Optimization API
+  - Cache poisoning and key confusion
+  - Middleware/Proxy bypass in Pages Router (i18n)
+  - Content injection in Image Optimization
+  - HTTP request smuggling in rewrites
+  - XSS via CSP nonces in App Router
+  - Unbounded disk cache growth in next/image
 
-**Status:** Per `CLAUDE.md`, Next.js and postcss are intentionally left on current versions. Fixing requires upgrading from Next.js 13 to 16+, a major product decision. Do not run `npm audit fix --force`.
+**Required fix:** Upgrade to Next.js 16.4.3+ (major version upgrade)
 
-### High-Severity Issues
+**Status per CLAUDE.md:** "Fixing requires Next 13 to 16, a major upgrade that is a product decision, not a monitor action. Do not run `npm audit fix --force`."
 
-1. **brace-expansion** - DoS via quadratic-time expansion (GHSA-q2hr-2g5m-vwhr, GHSA-qhr7-859c-m2p7, GHSA-6j4f-fj2g-mc7p)
-2. **minimatch** - ReDoS vulnerabilities via wildcards and globstar segments (GHSA-3ppc-4f35-3m26, GHSA-7r86-cg39-jmmj, GHSA-23c5-xmqv-rm74, GHSA-g3hv-75wg-m249)
-3. **postcss** - XSS via unescaped `</style>` and arbitrary file read via sourceMappingURL (GHSA-qx2v-qp2m-jg93, GHSA-6g55-p6wh-862q, GHSA-fxqj-rqcc-2cmp, GHSA-r28c-9q8g-f849)
-4. **source-map-js** - Event-loop DoS via indexed source-map offsets (GHSA-68fv-2mgg-jv7q)
+### 🟠 HIGH-SEVERITY ISSUES
 
-### Moderate Issues
+1. **brace-expansion** - 3 DoS vulnerabilities via quadratic-time expansion and uncontrolled recursion
+2. **minimatch** - 4 ReDoS vulnerabilities via regex backtracking in glob patterns
+3. **postcss** - 4 vulnerabilities: XSS via `</style>`, arbitrary file read, path traversal via sourceMappingURL
+4. **source-map-js** - Event-loop DoS via indexed source-map section offsets
 
-- **postcss-selector-parser** - Quadratic complexity in flat selector parsing (GHSA-rj75-hqrm-r3gf)
-- **deepmerge** - Prototype poisoning (GHSA-gcqx-w48m-w2h4)
+### Moderate & Low Issues
 
-**Dependency chains:** Many vulnerabilities propagate through development dependencies (eslint, @typescript-eslint, @tailwindcss, etc.).
+- **postcss-selector-parser:** Quadratic complexity in flat selector parsing
+- **deepmerge:** Prototype poisoning in mergeObject()
+- Plus 15 additional moderate and 3 low severity issues in transitive dependencies
 
 ---
 
 ## Alerts
 
-- 🔴 **CRITICAL:** Next.js has critical vulnerabilities requiring major version upgrade
-- ❌ **FAILED:** Lint check failing due to unescaped HTML entities in generated files
-- ⚠️ **WARNING:** 6 high-severity vulnerabilities in transitive dependencies
-- ⚠️ **WARNING:** 15 moderate-severity vulnerabilities in transitive dependencies
+- 🔴 **CRITICAL:** Next.js contains critical SSRF, RCE, and DoS vulnerabilities
+- 🔴 **CRITICAL:** Lint check failing (79 errors prevent deployment)
+- 🟠 **HIGH:** 6 high-severity vulnerabilities in build tools and dependencies
+- ⚠️ **WARNING:** 15 moderate-severity vulnerabilities
 
 ---
 
 ## Recommendations
 
-1. **Lint errors:** Review the content generation source (likely a CMS or MDX processor) to ensure it escapes HTML entities properly in generated components.
-2. **Security:** Next.js upgrade is a product decision outside this monitor's scope. Track for planned Next.js 16+ migration.
-3. **Image optimization:** Address 2 warnings in `SplitSection.tsx` by replacing `<img>` with Next.js `<Image />` component for better performance.
+1. **Immediate (Lint):** Fix generated components to escape HTML entities
+   - Source the content generation pipeline for fixes
+   - All generated component files need entity escaping
+
+2. **High Priority (Security):** Next.js 13→16+ upgrade is a major product decision
+   - Requires comprehensive testing and validation
+   - Resolves critical SSRF, RCE, authorization, and DoS vulnerabilities
+   - Currently blocked per project guidelines
+
+3. **Medium Priority (Performance):** Replace `<img>` tags in `SplitSection.tsx` with Next.js `<Image />` component
 
 ---
 
-## Monitor Metadata
+## Environment
 
 - **Node.js:** v22.23.4
 - **npm:** 10.9.9
-- **Total dependencies:** 418 packages (after install)
+- **Dependencies installed:** 418 packages
+- **npm vulnerabilities at install time:** 25 (same as audit)

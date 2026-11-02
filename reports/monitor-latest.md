@@ -1,13 +1,13 @@
 # Website Monitor Report
 
-**Run timestamp:** 2026-11-01 02:30 UTC  
+**Run timestamp:** 2026-11-02 06:15 UTC  
 **Overall status:** ⚠️ WARNING - Lint failures and known security vulnerabilities
 
 ---
 
 ## Summary
 
-The website build completes successfully. Linting fails due to unescaped HTML entities in auto-generated components (72 errors). Security audit reveals 25 vulnerabilities (1 critical, 6 high, 15 moderate). Per project guidelines, Next.js vulnerabilities require major version upgrade (not addressed by this monitor).
+The website build completes successfully. Linting fails due to unescaped HTML entities in auto-generated components (68 errors). Security audit reveals 25 vulnerabilities (1 critical, 6 high, 15 moderate). Per project guidelines, Next.js vulnerabilities require major version upgrade (not addressed by this monitor).
 
 ---
 
@@ -26,7 +26,7 @@ Routes generated: 65 static pages
 
 ## Lint Check
 
-❌ **FAILED** - 72 errors
+❌ **FAILED** - 68 errors
 
 All errors are `react/no-unescaped-entities` violations in auto-generated component files:
 - `./components/generated/BeregnerEn.tsx` (2 errors)
@@ -37,7 +37,7 @@ All errors are `react/no-unescaped-entities` violations in auto-generated compon
 - `./components/generated/ErrorEn.tsx` (2 errors)
 - `./components/generated/FaaAllePengeneHjemEn.tsx` (5 errors)
 - `./components/generated/ForsideDa.tsx` (1 error)
-- `./components/generated/ForsideEn.tsx` (17 errors)
+- `./components/generated/ForsideEn.tsx` (18 errors)
 - `./components/generated/HavStyrPaaDagenEn.tsx` (8 errors)
 - `./components/generated/NotFoundEn.tsx` (1 error)
 - `./components/generated/OmOsEn.tsx` (2 errors)
@@ -59,14 +59,16 @@ All errors are `react/no-unescaped-entities` violations in auto-generated compon
 ### Critical Issues
 
 **Next.js** (node_modules/next)
-- **Severity:** Critical (32 known CVEs affecting versions < 16.4.3)
+- **Severity:** Critical (34 known CVEs affecting versions < 16.4.3)
 - **Key issues:**
   - Server-Side Request Forgery in Server Actions
   - Denial of Service in Image Optimization
   - Authorization bypass vulnerabilities
-  - Remote Code Execution (Windows-hosted servers)
+  - Remote Code Execution (Windows-hosted servers, AVIF/SVG image handling)
   - Cache poisoning and injection vulnerabilities
   - Middleware/Proxy bypass and redirect handling issues
+  - HTTP request smuggling in rewrites
+  - Unauthenticated disclosure of internal Server Function endpoints
 
 **Status:** Per `CLAUDE.md`, Next.js and postcss are intentionally left on current versions. Fixing requires upgrading from Next.js 13 to 16+, a major product decision. Do not run `npm audit fix --force`.
 
@@ -88,10 +90,10 @@ All errors are `react/no-unescaped-entities` violations in auto-generated compon
 
 ## Alerts
 
-- ❌ **CRITICAL:** Next.js has 1 critical vulnerability requiring major version upgrade
+- 🔴 **CRITICAL:** Next.js has critical vulnerabilities requiring major version upgrade
 - ❌ **FAILED:** Lint check failing due to unescaped HTML entities in generated files
 - ⚠️ **WARNING:** 6 high-severity vulnerabilities in transitive dependencies
-- ⚠️ **WARNING:** 15 moderate-severity vulnerabilities
+- ⚠️ **WARNING:** 15 moderate-severity vulnerabilities in transitive dependencies
 
 ---
 
@@ -100,3 +102,11 @@ All errors are `react/no-unescaped-entities` violations in auto-generated compon
 1. **Lint errors:** Review the content generation source (likely a CMS or MDX processor) to ensure it escapes HTML entities properly in generated components.
 2. **Security:** Next.js upgrade is a product decision outside this monitor's scope. Track for planned Next.js 16+ migration.
 3. **Image optimization:** Address 2 warnings in `SplitSection.tsx` by replacing `<img>` with Next.js `<Image />` component for better performance.
+
+---
+
+## Monitor Metadata
+
+- **Node.js:** v22.23.4
+- **npm:** 10.9.9
+- **Total dependencies:** 418 packages (after install)

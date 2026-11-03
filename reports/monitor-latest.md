@@ -1,8 +1,8 @@
 # Website Monitor Report
 
 **Run Date:** 2026-11-03  
-**Run Time:** 2026-11-03T00:00:00Z  
-**Overall Status:** ⚠️ **Warning** - Build successful but lint errors and security vulnerabilities detected
+**Run Time:** 15:47 UTC  
+**Overall Status:** ⚠️ **WARNING** - Build successful, lint errors and security vulnerabilities detected
 
 ---
 

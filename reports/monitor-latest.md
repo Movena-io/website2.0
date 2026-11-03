@@ -1,7 +1,7 @@
 # Website Monitor Report
 
-**Run Timestamp**: 2026-11-02 at 20:04 UTC  
-**Overall Status**: ⚠️ **WARNING** — Build succeeds, lint errors in generated files, critical security vulnerabilities present
+**Run Timestamp**: 2026-11-03 at 17:32 UTC  
+**Overall Status**: ⚠️ **WARNING** — Build succeeds, lint fails on generated files, 25 security vulnerabilities (1 critical)
 
 ---
 
@@ -9,8 +9,8 @@
 
 | Check | Status | Count |
 |-------|--------|-------|
-| **Build** | ✅ PASS | All 65 routes compiled |
-| **Lint** | ❌ FAIL | 49 errors, 2 warnings |
+| **Build** | ✅ PASS | All 65 routes compiled successfully |
+| **Lint** | ❌ FAIL | 88 errors (unescaped HTML entities) |
 | **Security** | 🔴 CRITICAL | 25 total (1 critical, 6 high, 15 moderate, 3 low) |
 
 ---
@@ -40,7 +40,7 @@ The Next.js build completed successfully without errors.
 
 ---
 
-## Lint Check: ❌ **FAIL** (49 errors, 2 warnings)
+## Lint Check: ❌ **FAIL** (88 errors, 2 warnings)
 
 ### Warnings (2)
 - **`./components/SplitSection.tsx`** (lines 93, 96)
@@ -48,11 +48,11 @@ The Next.js build completed successfully without errors.
   - Impact: Suboptimal image loading performance
   - Fix: Replace with optimized `<Image />` component
 
-### Errors (49)
+### Errors (88)
 All linting errors are **unescaped single quotes** (`'`) in auto-generated React components.
 
 **Error Distribution by File:**
-- `./components/generated/ForsideEn.tsx` — 15 errors
+- `./components/generated/ForsideEn.tsx` — 21 errors
 - `./components/generated/HavStyrPaaDagenEn.tsx` — 8 errors
 - `./components/generated/VindFlereFlytningerEn.tsx` — 8 errors
 - `./components/generated/BlogPostEn.tsx` — 7 errors
@@ -69,7 +69,7 @@ All linting errors are **unescaped single quotes** (`'`) in auto-generated React
 
 **Root Cause:** The code generation pipeline that creates files in `components/generated/` does not properly escape HTML entities. Single quotes should be converted to `&apos;`, `&lsquo;`, `&#39;`, or `&rsquo;`.
 
-**Recommendation:** Fix the component generator source code rather than manually patching each generated file.
+**Recommendation:** Fix the component generator source code rather than manually patching each generated file. Error count is increasing; priority to address the source pipeline.
 
 ---
 
@@ -147,14 +147,11 @@ Multiple transitive dependencies including:
 
 ## Vulnerability Trend
 
-**Previous Run (2026-10-30)**: 12 vulnerabilities  
-**Current Run (2026-11-02)**: 25 vulnerabilities  
-**Change**: +13 vulnerabilities (+108% increase)
+**Previous Run (2026-11-02)**: 25 vulnerabilities  
+**Current Run (2026-11-03)**: 25 vulnerabilities  
+**Change**: No change (stable)
 
-This significant increase suggests either:
-1. `npm audit` detecting additional transitive vulnerabilities on re-scan
-2. Dependencies being updated with new advisories
-3. Possible new vulnerability disclosures in Next.js ecosystem
+Vulnerabilities remain consistent across runs. No new advisories detected or resolved.
 
 ---
 
@@ -224,5 +221,17 @@ Per **CLAUDE.md**:
 
 ---
 
-**Last Updated**: 2026-11-02 at 20:04 UTC  
+**Last Updated**: 2026-11-03 at 17:32 UTC  
 **Next Scheduled Check**: Per schedule configuration
+
+---
+
+## Changes Since Last Run
+
+**Lint Errors:** Increased from 49 to 88 (+39 errors, +80% increase)
+- Likely additional generated files with unescaped entities detected
+- Same root cause: code generation pipeline not escaping HTML entities properly
+
+**Security:** No change (25 vulnerabilities remain)
+
+**Build:** Still passing (65 routes compiled)

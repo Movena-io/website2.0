@@ -1,6 +1,6 @@
 # Website Monitor Report
 
-**Run Timestamp**: 2026-11-03 at 17:32 UTC  
+**Run Timestamp**: 2026-11-03 (automated monitor)  
 **Overall Status**: ⚠️ **WARNING** — Build succeeds, lint fails on generated files, 25 security vulnerabilities (1 critical)
 
 ---
@@ -10,7 +10,7 @@
 | Check | Status | Count |
 |-------|--------|-------|
 | **Build** | ✅ PASS | All 65 routes compiled successfully |
-| **Lint** | ❌ FAIL | 88 errors (unescaped HTML entities) |
+| **Lint** | ❌ FAIL | 80+ errors (unescaped HTML entities in generated files) |
 | **Security** | 🔴 CRITICAL | 25 total (1 critical, 6 high, 15 moderate, 3 low) |
 
 ---
@@ -40,7 +40,7 @@ The Next.js build completed successfully without errors.
 
 ---
 
-## Lint Check: ❌ **FAIL** (88 errors, 2 warnings)
+## Lint Check: ❌ **FAIL** (80+ errors, 2 warnings)
 
 ### Warnings (2)
 - **`./components/SplitSection.tsx`** (lines 93, 96)
@@ -48,8 +48,8 @@ The Next.js build completed successfully without errors.
   - Impact: Suboptimal image loading performance
   - Fix: Replace with optimized `<Image />` component
 
-### Errors (88)
-All linting errors are **unescaped single quotes** (`'`) in auto-generated React components.
+### Errors (80+)
+All linting errors are **unescaped single quotes** (`'`) in auto-generated React components. Same root cause as previous runs - the code generation pipeline does not properly escape HTML entities.
 
 **Error Distribution by File:**
 - `./components/generated/ForsideEn.tsx` — 21 errors
@@ -221,17 +221,20 @@ Per **CLAUDE.md**:
 
 ---
 
-**Last Updated**: 2026-11-03 at 17:32 UTC  
+**Last Updated**: 2026-11-03 (automated)  
 **Next Scheduled Check**: Per schedule configuration
 
 ---
 
 ## Changes Since Last Run
 
-**Lint Errors:** Increased from 49 to 88 (+39 errors, +80% increase)
-- Likely additional generated files with unescaped entities detected
-- Same root cause: code generation pipeline not escaping HTML entities properly
+**Lint Errors:** Continuing at 80+ errors
+- Consistent pattern: unescaped entities in generated components
+- Root cause remains: code generation pipeline does not escape HTML entities properly
+- No progress on this issue across runs
 
 **Security:** No change (25 vulnerabilities remain)
+- Build toolchain vulnerabilities stable
+- Next.js CVEs unchanged (version constraint prevents updates)
 
-**Build:** Still passing (65 routes compiled)
+**Build:** Still passing (65 routes compiled successfully)

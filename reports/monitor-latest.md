@@ -1,13 +1,13 @@
 # Movena Website Monitor Report
 
-**Run Timestamp**: 2026-11-04T20:15:23Z  
+**Run Timestamp**: 2026-11-04T05:05:00Z  
 **Status**: ❌ **CRITICAL**
 
 ---
 
 ## Summary
 
-The website build completed successfully, but critical security vulnerabilities and linting errors require immediate attention. The codebase has 78 lint errors in auto-generated components and 25 dependency vulnerabilities including 1 critical (Next.js) and 6 high-severity issues.
+The website build completed successfully, but critical security vulnerabilities and linting errors require immediate attention. The codebase has 88 lint errors in auto-generated components and 25 dependency vulnerabilities including 1 critical (Next.js) and 6 high-severity issues.
 
 ---
 
@@ -26,14 +26,14 @@ Build output shows proper resource optimization with appropriate chunk splitting
 
 ## Lint Status
 
-**Result**: ❌ **FAIL** (78 Errors, 2 Warnings)
+**Result**: ❌ **FAIL** (88 Errors, 2 Warnings)
 
 ### Warnings (2)
 - `components/SplitSection.tsx`: Using `<img>` instead of Next.js `<Image />` component
   - Lines 93, 96
   - Impact: May result in slower LCP and higher bandwidth usage
 
-### Errors (78)
+### Errors (88)
 **Pattern**: Unescaped HTML entities in generated components
 
 Multiple generated components contain unescaped apostrophes that should be escaped as `&apos;`, `&lsquo;`, `&#39;`, or `&rsquo;`:
@@ -45,7 +45,7 @@ Multiple generated components contain unescaped apostrophes that should be escap
 - `ErrorEn.tsx`: 2 errors
 - `FaaAllePengeneHjemEn.tsx`: 5 errors
 - `ForsideDa.tsx`: 1 error
-- `ForsideEn.tsx`: 21 errors
+- `ForsideEn.tsx`: 30 errors
 - `HavStyrPaaDagenEn.tsx`: 8 errors
 - `NotFoundEn.tsx`: 1 error
 - `OmOsEn.tsx`: 2 errors
@@ -126,7 +126,7 @@ Multiple generated components contain unescaped apostrophes that should be escap
    - Create tracking issue for major version upgrade
    - Security review needed for deployment delay implications
 
-2. **Fix Lint Errors**: 78 lint errors block deployment.
+2. **Fix Lint Errors**: 88 lint errors block deployment.
    - Investigate code generation tool producing these files
    - Fix entity escaping in the generator
    - OR: Add lint exceptions if generator cannot be updated
@@ -163,4 +163,4 @@ Per CLAUDE.md:
 - `npm run lint` - 78 errors, 2 warnings
 - `npm audit` - Security vulnerability assessment
 
-**Run Date**: 2026-11-04 20:15:23 UTC
+**Run Date**: 2026-11-04 05:05:00 UTC

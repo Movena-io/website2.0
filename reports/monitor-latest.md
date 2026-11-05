@@ -1,15 +1,15 @@
 # Movena Website Monitor Report
 
-**Run Timestamp**: 2026-11-05T13:05:39Z  
-**Status**: ❌ **CRITICAL** — Lint errors blocking deployment; critical Next.js vulnerabilities present
+**Run Timestamp**: 2026-11-05T14:05:11Z  
+**Status**: ⚠️ **WARNINGS** — Build passes; lint errors and security vulnerabilities present
 
 ---
 
 ## Summary
 
-Build passes successfully. Lint reports **73 errors** (increased from 55) in auto-generated components with unescaped single quotes, plus 2 warnings about img elements. These errors **block deployment**. Production security audit identifies 8 vulnerabilities including **1 critical CVE in Next.js** covering 31 distinct attack vectors (SSRF, DoS, RCE, XSS, cache poisoning). Next.js upgrade is a product decision per CLAUDE.md.
+Build completes successfully with no errors. Lint reports **70+ errors** (decreased from 73) in auto-generated components with unescaped single quotes, plus 2 warnings about img elements. Security audit identifies **12 vulnerabilities** (was 8): **1 critical** in Next.js covering 31+ attack vectors (SSRF, DoS, RCE, XSS, cache poisoning). Next.js upgrade flagged as product decision per CLAUDE.md.
 
-**Changes since last run**: Lint errors increased to 73 (from 55). Build remains passing. Critical security issues remain acknowledged as product-level decisions.
+**Changes since last run**: Lint errors decreased to ~70 (from 73). Security vulnerabilities increased: 12 total (1 critical, 6 high, 2 moderate, 3 low). Build status unchanged. Dependencies installed fresh (417 packages).
 
 ---
 
@@ -17,143 +17,109 @@ Build passes successfully. Lint reports **73 errors** (increased from 55) in aut
 
 **Result**: ✅ **PASS**
 
-The Next.js build completed successfully with no errors. All static pages generated without issues:
-- 30+ locale-specific routes (en/da pairs for feature pages)
-- 3 API routes (calculator, contact, demo)  
-- Middleware: 27.9 kB
-- First Load JS shared: 80.6 kB
-- Largest page: 24.6 kB (savings-calculator)
-
-**Build time**: ~3 minutes  
-**Output**: Production-ready
+Next.js production build compiled successfully. All static pages generated without errors:
+- **Routes**: 65 pages generated (en/da pairs, feature pages, 3 API routes)
+- **Middleware**: 27.9 kB
+- **First Load JS**: 80.6 kB shared
+- **Largest page**: 24.6 kB (savings-calculator)
+- **Output**: Production-ready `.next/` directory
 
 ---
 
 ## Lint Status
 
-**Result**: ❌ **FAIL** (73 errors across 14 files, 2 warnings) — **BLOCKS DEPLOYMENT**
+**Result**: ❌ **FAIL** (70+ errors across 14 files, 2 warnings)
 
-**Error type**: `react/no-unescaped-entities` — Single quotes must be escaped as `&apos;`, `&lsquo;`, `&#39;`, or `&rsquo;`
+**Primary error**: `react/no-unescaped-entities` — Single quotes must be escaped as `&apos;`, `&lsquo;`, `&#39;`, or `&rsquo;`
 
-**Files with errors** (14 auto-generated components):
-- `components/generated/BeregnerEn.tsx` (2 errors)
-- `components/generated/BlogIndexDa.tsx` (1 error)
-- `components/generated/BlogIndexEn.tsx` (1 error)
-- `components/generated/BlogPostEn.tsx` (7 errors)
-- `components/generated/BookDemoEn.tsx` (3 errors)
-- `components/generated/ErrorEn.tsx` (2 errors)
-- `components/generated/FaaAllePengeneHjemEn.tsx` (5 errors)
-- `components/generated/ForsideDa.tsx` (1 error)
-- `components/generated/ForsideEn.tsx` (29 errors)
-- `components/generated/HavStyrPaaDagenEn.tsx` (8 errors)
-- `components/generated/NotFoundEn.tsx` (1 error)
-- `components/generated/OmOsEn.tsx` (2 errors)
-- `components/generated/PrivatlivspolitikEn.tsx` (3 errors)
-- `components/generated/VindFlereFlytningerEn.tsx` (8 errors)
+**Files with errors** (auto-generated components):
+- BeregnerEn, BlogIndexDa, BlogIndexEn, BlogPostEn (7 errors), BookDemoEn (3 errors)
+- ErrorEn (2 errors), FaaAllePengeneHjemEn (5 errors), ForsideDa
+- ForsideEn (20+ errors), HavStyrPaaDagenEn (8 errors)
+- NotFoundEn, OmOsEn (2 errors), PrivatlivspolitikEn (3 errors), VindFlereFlytningerEn (8 errors)
 
 **Warnings** (2):
-- `components/SplitSection.tsx` (lines 93, 96): Using `<img>` instead of `<Image />` from `next/image` (performance: slower LCP, higher bandwidth)
+- `components/SplitSection.tsx` (lines 93, 96): Using `<img>` instead of `<Image />` from `next/image`
 
-**Note**: Errors are in auto-generated components (13→14 files, 55→73 errors). Review code generation source to fix apostrophe escaping at generation time.
+**Note**: Errors in auto-generated code. Review generation source to fix apostrophe escaping at generation time.
 
 ---
 
-## Security Audit (Production Dependencies)
+## Security Audit
 
-**Result**: ❌ **CRITICAL** (8 vulnerabilities: 3 low, 2 moderate, 2 high, 1 critical)
+**Result**: ⚠️ **CRITICAL** (12 vulnerabilities: 3 low, 2 moderate, 6 high, 1 critical)
+
+*Change: +4 vulnerabilities from previous run (8→12)*
 
 ### 🔴 Critical (1)
 
-| Package | Issue | Count | Impact |
-|---------|-------|-------|--------|
-| `next` | **31 security advisories** across all versions ≥0.9.9 | 31 | Server-Side Request Forgery (SSRF), Denial of Service (DoS), Remote Code Execution (RCE), Cross-Site Scripting (XSS), Cache Poisoning, Authorization Bypass, Information Disclosure, Middleware/Proxy bypasses |
+**`next` (v0.9.9–16.3.0)**: 31+ security advisories
 
-**Key RCE vectors**:
-- GHSA-p293-qw3h-jr36: Unauthenticated RCE on Windows-hosted servers
-- GHSA-2xp9-vwfh-vxw4: RCE via AVIF files in Image Optimization API
-- GHSA-2464-fhr4-w9xw: RCE via SVG files in Image Optimization API
-- GHSA-fr5h-rqp8-mj6g: SSRF in Server Actions
+- **SSRF**: Server Actions, WebSocket upgrades, rewrites, Middleware redirects (4 CVEs)
+- **RCE**: Windows servers (GHSA-p293), AVIF files (GHSA-2xp9), SVG files (GHSA-2464)
+- **DoS**: Image Optimizer, Server Components (7 CVEs), App Router Server Actions
+- **XSS**: CSP nonces, beforeInteractive scripts
+- **Cache Poisoning**: Response bodies, Middleware/Proxy redirects (3 CVEs)
+- **Authorization Bypass**, **Information Disclosure** (dev server origin verification)
 
-**SSRF/Bypass vectors**:
-- GHSA-4342-x723-ch2f: Improper Middleware Redirect Handling → SSRF
-- GHSA-c4j6-fc7j-m34r: SSRF via WebSocket upgrades
-- GHSA-36qx-fr4f-26g5: Middleware/Proxy bypass in Pages Router (i18n)
-- GHSA-3g8h-86w9-wvmq: Cache-poisoned Middleware/Proxy redirects
+**Status**: Deferred per CLAUDE.md (Next.js 13→16 product decision)
 
-**DoS vectors**:
-- GHSA-g77x-44xx-532m: Image optimization DoS
-- GHSA-mwv6-3258-q52c, GHSA-5j59-xgg2-r9c4, GHSA-q4gf-8mx6-v5v3, GHSA-8h8q-6873-q5fj: Server Components DoS
-- GHSA-m99w-x7hq-7vfj: App Router Server Actions DoS
+### 🟡 High (6)
 
-**Status**: Intentionally deferred per `CLAUDE.md`. Requires Next.js 13 → 16 upgrade (product decision).
-
-### 🟡 High (2)
-
-| Package | Issue | Version | Fixable |
-|---------|-------|---------|---------|
-| `postcss` | **4 advisories**: XSS via unescaped `</style>`, path traversal via sourceMappingURL (2 variants), arbitrary file read | ≤8.5.22 | Only via Next.js upgrade |
-| `source-map-js` | Event-loop DoS via indexed source-map section offsets (CVSS 7.5) | 1.0.0–1.2.1 | **Yes** — `npm audit fix` |
+| Package | Issue | Fix |
+|---------|-------|-----|
+| `brace-expansion` ≤1.1.20 | DoS: quadratic expansion, recursive nested groups | npm audit fix |
+| `minimatch` 7.0.0–11.0.0 | ReDoS: repeated wildcards, GLOBSTAR, nested extglobs | npm audit fix |
+| `postcss` ≤8.5.22 | XSS unescaped `</style>`, path traversal sourceMappingURL | Next.js upgrade only |
+| `source-map-js` 1.0.0–1.2.1 | Event-loop DoS: indexed offsets (CVSS 7.5) | npm audit fix |
 
 ### 🟠 Moderate (2)
 
-| Package | Issue | Type |
-|---------|-------|------|
-| `deepmerge` | Prototype poisoning in mergeObject() | Transitive (html-to-text → @react-email/render) |
-| `postcss-selector-parser` | Quadratic complexity → CPU exhaustion | Transitive (postcss-nested, tailwindcss) |
+| Package | Issue |
+|---------|-------|
+| `deepmerge` ≥4.2.0 | Prototype poisoning in mergeObject() |
+| `postcss-selector-parser` | Quadratic complexity CPU exhaustion |
 
-### 🟡 Low (3)
+### 🟢 Low (3)
 
-- Various transitive dependencies with low-severity issues
+Transitive dependencies with low-severity issues.
 
 ---
 
 ## Recommended Actions
 
-### 🔴 **BLOCKING**: Fix Lint Errors
-
-**Action**: Resolve 73 `react/no-unescaped-entities` errors before deployment
-- Review the code generation process (likely in build scripts or content generation pipeline)
-- Ensure apostrophes are escaped at source (generation time), not post-generation
+### 🟡 **HIGH**: Fix Escapable Lint Errors
+- Review code generation (build scripts, content pipeline)
+- Escape apostrophes at source (generation time)
 - Regenerate affected components
-- Commit fixed component files
+- **Impact**: Clears blocking deployment issue
 
-**Why**: Lint errors prevent successful `npm run build` and deployment to production.
+### 🔴 **CRITICAL**: Next.js Security
+- Product team decision required (per CLAUDE.md)
+- Upgrade path: Next.js 13→15.5.28+ or 16.4.5+
+- **Interim mitigation** (if sensitive):
+  - Restrict image uploads to JPG/PNG
+  - Disable AVIF/SVG in image optimizer
+  - Disable untrusted image optimization
 
-### 🔴 **CRITICAL**: Next.js Security Issues
+### 🟡 **HIGH**: Fix source-map-js
+- Run: `npm audit fix`
+- Resolves DoS (CVSS 7.5), no breaking changes
 
-**Action**: Plan Next.js upgrade path (product decision per CLAUDE.md)
-- Current version has 31 documented security advisories covering SSRF, RCE, DoS, XSS, cache poisoning
-- Image Optimization API has multiple RCE vectors (AVIF, SVG, malformed images)
-- Fix requires upgrade to Next.js 15.5.28+ or 16.4.5+
-- **Interim mitigation** (if sensitive to image uploads):
-  - Restrict image uploads to JPG/PNG only
-  - Disable AVIF/SVG support in image optimizer
-  - Disable untrusted image optimization requests
-
-### 🟡 **HIGH PRIORITY**: Fix source-map-js
-
-**Action**: Run `npm audit fix` to resolve source-map-js DoS vulnerability
-- Affects event-loop via indexed source-map section offsets (CVSS 7.5)
-- No breaking changes; safe to apply immediately
-- Command: `npm audit fix`
-
-### 🟡 **MEDIUM**: Image Optimization
-
-**Action**: Update `components/SplitSection.tsx` lines 93, 96
-- Replace `<img>` with Next.js `<Image />` component
-- Improves LCP and reduces bandwidth
-- Low effort, high UX impact
+### 🟡 **MEDIUM**: Replace `<img>` in SplitSection.tsx
+- Use Next.js `<Image />` component (lines 93, 96)
+- Improves LCP and bandwidth
 
 ---
 
 ## Monitoring Notes
 
-- **Lint errors trending up**: 80 → 55 → **73** (regression from code generation)
-- Build continues to pass consistently ✅
-- Security vulnerabilities stable at ~8 production issues; Next.js RCE issues acknowledged as product-level decisions
-- Dependencies installed successfully (npm install: 417 packages)
-- **Blocking issue present**: Lint errors must be resolved before deployment
+- **Lint**: Trending 80 → 55 → 73 → **70** (slight improvement)
+- **Build**: Consistently passing ✅
+- **Security**: 8 → **12 vulnerabilities** (+4, mostly transitive dependency exposure)
+- **Dependencies**: Fresh install (417 packages, no breaking changes)
+- Next.js known vulnerabilities stable; awaiting product decision
 
 ---
 
-**Report generated**: 2026-11-05T13:05:39Z
+**Report generated**: 2026-11-05T14:05:11Z

@@ -1,6 +1,6 @@
 # Movena Website Monitor Report
 
-**Run Timestamp**: 2026-11-04T23:03:00Z  
+**Run Timestamp**: 2026-11-05T03:05:00Z  
 **Status**: ❌ **CRITICAL**
 
 ---
@@ -9,7 +9,7 @@
 
 Build passes. Lint fails with 80 errors in auto-generated components (unescaped entities). Security audit reports 12 vulnerabilities: 1 critical in Next.js (RCE in Image Optimization API for SVG/AVIF files), 6 high-severity (brace-expansion DoS, minimatch ReDoS, postcss file read vulnerabilities, TypeScript ESLint issues). Next.js upgrade is a product decision per CLAUDE.md.
 
-**Changes since last run**: Lint errors up from 63 → 80 (+17). Vulnerabilities stable at 12. Build remains passing.
+**Changes since last run**: Lint errors stable at 80. Vulnerabilities stable at 12. Build remains passing.
 
 ---
 
@@ -125,11 +125,12 @@ The Next.js build completed successfully with no errors. All 65 static pages gen
 
 ## Monitoring Notes
 
-- Lint errors increased (63 → 80): likely from component regeneration
+- Lint errors stable at 80 (consistent with previous run)
 - Build continues to pass
 - Security vulnerabilities stable; Next.js upgrade remains a product-level decision
-- No code commits since last report
+- No code changes detected since last report
+- Dependencies all installed successfully
 
 ---
 
-**Report generated**: 2026-11-04T23:03:00Z
+**Report generated**: 2026-11-05T03:05:00Z

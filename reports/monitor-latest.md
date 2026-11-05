@@ -1,6 +1,6 @@
 # Movena Website Monitor Report
 
-**Run Timestamp**: 2026-11-05T21:07:00Z  
+**Run Timestamp**: 2026-11-05T23:45:00Z  
 **Status**: ⚠️ **WARNINGS** — Build passes; lint errors and security vulnerabilities present
 
 ---
@@ -9,7 +9,7 @@
 
 Build completes successfully with no errors. Lint reports **70+ errors** in auto-generated components with unescaped single quotes, plus 2 warnings about img elements. Security audit identifies **12 vulnerabilities**: **1 critical** in Next.js covering 33 attack vectors (SSRF, DoS, RCE, XSS, cache poisoning). Next.js upgrade flagged as product decision per CLAUDE.md.
 
-**Changes since last run**: Lint errors consistent at ~70. Security vulnerability count stable at 12 total (1 critical, 6 high, 2 moderate, 3 low). Build status unchanged. Dependencies installed fresh (417 packages).
+**Status comparison**: Lint errors consistent at ~70. Security vulnerability count stable at 12 total (1 critical, 6 high, 2 moderate, 3 low). Build status unchanged. Dependencies installed fresh (417 packages).
 
 ---
 
@@ -33,10 +33,10 @@ Next.js production build compiled successfully. All static pages generated witho
 **Primary error**: `react/no-unescaped-entities` — Single quotes must be escaped as `&apos;`, `&lsquo;`, `&#39;`, or `&rsquo;`
 
 **Files with errors** (auto-generated components):
-- BeregnerEn, BlogIndexDa, BlogIndexEn, BlogPostEn (7 errors), BookDemoEn (3 errors)
-- ErrorEn (2 errors), FaaAllePengeneHjemEn (5 errors), ForsideDa
-- ForsideEn (20+ errors), HavStyrPaaDagenEn (8 errors)
-- NotFoundEn, OmOsEn (2 errors), PrivatlivspolitikEn (3 errors), VindFlereFlytningerEn (8 errors)
+- BeregnerEn (2), BlogIndexDa (1), BlogIndexEn (1), BlogPostEn (7)
+- BookDemoEn (3), ErrorEn (2), FaaAllePengeneHjemEn (5), ForsideDa (1)
+- ForsideEn (15), HavStyrPaaDagenEn (8), NotFoundEn (1), OmOsEn (2)
+- PrivatlivspolitikEn (3), VindFlereFlytningerEn (8)
 
 **Warnings** (2):
 - `components/SplitSection.tsx` (lines 93, 96): Using `<img>` instead of `<Image />` from `next/image`
@@ -48,8 +48,6 @@ Next.js production build compiled successfully. All static pages generated witho
 ## Security Audit
 
 **Result**: ⚠️ **CRITICAL** (12 vulnerabilities: 3 low, 2 moderate, 6 high, 1 critical)
-
-*Change: +4 vulnerabilities from previous run (8→12)*
 
 ### 🔴 Critical (1)
 
@@ -78,7 +76,7 @@ Next.js production build compiled successfully. All static pages generated witho
 | Package | Issue |
 |---------|-------|
 | `deepmerge` ≥4.2.0 | Prototype poisoning in mergeObject() |
-| `postcss-selector-parser` | Quadratic complexity CPU exhaustion |
+| `postcss-selector-parser` <6.1.5 | Quadratic complexity CPU exhaustion |
 
 ### 🟢 Low (3)
 
@@ -114,12 +112,12 @@ Transitive dependencies with low-severity issues.
 
 ## Monitoring Notes
 
-- **Lint**: Trending 80 → 55 → 73 → **70** (slight improvement)
+- **Lint**: Consistent at ~70 errors
 - **Build**: Consistently passing ✅
-- **Security**: 8 → **12 vulnerabilities** (+4, mostly transitive dependency exposure)
-- **Dependencies**: Fresh install (417 packages, no breaking changes)
+- **Security**: 12 vulnerabilities stable (1 critical, 6 high, 2 moderate, 3 low)
+- **Dependencies**: Fresh install (417 packages)
 - Next.js known vulnerabilities stable; awaiting product decision
 
 ---
 
-**Report generated**: 2026-11-05T21:07:00Z
+**Report generated**: 2026-11-05T23:45:00Z

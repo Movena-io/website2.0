@@ -1,15 +1,15 @@
 # Movena Website Monitor Report
 
-**Run Timestamp**: 2026-11-05T14:05:11Z  
+**Run Timestamp**: 2026-11-05T21:07:00Z  
 **Status**: ⚠️ **WARNINGS** — Build passes; lint errors and security vulnerabilities present
 
 ---
 
 ## Summary
 
-Build completes successfully with no errors. Lint reports **70+ errors** (decreased from 73) in auto-generated components with unescaped single quotes, plus 2 warnings about img elements. Security audit identifies **12 vulnerabilities** (was 8): **1 critical** in Next.js covering 31+ attack vectors (SSRF, DoS, RCE, XSS, cache poisoning). Next.js upgrade flagged as product decision per CLAUDE.md.
+Build completes successfully with no errors. Lint reports **70+ errors** in auto-generated components with unescaped single quotes, plus 2 warnings about img elements. Security audit identifies **12 vulnerabilities**: **1 critical** in Next.js covering 33 attack vectors (SSRF, DoS, RCE, XSS, cache poisoning). Next.js upgrade flagged as product decision per CLAUDE.md.
 
-**Changes since last run**: Lint errors decreased to ~70 (from 73). Security vulnerabilities increased: 12 total (1 critical, 6 high, 2 moderate, 3 low). Build status unchanged. Dependencies installed fresh (417 packages).
+**Changes since last run**: Lint errors consistent at ~70. Security vulnerability count stable at 12 total (1 critical, 6 high, 2 moderate, 3 low). Build status unchanged. Dependencies installed fresh (417 packages).
 
 ---
 
@@ -122,4 +122,4 @@ Transitive dependencies with low-severity issues.
 
 ---
 
-**Report generated**: 2026-11-05T14:05:11Z
+**Report generated**: 2026-11-05T21:07:00Z

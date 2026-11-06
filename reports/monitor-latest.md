@@ -1,15 +1,15 @@
 # Movena Website Monitor Report
 
-**Run Timestamp**: 2026-11-05T23:45:00Z  
+**Run Timestamp**: 2026-11-06T15:42:00Z  
 **Status**: ⚠️ **WARNINGS** — Build passes; lint errors and security vulnerabilities present
 
 ---
 
 ## Summary
 
-Build completes successfully with no errors. Lint reports **70+ errors** in auto-generated components with unescaped single quotes, plus 2 warnings about img elements. Security audit identifies **12 vulnerabilities**: **1 critical** in Next.js covering 33 attack vectors (SSRF, DoS, RCE, XSS, cache poisoning). Next.js upgrade flagged as product decision per CLAUDE.md.
+Build completes successfully with no errors. Lint reports **87 errors** in auto-generated components with unescaped single quotes, plus 2 warnings about img elements. Security audit identifies **12 vulnerabilities**: **1 critical** in Next.js covering 33 attack vectors (SSRF, DoS, RCE, XSS, cache poisoning). Next.js upgrade flagged as product decision per CLAUDE.md.
 
-**Status comparison**: Lint errors consistent at ~70. Security vulnerability count stable at 12 total (1 critical, 6 high, 2 moderate, 3 low). Build status unchanged. Dependencies installed fresh (417 packages).
+**Status comparison**: Lint errors increased to 87 (from ~70). Security vulnerability count stable at 12 total (1 critical, 6 high, 2 moderate, 3 low). Build status unchanged. Dependencies installed fresh (417 packages).
 
 ---
 
@@ -28,7 +28,7 @@ Next.js production build compiled successfully. All static pages generated witho
 
 ## Lint Status
 
-**Result**: ❌ **FAIL** (70+ errors across 14 files, 2 warnings)
+**Result**: ❌ **FAIL** (87 errors across 14 files, 2 warnings)
 
 **Primary error**: `react/no-unescaped-entities` — Single quotes must be escaped as `&apos;`, `&lsquo;`, `&#39;`, or `&rsquo;`
 
@@ -112,7 +112,7 @@ Transitive dependencies with low-severity issues.
 
 ## Monitoring Notes
 
-- **Lint**: Consistent at ~70 errors
+- **Lint**: Increased to 87 errors (was ~70)
 - **Build**: Consistently passing ✅
 - **Security**: 12 vulnerabilities stable (1 critical, 6 high, 2 moderate, 3 low)
 - **Dependencies**: Fresh install (417 packages)
@@ -120,4 +120,4 @@ Transitive dependencies with low-severity issues.
 
 ---
 
-**Report generated**: 2026-11-05T23:45:00Z
+**Report generated**: 2026-11-06T15:42:00Z

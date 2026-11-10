@@ -108,7 +108,7 @@ Movena er et system bygget til flyttefirmaer:
 - Movena følger automatisk op på tilbud, som kunden ikke har svaret på.
 - Accepterede tilbud bliver til bekræftede jobs i kalenderen.
 - Medarbejderne har jobbet i en app og registrerer deres tid der.
-- Fakturaerne går videre til dit regnskabsprogram.
+- Fakturaen bliver lavet i Movena ud fra jobbet.
 
 Vil du se, hvordan det ser ud for et nyt flyttefirma? Book en demo, så viser vi dig det.
 

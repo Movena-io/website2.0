@@ -45,7 +45,7 @@ Timerne bliver registreret der, hvor arbejdet sker.
 
 Medarbejderne starter og stopper deres tid i appen mellem jobbene.
 
-Kontoret gennemgår timerne og godkender dem. De godkendte timer går videre til jeres lønprogram. Så skal de samme timer ikke tastes ind en gang til.
+Kontoret gennemgår timerne og godkender dem i Movena. De godkendte timer ligger samlet pr. medarbejder og pr. job, klar til løn og faktura.
 
 Det er tidsregistrering, der passer til et flyttefirma: den sker, mens arbejdet foregår. Hvad dobbeltindtastning ellers koster, har vi set nærmere på i [Hvad det koster at drive et flyttefirma på seks systemer](/da/blog/hvad-det-koster-at-drive-et-flyttefirma-paa-seks-systemer).
 
@@ -73,7 +73,7 @@ Jobbet med adresse, tidspunkt, kundens kontaktoplysninger, hvad der skal flyttes
 
 ### Hvordan fungerer tidsregistreringen?
 
-Medarbejderne starter og stopper deres tid i appen mellem jobbene. Kontoret gennemgår og godkender timerne, og de godkendte timer går videre til jeres lønprogram.
+Medarbejderne starter og stopper deres tid i appen mellem jobbene. Kontoret gennemgår og godkender timerne i Movena, hvor de ligger samlet pr. medarbejder og pr. job.
 
 ### Hænger medarbejderappen sammen med resten af Movena?
 

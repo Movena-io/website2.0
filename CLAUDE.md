@@ -45,6 +45,17 @@ commit -a`. Scheduled runs share this working tree with human work in
 progress; sweeping up unrelated files has caused merge commits and
 clobbered edits.
 
+## Never leave commits unpushed
+
+Before a scheduled run commits anything: `git fetch origin` and
+`git pull --ff-only origin main`. If that fails, do not commit. Write
+the report and say that `main` has diverged. After a commit, push
+straight away. If the push is rejected, stop and report it. Never force
+push, rebase, reset or merge on your own. On 2026-11-11 twelve unpushed
+monitor commits had left local `main` 13 ahead and 22 behind origin.
+The merge that fixed it resolved an article conflict, and taking the
+local side would have put removed claims back on the live site.
+
 ## npm audit
 
 `npm audit fix` and `npm update <pkg>` both rewrite ~87 packages here,

@@ -38,6 +38,19 @@ the diff shows what happened.
 If you commit the report, commit only `reports/monitor-latest.md`, and
 leave every other file in the working tree alone.
 
+## Stay in sync with origin
+
+Local `main` must never collect commits that origin does not have. On
+2026-11-11 unpushed monitor commits had left local and origin 13/22 apart.
+
+1. Before the run: `git fetch origin`, then `git pull --ff-only origin main`.
+2. If that pull fails (diverged, or blocked by local edits), still write
+   the report, but do not commit it. Say in the run output that local
+   `main` is out of sync with origin and needs a human.
+3. After committing the report: `git push origin main` right away.
+4. If the push is rejected, stop. Do not force push, rebase, reset or
+   merge. Say in the run output that the push was rejected.
+
 ## Actions
 
 - Install dependencies if needed: `npm install`

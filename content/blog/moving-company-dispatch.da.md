@@ -1,60 +1,112 @@
 ---
-title: "Når Excel-arket ikke rækker længere: tegn på at I er vokset fra manuel planlægning"
+title: "Excel virker, indtil I har 4 biler. Her er grænsen."
 slug: "vokset-fra-excel-arket-disponering"
 date: "2026-06-22"
-excerpt: "At disponere efter hukommelsen og et Excel-ark fungerer, indtil det ikke gør. Her er de tydelige tegn på, at jeres flyttefirma er vokset fra manuel planlægning."
-metaTitle: "Disponering i flyttefirma: når Excel ikke rækker"
-metaDescription: "At disponere efter hukommelsen og et Excel-ark fungerer, indtil det ikke gør. Her er tegnene på, at I er vokset fra manuel planlægning."
+excerpt: "Excel er fint, når I er små. Men med flere biler og medarbejdere begynder det at knække. Her er tegnene, og hvad I gør i stedet."
+metaTitle: "Excel i flyttefirmaet: her er grænsen | Movena"
+metaDescription: "Excel er fint, når I er små. Men med flere biler og medarbejdere begynder det at knække. Her er tegnene, og hvad I gør i stedet."
 image: "/blog/moving-company-dispatch-da.png"
-imageAlt: "Excel-ark med dagens flytteopgaver fordelt i rækker og kolonner"
+imageAlt: "Et regnearksgitter i lyseblå linjer, der går over i fire lastbiler, under overskriften Excel virker, indtil I har 4 biler"
 category: "Guide"
-tags: ["disponering flyttefirma", "planlægning af flytteopgaver", "ruteplanlægning flytning", "drift af flyttefirma", "software til flyttefirmaer"]
+tags: ["excel flyttefirma", "planlægning i excel", "regneark flyttefirma", "system til flyttefirma", "disponering flyttefirma"]
 locale: "da"
 draft: false
 ---
 
-I lang tid er disponering bare noget, I har i hovedet.
+Excel er ikke problemet. Det er alt det, der sker rundt om arket.
 
-I kender folkene. I kender bilerne. I ved, hvem der er hvor. Et Excel-ark og et par noter er nok, og det fungerer.
+Mange flyttefirmaer kører på Excel i årevis, og det går fint. Arket viser, hvilke flytninger der ligger hvornår. Resten ved folkene. Hvem der har ringet. Hvilken bil der er ledig. Hvad kunden fik lovet i telefonen.
 
-Indtil en dag, hvor det ikke gør. Her er tegnene på, at I har krydset den grænse.
+Så kommer der flere biler og flere medarbejdere. Arket er det samme. Det er alt det rundt om, der vokser.
 
-## I disponerer efter hukommelsen
+## Hvad Excel gør godt
 
-Det første tegn er, at hele billedet ligger i hovedet på én person.
+Excel har fortjent sin plads i flyttefirmaet.
 
-Den person ved, hvilket hold der er på hvilket job, hvilken bil der er ledig, hvem der er syg. Og det går fint, lige indtil vedkommende selv er ude på en flytning eller har fri, og ingen andre kan svare på et simpelt spørgsmål om planen.
+Det er gratis, eller næsten. I har det allerede.
 
-Når driften går i stå, fordi én person ikke kan træffes, er I vokset fra opsætningen.
+Det er fleksibelt. Mangler I en kolonne, laver I en.
 
-## Dobbeltbookingerne er begyndt
+Alle kan bruge det. Der er intet nyt at lære.
 
-Det tydeligste tegn er overbooking.
+Når I er få, er planlægning i Excel ofte et fornuftigt valg. Én person bygger arket, kender det og holder det opdateret. Det virker, fordi den samme person også har resten af planen i hovedet.
 
-To job booket på den samme bil. Det samme hold lovet væk til to kunder. Det skete én gang, og I opdagede det. Så skete det igen. Nu tjekker I to gange, før I bekræfter noget som helst, fordi I har lært ikke at stole på regnearket.
+## Hvorfor Excel i flyttefirmaet knækker omkring 4 biler
 
-Dobbeltbookinger er ikke uheld. Det er det, der sker, når planen ligger for mange steder, og intet enkelt sted viser sandheden.
+Grænsen kommer, når tre ting sker på samme tid.
 
-## I kan ikke se, hvad der er ledigt
+**Der kører flere medarbejdere ud samme dag.** Med en eller to biler er dagen til at overskue. Med fire biler er der fire adresser, fire sæt medarbejdere og fire tidsplaner, der skal passe sammen. Og de påvirker hinanden. Bliver én flytning forsinket, rykker det de næste.
 
-Stil jer selv et simpelt spørgsmål: hvilke hold og biler er ledige på torsdag i næste uge?
+**Der kommer flere ændringer i løbet af dagen.** En kunde rykker tidspunktet. En medarbejder melder sig syg. En flytning tager længere tid end planlagt. Hver ændring skal ind i arket, og alle, der skal vide det, skal have besked.
 
-Hvis svaret kræver, at I ringer til nogen, åbner regnearket og krydser fingre, så er det dér, problemet ligger. I kan ikke planlægge ordentligt, når I ikke kan se klart. Hver booking bliver et lille væddemål.
+**Én person kan ikke længere holde hele planen i hovedet.** Det er det egentlige skift. Arket har aldrig været hele planen. Det var arket plus det, én person vidste. Når der er for meget at huske, bliver hullerne synlige.
 
-## I spiller hasard på hvert job
+Fire biler er en tommelfingerregel. Nogle mærker det ved tre, andre først ved fem. Mekanismen er den samme.
 
-Og det er reelt det, manuel planlægning bliver til, efterhånden som I vokser. En række små væddemål.
+## Tegnene på, at I har nået grænsen
 
-I vædder på, at bilen er ledig. På at holdet husker det. På at intet blev dobbeltbooket. Som regel vinder I. Men de gange I taber, koster det en panikløsning, en sur kunde eller et job, I slet ikke kunne køre.
+Genkender I flere af dem her, er I der.
 
-## Hvad der ændrer sig med et rigtigt system
+**To redigerer arket samtidig, og noget bliver overskrevet.** Kontoret retter en tid. En anden flytter en medarbejder til et andet job. Den ene gemmer oven i den anden, og en ændring forsvinder. Det opdager I først, når nogen står det forkerte sted.
 
-Et system til disponering gør især én ting: det viser jer sandheden ét sted.
+**Kun én person forstår arket.** Farverne, forkortelserne og formlerne giver mening for hende, der har bygget det. Når hun er syg, ved ingen helt, hvad planen er.
 
-Hvilke hold og biler der er ledige, med et enkelt blik. En booking, der ikke kan kollidere med en, der allerede ligger der. En plan, som alle i firmaet kan se, ikke kun den, der har den i hovedet. Og fordi dagens opgaver ligger samlet, kan I også lægge ruten efter, hvad der rent faktisk passer sammen.
+**Medarbejderne får jobbet på sms eller i telefonen.** Arket ligger på kontoret. Medarbejderne er ude. Så bliver adressen og tidspunktet sendt i en besked, og ændringerne kommer i nye beskeder, der skal læses i den rigtige rækkefølge.
 
-Hasardspillet stopper. I planlægger ud fra det, der faktisk er sandt, i stedet for det, I håber er sandt.
+**Timer bliver skrevet på papir og tastet ind igen til løn.** Medarbejderne noterer deres tid på en seddel. Kontoret taster den ind. En gang til fakturaen og en gang til lønnen.
 
-Vil I se, hvordan [Movena](/da) håndterer disponering, kan I [prøve besparelsesberegneren](/da/savings-calculator) eller booke en kort demo. Femten minutter, uden salgssnak.
+**Tilbud ligger ét sted, planen et andet og fakturaen et tredje.** Prisen står i en mail. Flytningen står i arket. Fakturaen bliver lavet i regnskabsprogrammet. Det er de samme oplysninger, og de bliver tastet ind tre gange.
 
-Sætter en ny standard for, hvordan flyttefirmaer arbejder.
+**En bil bliver booket to gange.** To flytninger på den samme bil samme formiddag. Arket sagde ikke stop, for et regneark ved ikke, hvad en bil er.
+
+**Kunden ringer og spørger, hvornår I kommer.** Svaret skal findes tre steder. I arket, i beskederne til medarbejderne og hos den medarbejder, der er ude. Kunden venter i røret imens.
+
+## Hvad I gør i stedet
+
+Løsningen er et system, hvor tilbud, planlægning, medarbejdernes app, timer og faktura hænger sammen. Oplysningerne bliver tastet ind én gang og følger jobbet hele vejen.
+
+Sådan virker det i Movena, et system bygget til flyttefirmaer:
+
+- **Tilbud bliver til jobs.** Når kunden accepterer tilbuddet, bliver det til et bekræftet job i kalenderen.
+- **Planlægning med medarbejdere og biler.** I ser, hvilke medarbejdere og biler der er ledige. En bil kan ikke bookes to steder på samme tid.
+- **Medarbejderne har jobbet i en app.** Adresse, tidspunkt, kundens kontaktoplysninger, hvad der skal flyttes og noter til jobbet. Læs mere i [Medarbejderapp til flyttefirma](/da/blog/medarbejderapp-til-flyttefirma).
+- **Timerne kommer fra appen.** Medarbejderne starter og stopper deres tid på jobbet. Timerne samles pr. medarbejder og pr. job, klar til både faktura og løn.
+- **Fakturaen bygges på jobbet.** Timer, materialer og tillæg ligger allerede i systemet, så fakturaen bliver lavet ud fra det, der faktisk skete.
+
+Når kunden ringer, ligger svaret ét sted. Også den dag, hvor hende, der plejer at vide det hele, har fri.
+
+## Sådan skifter I fra Excel uden kaos
+
+Skiftet er det, de fleste er mest bange for. Det kan gøres i små trin.
+
+**Tag det i etaper.** Start med tilbud og kalender, så kontoret kører først. Når det sidder, tager I appen med ud til medarbejderne.
+
+**Lad jeres data flytte med.** Kunder, tidligere jobs og prislister skal ikke tastes ind igen. Ligger de i Excel, flytter vi dem over for jer. Priser, tillæg, medarbejdere og biler sætter vi også op. Opsætning og dataflytning koster ikke noget.
+
+**Kør de første flytninger sammen med os.** Vi er med på de første jobs, og er der noget, ringer I bare.
+
+**Vælg en roligere uge.** Kan I vælge, så skift i en periode med færre flytninger end i højsæsonen.
+
+Er I stadig få biler, er det værd at overveje at skifte, før grænsen kommer. Det har vi skrevet om i [Styr på det fra første bil](/da/blog/system-til-lille-flyttefirma).
+
+Vil I se, hvordan jeres plan ser ud uden regnearket? Book en demo, så viser vi jer det.
+
+[Book en demo](/da/book-demo)
+
+## Ofte stillede spørgsmål
+
+### Kan man drive et flyttefirma i Excel?
+
+Ja, når I er små. Med få biler og én person, der har styr på planen, kan et regneark sagtens række. Det begynder at knække, når flere biler kører samme dag, og planen ændrer sig i løbet af dagen.
+
+### Hvornår er et flyttefirma vokset fra Excel?
+
+Når én person ikke længere kan holde hele planen i hovedet. Det sker ofte omkring fire biler. Typiske tegn er dobbeltbookede biler, ændringer i arket, der bliver overskrevet, og timer, der bliver tastet ind flere gange.
+
+### Kan vi få vores data med fra Excel?
+
+Ja. Ligger jeres kunder og jobs i Excel, flytter vi dem over til Movena for jer. Opsætning og dataflytning koster ikke noget.
+
+### Skal vi skifte alt på én gang?
+
+Nej. De fleste starter med tilbud og kalender. Når kontoret kører, tager I medarbejdernes app i brug.

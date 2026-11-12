@@ -145,23 +145,14 @@ export function SiteHeader() {
           <img src="/brand/movena-horizontal-primary.png" alt="Movena" />
         </Link>
         <nav className="desktop-nav" aria-label={t('Primær navigation', 'Main navigation')}>
-          <div className="features-trigger-wrap" ref={menuRef}>
-            <Button
-              variant="ghost"
-              size="small"
-              className={cx('nav-trigger', featuresOpen && 'is-open')}
-              aria-expanded={featuresOpen}
-              onClick={() => setFeaturesOpen((open) => !open)}
-            >
-              {t('Funktioner', 'Features')} <ChevronDown size={15} />
-            </Button>
-            {featuresOpen && <FeaturesMenu />}
-          </div>
           <NavLink href={r.blog} className="nav-link">
             Blog
           </NavLink>
           <NavLink href={r.about} className="nav-link">
             {t('Om os', 'About')}
+          </NavLink>
+          <NavLink href={`/${locale}/contact`} className="nav-link">
+            {t('Kontakt', 'Contact')}
           </NavLink>
         </nav>
         <div className="nav-actions">
@@ -236,31 +227,20 @@ function MobileMenu({ hrefFor }: { hrefFor: (code: Locale) => string }) {
   const r = ROUTES[locale]
   return (
     <nav className="mobile-nav" aria-label={t('Mobil navigation', 'Mobile navigation')}>
-      <div className="mobile-nav-label">{t('Funktioner', 'Features')}</div>
-      {navFeatures(locale).map((item) => {
-        const Icon = FEATURE_ICONS[item.icon]
-        return (
-          <Link href={item.href} key={item.key}>
-            <Icon size={18} strokeWidth={1.6} />
-            {item.title}
-          </Link>
-        )
-      })}
-      <div className="mobile-nav-divider" />
       <Link href={r.blog}>Blog</Link>
       <Link href={r.about}>{t('Om os', 'About')}</Link>
+      <Link href={`/${locale}/contact`}>{t('Kontakt', 'Contact')}</Link>
+      <a href={LOGIN_HREF}>{t('Log ind', 'Log in')}</a>
       <Link href={r.bookDemo}>{t('Bliv ringet op', 'Get a call')}</Link>
       <LanguageSwitch hrefFor={hrefFor} className="lang-inline-mobile" />
     </nav>
   )
 }
 
-// 1:1 with the design's footer, minus "Vilkår". The phone number moved here
-// from the header; the calculator is not linked during launch step 1. The Kontakt column keeps the design's four
-// entries (Book en demo, phone, e-mail, Privatliv); data portability and
-// cookie settings sit in the bottom bar after the CVR, so no column grows.
-// The design hides the Kontakt column below 1100px, so phone and Privatliv get
-// a small row of their own there (.footer-mobile-extra).
+// The design's footer without the Funktioner column and without "Vilkår":
+// brand, Virksomhed and Kontakt. Feature pages and the calculator are not
+// linked during launch step 1. Data portability and cookie settings sit in
+// the bottom bar after the CVR.
 export function SiteFooter() {
   const { t, locale } = useT()
   const r = ROUTES[locale]
@@ -282,14 +262,6 @@ export function SiteFooter() {
             {t('Bliv ringet op', 'Get a call')}
           </ButtonLink>
         </div>
-        <div className={cx('footer-column footer-features', !FEATURE_PAGES_ENABLED && 'footer-features-compact')}>
-          <span className="footer-title">{t('Funktioner', 'Features')}</span>
-          {navFeatures(locale).map((item) => (
-            <Link href={item.href} key={item.key}>
-              {item.title}
-            </Link>
-          ))}
-        </div>
         <div className="footer-column">
           <span className="footer-title">{t('Virksomhed', 'Company')}</span>
           <Link href={r.about}>{t('Om os', 'About')}</Link>
@@ -299,14 +271,11 @@ export function SiteFooter() {
         <div className="footer-column">
           <span className="footer-title">{t('Kontakt', 'Contact')}</span>
           <Link href={r.bookDemo}>{t('Book en demo', 'Book a demo')}</Link>
+          <Link href={`/${locale}/contact`}>{t('Kontakt', 'Contact')}</Link>
           <a href={PHONE_HREF}>{PHONE_DISPLAY}</a>
           <a href={`mailto:${EMAIL}`}>{EMAIL}</a>
           {privacy}
         </div>
-      </div>
-      <div className="footer-mobile-extra">
-        <a href={PHONE_HREF}>{PHONE_DISPLAY}</a>
-        {privacy}
       </div>
       <div className="footer-bottom">
         <span className="footer-bottom-legal">

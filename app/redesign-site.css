@@ -53,30 +53,27 @@
 .footer-bottom-legal .footer-link-button:hover {
   color: white;
 }
-/* The design hides its last footer column below 1100px. Phone and the legal
-   links live there, so they get a row of their own at those widths. */
-.footer-mobile-extra {
-  display: none;
+/* Footer without the Funktioner column: brand plus two link columns. With
+   one column fewer, the Kontakt column fits at every width, so the design's
+   "hide the last column below 1100px" rule is undone here. */
+.site .footer-inner {
+  grid-template-columns: 1.4fr 0.6fr 0.6fr;
 }
 @media (max-width: 1100px) {
-  .footer-mobile-extra {
+  .site .footer-column:last-child {
     display: flex;
-    width: min(100% - 40px, 1280px);
-    flex-wrap: wrap;
-    gap: 8px 18px;
-    margin-inline: auto;
-    padding-bottom: 22px;
-  }
-  .footer-mobile-extra a {
-    color: #94a3b8;
-    font-size: 0.75rem;
-    text-decoration: none;
   }
 }
 @media (max-width: 900px) {
-  .footer-mobile-extra {
-    width: calc(100% - 32px);
+  .site .footer-inner {
+    grid-template-columns: 1fr 1fr;
   }
+  .site .footer-brand {
+    grid-column: 1 / -1;
+  }
+}
+.footer-mobile-extra {
+  display: none;
 }
 
 /* Demo form: validation and result states (the design's form never submits) */

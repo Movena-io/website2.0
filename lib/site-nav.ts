@@ -1,12 +1,12 @@
 import type { Locale } from '@/lib/locales'
 import { translations } from '@/lib/translations'
 import { LOGIN_URL } from '@/lib/constants'
-import { features, featurePath } from '@/lib/features'
+import { FEATURE_PAGES_ENABLED, features, featurePath } from '@/lib/features'
 
 // The eight feature pages added with the 2026 redesign, keyed `feature:<key>`
 // so the language switcher can pair /da/funktioner/... with /en/features/....
 const featureRoutes = (locale: Locale) =>
-  Object.fromEntries(features.map((f) => [`feature:${f.key}`, featurePath(f, locale)]))
+  FEATURE_PAGES_ENABLED ? Object.fromEntries(features.map((f) => [`feature:${f.key}`, featurePath(f, locale)])) : {}
 
 // Route map for the redesigned marketing site. The design export links pages by
 // filename, so the real slugs are defined here: Danish slugs on /da, English on

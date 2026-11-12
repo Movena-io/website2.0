@@ -50,6 +50,12 @@ export type Feature = {
   en: FeatureCopy
 }
 
+// Step 1 of the launch ships without the eight feature pages. While this is
+// false they have no routes, no sitemap entries and no links: the header's
+// Funktioner menu and the footer list the three existing feature pages
+// instead (NAV.featureItems in lib/site-nav.ts). Set to true to bring them back.
+export const FEATURE_PAGES_ENABLED = false
+
 export const FEATURE_BASE: Record<Locale, string> = {
   da: '/da/funktioner',
   en: '/en/features',

@@ -14,10 +14,10 @@ import { usePathname } from 'next/navigation'
 import { useEffect, useRef, useState, type ReactNode } from 'react'
 import { COOKIE_SETTINGS_EVENT } from '@/components/CookieConsent'
 import { DATA_PORTABILITY_PATH, privacyPath } from '@/lib/constants'
-import { features, featurePath, type FeatureIcon } from '@/lib/features'
+import { FEATURE_PAGES_ENABLED, features, featurePath, type FeatureIcon } from '@/lib/features'
 import type { Locale } from '@/lib/locales'
 import { useBlogAlternates } from '@/lib/BlogAlternates'
-import { counterpartPath, EMAIL, LOGIN_HREF, PHONE_DISPLAY, PHONE_HREF, ROUTES } from '@/lib/site-nav'
+import { counterpartPath, EMAIL, LOGIN_HREF, NAV, PHONE_DISPLAY, PHONE_HREF, ROUTES } from '@/lib/site-nav'
 import {
   Boxes,
   CalendarRange,
@@ -44,6 +44,37 @@ export const FEATURE_ICONS: Record<FeatureIcon, typeof UsersRound> = {
   FileCheck2,
   ChartNoAxesCombined,
   Boxes,
+}
+
+type NavFeature = { key: string; href: string; title: string; description: string; icon: FeatureIcon }
+
+// Icons for the three existing feature pages, picked from the eight's set.
+const LEGACY_ICONS: Record<'winMore' | 'runTheDay' | 'getPaid', FeatureIcon> = {
+  winMore: 'FileCheck2',
+  runTheDay: 'CalendarRange',
+  getPaid: 'CreditCard',
+}
+
+// What the Funktioner menu, the mobile menu and the footer list: the eight new
+// feature pages when they are switched on, otherwise the three existing ones
+// with their live labels and descriptions.
+function navFeatures(locale: Locale): NavFeature[] {
+  if (FEATURE_PAGES_ENABLED) {
+    return features.map((f) => ({
+      key: f.key,
+      href: featurePath(f, locale),
+      title: f[locale].shortTitle,
+      description: f[locale].description,
+      icon: f.icon,
+    }))
+  }
+  return NAV[locale].featureItems.map((item) => ({
+    key: item.key,
+    href: ROUTES[locale][item.key],
+    title: item.label,
+    description: item.blurb,
+    icon: LEGACY_ICONS[item.key],
+  }))
 }
 
 /** Every redesigned page renders inside this, like the design's RootLayout. */
@@ -186,12 +217,12 @@ function FeaturesMenu() {
         <small>{t('Udforsk alle funktioner', 'Explore every feature')}</small>
       </div>
       <div className="features-menu-grid">
-        {features.map((feature) => (
-          <Link href={featurePath(feature, locale)} key={feature.key}>
-            <IconBox icon={FEATURE_ICONS[feature.icon]} />
+        {navFeatures(locale).map((item) => (
+          <Link href={item.href} key={item.key}>
+            <IconBox icon={FEATURE_ICONS[item.icon]} />
             <span>
-              <span className="menu-title">{feature[locale].shortTitle}</span>
-              <small>{feature[locale].description}</small>
+              <span className="menu-title">{item.title}</span>
+              <small>{item.description}</small>
             </span>
           </Link>
         ))}
@@ -206,12 +237,12 @@ function MobileMenu({ hrefFor }: { hrefFor: (code: Locale) => string }) {
   return (
     <nav className="mobile-nav" aria-label={t('Mobil navigation', 'Mobile navigation')}>
       <div className="mobile-nav-label">{t('Funktioner', 'Features')}</div>
-      {features.map((feature) => {
-        const Icon = FEATURE_ICONS[feature.icon]
+      {navFeatures(locale).map((item) => {
+        const Icon = FEATURE_ICONS[item.icon]
         return (
-          <Link href={featurePath(feature, locale)} key={feature.key}>
+          <Link href={item.href} key={item.key}>
             <Icon size={18} strokeWidth={1.6} />
-            {feature[locale].shortTitle}
+            {item.title}
           </Link>
         )
       })}
@@ -224,8 +255,8 @@ function MobileMenu({ hrefFor }: { hrefFor: (code: Locale) => string }) {
   )
 }
 
-// 1:1 with the design's footer, minus "Vilkår". Beregner and the phone number
-// moved here from the header. The Kontakt column keeps the design's four
+// 1:1 with the design's footer, minus "Vilkår". The phone number moved here
+// from the header; the calculator is not linked during launch step 1. The Kontakt column keeps the design's four
 // entries (Book en demo, phone, e-mail, Privatliv); data portability and
 // cookie settings sit in the bottom bar after the CVR, so no column grows.
 // The design hides the Kontakt column below 1100px, so phone and Privatliv get
@@ -251,11 +282,11 @@ export function SiteFooter() {
             {t('Bliv ringet op', 'Get a call')}
           </ButtonLink>
         </div>
-        <div className="footer-column footer-features">
+        <div className={cx('footer-column footer-features', !FEATURE_PAGES_ENABLED && 'footer-features-compact')}>
           <span className="footer-title">{t('Funktioner', 'Features')}</span>
-          {features.map((feature) => (
-            <Link href={featurePath(feature, locale)} key={feature.key}>
-              {feature[locale].shortTitle}
+          {navFeatures(locale).map((item) => (
+            <Link href={item.href} key={item.key}>
+              {item.title}
             </Link>
           ))}
         </div>
@@ -263,7 +294,6 @@ export function SiteFooter() {
           <span className="footer-title">{t('Virksomhed', 'Company')}</span>
           <Link href={r.about}>{t('Om os', 'About')}</Link>
           <Link href={r.blog}>Blog</Link>
-          <Link href={r.calculator}>{t('Beregner', 'Calculator')}</Link>
           <a href={LOGIN_HREF}>{t('Log ind', 'Log in')}</a>
         </div>
         <div className="footer-column">

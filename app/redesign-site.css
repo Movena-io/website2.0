@@ -438,3 +438,11 @@
     font-size: 0.98rem;
   }
 }
+
+/* Launch step 1: the footer lists the three existing feature pages. The
+   design's two-column grid is built for eight, so three get the layout of the
+   other footer columns. */
+.footer-features.footer-features-compact {
+  display: flex;
+  flex-direction: column;
+}

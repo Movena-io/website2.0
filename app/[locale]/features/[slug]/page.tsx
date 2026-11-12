@@ -1,6 +1,6 @@
 import { notFound } from 'next/navigation'
 import type { Metadata } from 'next'
-import { features, getFeatureBySlug } from '@/lib/features'
+import { FEATURE_PAGES_ENABLED, features, getFeatureBySlug } from '@/lib/features'
 import { featureMetadata } from '@/lib/page-meta'
 import { SiteShell } from '@/components/redesign/Layout'
 import { FeaturePage } from '@/components/redesign/FeaturePage'
@@ -10,17 +10,19 @@ import { FeaturePage } from '@/components/redesign/FeaturePage'
 export const dynamicParams = false
 
 export function generateStaticParams({ params }: { params: { locale: string } }) {
-  if (params.locale !== 'en') return []
+  // Switched off for launch step 1: no paths, so every URL here falls through
+  // to the catch-all 404 exactly as before these pages existed.
+  if (!FEATURE_PAGES_ENABLED || params.locale !== 'en') return []
   return features.map((feature) => ({ slug: feature.slug.en }))
 }
 
 export function generateMetadata({ params }: { params: { locale: string; slug: string } }): Metadata {
-  const feature = params.locale === 'en' ? getFeatureBySlug(params.slug, 'en') : undefined
+  const feature = FEATURE_PAGES_ENABLED && params.locale === 'en' ? getFeatureBySlug(params.slug, 'en') : undefined
   return feature ? featureMetadata(feature, 'en') : {}
 }
 
 export default function Page({ params }: { params: { locale: string; slug: string } }) {
-  const feature = params.locale === 'en' ? getFeatureBySlug(params.slug, 'en') : undefined
+  const feature = FEATURE_PAGES_ENABLED && params.locale === 'en' ? getFeatureBySlug(params.slug, 'en') : undefined
   if (!feature) notFound()
   return (
     <SiteShell>

@@ -1,0 +1,176 @@
+/* Things the live site needs that the design has no styles for. Everything
+   here reuses the design's tokens and borrows its nearest existing pattern,
+   so redesign.css can stay a verbatim copy of the design. */
+
+/* Header: language switcher (pattern: .nav-trigger + .features-menu) */
+.lang-switch {
+  position: relative;
+}
+
+.lang-trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  min-height: 36px;
+  border: 0;
+  border-radius: 4px;
+  padding: 0 8px;
+  background: transparent;
+  color: #475569;
+  font-size: 0.88rem;
+  cursor: pointer;
+}
+
+.lang-trigger:hover,
+.lang-trigger.is-open {
+  color: var(--color-primary);
+  background: var(--color-accent);
+}
+
+.lang-trigger svg {
+  transition: transform 150ms ease;
+}
+
+.lang-trigger.is-open svg {
+  transform: rotate(180deg);
+}
+
+.lang-menu {
+  position: absolute;
+  top: calc(100% + 12px);
+  right: 0;
+  display: grid;
+  min-width: 150px;
+  overflow: hidden;
+  border: 1px solid var(--color-line);
+  border-radius: 6px;
+  padding: 6px;
+  background: white;
+  box-shadow:
+    0 1px 2px rgb(0 0 0 / 0.04),
+    0 18px 40px -16px rgb(0 0 0 / 0.22);
+  animation: menu-in 160ms ease both;
+}
+
+.lang-menu a,
+.lang-menu span {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  border-radius: 4px;
+  padding: 10px 12px;
+  color: var(--color-ink);
+  font-size: 0.84rem;
+  text-decoration: none;
+}
+
+.lang-menu a:hover {
+  background: var(--color-accent);
+}
+
+.lang-menu span {
+  color: var(--color-primary);
+}
+
+/* The phone number is the first thing to give way when the row gets tight. */
+@media (max-width: 1180px) {
+  .header-phone {
+    display: none;
+  }
+}
+
+@media (max-width: 900px) {
+  .lang-switch {
+    display: none;
+  }
+
+  .mobile-lang-current {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border-radius: 4px;
+    padding: 10px;
+    color: var(--color-primary);
+    font-size: 0.78rem;
+  }
+}
+
+/* Footer: legal links in the bottom bar, styled like .footer-column links */
+.footer-legal {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 18px;
+}
+
+.footer-legal a,
+.footer-legal button {
+  border: 0;
+  padding: 0;
+  background: none;
+  color: #94a3b8;
+  font: inherit;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.footer-legal a:hover,
+.footer-legal button:hover {
+  color: white;
+}
+
+/* Demo form: validation and result states (the design's form never submits) */
+.field-required {
+  color: var(--color-primary);
+}
+
+.field-optional {
+  color: #94a3b8;
+}
+
+.field-error {
+  margin: 6px 0 0;
+  color: #b42318;
+  font-size: 0.72rem;
+}
+
+.field input[aria-invalid='true'],
+.field select[aria-invalid='true'] {
+  border-color: #b42318;
+}
+
+.form-alert {
+  margin: 0;
+  color: #b42318;
+  font-size: 0.8rem;
+}
+
+.form-alert a {
+  color: inherit;
+}
+
+.form-note a {
+  color: inherit;
+}
+
+.form-sent {
+  display: flex;
+  min-height: 380px;
+  flex-direction: column;
+  justify-content: center;
+  gap: 16px;
+}
+
+.form-sent h3 {
+  color: var(--color-navy);
+  font-size: 1.5rem;
+  line-height: 1.25;
+}
+
+.form-sent p {
+  color: #526278;
+}
+
+.form-sent p a {
+  color: var(--color-primary);
+}

@@ -2,6 +2,8 @@ import type { Metadata } from 'next'
 import localFont from 'next/font/local'
 import { notFound } from 'next/navigation'
 import '../globals.css'
+import '../redesign.css'
+import '../redesign-site.css'
 import { LanguageProvider } from '@/lib/LanguageContext'
 import { BlogAlternatesProvider } from '@/lib/BlogAlternates'
 import { getAllPosts } from '@/lib/blog'
@@ -210,7 +212,9 @@ export default function LocaleLayout({
   const blogPairs = Array.from(byKey.values())
 
   return (
-    <html lang={locale}>
+    // The font variable sits on <html> so the design's :root font-family
+    // (var(--font-sans), which reads --font-manrope) resolves.
+    <html lang={locale} className={manrope.variable}>
       <head>
         <script
           type="application/ld+json"

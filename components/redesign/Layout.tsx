@@ -77,27 +77,21 @@ export function SiteHeader() {
   const blogPairs = useBlogAlternates()
   const [featuresOpen, setFeaturesOpen] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
-  const [langOpen, setLangOpen] = useState(false)
   const menuRef = useRef<HTMLDivElement>(null)
-  const langRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     setFeaturesOpen(false)
     setMenuOpen(false)
-    setLangOpen(false)
   }, [pathname])
 
   useEffect(() => {
     const close = (event: MouseEvent) => {
-      const target = event.target as Node
-      if (menuRef.current && !menuRef.current.contains(target)) setFeaturesOpen(false)
-      if (langRef.current && !langRef.current.contains(target)) setLangOpen(false)
+      if (menuRef.current && !menuRef.current.contains(event.target as Node)) setFeaturesOpen(false)
     }
     const closeOnEscape = (event: KeyboardEvent) => {
       if (event.key === 'Escape') {
         setFeaturesOpen(false)
         setMenuOpen(false)
-        setLangOpen(false)
       }
     }
     document.addEventListener('mousedown', close)
@@ -110,6 +104,8 @@ export function SiteHeader() {
 
   const hrefFor = (code: Locale) => counterpartPath(pathname, locale, code, blogPairs)
 
+  // 1:1 with the design's header. The one addition is the small DA/EN switch
+  // in front of "Log ind".
   return (
     <header className="site-header">
       <div className="nav-container">
@@ -136,40 +132,9 @@ export function SiteHeader() {
           <NavLink href={r.about} className="nav-link">
             {t('Om os', 'About')}
           </NavLink>
-          <NavLink href={r.calculator} className="nav-link">
-            {t('Beregner', 'Calculator')}
-          </NavLink>
         </nav>
         <div className="nav-actions">
-          <div className="lang-switch" ref={langRef}>
-            <button
-              type="button"
-              className={cx('lang-trigger', langOpen && 'is-open')}
-              aria-expanded={langOpen}
-              aria-label={`${t('Sprog', 'Language')}: ${LANGUAGE_NAMES[locale]}`}
-              onClick={() => setLangOpen((open) => !open)}
-            >
-              {locale.toUpperCase()} <ChevronDown size={14} />
-            </button>
-            {langOpen && (
-              <div className="lang-menu">
-                {SWITCH_ORDER.map((code) =>
-                  code === locale ? (
-                    <span key={code} aria-current="true">
-                      {LANGUAGE_NAMES[code]} <Check size={14} />
-                    </span>
-                  ) : (
-                    <Link key={code} href={hrefFor(code)} hrefLang={code} lang={code}>
-                      {LANGUAGE_NAMES[code]}
-                    </Link>
-                  ),
-                )}
-              </div>
-            )}
-          </div>
-          <a className="login-link header-phone" href={PHONE_HREF}>
-            {PHONE_DISPLAY}
-          </a>
+          <LanguageSwitch hrefFor={hrefFor} />
           <a className="login-link" href={LOGIN_HREF}>
             {t('Log ind', 'Log in')}
           </a>
@@ -193,12 +158,31 @@ export function SiteHeader() {
   )
 }
 
+function LanguageSwitch({ hrefFor, className }: { hrefFor: (code: Locale) => string; className?: string }) {
+  const { t, locale } = useT()
+  return (
+    <span className={cx('lang-inline', className)} aria-label={t('Sprog', 'Language')}>
+      {SWITCH_ORDER.map((code) =>
+        code === locale ? (
+          <span key={code} aria-current="true" title={LANGUAGE_NAMES[code]}>
+            {code.toUpperCase()}
+          </span>
+        ) : (
+          <Link key={code} href={hrefFor(code)} hrefLang={code} lang={code} title={LANGUAGE_NAMES[code]}>
+            {code.toUpperCase()}
+          </Link>
+        ),
+      )}
+    </span>
+  )
+}
+
 function FeaturesMenu() {
   const { t, locale } = useT()
   return (
     <div className="features-menu">
       <div className="features-menu-head">
-        <span>{t('Én platform til hele flytteforretningen', 'One platform for the whole moving business')}</span>
+        <span>{t('En platform til hele flytteforretningen', 'One platform for the whole moving business')}</span>
         <small>{t('Udforsk alle funktioner', 'Explore every feature')}</small>
       </div>
       <div className="features-menu-grid">
@@ -234,30 +218,23 @@ function MobileMenu({ hrefFor }: { hrefFor: (code: Locale) => string }) {
       <div className="mobile-nav-divider" />
       <Link href={r.blog}>Blog</Link>
       <Link href={r.about}>{t('Om os', 'About')}</Link>
-      <Link href={r.calculator}>{t('Beregner', 'Calculator')}</Link>
       <Link href={r.bookDemo}>{t('Bliv ringet op', 'Get a call')}</Link>
-      <a href={LOGIN_HREF}>{t('Log ind', 'Log in')}</a>
-      <a href={PHONE_HREF}>{PHONE_DISPLAY}</a>
-      <div className="mobile-nav-divider" />
-      <div className="mobile-nav-label">{t('Sprog', 'Language')}</div>
-      {SWITCH_ORDER.map((code) =>
-        code === locale ? (
-          <span className="mobile-lang-current" key={code} aria-current="true">
-            {LANGUAGE_NAMES[code]} <Check size={14} />
-          </span>
-        ) : (
-          <Link key={code} href={hrefFor(code)} hrefLang={code} lang={code}>
-            {LANGUAGE_NAMES[code]}
-          </Link>
-        ),
-      )}
+      <LanguageSwitch hrefFor={hrefFor} className="lang-inline-mobile" />
     </nav>
   )
 }
 
+// 1:1 with the design's footer, minus "Vilkår". Beregner and the phone number
+// moved here from the header. The Kontakt column keeps the design's four
+// entries (Book en demo, phone, e-mail, Privatliv); data portability and
+// cookie settings sit in the bottom bar after the CVR, so no column grows.
+// The design hides the Kontakt column below 1100px, so phone and Privatliv get
+// a small row of their own there (.footer-mobile-extra).
 export function SiteFooter() {
   const { t, locale } = useT()
   const r = ROUTES[locale]
+  const openCookieSettings = () => window.dispatchEvent(new Event(COOKIE_SETTINGS_EVENT))
+  const privacy = <Link href={privacyPath(locale)}>{t('Privatliv', 'Privacy')}</Link>
   return (
     <footer className="site-footer">
       <div className="footer-inner">
@@ -266,7 +243,7 @@ export function SiteFooter() {
           <img src="/brand/movena-horizontal-inverse.png" alt="Movena" />
           <p>
             {t(
-              'Alt, din flytteforretning behøver. Samlet i én platform.',
+              'Alt, din flytteforretning behøver. Samlet i en platform.',
               'Everything your moving business needs. Together in one platform.',
             )}
           </p>
@@ -286,26 +263,27 @@ export function SiteFooter() {
           <span className="footer-title">{t('Virksomhed', 'Company')}</span>
           <Link href={r.about}>{t('Om os', 'About')}</Link>
           <Link href={r.blog}>Blog</Link>
-          <Link href={r.calculator}>{t('Besparelsesberegner', 'Savings calculator')}</Link>
+          <Link href={r.calculator}>{t('Beregner', 'Calculator')}</Link>
           <a href={LOGIN_HREF}>{t('Log ind', 'Log in')}</a>
         </div>
         <div className="footer-column">
           <span className="footer-title">{t('Kontakt', 'Contact')}</span>
           <Link href={r.bookDemo}>{t('Book en demo', 'Book a demo')}</Link>
-          <Link href={`/${locale}/contact`}>{t('Kontakt', 'Contact')}</Link>
           <a href={PHONE_HREF}>{PHONE_DISPLAY}</a>
           <a href={`mailto:${EMAIL}`}>{EMAIL}</a>
+          {privacy}
         </div>
       </div>
+      <div className="footer-mobile-extra">
+        <a href={PHONE_HREF}>{PHONE_DISPLAY}</a>
+        {privacy}
+      </div>
       <div className="footer-bottom">
-        <span>
-          © 2026 Movena ApS · CVR 46764129 · {t('Rådhuspladsen 16, København', 'Rådhuspladsen 16, Copenhagen')}
-        </span>
-        <span className="footer-legal">
-          <Link href={privacyPath(locale)}>{t('Privatlivspolitik', 'Privacy policy')}</Link>
+        <span className="footer-bottom-legal">
+          © 2026 Movena ApS · CVR 46764129 ·{' '}
           {/* Unprefixed on purpose: middleware serves it from the Danish tree. */}
-          <a href={DATA_PORTABILITY_PATH}>{t('Dataportabilitet', 'Data portability')}</a>
-          <button type="button" onClick={() => window.dispatchEvent(new Event(COOKIE_SETTINGS_EVENT))}>
+          <a href={DATA_PORTABILITY_PATH}>{t('Dataportabilitet', 'Data portability')}</a> ·{' '}
+          <button type="button" className="footer-link-button" onClick={openCookieSettings}>
             {t('Cookieindstillinger', 'Cookie settings')}
           </button>
         </span>
@@ -321,8 +299,13 @@ export function CtaBand({ compact = false }: { compact?: boolean }) {
     <section className={cx('cta-band', compact && 'cta-band-compact')}>
       <div>
         <h2>{t('Se hvordan Movena passer ind i jeres hverdag', 'See how Movena fits into your day')}</h2>
-        {/* The design's sentence opens with placeholder text; only the real half is kept. */}
-        <p>{t('En kort samtale, helt uforpligtende.', 'A short conversation, no strings attached.')}</p>
+        {/* The design's first sentence was placeholder text; "Book en gratis demo." is the live site's. */}
+        <p>
+          {t(
+            'Book en gratis demo. En kort samtale, helt uforpligtende.',
+            'Book a free demo. A short conversation, no strings attached.',
+          )}
+        </p>
       </div>
       <ButtonLink to={ROUTES[locale].bookDemo} variant="light">
         {t('Bliv ringet op', 'Get a call')}

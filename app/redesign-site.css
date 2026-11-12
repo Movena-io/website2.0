@@ -2,121 +2,81 @@
    here reuses the design's tokens and borrows its nearest existing pattern,
    so redesign.css can stay a verbatim copy of the design. */
 
-/* Header: language switcher (pattern: .nav-trigger + .features-menu) */
-.lang-switch {
-  position: relative;
-}
-
-.lang-trigger {
+/* Header: the one addition to the design's header, a quiet DA/EN switch in
+   front of "Log ind" (same size and colour family as .login-link). */
+.lang-inline {
   display: inline-flex;
   align-items: center;
-  gap: 4px;
-  min-height: 36px;
-  border: 0;
+  gap: 2px;
+  font-size: 0.78rem;
+  letter-spacing: 0.04em;
+}
+.lang-inline > * {
   border-radius: 4px;
-  padding: 0 8px;
-  background: transparent;
-  color: #475569;
-  font-size: 0.88rem;
-  cursor: pointer;
-}
-
-.lang-trigger:hover,
-.lang-trigger.is-open {
-  color: var(--color-primary);
-  background: var(--color-accent);
-}
-
-.lang-trigger svg {
-  transition: transform 150ms ease;
-}
-
-.lang-trigger.is-open svg {
-  transform: rotate(180deg);
-}
-
-.lang-menu {
-  position: absolute;
-  top: calc(100% + 12px);
-  right: 0;
-  display: grid;
-  min-width: 150px;
-  overflow: hidden;
-  border: 1px solid var(--color-line);
-  border-radius: 6px;
-  padding: 6px;
-  background: white;
-  box-shadow:
-    0 1px 2px rgb(0 0 0 / 0.04),
-    0 18px 40px -16px rgb(0 0 0 / 0.22);
-  animation: menu-in 160ms ease both;
-}
-
-.lang-menu a,
-.lang-menu span {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 10px;
-  border-radius: 4px;
-  padding: 10px 12px;
-  color: var(--color-ink);
-  font-size: 0.84rem;
+  padding: 4px 5px;
   text-decoration: none;
 }
-
-.lang-menu a:hover {
-  background: var(--color-accent);
+.lang-inline > span {
+  color: var(--color-ink);
 }
-
-.lang-menu span {
+.lang-inline > a {
+  color: #94a3b8;
+}
+.lang-inline > a:hover {
   color: var(--color-primary);
 }
-
-/* The phone number is the first thing to give way when the row gets tight. */
-@media (max-width: 1180px) {
-  .header-phone {
-    display: none;
-  }
-}
-
 @media (max-width: 900px) {
-  .lang-switch {
+  .nav-actions > .lang-inline {
     display: none;
   }
-
-  .mobile-lang-current {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    border-radius: 4px;
-    padding: 10px;
-    color: var(--color-primary);
-    font-size: 0.78rem;
-  }
+}
+.mobile-nav .lang-inline-mobile {
+  padding: 10px 6px;
+}
+.mobile-nav .lang-inline-mobile > * {
+  padding: 4px 6px;
 }
 
-/* Footer: legal links in the bottom bar, styled like .footer-column links */
-.footer-legal {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px 18px;
-}
-
-.footer-legal a,
-.footer-legal button {
+/* Footer: data portability and cookie settings in the bottom bar, in the
+   bar's own colour and size. */
+.footer-bottom-legal a,
+.footer-bottom-legal .footer-link-button {
   border: 0;
   padding: 0;
   background: none;
-  color: #94a3b8;
+  color: inherit;
   font: inherit;
   text-decoration: none;
   cursor: pointer;
 }
-
-.footer-legal a:hover,
-.footer-legal button:hover {
+.footer-bottom-legal a:hover,
+.footer-bottom-legal .footer-link-button:hover {
   color: white;
+}
+/* The design hides its last footer column below 1100px. Phone and the legal
+   links live there, so they get a row of their own at those widths. */
+.footer-mobile-extra {
+  display: none;
+}
+@media (max-width: 1100px) {
+  .footer-mobile-extra {
+    display: flex;
+    width: min(100% - 40px, 1280px);
+    flex-wrap: wrap;
+    gap: 8px 18px;
+    margin-inline: auto;
+    padding-bottom: 22px;
+  }
+  .footer-mobile-extra a {
+    color: #94a3b8;
+    font-size: 0.75rem;
+    text-decoration: none;
+  }
+}
+@media (max-width: 900px) {
+  .footer-mobile-extra {
+    width: calc(100% - 32px);
+  }
 }
 
 /* Demo form: validation and result states (the design's form never submits) */
@@ -357,11 +317,6 @@
 }
 
 /* About: the team cards carry a real name, role and e-mail. */
-.team-cards > div > span.team-initials {
-  color: var(--color-navy);
-  font-size: 1.6rem;
-  letter-spacing: -0.02em;
-}
 .team-cards a {
   display: block;
   padding-inline: 17px;
@@ -372,59 +327,98 @@
 }
 .longform .table-frame table { min-width: 600px; }
 
-/* Front page: "Bruges af" band under the hero. Not in the design export; built
-   from its tokens (hero border, .hero-proof label colour and size). Each logo
-   gets the same box and is scaled to fit it, so neither dominates. */
-.customers-section {
+/* Front page: customer story under the hero. Not in the design export; built
+   from its tokens: .value-tag label, heading type for the quote, muted
+   attribution and the design's white bordered cards for the logos. */
+.customer-story {
   border-bottom: 1px solid #e2e8f0;
   background: white;
 }
-.customers-inner {
-  display: flex;
+.customer-story-inner {
+  display: grid;
   width: min(100% - 40px, 1280px);
+  grid-template-columns: 1.35fr 0.65fr;
+  align-items: center;
+  gap: 80px;
   margin-inline: auto;
-  align-items: center;
-  justify-content: center;
-  gap: 48px;
-  padding-block: 36px;
+  padding-block: 96px;
 }
-.customers-label {
+.customer-quote {
   margin: 0;
-  color: #64748b;
-  font-size: 0.78rem;
 }
-.customers-logos {
+.customer-quote .value-tag {
+  margin-bottom: 26px;
+}
+.customer-quote blockquote {
+  margin: 0;
+}
+.customer-quote blockquote p {
+  margin: 0;
+  color: var(--color-navy);
+  font-size: clamp(1.6rem, 2.6vw, 2.35rem);
+  line-height: 1.18;
+  letter-spacing: -0.035em;
+}
+.customer-quote figcaption {
   display: flex;
-  align-items: center;
-  gap: 48px;
+  flex-wrap: wrap;
+  gap: 4px 10px;
+  margin-top: 26px;
+  color: #64748b;
+  font-size: 0.86rem;
+}
+.customer-quote figcaption strong {
+  color: var(--color-ink);
+}
+.customer-logos {
+  display: grid;
+  gap: 14px;
   margin: 0;
   padding: 0;
   list-style: none;
 }
-.customers-logos li {
+.customer-logos li {
   display: flex;
-  width: 150px;
-  height: 68px;
+  height: 132px;
   align-items: center;
   justify-content: center;
+  border: 1px solid #e2e8f0;
+  border-radius: 4px;
+  padding: 24px 32px;
+  background: #f8fafc;
 }
-.customers-logos img {
+.customer-logos img {
   display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
+  width: auto;
+  max-width: 100%;
+  height: auto;
 }
-@media (max-width: 640px) {
-  .customers-inner {
-    flex-direction: column;
-    gap: 18px;
-    padding-block: 28px;
+/* Athene's badge is 94x84 px: 64px tall keeps it sharp. R&H's vector logo
+   is sized to the same visual weight. */
+.customer-logos li:first-child img {
+  width: 168px;
+}
+.customer-logos li:last-child img {
+  height: 64px;
+}
+@media (max-width: 900px) {
+  .customer-story-inner {
+    width: calc(100% - 32px);
+    grid-template-columns: 1fr;
+    gap: 40px;
+    padding-block: 72px;
   }
-  .customers-logos {
-    gap: 28px;
+  .customer-logos {
+    grid-template-columns: 1fr 1fr;
   }
-  .customers-logos li {
-    width: 124px;
+  .customer-logos li {
+    height: 104px;
+    padding: 18px;
+  }
+  .customer-logos li:first-child img {
+    width: 128px;
+  }
+  .customer-logos li:last-child img {
     height: 56px;
   }
 }

@@ -10,7 +10,7 @@ import { useMemo, useState, type FormEvent, type ReactNode } from 'react'
 import { useLanguage } from '@/lib/LanguageContext'
 import { PHONE_DISPLAY, PHONE_HREF, ROUTES } from '@/lib/site-nav'
 import { CallbackForm } from './Forms'
-import { ArrowLeft, ArrowRight, Check, Compass, Lightbulb, ShieldCheck } from './icons'
+import { ArrowLeft, ArrowRight, Check, Compass, Lightbulb, ShieldCheck, UsersRound } from './icons'
 import { useT } from './i18n'
 import { CtaBand } from './Layout'
 import { Button, ButtonLink, Eyebrow, Heading, IconBox, Lead, SectionIntro, cx } from './Ui'
@@ -36,17 +36,30 @@ export function CallbackPage() {
               "Fill in the form and we'll call you. At the demo, we show you the system with a job from your own calendar.",
             )}
           </Lead>
-          {/* Step descriptions in the design are placeholder text, so only the titles show. */}
+          {/* Step descriptions: the live book-demo and about pages' own steps. */}
           <div className="demo-steps">
             {[
-              t('Vi ringer dig op', 'We call you'),
-              t('Vi gennemgår jeres flow', 'We go through your workflow'),
-              t('Du ser Movena i praksis', 'You see Movena in practice'),
-            ].map((item, index) => (
-              <div key={item}>
+              [t('Vi ringer dig op', 'We call you'), t('En af os tre ringer jer op.', 'One of the three of us calls you.')],
+              [
+                t('Vi gennemgår jeres flow', 'We go through your workflow'),
+                t(
+                  'Vi lægger en rigtig opgave ind sammen med jer, fra forespørgsel til faktura.',
+                  'We enter a real job together with you, from request to invoice.',
+                ),
+              ],
+              [
+                t('Du ser Movena i praksis', 'You see Movena in practice'),
+                t(
+                  'I ser den gå fra forespørgsel til planlægning og faktura, og bestemmer selv, om Movena passer til jer.',
+                  'You see it go from request to planning and invoice, and decide for yourselves whether Movena is right for you.',
+                ),
+              ],
+            ].map(([title, text], index) => (
+              <div key={title}>
                 <span>0{index + 1}</span>
                 <div>
-                  <strong>{item}</strong>
+                  <strong>{title}</strong>
+                  <p>{text}</p>
                 </div>
               </div>
             ))}
@@ -237,8 +250,13 @@ export function BlogIndexPage({ cards }: { cards: BlogCardData[] }) {
           <Heading as="h1" size="display">
             {t('Viden til en bedre flytteforretning', 'Knowledge for a better moving business')}
           </Heading>
-          {/* The design's lead opens with placeholder text; only the real sentence is kept. */}
-          <Lead>{t('Praktiske perspektiver på drift, salg og planlægning.', 'Practical perspectives on operations, sales and planning.')}</Lead>
+          {/* The design's first sentence was placeholder text; this one is from the live blog intro. */}
+          <Lead>
+            {t(
+              'Skrevet af os, der bygger Movena sammen med flyttebranchen. Praktiske perspektiver på drift, salg og planlægning.',
+              'Written by the people building Movena together with the moving industry. Practical perspectives on operations, sales and planning.',
+            )}
+          </Lead>
           <div className="blog-filters">
             <button className={filter === null ? 'active' : ''} onClick={() => setFilter(null)} aria-pressed={filter === null}>
               {t('Alle', 'All')}
@@ -324,13 +342,18 @@ export function BlogArticlePage({ post }: { post: BlogArticleData }) {
       )}
       <div className="article-body">
         <div className="longform" dangerouslySetInnerHTML={{ __html: post.html }} />
-        {/* The design's CTA and author box carry placeholder text body text, so only
-            their headings and the button are kept. */}
+        {/* CTA and author bio: the live demo sentence and the live blog intro. */}
         <div className="article-cta">
           <div>
             <Heading as="h3" size="md">
               {t('Se Movena i praksis', 'See Movena in practice')}
             </Heading>
+            <p>
+              {t(
+                'Book en gratis demo. I stedet for et standardeksempel viser vi systemet med en opgave, I selv har i kalenderen.',
+                'Book a free demo. Instead of a standard example, we show you the system with a job from your own calendar.',
+              )}
+            </p>
           </div>
           <ButtonLink to={ROUTES[locale].bookDemo}>{t('Bliv ringet op', 'Get a call')}</ButtonLink>
         </div>
@@ -338,13 +361,23 @@ export function BlogArticlePage({ post }: { post: BlogArticleData }) {
           <span className="author-avatar author-avatar-large">{post.initials}</span>
           <div>
             <strong>{t(`Skrevet af ${post.author}`, `Written by ${post.author}`)}</strong>
+            <p>
+              {t(
+                'Praktiske råd om tilbud, planlægning og drift, skrevet af os, der bygger Movena sammen med flyttebranchen.',
+                'Practical advice on quotes, planning and operations, written by the people building Movena together with the moving industry.',
+              )}
+            </p>
           </div>
         </div>
       </div>
       {post.related.length > 0 && (
         <section className="related-section">
           <div className="section-shell">
-            <SectionIntro eyebrow={t('Læs videre', 'Read on')} title={t('Relaterede indlæg', 'Related posts')} />
+            <SectionIntro
+              eyebrow={t('Læs videre', 'Read on')}
+              title={t('Relaterede indlæg', 'Related posts')}
+              text={t('Flere praktiske råd om tilbud, planlægning og drift.', 'More practical advice on quotes, planning and operations.')}
+            />
             <div className="blog-grid related-grid">
               {post.related.map((card) => (
                 <BlogCard post={card} key={card.slug} />
@@ -362,19 +395,31 @@ export function BlogArticlePage({ post }: { post: BlogArticleData }) {
 /* ------------------------------------------------------------------ */
 
 const TEAM = [
-  { initials: 'VL', name: 'Villads Laun', role: ['Salg og marketing', 'Sales and marketing'], email: 'vl@movena.io' },
-  { initials: 'VCL', name: 'Valdemar Lorentzen', role: ['Udvikling og drift', 'Development and operations'], email: 'vcl@movena.io' },
-  { initials: 'SO', name: 'Samuel Odegaard', role: ['Strategi og support', 'Strategy and support'], email: 'sto@movena.io' },
+  { name: 'Villads Laun', role: ['Salg og marketing', 'Sales and marketing'], email: 'vl@movena.io' },
+  { name: 'Valdemar Lorentzen', role: ['Udvikling og drift', 'Development and operations'], email: 'vcl@movena.io' },
+  { name: 'Samuel Odegaard', role: ['Strategi og support', 'Strategy and support'], email: 'sto@movena.io' },
 ]
 
 export function AboutPage() {
   const { t } = useT()
-  // Principle and reason descriptions in the design are placeholder text or "Plads
-  // til uddybende indhold", so only their titles show.
+  // Principle and reason descriptions: sentences from the live about page,
+  // FAQ, planning page and blog (the design's own were placeholders).
   const principles = [
-    { icon: Compass, title: t('Retning før funktioner', 'Direction before features') },
-    { icon: Lightbulb, title: t('Enkelhed i hverdagen', 'Simplicity in the everyday') },
-    { icon: ShieldCheck, title: t('Tillid i alle led', 'Trust at every step') },
+    {
+      icon: Compass,
+      title: t('Retning før funktioner', 'Direction before features'),
+      text: t('Nye funktioner kommer fra det, flyttefirmaerne beder om.', 'New features come from what the moving companies ask for.'),
+    },
+    {
+      icon: Lightbulb,
+      title: t('Enkelhed i hverdagen', 'Simplicity in the everyday'),
+      text: t('Bygget efter den måde, en flytning faktisk kører på.', 'Built around the way a move actually runs.'),
+    },
+    {
+      icon: ShieldCheck,
+      title: t('Tillid i alle led', 'Trust at every step'),
+      text: t('I ejer jeres data og kan tage det med.', 'You own your data and can take it with you.'),
+    },
   ]
   return (
     <>
@@ -424,6 +469,7 @@ export function AboutPage() {
           <SectionIntro
             eyebrow={t('Sådan arbejder vi', 'How we work')}
             title={t('Tre principper i alt, vi bygger', 'Three principles in everything we build')}
+            text={t('Ikke bygget til dem. Bygget med dem.', 'Not built for them. Built with them.')}
             align="center"
           />
           <div className="three-grid">
@@ -434,6 +480,7 @@ export function AboutPage() {
                 <Heading as="h3" size="md">
                   {item.title}
                 </Heading>
+                <p>{item.text}</p>
               </article>
             ))}
           </div>
@@ -446,16 +493,47 @@ export function AboutPage() {
         </div>
         <div className="reasons-scroll">
           {[
-            t('Dansk branchefokus', 'Danish industry focus'),
-            t('Én samlet platform', 'One connected platform'),
-            t('Enkel implementering', 'Simple implementation'),
-            t('Tæt produktdialog', 'Close product dialogue'),
-            t('Mobil fra starten', 'Mobile from the start'),
-            t('Data der følger opgaven', 'Data that follows the job'),
-          ].map((reason, index) => (
+            [
+              t('Dansk branchefokus', 'Danish industry focus'),
+              t('Support på dansk, direkte fra os, der har bygget systemet.', 'Support in English and Danish, straight from the people who built the system.'),
+            ],
+            [
+              t('En samlet platform', 'One connected platform'),
+              t(
+                'Leads, tilbud, planlægning, mandskab, biler, timer og fakturering, alt sammen forbundet.',
+                'Leads, quotes, planning, crew, vehicles, hours and invoicing, all connected.',
+              ),
+            ],
+            [
+              t('Enkel implementering', 'Simple implementation'),
+              t('Vi sætter det op sammen med jer på et opstartsmøde.', 'We set it up together with you at a kick-off meeting.'),
+            ],
+            [
+              t('Tæt produktdialog', 'Close product dialogue'),
+              t(
+                'Hver del af Movena er formet af dem, der skal bruge den, og sådan bygger vi det stadig.',
+                "Every part of Movena is shaped by the people who use it, and that's still how we build it.",
+              ),
+            ],
+            [
+              t('Mobil fra starten', 'Mobile from the start'),
+              t(
+                'Folkene ser dagens job i appen, starter og stopper tiden og tager billeder.',
+                "The crew sees today's jobs in the app, starts and stops the clock and takes photos.",
+              ),
+            ],
+            [
+              t('Data der følger opgaven', 'Data that follows the job'),
+              t(
+                'Hver flytning har kort, rute og køretid, og noterne følger med ud i appen.',
+                'Every move has a map, route and drive time, and the notes go along into the app.',
+              ),
+            ],
+          ].map(([reason, text], index) => (
             <article key={reason}>
               <span>0{index + 1}</span>
               <p>{reason}</p>
+              <small>{text}</small>
             </article>
           ))}
         </div>
@@ -474,7 +552,9 @@ export function AboutPage() {
         <div className="team-cards">
           {TEAM.map((person) => (
             <div key={person.name}>
-              <span className="team-initials">{person.initials}</span>
+              <span>
+                <UsersRound />
+              </span>
               <strong>{person.name}</strong>
               <small>{t(person.role[0], person.role[1])}</small>
               <a href={`mailto:${person.email}`}>{person.email}</a>

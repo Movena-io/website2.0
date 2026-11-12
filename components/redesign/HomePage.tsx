@@ -75,7 +75,7 @@ const walkthrough = (t: T) => [
     ),
     points: [
       t('Undgå ressourcekonflikter', 'Avoid resource clashes'),
-      t('Se hele ugen på én flade', 'See the whole week on one screen'),
+      t('Se hele ugen på en flade', 'See the whole week on one screen'),
       t('Ændringer deles med det samme', 'Changes are shared straight away'),
     ],
   },
@@ -112,49 +112,66 @@ const walkthrough = (t: T) => [
 const rotatingWords = (t: T) =>
   t(['forespørgsler', 'tilbud', 'flytninger', 'betalinger'], ['enquiries', 'quotes', 'moves', 'payments'])
 
-// The current site's FAQ, questions and answers verbatim. The design's own
-// answers are placeholder text. "Hvad koster det?" is in both.
+// The design's eight FAQ questions, in the design's order. Each answer is put
+// together from sentences already on movena.io or in the blog (sources noted),
+// with no new features, numbers or claims. "Kan kunder betale digitalt?" is
+// left out: nothing on the site or in the blog says customers can pay
+// digitally, so it waits for an answer from the team.
 const faqs = (t: T): Array<[string, string]> => [
   [
-    t('Skal folkene lære noget nyt?', 'Does the crew have to learn anything new?'),
+    // Live FAQ ("Vi sætter det op sammen med jer på et opstartsmøde", "Skal folkene lære noget nyt? Ikke meget.")
+    t('Er det nemt at komme i gang med?', 'Is it easy to get started?'),
     t(
-      'Ikke meget. I appen ser de dagens job, starter og stopper tiden og tager billeder, når der er brug for det.',
-      "Not much. In the app they see today's jobs, start and stop the clock and take photos when needed.",
+      'Ja. Vi sætter det op sammen med jer på et opstartsmøde, og folkene skal ikke lære meget nyt.',
+      "Yes. We set it up together with you at a kick-off meeting, and the crew doesn't have to learn much that's new.",
     ),
   ],
   [
-    t('Kan kunden se prisen med det samme?', 'Can the customer see the price right away?'),
+    // Blog: "Styr på det fra første bil" (excerpt on /da/blog)
+    t('Er Movena kun til store flyttefirmaer?', 'Is Movena only for large moving companies?'),
     t(
-      'Kunden ser et prisoverslag, så snart formularen er udfyldt, når I bruger timepris, m² eller pakker. Det endelige tilbud sender I selv, når I har godkendt det.',
-      "The customer sees an estimate as soon as the form is filled in, when you use hourly rates, m² or packages. You send the final quote yourselves once you've approved it.",
+      'Nej. Det normale råd til et lille flyttefirma er at vente med software. Men alt det, I bygger imens, skal rives ned igen, når I har mindst tid. Et system fra første bil vokser med jer.',
+      'No. The usual advice to a small moving company is to wait with software. But everything you build in the meantime has to be torn down again when you have the least time. A system from the first truck grows with you.',
     ),
   ],
   [
-    t('Hvor lang tid tager det at komme i gang?', 'How long does it take to get started?'),
+    // Live FAQ (the app) and blog "Styr dit flyttefirma fra mobilen"
+    t('Kan teamet bruge Movena på mobilen?', 'Can the team use Movena on mobile?'),
     t(
-      '[Typisk tid fra ja til første flytning i Movena.] Vi sætter det op sammen med jer på et opstartsmøde.',
-      '[Typical time from yes to the first move in Movena.] We set it up together with you at a kick-off meeting.',
+      'Ja. Folkene ser dagens job i appen, starter og stopper tiden og tager billeder, når der er brug for det. Fra telefonen kan I også oprette jobs, planlægge ugen og rykke bookinger.',
+      "Yes. The crew sees today's jobs in the app, starts and stops the clock and takes photos when needed. From the phone you can also create jobs, plan the week and move bookings.",
     ),
   ],
   [
-    t('Virker det med e-conomic?', 'Does it work with e-conomic?'),
-    t(
-      'Movena laver fakturaen. Integrationen til e-conomic er på vej, så I kan sende den direkte derfra.',
-      'Movena creates the invoice. The e-conomic integration is on its way, so you can send it straight from there.',
-    ),
-  ],
-  [
-    t('Hvem ejer vores data?', 'Who owns our data?'),
-    t(
-      'Det gør I. I kan hente alle jeres data ud som fil, når I vil, også hvis I stopper.',
-      'You do. You can export all your data as a file whenever you want, also if you stop.',
-    ),
-  ],
-  [
+    // Live FAQ, verbatim
     t('Hvad koster det?', 'What does it cost?'),
     t(
       'Prisen afhænger af, hvor mange der bruger systemet hos jer. Vi gennemgår den med jer på demoen, så I ved præcis, hvad det koster, før I beslutter jer. Der er ingen binding.',
       "The price depends on how many people use the system at your company. We go through it with you at the demo, so you know exactly what it costs before you decide. There's no lock-in.",
+    ),
+  ],
+  [
+    // Live /da/hav-styr-paa-dagen and /en/run-the-day
+    t('Hvordan virker planlægning og dispatch?', 'How do planning and dispatch work?'),
+    t(
+      'Flytninger og besigtigelser ligger i en kalender, med hold og bil på hver aftale. Hver flytning har kort, rute og køretid, og noterne følger med ud i appen.',
+      'Moves and site visits sit in one calendar, with crew and vehicle on every booking. Every move has a map, route and drive time, and the notes go along into the app.',
+    ),
+  ],
+  [
+    // Blog (software-to-moving-companies) and live FAQ "Hvem ejer vores data?"
+    t('Hvad sker der med vores nuværende data?', 'What happens to our current data?'),
+    t(
+      'Ligger jeres kunder og jobs i Excel, flytter vi dem over til Movena for jer. Data er jeres, og I kan hente det hele ud som fil, når I vil, også hvis I stopper.',
+      'If your customers and jobs are in Excel, we help you import them into Movena as part of onboarding. The data is yours, and you can export all of it as a file whenever you want, also if you stop.',
+    ),
+  ],
+  [
+    // Live /da/om-os and /en/about
+    t('Hvilken hjælp får vi undervejs?', 'What help do we get along the way?'),
+    t(
+      'Når I kontakter os, taler I med dem, der har bygget systemet. Ingen supportkø i et andet land, og support foregår på dansk.',
+      'When you contact us, you talk to the people who built the system. No support queue in another country, and support is in English and Danish.',
     ),
   ],
 ]
@@ -178,9 +195,11 @@ export default function HomePage() {
   )
 }
 
-// Not in the design export: a "used by" band added on request (2026-11-12).
-// Logos are the customers' own files (rh-flyt.dk, atheneflyt.dk), recoloured
-// to one neutral slate so they sit quietly in the design. No quotes or numbers.
+// Not in the design export: a customer story added on request (2026-11-12),
+// built from the design's own pieces (value-tag label, heading type, cards).
+// Logos are the customers' own files in their original colours: R&H's vector
+// logo from rh-flyt.dk and Athene's badge from atheneflyt.dk. The Athene file
+// is small (94x84), so it is shown at a size where it stays sharp.
 const CUSTOMERS = [
   { name: 'R&H Flyt & Transport', src: '/customers/rh-flyt-transport.svg', width: 1877, height: 549 },
   { name: 'Athene Flyttefirma', src: '/customers/athene-flyttefirma.png', width: 94, height: 84 },
@@ -189,10 +208,24 @@ const CUSTOMERS = [
 function CustomersSection() {
   const { t } = useT()
   return (
-    <section className="customers-section" aria-label={t('Kunder', 'Customers')}>
-      <div className="customers-inner">
-        <p className="customers-label">{t('Bruges af', 'Used by')}</p>
-        <ul className="customers-logos">
+    <section className="customer-story" aria-label={t('Udvalgte kunder', 'Selected customers')}>
+      <div className="customer-story-inner">
+        <figure className="customer-quote">
+          <span className="value-tag">{t('Udvalgte kunder', 'Selected customers')}</span>
+          <blockquote>
+            <p>
+              {t(
+                '“Et helt år med dårlige og besværlige systemer. Med Movena har vi endelig fundet det, vi ledte efter.”',
+                '“A whole year of bad and cumbersome systems. With Movena we have finally found what we were looking for.”',
+              )}
+            </p>
+          </blockquote>
+          <figcaption>
+            <strong>Henning</strong>
+            <span>{t('Ejer, R&H Flyt & Transport', 'Owner, R&H Flyt & Transport')}</span>
+          </figcaption>
+        </figure>
+        <ul className="customer-logos">
           {CUSTOMERS.map((customer) => (
             <li key={customer.name}>
               {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -261,7 +294,7 @@ function Hero() {
           </div>
           <div className="hero-proof">
             <span>
-              <Check /> {t('Én samlet platform', 'One complete platform')}
+              <Check /> {t('En samlet platform', 'One complete platform')}
             </span>
             <span>
               <Check /> {t('Bygget til flyttebranchen', 'Built for the moving industry')}
@@ -1063,8 +1096,13 @@ function FaqSection() {
         <div className="faq-intro">
           <Eyebrow>{t('Spørgsmål og svar', 'Questions and answers')}</Eyebrow>
           <Heading>{t('Det, du måske gerne vil vide', 'What you might want to know')}</Heading>
-          {/* The design's lead opens with placeholder text; only the real sentence is kept. */}
-          <Lead>{t('Kan du ikke finde svaret, tager vi gerne en snak.', "If you can't find the answer, we're happy to talk.")}</Lead>
+          {/* The design's first sentence was placeholder text; this one is the live FAQ heading. */}
+          <Lead>
+            {t(
+              'Det, flyttefirmaer spørger om. Kan du ikke finde svaret, tager vi gerne en snak.',
+              "What moving companies ask. If you can't find the answer, we're happy to talk.",
+            )}
+          </Lead>
           <ButtonLink to={ROUTES[locale].bookDemo} variant="outline" className="editor-sky-button">
             {t('Tal med os', 'Talk to us')}
           </ButtonLink>

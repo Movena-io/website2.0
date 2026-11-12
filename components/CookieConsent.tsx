@@ -131,7 +131,7 @@ function Row({ title, desc, right }: { title: string; desc: string; right: React
 // then an underlined text button underneath.
 const actionBtn = (bg: string): React.CSSProperties => ({
   height: '44px',
-  borderRadius: '8px',
+  borderRadius: '4px',
   fontFamily: 'inherit',
   fontSize: '14px',
   fontWeight: 600,
@@ -221,9 +221,10 @@ export default function CookieConsent() {
         boxSizing: 'border-box',
         background: '#FFFFFF',
         color: '#0B1F3B',
-        borderRadius: '16px',
+        borderRadius: '6px',
         padding: '20px',
-        boxShadow: '0 2px 4px rgba(11, 31, 59, 0.06), 0 30px 60px -20px rgba(11, 31, 59, 0.45)',
+        border: '1px solid #e2e8f0',
+        boxShadow: '0 1px 2px rgb(0 0 0 / 0.04), 0 18px 40px -16px rgb(0 0 0 / 0.22)',
         fontSize: '14px',
         lineHeight: 1.5,
       }}
@@ -263,7 +264,7 @@ export default function CookieConsent() {
                   fontWeight: 600,
                   color: '#1D4ED8',
                   background: '#E6EDFC',
-                  borderRadius: '8px',
+                  borderRadius: '4px',
                   padding: '3px 8px',
                 }}
               >
@@ -280,7 +281,7 @@ export default function CookieConsent() {
         <button type="button" style={actionBtn('#0B1F3B')} onClick={() => commit(false, false)}>
           {c.necessaryOnly}
         </button>
-        <button type="button" style={actionBtn('#2563EB')} onClick={() => commit(true, true)}>
+        <button type="button" style={actionBtn('#2ba8e0')} onClick={() => commit(true, true)}>
           {c.acceptAll}
         </button>
       </div>

@@ -67,7 +67,7 @@ function FeatureHero({ feature, copy, composition, index }: Props) {
               <Check /> {t('Bygget til flyttebranchen', 'Built for the moving industry')}
             </span>
             <span>
-              <Check /> {t('Én sammenhængende platform', 'One connected platform')}
+              <Check /> {t('En sammenhængende platform', 'One connected platform')}
             </span>
           </div>
         </div>

@@ -2,8 +2,8 @@ import type { Locale } from '@/lib/locales'
 
 // The eight feature pages from the 2026 redesign. Danish copy is the design's
 // own (src/data/features.ts in the export), word for word, except that the
-// metric figures carry no numbers (24/7, 100%, "1 klik"...) and "ét" is
-// written "et", per Movena's house style. English is a translation of it.
+// metric figures carry no numbers (24/7, 100%, "1 klik"...) and "et"/"en"
+// are never written with an accent, per Movena's house style. English is a translation of it.
 // Slugs differ per language, like the rest of the site:
 // /da/funktioner/<da> and /en/features/<en>.
 
@@ -75,7 +75,7 @@ export const features: Feature[] = [
         'Historikken ligger hos den enkelte',
       ],
       capabilities: [
-        { title: 'Samlet kundekort', text: 'Se kontaktdata, opgaver, tilbud og beskeder i én ubrudt historik.' },
+        { title: 'Samlet kundekort', text: 'Se kontaktdata, opgaver, tilbud og beskeder i en ubrudt historik.' },
         { title: 'Visuel pipeline', text: 'Se præcis hvilke kunder der venter på svar, tilbud eller opfølgning.' },
         { title: 'Tydeligt ansvar', text: 'Fordel leads og næste skridt, så alle ved, hvem der gør hvad.' },
         { title: 'Søgbar historik', text: 'Find samtaler og aftaler igen, også når kunden vender tilbage måneder senere.' },
@@ -118,7 +118,7 @@ export const features: Feature[] = [
       shortTitle: 'Opgavestyring',
       eyebrow: 'Fra ordrebog til dagens rute',
       description:
-        'Planlæg flytninger, crew, biler og tider i én levende kalender, der giver kontoret ro og teamet en klar arbejdsdag.',
+        'Planlæg flytninger, crew, biler og tider i en levende kalender, der giver kontoret ro og teamet en klar arbejdsdag.',
       statement: 'Når planen ændrer sig, følger hele holdet med',
       problems: [
         'Dobbeltbookede ressourcer',
@@ -180,7 +180,7 @@ export const features: Feature[] = [
         { title: 'Hændelsesbaserede flows', text: 'Start en handling, når et tilbud godkendes eller en opgave afsluttes.' },
         { title: 'SMS og e-mail', text: 'Send ensartede beskeder med data fra den konkrete flytning.' },
         { title: 'Interne opgaver', text: 'Opret automatisk opfølgninger hos den rigtige kollega.' },
-        { title: 'Skabeloner', text: 'Byg jeres bedste arbejdsgang én gang og brug den hver gang.' },
+        { title: 'Skabeloner', text: 'Byg jeres bedste arbejdsgang en gang og brug den hver gang.' },
       ],
       metric: { value: 'Færre', label: 'manuelle håndskift i jeres vigtigste standardflows' },
       workflow: ['En hændelse sker', 'Movena udfører reglen', 'Teamet ser resultatet'],

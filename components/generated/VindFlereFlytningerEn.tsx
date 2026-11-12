@@ -4,9 +4,9 @@
 // GENERATED from design-export/EN-Win-more-moves.dc.html by scripts/dc-to-tsx.mjs.
 // Styles and numbers are the design's own. Hand edits below the marker only.
 import { useState, useEffect } from 'react'
-import SiteHeader from '@/components/site/SiteHeader'
-import SiteFooter from '@/components/site/SiteFooter'
-import DemoCTA from '@/components/site/DemoCTA'
+// 2026 redesign: these pages have no design of their own, so they keep their
+// body and sit inside the new header, footer and CTA band.
+import { CtaBand, SiteShell } from '@/components/redesign/Layout'
 
 const DEMO_LOCALE = 'en'
 
@@ -191,9 +191,9 @@ const s = st || {};
   const V = vals as any
 
   return (
-<div data-dc="" style={{ width: "100%", minHeight: V.pageMinH, zoom: V.pageZoom, display: "flex", flexDirection: "column", background: "#FFFFFF", color: "#0B1F3B", fontFamily: "Manrope, 'Helvetica Neue', Helvetica, Arial, sans-serif", fontSize: "17px", lineHeight: "1.55", WebkitFontSmoothing: "antialiased" }}>
+<SiteShell>
+<div data-dc="" style={{ width: "100%", zoom: V.pageZoom, display: "flex", flexDirection: "column", background: "#FFFFFF", color: "#0B1F3B", fontFamily: "Manrope, 'Helvetica Neue', Helvetica, Arial, sans-serif", fontSize: "17px", lineHeight: "1.55", WebkitFontSmoothing: "antialiased" }}>
 
-<SiteHeader />
 
 <section id="top" style={{ background: "radial-gradient(ellipse 55% 55% at 72% 30%, rgba(37, 99, 235, 0.20) 0%, rgba(37, 99, 235, 0.07) 45%, rgba(255, 255, 255, 0) 75%), linear-gradient(180deg, #FFFFFF 75%, #F1F5FA 100%)", padding: "clamp(32px, 4vw, 56px) 0 clamp(56px, 6vw, 88px)" }}>
 <div style={{ maxWidth: "1200px", margin: "0 auto", padding: "0 clamp(20px, 5vw, 64px)", boxSizing: "border-box", width: "100%" }}>
@@ -311,13 +311,13 @@ Help with packing
 </div>
 </section>
 
-<DemoCTA />
+<div className="section-shell section-shell-tight"><CtaBand /></div>
 
-<SiteFooter />
 
 
 
 
 </div>
+</SiteShell>
   )
 }

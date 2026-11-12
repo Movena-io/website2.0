@@ -197,14 +197,9 @@ export default function HomePage() {
 
 // Not in the design export: a customer story added on request (2026-11-12),
 // built from the design's own pieces (value-tag label, heading type, cards).
-// Logos are the customers' own files in their original colours: R&H's vector
-// logo from rh-flyt.dk and Athene's badge from atheneflyt.dk. The Athene file
-// is small (94x84), so it is shown at a size where it stays sharp.
-const CUSTOMERS = [
-  { name: 'R&H Flyt & Transport', src: '/customers/rh-flyt-transport.svg', width: 1877, height: 549 },
-  { name: 'Athene Flyttefirma', src: '/customers/athene-flyttefirma.png', width: 94, height: 84 },
-]
-
+// Logos are the customers' own: R&H's vector logo from rh-flyt.dk, and
+// Athene's badge (94x84, shown no larger than 64px so it stays sharp) with
+// their name set as text in their own style.
 function CustomersSection() {
   const { t } = useT()
   return (
@@ -222,16 +217,34 @@ function CustomersSection() {
           </blockquote>
           <figcaption>
             <strong>Henning</strong>
-            <span>{t('Ejer, R&H Flyt & Transport', 'Owner, R&H Flyt & Transport')}</span>
+            {t(
+              ', ejer af R&H Flyt & Transport og Athene Flyttefirma',
+              ', owner of R&H Flyt & Transport and Athene Flyttefirma',
+            )}
           </figcaption>
         </figure>
         <ul className="customer-logos">
-          {CUSTOMERS.map((customer) => (
-            <li key={customer.name}>
+          <li>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              className="logo-rh"
+              src="/customers/rh-flyt-transport.svg"
+              alt="R&H Flyt & Transport"
+              width={1877}
+              height={549}
+              loading="lazy"
+            />
+          </li>
+          <li>
+            {/* Athene's badge plus their name, set in their own style from
+                atheneflyt.dk (red #ff3030, Poppins Bold, capitals). Their
+                only wordmark file carries ".DK", a phone number and a slogan. */}
+            <span className="logo-athene" role="img" aria-label="Athene Flyttefirma">
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={customer.src} alt={customer.name} width={customer.width} height={customer.height} loading="lazy" />
-            </li>
-          ))}
+              <img src="/customers/athene-flyttefirma.png" alt="" width={94} height={84} loading="lazy" />
+              <span aria-hidden="true">Athene Flyttefirma</span>
+            </span>
+          </li>
         </ul>
       </div>
     </section>

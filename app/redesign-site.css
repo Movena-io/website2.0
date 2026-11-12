@@ -360,9 +360,6 @@
   letter-spacing: -0.035em;
 }
 .customer-quote figcaption {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 4px 10px;
   margin-top: 26px;
   color: #64748b;
   font-size: 0.86rem;
@@ -387,19 +384,39 @@
   padding: 24px 32px;
   background: #f8fafc;
 }
-.customer-logos img {
+/* Both logos share one visual height. */
+.customer-logos .logo-rh {
   display: block;
   width: auto;
-  max-width: 100%;
-  height: auto;
+  height: 56px;
 }
-/* Athene's badge is 94x84 px: 64px tall keeps it sharp. R&H's vector logo
-   is sized to the same visual weight. */
-.customer-logos li:first-child img {
-  width: 168px;
+@font-face {
+  font-family: 'Poppins Athene';
+  src: url('/fonts/poppins-700-latin.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
 }
-.customer-logos li:last-child img {
-  height: 64px;
+.customer-logos .logo-athene {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  height: 56px;
+}
+.customer-logos .logo-athene img {
+  display: block;
+  width: auto;
+  height: 56px;
+}
+.site .customer-logos .logo-athene > span {
+  color: #ff3030;
+  font-family: 'Poppins Athene', 'Poppins', sans-serif;
+  font-size: 1.12rem;
+  font-weight: 700 !important;
+  letter-spacing: 0;
+  line-height: 1;
+  text-transform: uppercase;
+  white-space: nowrap;
 }
 @media (max-width: 900px) {
   .customer-story-inner {
@@ -408,17 +425,16 @@
     gap: 40px;
     padding-block: 72px;
   }
-  .customer-logos {
-    grid-template-columns: 1fr 1fr;
-  }
   .customer-logos li {
     height: 104px;
     padding: 18px;
   }
-  .customer-logos li:first-child img {
-    width: 128px;
+  .customer-logos .logo-rh,
+  .customer-logos .logo-athene,
+  .customer-logos .logo-athene img {
+    height: 48px;
   }
-  .customer-logos li:last-child img {
-    height: 56px;
+  .site .customer-logos .logo-athene > span {
+    font-size: 0.98rem;
   }
 }

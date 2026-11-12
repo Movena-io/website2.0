@@ -40,25 +40,25 @@ export function PrivacyBodyDa() {
 </thead>
 <tbody>
 <tr>
-<td>Samtykkevalg</td>
-<td>Movena</td>
-<td>Husker dit cookievalg</td>
-<td>Nødvendig</td>
-<td>12 måneder</td>
+<td data-label="Cookie">Samtykkevalg</td>
+<td data-label="Udbyder">Movena</td>
+<td data-label="Formål">Husker dit cookievalg</td>
+<td data-label="Kategori">Nødvendig</td>
+<td data-label="Varighed">12 måneder</td>
 </tr>
 <tr>
-<td>_ga, _ga_*</td>
-<td>Google Analytics</td>
-<td>Statistik over besøg på siden</td>
-<td>Statistik</td>
-<td>Op til 2 år</td>
+<td data-label="Cookie">_ga, _ga_*</td>
+<td data-label="Udbyder">Google Analytics</td>
+<td data-label="Formål">Statistik over besøg på siden</td>
+<td data-label="Kategori">Statistik</td>
+<td data-label="Varighed">Op til 2 år</td>
 </tr>
 <tr>
-<td>_fbp</td>
-<td>Meta Pixel</td>
-<td>Måling og målretning af annoncer</td>
-<td>Marketing</td>
-<td>3 måneder</td>
+<td data-label="Cookie">_fbp</td>
+<td data-label="Udbyder">Meta Pixel</td>
+<td data-label="Formål">Måling og målretning af annoncer</td>
+<td data-label="Kategori">Marketing</td>
+<td data-label="Varighed">3 måneder</td>
 </tr>
 </tbody>
 </table>
@@ -122,25 +122,25 @@ export function PrivacyBodyEn() {
 </thead>
 <tbody>
 <tr>
-<td>Consent choice</td>
-<td>Movena</td>
-<td>Remembers your cookie choice</td>
-<td>Necessary</td>
-<td>12 months</td>
+<td data-label="Cookie">Consent choice</td>
+<td data-label="Provider">Movena</td>
+<td data-label="Purpose">Remembers your cookie choice</td>
+<td data-label="Category">Necessary</td>
+<td data-label="Duration">12 months</td>
 </tr>
 <tr>
-<td>_ga, _ga_*</td>
-<td>Google Analytics</td>
-<td>Statistics on visits to the site</td>
-<td>Statistics</td>
-<td>Up to 2 years</td>
+<td data-label="Cookie">_ga, _ga_*</td>
+<td data-label="Provider">Google Analytics</td>
+<td data-label="Purpose">Statistics on visits to the site</td>
+<td data-label="Category">Statistics</td>
+<td data-label="Duration">Up to 2 years</td>
 </tr>
 <tr>
-<td>_fbp</td>
-<td>Meta Pixel</td>
-<td>Measuring and targeting ads</td>
-<td>Marketing</td>
-<td>3 months</td>
+<td data-label="Cookie">_fbp</td>
+<td data-label="Provider">Meta Pixel</td>
+<td data-label="Purpose">Measuring and targeting ads</td>
+<td data-label="Category">Marketing</td>
+<td data-label="Duration">3 months</td>
 </tr>
 </tbody>
 </table>

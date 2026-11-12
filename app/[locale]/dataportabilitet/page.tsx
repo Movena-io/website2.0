@@ -225,7 +225,9 @@ function Table({ headers, rows }: { headers: string[]; rows: string[][] }) {
           {rows.map((row) => (
             <tr key={row[0]}>
               {row.map((cell, i) => (
-                <td key={i}>{cell}</td>
+                <td key={i} data-label={headers[i]}>
+                  {cell}
+                </td>
               ))}
             </tr>
           ))}

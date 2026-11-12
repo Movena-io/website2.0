@@ -163,6 +163,7 @@ export default function HomePage() {
   return (
     <>
       <Hero />
+      <CustomersSection />
       <PainSection />
       <Walkthrough />
       <ValueSection />
@@ -174,6 +175,33 @@ export default function HomePage() {
       <FaqSection />
       <CallbackSection />
     </>
+  )
+}
+
+// Not in the design export: a "used by" band added on request (2026-11-12).
+// Logos are the customers' own files (rh-flyt.dk, atheneflyt.dk), recoloured
+// to one neutral slate so they sit quietly in the design. No quotes or numbers.
+const CUSTOMERS = [
+  { name: 'R&H Flyt & Transport', src: '/customers/rh-flyt-transport.svg', width: 1877, height: 549 },
+  { name: 'Athene Flyttefirma', src: '/customers/athene-flyttefirma.png', width: 94, height: 84 },
+]
+
+function CustomersSection() {
+  const { t } = useT()
+  return (
+    <section className="customers-section" aria-label={t('Kunder', 'Customers')}>
+      <div className="customers-inner">
+        <p className="customers-label">{t('Bruges af', 'Used by')}</p>
+        <ul className="customers-logos">
+          {CUSTOMERS.map((customer) => (
+            <li key={customer.name}>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={customer.src} alt={customer.name} width={customer.width} height={customer.height} loading="lazy" />
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
   )
 }
 

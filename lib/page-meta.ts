@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import type { Locale } from '@/lib/locales'
+import { featurePath, type Feature } from '@/lib/features'
 
 const SITE = 'https://movena.io'
 
@@ -127,6 +128,39 @@ export function pageMetadata(key: PageKey, locale: Locale): Metadata {
     twitter: {
       card: 'summary_large_image',
       title: copy.title,
+      description: copy.description,
+      images: ['/og-image.png'],
+    },
+  }
+}
+
+// The eight feature pages. Title from lib/features.ts, description is the
+// page's own lead, like the entries above.
+export function featureMetadata(feature: Feature, locale: Locale): Metadata {
+  const copy = feature[locale]
+  const path = featurePath(feature, locale)
+  const da = featurePath(feature, 'da')
+  const en = featurePath(feature, 'en')
+  return {
+    title: copy.metaTitle,
+    description: copy.description,
+    metadataBase: new URL(SITE),
+    alternates: {
+      canonical: path,
+      languages: { da, en, 'x-default': en },
+    },
+    openGraph: {
+      title: copy.metaTitle,
+      description: copy.description,
+      url: `${SITE}${path}`,
+      siteName: 'Movena',
+      locale: OG_LOCALE[locale],
+      type: 'website',
+      images: [{ url: '/og-image.png', width: 1200, height: 627, alt: copy.metaTitle }],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: copy.metaTitle,
       description: copy.description,
       images: ['/og-image.png'],
     },

@@ -1,6 +1,7 @@
 import type { MetadataRoute } from 'next'
 import { LOCALES, type Locale } from '@/lib/locales'
 import { getAllPosts } from '@/lib/blog'
+import { features, featurePath } from '@/lib/features'
 
 const BASE = 'https://movena.io'
 
@@ -35,6 +36,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { da: '/da/om-os', en: '/en/about', changeFrequency: 'monthly', priority: 0.6 },
     { da: '/da/book-demo', en: '/en/book-demo', changeFrequency: 'monthly', priority: 0.9 },
     { da: '/da/privatlivspolitik', en: '/en/privacy', changeFrequency: 'yearly', priority: 0.3 },
+    ...features.map((feature) => ({
+      da: featurePath(feature, 'da'),
+      en: featurePath(feature, 'en'),
+      changeFrequency: 'monthly' as const,
+      priority: 0.8,
+    })),
   ]
 
   const localisedUrls: MetadataRoute.Sitemap = localisedPairs.flatMap((pair) =>

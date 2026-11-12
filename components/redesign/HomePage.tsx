@@ -2,10 +2,10 @@
 
 // Front page from the design (src/pages/HomePage.tsx in the export). Markup,
 // class names and Danish copy are the design's. Changes:
-// - lorem ipsum is gone: the calculator and demo leads use the current site's
+// - placeholder text is gone: the calculator and demo leads use the current site's
 //   text, the CTA/FAQ leads keep only their real sentence
 // - the FAQ shows the current site's questions and answers (the design's
-//   answers are lorem ipsum)
+//   answers are placeholder text)
 // - obvious typos fixed: "resourcer" -> "ressourcer", a double space in the
 //   first walkthrough step, and a trailing comma in the value-section lead
 import { useEffect, useRef, useState } from 'react'
@@ -113,7 +113,7 @@ const rotatingWords = (t: T) =>
   t(['forespørgsler', 'tilbud', 'flytninger', 'betalinger'], ['enquiries', 'quotes', 'moves', 'payments'])
 
 // The current site's FAQ, questions and answers verbatim. The design's own
-// answers are lorem ipsum. "Hvad koster det?" is in both.
+// answers are placeholder text. "Hvad koster det?" is in both.
 const faqs = (t: T): Array<[string, string]> => [
   [
     t('Skal folkene lære noget nyt?', 'Does the crew have to learn anything new?'),
@@ -969,7 +969,7 @@ function CalculatorSection() {
       <div className="calculator-copy">
         <Eyebrow>{t('Illustrativ beregner', 'Illustrative calculator')}</Eyebrow>
         <Heading>{t('Se hvad Movena kan gøre for jer', 'See what Movena can do for you')}</Heading>
-        {/* The design's lead is lorem ipsum; this is the current calculator page's intro. */}
+        {/* The design's lead is placeholder text; this is the current calculator page's intro. */}
         <Lead>
           {t(
             'Besvar nogle få spørgsmål om, hvordan I driver jeres forretning i dag, og få en gennemgang af, hvordan den kan optimeres.',
@@ -1035,7 +1035,7 @@ function FaqSection() {
         <div className="faq-intro">
           <Eyebrow>{t('Spørgsmål og svar', 'Questions and answers')}</Eyebrow>
           <Heading>{t('Det, du måske gerne vil vide', 'What you might want to know')}</Heading>
-          {/* The design's lead opens with lorem ipsum; only the real sentence is kept. */}
+          {/* The design's lead opens with placeholder text; only the real sentence is kept. */}
           <Lead>{t('Kan du ikke finde svaret, tager vi gerne en snak.', "If you can't find the answer, we're happy to talk.")}</Lead>
           <ButtonLink to={ROUTES[locale].bookDemo} variant="outline" className="editor-sky-button">
             {t('Tal med os', 'Talk to us')}
@@ -1065,7 +1065,7 @@ function CallbackSection() {
         <div className="callback-copy">
           <Eyebrow>{t('Se Movena i praksis', 'See Movena in practice')}</Eyebrow>
           <Heading>{t('Få en gennemgang tilpasset jeres forretning', 'Get a walkthrough tailored to your business')}</Heading>
-          {/* The design's lead is lorem ipsum; this is the current front page's demo text. */}
+          {/* The design's lead is placeholder text; this is the current front page's demo text. */}
           <Lead>
             {t(
               'Book en gratis demo. I stedet for et standardeksempel viser vi systemet med en opgave, I selv har i kalenderen.',

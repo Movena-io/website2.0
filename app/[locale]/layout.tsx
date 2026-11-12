@@ -10,7 +10,6 @@ import { getAllPosts } from '@/lib/blog'
 import type { BlogSlugPair } from '@/lib/site-nav'
 import { Analytics } from '@vercel/analytics/react'
 import CookieConsent from '@/components/CookieConsent'
-import DesignMotion from '@/components/site/DesignMotion'
 import GoogleAnalytics from '@/components/GoogleAnalytics'
 import MetaPixel from '@/components/MetaPixel'
 import { LOCALES, isLocale, type Locale } from '@/lib/locales'
@@ -233,7 +232,6 @@ export default function LocaleLayout({
           <GoogleAnalytics />
           <MetaPixel />
           <CookieConsent />
-          <DesignMotion />
           </BlogAlternatesProvider>
         </LanguageProvider>
       </body>

@@ -321,7 +321,7 @@ export function CtaBand({ compact = false }: { compact?: boolean }) {
     <section className={cx('cta-band', compact && 'cta-band-compact')}>
       <div>
         <h2>{t('Se hvordan Movena passer ind i jeres hverdag', 'See how Movena fits into your day')}</h2>
-        {/* The design's sentence opens with lorem ipsum; only the real half is kept. */}
+        {/* The design's sentence opens with placeholder text; only the real half is kept. */}
         <p>{t('En kort samtale, helt uforpligtende.', 'A short conversation, no strings attached.')}</p>
       </div>
       <ButtonLink to={ROUTES[locale].bookDemo} variant="light">

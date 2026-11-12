@@ -82,7 +82,7 @@ export function IconBox({ icon: Icon, tone = 'blue' }: { icon: ElementType; tone
   )
 }
 
-// The design's default intro text is lorem ipsum. Here there is no default: a
+// The design's default intro text is placeholder text. Here there is no default: a
 // section without real text simply renders no lead.
 export function SectionIntro({
   eyebrow,

@@ -1,7 +1,7 @@
 'use client'
 
 // The design's remaining pages (src/pages/OtherPages.tsx in the export), filled
-// with the live site's content. Where the design has lorem ipsum or "kommer
+// with the live site's content. Where the design has placeholder text or "kommer
 // her" placeholders, the live site's text for the same slot is used; where the
 // live site has nothing for the slot, the element is left out rather than
 // filled with invented copy.
@@ -29,14 +29,14 @@ export function CallbackPage() {
           <Heading as="h1" size="display">
             {t('Se hvordan Movena kan samle jeres hverdag', 'See how Movena can bring your day together')}
           </Heading>
-          {/* The design's lead is lorem ipsum; this is the live page's lead. */}
+          {/* The design's lead is placeholder text; this is the live page's lead. */}
           <Lead>
             {t(
               'Udfyld formularen, så ringer vi jer op. På demoen viser vi systemet med en opgave fra jeres egen kalender.',
               "Fill in the form and we'll call you. At the demo, we show you the system with a job from your own calendar.",
             )}
           </Lead>
-          {/* Step descriptions in the design are lorem ipsum, so only the titles show. */}
+          {/* Step descriptions in the design are placeholder text, so only the titles show. */}
           <div className="demo-steps">
             {[
               t('Vi ringer dig op', 'We call you'),
@@ -237,7 +237,7 @@ export function BlogIndexPage({ cards }: { cards: BlogCardData[] }) {
           <Heading as="h1" size="display">
             {t('Viden til en bedre flytteforretning', 'Knowledge for a better moving business')}
           </Heading>
-          {/* The design's lead opens with lorem ipsum; only the real sentence is kept. */}
+          {/* The design's lead opens with placeholder text; only the real sentence is kept. */}
           <Lead>{t('Praktiske perspektiver på drift, salg og planlægning.', 'Practical perspectives on operations, sales and planning.')}</Lead>
           <div className="blog-filters">
             <button className={filter === null ? 'active' : ''} onClick={() => setFilter(null)} aria-pressed={filter === null}>
@@ -324,7 +324,7 @@ export function BlogArticlePage({ post }: { post: BlogArticleData }) {
       )}
       <div className="article-body">
         <div className="longform" dangerouslySetInnerHTML={{ __html: post.html }} />
-        {/* The design's CTA and author box carry lorem ipsum body text, so only
+        {/* The design's CTA and author box carry placeholder text body text, so only
             their headings and the button are kept. */}
         <div className="article-cta">
           <div>
@@ -369,7 +369,7 @@ const TEAM = [
 
 export function AboutPage() {
   const { t } = useT()
-  // Principle and reason descriptions in the design are lorem ipsum or "Plads
+  // Principle and reason descriptions in the design are placeholder text or "Plads
   // til uddybende indhold", so only their titles show.
   const principles = [
     { icon: Compass, title: t('Retning før funktioner', 'Direction before features') },

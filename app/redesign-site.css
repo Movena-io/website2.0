@@ -175,15 +175,6 @@
   color: var(--color-primary);
 }
 
-/* globals.css (old site) hides .faq-item until its own script adds .visible.
-   The design uses the same class name for an always-visible accordion row.
-   Remove together with the old components once every page is ported. */
-.site .faq-item {
-  opacity: 1;
-  transform: none;
-  transition: none;
-}
-
 /* Long-form text: blog articles (markdown HTML), privacy policy and data
    portability. The design only styles its own sample article (.article-body >
    p/ul/blockquote); this extends the same sizes and colours to every element

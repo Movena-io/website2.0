@@ -411,21 +411,21 @@ const da: CalculatorCopy = {
   planning: {
     title: 'Planlægning af en opgave',
     subtitle: 'Kalender, tildeling af hold og biler, og administrationen omkring at sætte en opgave op.',
-    minutesLabel: 'Hvor mange minutter bruger I på at planlægge én flytning?',
+    minutesLabel: 'Hvor mange minutter bruger I på at planlægge en flytning?',
     minutesHelp: 'Fra opgaven er bekræftet, til holdet ved, hvor de skal være.',
   },
   quoting: {
     entry: 'Sender I tilbud til kunder?',
     title: 'Tilbud',
     quotesLabel: 'Hvor mange tilbud sender I om måneden?',
-    minutesLabel: 'Hvor mange minutter tager ét tilbud?',
+    minutesLabel: 'Hvor mange minutter tager et tilbud?',
     minutesHelp: 'Finde tal, skrive det op, sende det.',
   },
   followup: {
     entry: 'Følger I op på leads, der ikke booker med det samme?',
     title: 'Opfølgning på leads',
     leadsLabel: 'Hvor mange leads følger I op på om måneden?',
-    minutesLabel: 'Hvor mange minutter tager én opfølgning?',
+    minutesLabel: 'Hvor mange minutter tager en opfølgning?',
     upliftTitle: 'Hvis I fulgte op',
     upliftLabel: 'Hvor meget mere omsætning tror du, I ville vinde? (%)',
     upliftHelp: 'Dit bedste gæt. Leads, der bliver kolde i dag, vundet tilbage med fast opfølgning.',
@@ -452,8 +452,8 @@ const da: CalculatorCopy = {
     estimateNote:
       'Selv hvis I ikke registrerer dem formelt, har I sikkert en god fornemmelse. Et groft skøn er nok.',
     itemsLabel: 'Hvor mange flyttekasser forsvinder om måneden?',
-    minutesLabel: 'Hvor mange minutter bruger I på at jagte én forsvundet kasse?',
-    costLabel: 'Hvad koster det at erstatte én flyttekasse? ({cur})',
+    minutesLabel: 'Hvor mange minutter bruger I på at jagte en forsvundet kasse?',
+    costLabel: 'Hvad koster det at erstatte en flyttekasse? ({cur})',
   },
   units: {
     minutes: 'minutter',
@@ -478,17 +478,17 @@ const da: CalculatorCopy = {
     currency: 'Den valuta, alle tal her vises i. Vælg den, jeres forretning arbejder i.',
     moves: 'Antal opgaver, I udfører i en typisk måned. Vi bruger det til at beregne jeres besparelse på tværs af alle jobs.',
     hourly:
-      'Opgaverne her (planlægning, tilbud, opfølgning, beskeder) er kontorarbejde, som du eller en på kontoret laver, ikke holdet på bilen. Indtast den fulde pris for én kontortime, løn plus overhead.',
+      'Opgaverne her (planlægning, tilbud, opfølgning, beskeder) er kontorarbejde, som du eller en på kontoret laver, ikke holdet på bilen. Indtast den fulde pris for en kontortime, løn plus overhead.',
     planningMinutes:
-      'Tiden det tager at sætte én flytning op: planlægning, tildeling af hold og bil, og administrationen for at gøre den klar.',
+      'Tiden det tager at sætte en flytning op: planlægning, tildeling af hold og bil, og administrationen for at gøre den klar.',
     quotingEntry:
       'Om I sender kunder et pristilbud før en opgave. Hvis I gør, estimerer vi, hvor meget af den tid I kunne spare.',
     quotes: 'Hvor mange tilbud I sender i en typisk måned. Jo flere I sender, jo større er tidsbesparelsen.',
-    quoteMinutes: 'Tiden det tager at lave og sende ét tilbud i dag: finde prisen, skrive det op og sende det.',
+    quoteMinutes: 'Tiden det tager at lave og sende et tilbud i dag: finde prisen, skrive det op og sende det.',
     followupEntry:
       'Om I følger op på leads, der ikke booker med det samme. Dit svar ændrer det næste spørgsmål: sparet tid hvis I gør, mistet omsætning hvis I ikke gør.',
     leads: 'Hvor mange leads I følger op på i en typisk måned. Vi bruger det til at estimere, hvor meget af den opfølgningstid I kunne spare.',
-    followupMinutes: 'Tiden én opfølgning tager: at skrive beskeden eller ringe, og at huske at gøre det.',
+    followupMinutes: 'Tiden en opfølgning tager: at skrive beskeden eller ringe, og at huske at gøre det.',
     uplift:
       'Hvis I fulgte ordentligt op på hvert lead, hvor meget mere tror du, I ville sælge? Det er omsætning, der glider jer af hænde i dag.',
     reviewsCurrent:
@@ -503,7 +503,7 @@ const da: CalculatorCopy = {
     inventoryEntry:
       'Om I holder styr på jeres flyttekasser og udstyr. Uanset hvad, udfyld de næste spørgsmål med jeres bedste skøn.',
     inventoryItems: 'Hvor mange kasser der forsvinder i en typisk måned. Et groft tal er nok; de fleste flyttefirmaer har en fornemmelse.',
-    inventoryMinutes: 'Tiden brugt på at opspore én forsvundet kasse: opkald, beskeder og at jagte kunden.',
+    inventoryMinutes: 'Tiden brugt på at opspore en forsvundet kasse: opkald, beskeder og at jagte kunden.',
     inventoryCost: 'Hvad det koster at købe en ny kasse. Vi bruger det til at vise, hvad mistede kasser koster jer hver måned.',
   },
   result: {

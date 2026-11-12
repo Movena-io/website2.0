@@ -1,10 +1,12 @@
 'use client'
 
-import { useLanguage } from '@/lib/LanguageContext'
-import ForsideDa from '@/components/generated/ForsideDa'
-import ForsideEn from '@/components/generated/ForsideEn'
+import { SiteShell } from '@/components/redesign/Layout'
+import HomePage from '@/components/redesign/HomePage'
 
 export default function Home() {
-  const { locale } = useLanguage()
-  return locale === 'da' ? <ForsideDa /> : <ForsideEn />
+  return (
+    <SiteShell>
+      <HomePage />
+    </SiteShell>
+  )
 }

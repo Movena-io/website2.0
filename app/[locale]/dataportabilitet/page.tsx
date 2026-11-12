@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
-import Header from '@/components/Header'
-import Footer from '@/components/Footer'
+import { SiteShell } from '@/components/redesign/Layout'
+import { LegalPage } from '@/components/redesign/OtherPages'
 import { isLocale } from '@/lib/locales'
 
 // Danish only. The page lives in the Danish route tree but is served at the
@@ -24,16 +24,9 @@ export async function generateMetadata({
 
 export default function DataPortability() {
   return (
-    <>
-      <Header />
-      <main className="bg-white">
-        <div className="max-w-3xl mx-auto px-6 py-20">
-          <h1 className="text-[40px] font-bold tracking-[-0.025em] text-[#0B1F3B] mb-3">
-            Dataportabilitet og skift af leverandør
-          </h1>
-          <p className="text-[14px] text-[#475569] mb-12">Senest opdateret: 21. september 2026</p>
+    <SiteShell>
+      <LegalPage title="Dataportabilitet og skift af leverandør" updated="Senest opdateret: 21. september 2026">
 
-          <div className="prose-custom">
 
             <Intro>
               <p>
@@ -53,7 +46,7 @@ export default function DataPortability() {
                 </li>
                 <li>
                   Vi går i gang senest 2 måneder efter anmodningen og gennemfører skiftet inden for
-                  højst 30 kalenderdage. I kan selv forlænge perioden én gang.
+                  højst 30 kalenderdage. I kan selv forlænge perioden en gang.
                 </li>
                 <li>
                   Kan skiftet teknisk ikke gennemføres inden for 30 dage, giver vi jer besked inden
@@ -92,7 +85,7 @@ export default function DataPortability() {
               <Table
                 headers={['Data', 'Format']}
                 rows={[
-                  ['Alle tabeller', 'Én JSON-fil pr. tabel (RFC 8259)'],
+                  ['Alle tabeller', 'En JSON-fil pr. tabel (RFC 8259)'],
                   ['Leads, fakturaer og tidsregistreringer', 'Derudover som CSV'],
                   ['Uploadede filer', 'Originalformat, som de blev uploadet'],
                   [
@@ -194,31 +187,22 @@ export default function DataPortability() {
               <p>Movena ApS · CVR-nr. 46764129 · Rådhuspladsen 16, kl. 2, 1550 København V</p>
             </Section>
 
-          </div>
-        </div>
-      </main>
-      <Footer />
-    </>
+      </LegalPage>
+    </SiteShell>
   )
 }
 
-const BODY_CLASS =
-  'flex flex-col gap-3 text-[16px] font-normal text-[#475569] leading-[1.75] ' +
-  '[&_ul]:list-disc [&_ul]:pl-5 [&_ul]:flex [&_ul]:flex-col [&_ul]:gap-1.5 ' +
-  '[&_ol]:list-decimal [&_ol]:pl-5 [&_ol]:flex [&_ol]:flex-col [&_ol]:gap-1.5 ' +
-  '[&_strong]:font-semibold [&_strong]:text-[#0F172A] ' +
-  '[&_a]:text-[#1D4ED8] hover:[&_a]:underline'
-
+// Plain elements: the page's .longform wrapper (app/redesign-site.css) styles them.
 function Intro({ children }: { children: React.ReactNode }) {
-  return <div className={`mb-10 ${BODY_CLASS}`}>{children}</div>
+  return <>{children}</>
 }
 
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
   return (
-    <div className="mb-10">
-      <h2 className="text-[20px] font-bold text-[#0B1F3B] mb-4 tracking-[-0.01em]">{title}</h2>
-      <div className={BODY_CLASS}>{children}</div>
-    </div>
+    <>
+      <h2>{title}</h2>
+      {children}
+    </>
   )
 }
 
@@ -228,33 +212,20 @@ function Section({ title, children }: { title: string; children: React.ReactNode
 // without a scrollbar and only the wide one gets one.
 function Table({ headers, rows }: { headers: string[]; rows: string[][] }) {
   return (
-    <div className="overflow-x-auto rounded-lg border border-[#E2E8F0]">
-      <table
-        style={{ minWidth: `${headers.length * 150}px` }}
-        className="w-full border-collapse text-left text-[14px] leading-[1.6]"
-      >
+    <div className="table-frame">
+      <table style={{ minWidth: `${headers.length * 150}px` }}>
         <thead>
-          <tr className="bg-[#F8FAFC]">
+          <tr>
             {headers.map((header) => (
-              <th
-                key={header}
-                className="border-b border-[#E2E8F0] px-4 py-3 font-semibold text-[#0F172A] align-top"
-              >
-                {header}
-              </th>
+              <th key={header}>{header}</th>
             ))}
           </tr>
         </thead>
         <tbody>
           {rows.map((row) => (
-            <tr key={row[0]} className="border-b border-[#E2E8F0] last:border-b-0">
+            <tr key={row[0]}>
               {row.map((cell, i) => (
-                <td
-                  key={i}
-                  className={`px-4 py-3 align-top ${
-                    i === 0 ? 'font-medium text-[#0F172A]' : 'text-[#475569]'
-                  }`}
-                >
+                <td key={i} data-label={headers[i]}>
                   {cell}
                 </td>
               ))}

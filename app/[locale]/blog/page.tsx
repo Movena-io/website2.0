@@ -1,7 +1,8 @@
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { getAllPosts } from '@/lib/blog'
-import BlogIndexView, { type Card } from '@/components/site/BlogIndex'
+import { SiteShell } from '@/components/redesign/Layout'
+import { BlogIndexPage, type BlogCardData as Card } from '@/components/redesign/OtherPages'
 import { translations } from '@/lib/translations'
 import { LOCALES, isLocale, type Locale } from '@/lib/locales'
 
@@ -82,7 +83,11 @@ export default function BlogIndex({ params }: { params: { locale: string } }) {
     image: post.image,
   }))
 
-  return <BlogIndexView cards={cards} />
+  return (
+    <SiteShell>
+      <BlogIndexPage cards={cards} />
+    </SiteShell>
+  )
 }
 
 // "Villads Laun" -> "VL". The design shows an avatar disc with initials.

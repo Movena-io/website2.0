@@ -1,8 +1,7 @@
 'use client'
 
-import { useLanguage } from '@/lib/LanguageContext'
-import NotFoundDa from '@/components/generated/NotFoundDa'
-import NotFoundEn from '@/components/generated/NotFoundEn'
+import { SiteShell } from '@/components/redesign/Layout'
+import { NotFoundPage } from '@/components/redesign/OtherPages'
 
 // Any URL under /da or /en that matches no real route renders the redesigned
 // 404 here rather than through Next's not-found boundary. This project's root
@@ -13,6 +12,9 @@ import NotFoundEn from '@/components/generated/NotFoundEn'
 // code in the App Router; fixing it properly means lifting the root layout to
 // app/layout.tsx so a real app/not-found.tsx can exist.
 export default function CatchAll() {
-  const { locale } = useLanguage()
-  return locale === 'da' ? <NotFoundDa /> : <NotFoundEn />
+  return (
+    <SiteShell>
+      <NotFoundPage />
+    </SiteShell>
+  )
 }

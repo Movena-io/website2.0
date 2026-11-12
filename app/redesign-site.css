@@ -1,0 +1,608 @@
+/* Things the live site needs that the design has no styles for. Everything
+   here reuses the design's tokens and borrows its nearest existing pattern,
+   so redesign.css can stay a verbatim copy of the design. */
+
+/* Header: the one addition to the design's header, a quiet DA/EN switch in
+   front of "Log ind" (same size and colour family as .login-link). */
+.lang-inline {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  font-size: 0.78rem;
+  letter-spacing: 0.04em;
+}
+.lang-inline > * {
+  border-radius: 4px;
+  padding: 4px 5px;
+  text-decoration: none;
+}
+.lang-inline > span {
+  color: var(--color-ink);
+}
+.lang-inline > a {
+  color: #94a3b8;
+}
+.lang-inline > a:hover {
+  color: var(--color-primary);
+}
+@media (max-width: 900px) {
+  .nav-actions > .lang-inline {
+    display: none;
+  }
+}
+.mobile-nav .lang-inline-mobile {
+  padding: 10px 6px;
+}
+.mobile-nav .lang-inline-mobile > * {
+  padding: 4px 6px;
+}
+
+/* Footer: data portability and cookie settings in the bottom bar, in the
+   bar's own colour and size. */
+.footer-bottom-legal a,
+.footer-bottom-legal .footer-link-button {
+  border: 0;
+  padding: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  text-decoration: none;
+  cursor: pointer;
+}
+.footer-bottom-legal a:hover,
+.footer-bottom-legal .footer-link-button:hover {
+  color: white;
+}
+/* Footer without the Funktioner column: brand plus two link columns. With
+   one column fewer, the Kontakt column fits at every width, so the design's
+   "hide the last column below 1100px" rule is undone here. */
+.site .footer-inner {
+  grid-template-columns: 1.4fr 0.6fr 0.6fr;
+}
+@media (max-width: 1100px) {
+  .site .footer-column:last-child {
+    display: flex;
+  }
+}
+@media (max-width: 900px) {
+  .site .footer-inner {
+    grid-template-columns: 1fr 1fr;
+  }
+  .site .footer-brand {
+    grid-column: 1 / -1;
+  }
+}
+.footer-mobile-extra {
+  display: none;
+}
+
+/* Demo form: validation and result states (the design's form never submits) */
+.field-required {
+  color: var(--color-primary);
+}
+
+.field-optional {
+  color: #94a3b8;
+}
+
+.field-error {
+  margin: 6px 0 0;
+  color: #b42318;
+  font-size: 0.72rem;
+}
+
+.field input[aria-invalid='true'],
+.field select[aria-invalid='true'] {
+  border-color: #b42318;
+}
+
+.form-alert {
+  margin: 0;
+  color: #b42318;
+  font-size: 0.8rem;
+}
+
+.form-alert a {
+  color: inherit;
+}
+
+.form-note a {
+  color: inherit;
+}
+
+.form-sent {
+  display: flex;
+  min-height: 380px;
+  flex-direction: column;
+  justify-content: center;
+  gap: 16px;
+}
+
+.form-sent h3 {
+  color: var(--color-navy);
+  font-size: 1.5rem;
+  line-height: 1.25;
+}
+
+.form-sent p {
+  color: #526278;
+}
+
+.form-sent p a {
+  color: var(--color-primary);
+}
+
+/* Long-form text: blog articles (markdown HTML), privacy policy and data
+   portability. The design only styles its own sample article (.article-body >
+   p/ul/blockquote); this extends the same sizes and colours to every element
+   the real content uses. */
+.longform {
+  color: #334155;
+  font-size: 1rem;
+  line-height: 1.85;
+}
+.longform > :first-child {
+  margin-top: 0;
+}
+.longform h2 {
+  margin: 52px 0 20px;
+  color: var(--color-navy);
+  font-size: clamp(1.45rem, 2.4vw, 1.9rem);
+  line-height: 1.15;
+  letter-spacing: -0.035em;
+  scroll-margin-top: 96px;
+}
+.longform h3 {
+  margin: 36px 0 12px;
+  color: var(--color-navy);
+  font-size: 1.2rem;
+  line-height: 1.3;
+  letter-spacing: -0.02em;
+  scroll-margin-top: 96px;
+}
+.longform p {
+  margin: 0 0 25px;
+}
+.longform ul,
+.longform ol {
+  display: grid;
+  gap: 8px;
+  margin: 0 0 25px;
+  padding-left: 22px;
+}
+.longform ul {
+  list-style: disc;
+}
+.longform ol {
+  list-style: decimal;
+}
+.longform li::marker {
+  color: var(--color-primary);
+}
+.longform a {
+  color: var(--color-primary);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.longform strong {
+  color: var(--color-navy);
+}
+.longform blockquote {
+  margin: 48px 0;
+  border-left: 3px solid var(--color-primary);
+  padding: 4px 0 4px 28px;
+  color: var(--color-navy);
+  font-size: 1.35rem;
+  line-height: 1.55;
+  letter-spacing: -0.02em;
+}
+.longform blockquote p {
+  margin: 0;
+}
+.longform img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  margin: 45px 0;
+  border-radius: 6px;
+}
+.longform hr {
+  margin: 48px 0;
+  border: 0;
+  border-top: 1px solid #e2e8f0;
+}
+.longform .table-frame,
+.longform table {
+  margin: 0 0 25px;
+}
+.longform .table-frame {
+  overflow-x: auto;
+  border: 1px solid #e2e8f0;
+  border-radius: 4px;
+}
+.longform table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.86rem;
+  line-height: 1.6;
+}
+.longform .table-frame table {
+  margin: 0;
+}
+.longform th,
+.longform td {
+  border-bottom: 1px solid #e2e8f0;
+  padding: 11px 14px;
+  text-align: left;
+  vertical-align: top;
+}
+.longform th {
+  background: #f8fafc;
+  color: var(--color-navy);
+}
+.longform tr:last-child td {
+  border-bottom: 0;
+}
+.longform .legal-summary {
+  margin: 0 0 25px;
+  border: 1px solid #dbe4ef;
+  border-radius: 4px;
+  padding: 20px 24px;
+  background: #f8fafc;
+}
+
+/* Legal pages: the design's .legal-page header with the text in the
+   article column. */
+.legal-page .legal-updated {
+  margin: 18px 0 0;
+  color: #64748b;
+  font-size: 0.82rem;
+}
+.legal-page .longform {
+  max-width: 740px;
+  margin-top: 55px;
+}
+
+/* Blog: real cover images in the design's card art and article cover. */
+.blog-art > img.blog-cover,
+.article-cover img.blog-cover {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  /* The covers are 1200x627 with their headline baked in, so they are fitted,
+     not cropped. Their navy background runs into the frame's. */
+  object-fit: contain;
+  transform: none;
+}
+.blog-art:has(> img.blog-cover) {
+  background: #071023;
+}
+.article-cover .article-cover-frame {
+  aspect-ratio: 1200 / 627;
+  position: relative;
+  overflow: hidden;
+  border-radius: 6px;
+  background: #071023;
+}
+.blog-empty {
+  color: #64748b;
+}
+.author-box strong {
+  display: block;
+}
+
+/* Contact page: the design's form card around a free-text message. */
+.field textarea {
+  width: 100%;
+  min-height: 140px;
+  appearance: none;
+  border: 1px solid #d8dee7;
+  border-radius: 4px;
+  padding: 10px 11px;
+  background: white;
+  color: var(--color-ink);
+  font: inherit;
+  font-size: 0.8rem;
+  resize: vertical;
+}
+.field textarea[aria-invalid='true'] {
+  border-color: #b42318;
+}
+.field-wide {
+  grid-column: 1 / -1;
+}
+
+/* About: the team cards carry a real name, role and e-mail. */
+.team-cards a {
+  display: block;
+  padding-inline: 17px;
+  margin-top: 6px;
+  color: var(--color-primary);
+  font-size: 0.7rem;
+  text-decoration: none;
+}
+.longform .table-frame table { min-width: 600px; }
+
+/* Front page: customer story under the hero. Not in the design export; built
+   from its tokens: .value-tag label, heading type for the quote, muted
+   attribution and the design's white bordered cards for the logos. */
+.customer-story {
+  border-bottom: 1px solid #e2e8f0;
+  background: white;
+}
+.customer-story-inner {
+  display: grid;
+  width: min(100% - 40px, 1280px);
+  grid-template-columns: 1.35fr 0.65fr;
+  align-items: center;
+  gap: 80px;
+  margin-inline: auto;
+  padding-block: 96px;
+}
+.customer-quote {
+  margin: 0;
+}
+.customer-quote .value-tag {
+  margin-bottom: 26px;
+}
+.customer-quote blockquote {
+  margin: 0;
+}
+.customer-quote blockquote p {
+  margin: 0;
+  color: var(--color-navy);
+  font-size: clamp(1.6rem, 2.6vw, 2.35rem);
+  line-height: 1.18;
+  letter-spacing: -0.035em;
+}
+.customer-quote figcaption {
+  margin-top: 26px;
+  color: #64748b;
+  font-size: 0.86rem;
+}
+.customer-quote figcaption strong {
+  color: var(--color-ink);
+}
+.customer-logos {
+  display: grid;
+  gap: 14px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.customer-logos li {
+  display: flex;
+  height: 132px;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #e2e8f0;
+  border-radius: 4px;
+  padding: 24px 32px;
+  background: #f8fafc;
+}
+/* Both logos share one visual height. */
+.customer-logos .logo-rh {
+  display: block;
+  width: auto;
+  height: 56px;
+}
+@font-face {
+  font-family: 'Poppins Athene';
+  src: url('/fonts/poppins-700-latin.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+.customer-logos .logo-athene {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  height: 56px;
+}
+.customer-logos .logo-athene img {
+  display: block;
+  width: auto;
+  height: 56px;
+}
+.site .customer-logos .logo-athene > span {
+  color: #ff3030;
+  font-family: 'Poppins Athene', 'Poppins', sans-serif;
+  font-size: 1.12rem;
+  font-weight: 700 !important;
+  letter-spacing: 0;
+  line-height: 1;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+@media (max-width: 900px) {
+  .customer-story-inner {
+    width: calc(100% - 32px);
+    grid-template-columns: 1fr;
+    gap: 40px;
+    padding-block: 72px;
+  }
+  .customer-logos li {
+    height: 104px;
+    padding: 18px;
+  }
+  .customer-logos .logo-rh,
+  .customer-logos .logo-athene,
+  .customer-logos .logo-athene img {
+    height: 48px;
+  }
+  .site .customer-logos .logo-athene > span {
+    font-size: 0.98rem;
+  }
+}
+
+/* Launch step 1: the footer lists the three existing feature pages. The
+   design's two-column grid is built for eight, so three get the layout of the
+   other footer columns. */
+.footer-features.footer-features-compact {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Front page, walkthrough step "02 / 05 Tilbud": the three quote cards need
+   ~660px side by side, but between ~1100 and ~1440px the step's visual column
+   is narrower than that, so in the design export they spill over the heading
+   and text next to them. The cards now follow the width of their own column
+   (container query) instead of the window, and can never be wider than it. */
+.walkthrough-visual:has(> .quote-journey) {
+  container-type: inline-size;
+  min-width: 0;
+}
+/* This step is reversed (visual left), but the design keeps the visual in the
+   narrow track and lets the cards spill out of it. Give the visual the wide
+   track instead, so the cards have room beside the text. */
+@media (min-width: 901px) {
+  .walkthrough-step-reverse:has(.quote-journey) {
+    grid-template-columns: minmax(0, 1.28fr) minmax(280px, 0.72fr);
+  }
+}
+.quote-journey {
+  grid-template-columns: minmax(0, 0.86fr) 28px minmax(0, 1.15fr) 28px minmax(0, 0.9fr);
+}
+@container (max-width: 660px) {
+  .quote-journey {
+    grid-template-columns: minmax(0, 1fr) 28px minmax(0, 1.1fr);
+    gap: 12px;
+  }
+  .quote-journey > .quote-journey-arrow:nth-of-type(2) {
+    grid-column: 1 / -1;
+    margin-inline: auto;
+    transform: rotate(90deg);
+  }
+  .quote-send-card {
+    width: min(100%, 320px);
+    grid-column: 1 / -1;
+    justify-self: center;
+  }
+}
+@container (max-width: 420px) {
+  .quote-journey {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 8px;
+  }
+  .quote-journey > .quote-journey-arrow,
+  .quote-journey > .quote-journey-arrow:nth-of-type(2) {
+    width: auto;
+    grid-column: auto;
+    margin-inline: auto;
+    transform: rotate(90deg);
+  }
+  .quote-send-card {
+    width: auto;
+    grid-column: auto;
+    justify-self: stretch;
+  }
+}
+
+/* Front page hero: the design widens the illustration 80px past its column
+   (margin-right: -40px) and nudges the phone 2px further, so at most widths
+   the phone touches or crosses the right edge of the window. It now stays
+   inside the page margin like everything else. */
+@media (min-width: 1101px) {
+  .site .hero-journey {
+    width: 100%;
+    margin-right: 0;
+  }
+}
+.site .hero-phone {
+  right: 0;
+}
+
+/* About, principle cards: the design's ".principle-page-card > span" rule pins
+   both the number and the icon box to the top right, so on narrow cards (e.g.
+   768px) the title and description run underneath the icon. They now keep
+   clear of it. */
+.principle-page-card > .heading,
+.principle-page-card > p {
+  margin-right: 52px;
+}
+
+/* The three earlier feature pages: their product windows have a fixed
+   minimum width of 520px. Wherever their column is narrower (phones, and the
+   two-column hero around 1024px) they ran past the screen edge and the fake UI
+   was cut off mid-word. They now scale down to fit their column. */
+[data-dc] div:has(> [style*='min-width:520px']) {
+  container-type: inline-size;
+}
+@container (max-width: 519px) {
+  [data-dc] [style*='min-width:520px'] { zoom: 0.9; }
+}
+@container (max-width: 468px) {
+  [data-dc] [style*='min-width:520px'] { zoom: 0.8; }
+}
+@container (max-width: 416px) {
+  [data-dc] [style*='min-width:520px'] { zoom: 0.7; }
+}
+@container (max-width: 364px) {
+  [data-dc] [style*='min-width:520px'] { zoom: 0.6; }
+}
+@container (max-width: 312px) {
+  [data-dc] [style*='min-width:520px'] { zoom: 0.52; }
+}
+
+/* About, "Bygget med flyttehverdagen" strip: the design drifts the row a
+   fixed 35% left and then jumps back. On wide screens that leaves an empty
+   stretch at the right before the jump. The row now glides back and forth
+   between its first and last card, so nothing jumps and no gap opens. */
+.site .reasons-scroll {
+  animation: reasons-glide 40s ease-in-out infinite alternate;
+}
+@keyframes reasons-glide {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(min(0px, calc(100vw - 100%)));
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .site .reasons-scroll {
+    animation: none;
+  }
+}
+
+/* Blog filters: on phones the design makes them a sideways-scrolling row, so
+   the last pill is cut off at the screen edge. They wrap instead. */
+.site .blog-filters {
+  flex-wrap: wrap;
+  overflow: visible;
+}
+
+/* Legal tables (privacy cookies, data portability suppliers): on phones the
+   columns no longer scroll sideways out of view. Each row becomes a small
+   card with the column name in front of every value. */
+@media (max-width: 640px) {
+  .longform .table-frame {
+    overflow: visible;
+    border: 0;
+  }
+  .longform .table-frame table {
+    min-width: 0 !important;
+  }
+  .longform .table-frame thead {
+    display: none;
+  }
+  .longform .table-frame tr {
+    display: block;
+    margin-bottom: 12px;
+    border: 1px solid #e2e8f0;
+    border-radius: 4px;
+    padding: 6px 0;
+  }
+  .longform .table-frame td {
+    display: grid;
+    grid-template-columns: 38% 1fr;
+    gap: 10px;
+    border: 0;
+    padding: 6px 14px;
+  }
+  .longform .table-frame td::before {
+    content: attr(data-label);
+    color: #64748b;
+  }
+}

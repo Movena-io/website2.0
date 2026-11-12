@@ -207,7 +207,7 @@ function Hero() {
       </div>
       <div className="hero-inner">
         <div className="hero-copy">
-          <Eyebrow>{t('Driften samlet ét sted', 'Operations in one place')}</Eyebrow>
+          <Eyebrow>{t('Driften samlet et sted', 'Operations in one place')}</Eyebrow>
           <Heading as="h1" size="display">
             <span className="hero-heading-line">{t('Hvor flyttefirmaer styrer', 'Where moving companies run')}</span>
             <span className="hero-heading-line">
@@ -479,7 +479,7 @@ function Walkthrough() {
           eyebrow={t('Fra lead til betaling', 'From lead to payment')}
           title={t('Sådan fungerer Movena', 'How Movena works')}
           text={t(
-            'Følg hele flytningen i ét samlet flow – fra den første henvendelse til jobbet er udført og betalt.',
+            'Følg hele flytningen i et samlet flow – fra den første henvendelse til jobbet er udført og betalt.',
             'Follow the whole move in one flow – from the first enquiry until the job is done and paid.',
           )}
           align="center"
@@ -665,13 +665,13 @@ function ValueSection() {
       <div className="value-bento">
         <article className="value-card value-card-wide">
           <div className="value-copy">
-            <span className="value-tag">{t('Ét system', 'One system')}</span>
+            <span className="value-tag">{t('Et system', 'One system')}</span>
             <Heading as="h3" size="md" className="value-wide-heading">
-              {t('Alt samlet ét sted - uden at skifte mellem systemer', 'Everything in one place - without switching between systems')}
+              {t('Alt samlet et sted - uden at skifte mellem systemer', 'Everything in one place - without switching between systems')}
             </Heading>
             <p>
               {t(
-                'Movena er bygget specifikt til flytteforretninger, så leads, tilbud, planlægning, mandskab, jobs og betalinger hænger sammen ét sted.',
+                'Movena er bygget specifikt til flytteforretninger, så leads, tilbud, planlægning, mandskab, jobs og betalinger hænger sammen et sted.',
                 'Movena is built specifically for moving businesses, so leads, quotes, planning, crew, jobs and payments fit together in one place.',
               )}
             </p>
@@ -1006,14 +1006,14 @@ function CalculatorSection() {
         </div>
         <div className="calc-result">
           <small>{t('Illustrativt potentiale', 'Illustrative potential')}</small>
-          <strong>{t('Ét samlet flow', 'One complete flow')}</strong>
+          <strong>{t('Et samlet flow', 'One complete flow')}</strong>
           <p>{t('fra første forespørgsel til afsluttet betaling', 'from first enquiry to completed payment')}</p>
           <div>
             <span>
               <Check /> {t('Færre manuelle overførsler', 'Fewer manual handovers')}
             </span>
             <span>
-              <Check /> {t('Ét fælles kundeoverblik', 'One shared customer overview')}
+              <Check /> {t('Et fælles kundeoverblik', 'One shared customer overview')}
             </span>
             <span>
               <Check /> {t('Samme data på kontor og mobil', 'The same data in the office and on mobile')}

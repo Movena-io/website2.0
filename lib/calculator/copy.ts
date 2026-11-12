@@ -418,7 +418,7 @@ const da: CalculatorCopy = {
     entry: 'Sender I tilbud til kunder?',
     title: 'Tilbud',
     quotesLabel: 'Hvor mange tilbud sender I om måneden?',
-    minutesLabel: 'Hvor mange minutter tager ét tilbud?',
+    minutesLabel: 'Hvor mange minutter tager et tilbud?',
     minutesHelp: 'Finde tal, skrive det op, sende det.',
   },
   followup: {
@@ -484,7 +484,7 @@ const da: CalculatorCopy = {
     quotingEntry:
       'Om I sender kunder et pristilbud før en opgave. Hvis I gør, estimerer vi, hvor meget af den tid I kunne spare.',
     quotes: 'Hvor mange tilbud I sender i en typisk måned. Jo flere I sender, jo større er tidsbesparelsen.',
-    quoteMinutes: 'Tiden det tager at lave og sende ét tilbud i dag: finde prisen, skrive det op og sende det.',
+    quoteMinutes: 'Tiden det tager at lave og sende et tilbud i dag: finde prisen, skrive det op og sende det.',
     followupEntry:
       'Om I følger op på leads, der ikke booker med det samme. Dit svar ændrer det næste spørgsmål: sparet tid hvis I gør, mistet omsætning hvis I ikke gør.',
     leads: 'Hvor mange leads I følger op på i en typisk måned. Vi bruger det til at estimere, hvor meget af den opfølgningstid I kunne spare.',

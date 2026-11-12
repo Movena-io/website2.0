@@ -1,8 +1,10 @@
 import type { Locale } from '@/lib/locales'
 
 // The eight feature pages from the 2026 redesign. Danish copy is the design's
-// own (src/data/features.ts in the export), word for word; English is a
-// translation of it. Slugs differ per language, like the rest of the site:
+// own (src/data/features.ts in the export), word for word, except that the
+// metric figures carry no numbers (24/7, 100%, "1 klik"...) and "ét" is
+// written "et", per Movena's house style. English is a translation of it.
+// Slugs differ per language, like the rest of the site:
 // /da/funktioner/<da> and /en/features/<en>.
 
 export type VisualType =
@@ -63,9 +65,9 @@ export const features: Feature[] = [
     da: {
       title: 'CRM, der følger kunden hele vejen',
       shortTitle: 'CRM',
-      eyebrow: 'Alle kunder. Alle detaljer. Ét sted.',
+      eyebrow: 'Alle kunder. Alle detaljer. Et sted.',
       description:
-        'Saml forespørgsler, aftaler, noter og historik på ét kundekort, så intet bliver glemt mellem telefonen og flyttebilen.',
+        'Saml forespørgsler, aftaler, noter og historik på et kundekort, så intet bliver glemt mellem telefonen og flyttebilen.',
       statement: 'Fra første opkald til tilbagevendende kunde',
       problems: [
         'Henvendelser i flere indbakker',
@@ -78,7 +80,7 @@ export const features: Feature[] = [
         { title: 'Tydeligt ansvar', text: 'Fordel leads og næste skridt, så alle ved, hvem der gør hvad.' },
         { title: 'Søgbar historik', text: 'Find samtaler og aftaler igen, også når kunden vender tilbage måneder senere.' },
       ],
-      metric: { value: '1', label: 'fælles kundebillede på tværs af hele teamet' },
+      metric: { value: 'Fælles', label: 'kundebillede på tværs af hele teamet' },
       workflow: ['Forespørgsel modtages', 'Kunden kvalificeres', 'Næste skridt aftales'],
       metaTitle: 'CRM til flyttefirmaer | Movena',
     },
@@ -100,7 +102,7 @@ export const features: Feature[] = [
         { title: 'Clear ownership', text: 'Assign leads and next steps, so everyone knows who does what.' },
         { title: 'Searchable history', text: 'Find conversations and agreements again, even when the customer comes back months later.' },
       ],
-      metric: { value: '1', label: 'shared view of the customer across the whole team' },
+      metric: { value: 'Shared', label: 'view of the customer across the whole team' },
       workflow: ['Enquiry comes in', 'Customer is qualified', 'Next step is agreed'],
       metaTitle: 'CRM for moving companies | Movena',
     },
@@ -126,10 +128,10 @@ export const features: Feature[] = [
       capabilities: [
         { title: 'Visuel kalender', text: 'Flyt opgaver og se ledig kapacitet på tværs af dage, biler og teams.' },
         { title: 'Crew og biler', text: 'Match bemanding, kompetencer og køretøjer med den konkrete flytning.' },
-        { title: 'Opgavekort', text: 'Saml adresser, kontaktpersoner, tider og særlige hensyn ét sted.' },
+        { title: 'Opgavekort', text: 'Saml adresser, kontaktpersoner, tider og særlige hensyn et sted.' },
         { title: 'Live status', text: 'Kontoret kan se, om teamet er på vej, i gang eller færdigt.' },
       ],
-      metric: { value: '24/7', label: 'opdateret plan for både kontor og crew' },
+      metric: { value: 'Opdateret', label: 'plan for både kontor og crew' },
       workflow: ['Opgaven bookes', 'Crew og bil fordeles', 'Dagen følges live'],
       metaTitle: 'Opgavestyring til flyttefirmaer | Movena',
     },
@@ -151,7 +153,7 @@ export const features: Feature[] = [
         { title: 'Job cards', text: 'Keep addresses, contacts, times and special requirements in one place.' },
         { title: 'Live status', text: 'The office can see whether the team is on the way, working or done.' },
       ],
-      metric: { value: '24/7', label: 'up-to-date plan for both office and crew' },
+      metric: { value: 'Up to date', label: 'plan for both office and crew' },
       workflow: ['The job is booked', 'Crew and vehicle are assigned', 'The day is followed live'],
       metaTitle: 'Task management for moving companies | Movena',
     },
@@ -180,7 +182,7 @@ export const features: Feature[] = [
         { title: 'Interne opgaver', text: 'Opret automatisk opfølgninger hos den rigtige kollega.' },
         { title: 'Skabeloner', text: 'Byg jeres bedste arbejdsgang én gang og brug den hver gang.' },
       ],
-      metric: { value: '0', label: 'manuelle håndskift i jeres vigtigste standardflows' },
+      metric: { value: 'Færre', label: 'manuelle håndskift i jeres vigtigste standardflows' },
       workflow: ['En hændelse sker', 'Movena udfører reglen', 'Teamet ser resultatet'],
       metaTitle: 'Automationer til flyttefirmaer | Movena',
     },
@@ -202,7 +204,7 @@ export const features: Feature[] = [
         { title: 'Internal tasks', text: 'Automatically create follow-ups for the right colleague.' },
         { title: 'Templates', text: 'Build your best workflow once and use it every time.' },
       ],
-      metric: { value: '0', label: 'manual handovers in your most important standard flows' },
+      metric: { value: 'Fewer', label: 'manual handovers in your most important standard flows' },
       workflow: ['Something happens', 'Movena runs the rule', 'The team sees the result'],
       metaTitle: 'Automations for moving companies | Movena',
     },
@@ -231,7 +233,7 @@ export const features: Feature[] = [
         { title: 'Driftsnøgletal', text: 'Følg omsætning, konvertering og kapacitet i samme virkelighed.' },
         { title: 'Sporbart grundlag', text: 'Gå fra et tal direkte tilbage til kunden og den udførte opgave.' },
       ],
-      metric: { value: '1 klik', label: 'fra godkendt opgave til klar fakturakladde' },
+      metric: { value: 'Direkte', label: 'fra godkendt opgave til klar fakturakladde' },
       workflow: ['Jobbet afsluttes', 'Grundlaget kontrolleres', 'Faktura og betaling følges'],
       metaTitle: 'Økonomistyring til flyttefirmaer | Movena',
     },
@@ -253,7 +255,7 @@ export const features: Feature[] = [
         { title: 'Operating figures', text: 'Follow revenue, conversion and capacity in the same picture.' },
         { title: 'Traceable figures', text: 'Go from a number straight back to the customer and the job done.' },
       ],
-      metric: { value: '1 click', label: 'from approved job to ready invoice draft' },
+      metric: { value: 'Straight', label: 'from approved job to ready invoice draft' },
       workflow: ['The job is completed', 'The details are checked', 'Invoice and payment are followed'],
       metaTitle: 'Finance management for moving companies | Movena',
     },
@@ -333,7 +335,7 @@ export const features: Feature[] = [
         { title: 'Direkte i CRM', text: 'Opret kunden og forespørgslen uden kopiering fra en e-mail.' },
         { title: 'Jeres udtryk', text: 'Tilpas formularen, så den passer naturligt ind på jeres hjemmeside.' },
       ],
-      metric: { value: 'Én gang', label: 'indtaster kunden oplysningerne — derefter følger de med' },
+      metric: { value: 'Kunden selv', label: 'indtaster oplysningerne — derefter følger de med' },
       workflow: ['Kunden beskriver flytningen', 'Leadet lander struktureret', 'Tilbuddet beregnes'],
       metaTitle: 'Tilbudsformular til flyttefirmaer | Movena',
     },
@@ -355,7 +357,7 @@ export const features: Feature[] = [
         { title: 'Straight into the CRM', text: 'Create the customer and the enquiry without copying from an email.' },
         { title: 'Your look', text: 'Adjust the form so it fits naturally on your website.' },
       ],
-      metric: { value: 'Once', label: 'the customer enters the details — after that they follow along' },
+      metric: { value: 'The customer', label: 'enters the details — after that they follow along' },
       workflow: ['The customer describes the move', 'The lead arrives structured', 'The quote is calculated'],
       metaTitle: 'Quote form for moving companies | Movena',
     },
@@ -384,7 +386,7 @@ export const features: Feature[] = [
         { title: 'Planlagt opfølgning', text: 'Sæt næste handling med det samme og få påmindelsen til tiden.' },
         { title: 'Konverteringsdata', text: 'Se hvilke kanaler, sælgere og opgavetyper der skaber forretning.' },
       ],
-      metric: { value: '100%', label: 'synlig pipeline fra nyt lead til vundet opgave' },
+      metric: { value: 'Synlig', label: 'pipeline fra nyt lead til vundet opgave' },
       workflow: ['Leadet prioriteres', 'Tilbuddet sendes', 'Opfølgningen sker til tiden'],
       metaTitle: 'Salg og tilbud til flyttefirmaer | Movena',
     },
@@ -406,7 +408,7 @@ export const features: Feature[] = [
         { title: 'Planned follow-up', text: 'Set the next action straight away and get the reminder on time.' },
         { title: 'Conversion data', text: 'See which channels, salespeople and job types bring in business.' },
       ],
-      metric: { value: '100%', label: 'visible pipeline from new lead to won job' },
+      metric: { value: 'Visible', label: 'pipeline from new lead to won job' },
       workflow: ['The lead is prioritised', 'The quote is sent', 'The follow-up happens on time'],
       metaTitle: 'Sales and quotes for moving companies | Movena',
     },
@@ -435,7 +437,7 @@ export const features: Feature[] = [
         { title: 'Minimumsniveauer', text: 'Bliv gjort opmærksom på varer, før de løber tør.' },
         { title: 'Forbrugshistorik', text: 'Forstå hvad der bruges, hvor det bruges, og hvad det koster.' },
       ],
-      metric: { value: 'Ét lager', label: 'koblet direkte til jobs, biler og kundeaftaler' },
+      metric: { value: 'Et lager', label: 'koblet direkte til jobs, biler og kundeaftaler' },
       workflow: ['Materiel reserveres', 'Udstyr udleveres', 'Beholdningen opdateres'],
       metaTitle: 'Lagerstyring til flyttefirmaer | Movena',
     },

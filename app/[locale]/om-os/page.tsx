@@ -2,7 +2,8 @@ import { notFound } from 'next/navigation'
 import type { Metadata } from 'next'
 import { isLocale } from '@/lib/locales'
 import { pageMetadata } from '@/lib/page-meta'
-import OmOsDa from '@/components/generated/OmOsDa'
+import { SiteShell } from '@/components/redesign/Layout'
+import { AboutPage } from '@/components/redesign/OtherPages'
 
 // This slug belongs to the da tree only; the other locale has its own.
 export function generateMetadata({ params }: { params: { locale: string } }): Metadata {
@@ -12,5 +13,9 @@ export function generateMetadata({ params }: { params: { locale: string } }): Me
 
 export default function Page({ params }: { params: { locale: string } }) {
   if (!isLocale(params.locale) || params.locale !== 'da') notFound()
-  return <OmOsDa />
+  return (
+    <SiteShell>
+      <AboutPage />
+    </SiteShell>
+  )
 }

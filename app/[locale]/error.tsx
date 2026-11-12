@@ -1,9 +1,8 @@
 'use client'
 
 import { useEffect } from 'react'
-import { useLanguage } from '@/lib/LanguageContext'
-import ErrorDa from '@/components/generated/ErrorDa'
-import ErrorEn from '@/components/generated/ErrorEn'
+import { SiteShell } from '@/components/redesign/Layout'
+import { ErrorPage } from '@/components/redesign/OtherPages'
 
 export default function Error({
   error,
@@ -12,7 +11,6 @@ export default function Error({
   error: Error & { digest?: string }
   reset: () => void
 }) {
-  const { locale } = useLanguage()
 
   useEffect(() => {
     // Sentry's client integration picks this up; logging it here keeps the
@@ -20,5 +18,9 @@ export default function Error({
     console.error(error)
   }, [error])
 
-  return locale === 'da' ? <ErrorDa /> : <ErrorEn />
+  return (
+    <SiteShell>
+      <ErrorPage reset={reset} />
+    </SiteShell>
+  )
 }

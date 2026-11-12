@@ -2,7 +2,8 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import { notFound, redirect } from 'next/navigation'
 import { getAllPosts, getPostRoutes, resolvePost } from '@/lib/blog'
-import BlogPostView, { type PostView } from '@/components/site/BlogPost'
+import { SiteShell } from '@/components/redesign/Layout'
+import { BlogArticlePage, type BlogArticleData } from '@/components/redesign/OtherPages'
 import { translations } from '@/lib/translations'
 import { isLocale, type Locale } from '@/lib/locales'
 
@@ -133,23 +134,44 @@ export default function BlogPost({
     ],
   }
 
-  const view: PostView = {
-    title: post.title,
-    excerpt: post.excerpt,
-    categoryLabel: categoryLabel(post.category, locale),
-    author: post.author,
-    initials: post.author
+  const initials = (name: string) =>
+    name
       .split(/\s+/)
       .filter(Boolean)
       .slice(0, 3)
       .map((w) => w[0]?.toUpperCase() ?? '')
-      .join(''),
+      .join('')
+
+  // The design closes an article with two related posts: the two newest other
+  // articles in this language.
+  const related = getAllPosts({ locale })
+    .filter((p) => p.key !== post.key)
+    .slice(0, 2)
+    .map((p) => ({
+      slug: p.slug,
+      title: p.title,
+      excerpt: p.excerpt,
+      category: p.category,
+      categoryLabel: categoryLabel(p.category, locale),
+      author: p.author,
+      initials: initials(p.author),
+      date: formatDate(p.date, locale),
+      readingMinutes: p.readingMinutes,
+      image: p.image,
+    }))
+
+  const view: BlogArticleData = {
+    title: post.title,
+    excerpt: post.excerpt,
+    categoryLabel: categoryLabel(post.category, locale),
+    author: post.author,
+    initials: initials(post.author),
     date: formatDate(post.date, locale),
     readingMinutes: post.readingMinutes,
     image: post.image,
     imageAlt: post.imageAlt,
     html: post.html,
-    toc: post.toc,
+    related,
   }
 
   return (
@@ -162,7 +184,9 @@ export default function BlogPost({
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
       />
-      <BlogPostView post={view} />
+      <SiteShell>
+        <BlogArticlePage post={view} />
+      </SiteShell>
     </>
   )
 }

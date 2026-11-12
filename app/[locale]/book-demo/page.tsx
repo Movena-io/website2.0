@@ -2,8 +2,8 @@ import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { isLocale, type Locale } from '@/lib/locales'
 import { pageMetadata } from '@/lib/page-meta'
-import BookDemoDa from '@/components/generated/BookDemoDa'
-import BookDemoEn from '@/components/generated/BookDemoEn'
+import { SiteShell } from '@/components/redesign/Layout'
+import { CallbackPage } from '@/components/redesign/OtherPages'
 
 // Same slug in both languages.
 export function generateMetadata({ params }: { params: { locale: string } }): Metadata {
@@ -13,5 +13,9 @@ export function generateMetadata({ params }: { params: { locale: string } }): Me
 
 export default function Page({ params }: { params: { locale: string } }) {
   if (!isLocale(params.locale)) notFound()
-  return params.locale === 'da' ? <BookDemoDa /> : <BookDemoEn />
+  return (
+    <SiteShell>
+      <CallbackPage />
+    </SiteShell>
+  )
 }

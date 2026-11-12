@@ -15,6 +15,9 @@ export default function DesignMotion() {
   useEffect(() => {
     const cleanups: Array<() => void> = []
     if (typeof window === 'undefined' || !window.IntersectionObserver || !window.MutationObserver || !Element.prototype.animate) return;
+    // Pages ported to the new design (wrapped in .site) bring their own
+    // animations; this runtime would hide their sections until scrolled to.
+    if (document.querySelector('.site')) return;
         const doc = document;
         const reduce = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
         const EASE = 'cubic-bezier(0.22, 0.61, 0.36, 1)';

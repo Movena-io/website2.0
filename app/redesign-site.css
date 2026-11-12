@@ -174,3 +174,12 @@
 .form-sent p a {
   color: var(--color-primary);
 }
+
+/* globals.css (old site) hides .faq-item until its own script adds .visible.
+   The design uses the same class name for an always-visible accordion row.
+   Remove together with the old components once every page is ported. */
+.site .faq-item {
+  opacity: 1;
+  transform: none;
+  transition: none;
+}

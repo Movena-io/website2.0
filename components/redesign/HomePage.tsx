@@ -211,7 +211,7 @@ function CustomersSection() {
             <p>
               {t(
                 '“Et helt år med dårlige og besværlige systemer. Med Movena har vi endelig fundet det, vi ledte efter.”',
-                '“A whole year of bad and cumbersome systems. With Movena we have finally found what we were looking for.”',
+                '“We spent a whole year on systems that were a pain to use. With Movena, we finally found what we were looking for.”',
               )}
             </p>
           </blockquote>

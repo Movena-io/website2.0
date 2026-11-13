@@ -197,9 +197,9 @@ export default function HomePage() {
 
 // Not in the design export: a customer story added on request (2026-11-12),
 // built from the design's own pieces (value-tag label, heading type, cards).
-// One customer for now: R&H Flyt & Transport, with their own vector logo
-// from rh-flyt.dk. Athene Flyttefirma's badge (public/customers/
-// athene-flyttefirma.png) and its .logo-athene styles are kept for later.
+// Logos are the customers' own: R&H's vector logo from rh-flyt.dk, and
+// Athene's badge (94x84, shown no larger than 64px so it stays sharp) with
+// their name set as text in their own style.
 function CustomersSection() {
   const { t } = useT()
   return (
@@ -217,7 +217,10 @@ function CustomersSection() {
           </blockquote>
           <figcaption>
             <strong>Henning</strong>
-            {t(', ejer af R&H Flyt & Transport', ', owner of R&H Flyt & Transport')}
+            {t(
+              ', ejer af R&H Flyt & Transport og Athene Flyttefirma',
+              ', owner of R&H Flyt & Transport and Athene Flyttefirma',
+            )}
           </figcaption>
         </figure>
         <ul className="customer-logos">
@@ -231,6 +234,16 @@ function CustomersSection() {
               height={549}
               loading="lazy"
             />
+          </li>
+          <li>
+            {/* Athene's badge plus their name, set in their own style from
+                atheneflyt.dk (red #ff3030, Poppins Bold, capitals). Their
+                only wordmark file carries ".DK", a phone number and a slogan. */}
+            <span className="logo-athene" role="img" aria-label="Athene Flyttefirma">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src="/customers/athene-flyttefirma.png" alt="" width={94} height={84} loading="lazy" />
+              <span aria-hidden="true">Athene Flyttefirma</span>
+            </span>
           </li>
         </ul>
       </div>

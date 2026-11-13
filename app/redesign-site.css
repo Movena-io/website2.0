@@ -624,18 +624,6 @@
   }
 }
 
-/* One logo card, centred vertically beside the quote. */
-.customer-logos li:only-child {
-  height: 200px;
-}
-@media (max-width: 900px) {
-  .customer-logos {
-    grid-template-columns: 1fr;
-  }
-  .customer-logos li:only-child {
-    height: 140px;
-  }
-}
 
 /* Phone number as the main call to action, in place of "Bliv ringet op"
    in the header and the front-page hero. */
@@ -679,4 +667,24 @@
     width: 15px;
     height: 15px;
   }
+}
+
+/* Header hover: "Log ind" and the DA/EN switch get the same hover as the
+   design's nav links (light accent background, primary colour) and a
+   pointer cursor. The design left "Log ind" without either. */
+.site .login-link {
+  border-radius: 4px;
+  padding: 11px 13px;
+  text-decoration: none;
+  cursor: pointer;
+  transition: color 150ms ease, background-color 150ms ease;
+}
+.site .login-link:hover,
+.site .lang-inline > a:hover {
+  color: var(--color-primary);
+  background: var(--color-accent);
+}
+.site .lang-inline > a {
+  cursor: pointer;
+  transition: color 150ms ease, background-color 150ms ease;
 }

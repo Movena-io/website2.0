@@ -2,7 +2,7 @@
 
 // Front page from the design (src/pages/HomePage.tsx in the export). Markup,
 // class names and Danish copy are the design's. Changes:
-// - placeholder text is gone: the calculator and demo leads use the current site's
+// - placeholder text is gone: the demo lead uses the current site's
 //   text, the CTA/FAQ leads keep only their real sentence
 // - the FAQ shows the current site's questions and answers (the design's
 //   answers are placeholder text)
@@ -185,7 +185,6 @@ export default function HomePage() {
       <Walkthrough />
       <ValueSection />
       <AboutTeaser />
-      <CalculatorSection />
       <div className="section-shell section-shell-tight">
         <CtaBand />
       </div>
@@ -1028,69 +1027,6 @@ function AboutTeaser() {
               </article>
             )),
           )}
-        </div>
-      </div>
-    </section>
-  )
-}
-
-function CalculatorSection() {
-  const { t } = useT()
-  return (
-    <section className="section-shell calculator-section">
-      <div className="calculator-copy">
-        <Eyebrow>{t('Illustrativ beregner', 'Illustrative calculator')}</Eyebrow>
-        <Heading>{t('Se hvad Movena kan gøre for jer', 'See what Movena can do for you')}</Heading>
-        {/* The design's lead is placeholder text; this is the current calculator page's intro. */}
-        <Lead>
-          {t(
-            'Besvar nogle få spørgsmål om, hvordan I driver jeres forretning i dag, og få en gennemgang af, hvordan den kan optimeres.',
-            'Answer a few questions about how you run your business today and get a breakdown of how you could optimize it.',
-          )}
-        </Lead>
-        <div className="calculator-disclaimer">
-          {t(
-            'Eksempelvisning · resultatet er ikke en beregning eller et løfte.',
-            'Example view · the result is not a calculation or a promise.',
-          )}
-        </div>
-      </div>
-      <div className="calculator-card">
-        <div className="calc-fields">
-          <label>
-            <span>
-              {t('Antal medarbejdere', 'Number of employees')} <b>12</b>
-            </span>
-            <input type="range" min="1" max="50" defaultValue="12" />
-          </label>
-          <label>
-            <span>
-              {t('Flytninger pr. måned', 'Moves per month')} <b>68</b>
-            </span>
-            <input type="range" min="1" max="150" defaultValue="68" />
-          </label>
-          <label>
-            <span>
-              {t('Systemer i brug', 'Systems in use')} <b>4</b>
-            </span>
-            <input type="range" min="1" max="10" defaultValue="4" />
-          </label>
-        </div>
-        <div className="calc-result">
-          <small>{t('Illustrativt potentiale', 'Illustrative potential')}</small>
-          <strong>{t('Et samlet flow', 'One complete flow')}</strong>
-          <p>{t('fra første forespørgsel til afsluttet betaling', 'from first enquiry to completed payment')}</p>
-          <div>
-            <span>
-              <Check /> {t('Færre manuelle overførsler', 'Fewer manual handovers')}
-            </span>
-            <span>
-              <Check /> {t('Et fælles kundeoverblik', 'One shared customer overview')}
-            </span>
-            <span>
-              <Check /> {t('Samme data på kontor og mobil', 'The same data in the office and on mobile')}
-            </span>
-          </div>
         </div>
       </div>
     </section>

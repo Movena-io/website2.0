@@ -606,3 +606,16 @@
     color: #64748b;
   }
 }
+
+/* One logo card, centred vertically beside the quote. */
+.customer-logos li:only-child {
+  height: 200px;
+}
+@media (max-width: 900px) {
+  .customer-logos {
+    grid-template-columns: 1fr;
+  }
+  .customer-logos li:only-child {
+    height: 140px;
+  }
+}

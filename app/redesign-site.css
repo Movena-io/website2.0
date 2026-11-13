@@ -53,23 +53,40 @@
 .footer-bottom-legal .footer-link-button:hover {
   color: white;
 }
-/* Footer without the Funktioner column: brand plus two link columns. With
-   one column fewer, the Kontakt column fits at every width, so the design's
-   "hide the last column below 1100px" rule is undone here. */
+/* Footer: brand plus three link columns (Virksomhed, Kontakt, Jeres data).
+   The design hides its last column below 1100px; here the brand takes its own
+   row instead, so every column stays visible. */
 .site .footer-inner {
-  grid-template-columns: 1.4fr 0.6fr 0.6fr;
+  grid-template-columns: 1.4fr 0.6fr 0.7fr 0.7fr;
+}
+.footer-column .footer-link-button {
+  width: max-content;
+  border: 0;
+  padding: 0;
+  background: none;
+  color: #94a3b8;
+  font: inherit;
+  font-size: 0.75rem;
+  text-align: left;
+  cursor: pointer;
+}
+.footer-column .footer-link-button:hover {
+  color: white;
 }
 @media (max-width: 1100px) {
+  .site .footer-inner {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .site .footer-brand {
+    grid-column: 1 / -1;
+  }
   .site .footer-column:last-child {
     display: flex;
   }
 }
-@media (max-width: 900px) {
+@media (max-width: 600px) {
   .site .footer-inner {
     grid-template-columns: 1fr 1fr;
-  }
-  .site .footer-brand {
-    grid-column: 1 / -1;
   }
 }
 .footer-mobile-extra {
@@ -617,5 +634,49 @@
   }
   .customer-logos li:only-child {
     height: 140px;
+  }
+}
+
+/* Phone number as the main call to action, in place of "Bliv ringet op"
+   in the header and the front-page hero. */
+.call-button svg {
+  width: 18px;
+  height: 18px;
+  flex: none;
+}
+.site .call-button-header {
+  min-height: 44px;
+  padding-inline: 18px;
+  font-size: 1.02rem;
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+}
+.site .call-button-hero {
+  min-height: 56px;
+  padding-inline: 26px;
+  font-size: 1.3rem;
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+}
+.site .call-button-hero svg {
+  width: 22px;
+  height: 22px;
+}
+@media (max-width: 900px) {
+  .site .call-button-header {
+    min-height: 40px;
+    padding-inline: 14px;
+    font-size: 0.95rem;
+  }
+}
+@media (max-width: 400px) {
+  .site .call-button-header {
+    gap: 6px;
+    padding-inline: 10px;
+    font-size: 0.88rem;
+  }
+  .site .call-button-header svg {
+    width: 15px;
+    height: 15px;
   }
 }

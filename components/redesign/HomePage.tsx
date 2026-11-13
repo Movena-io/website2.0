@@ -11,7 +11,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { ROUTES } from '@/lib/site-nav'
 import { CallbackForm } from './Forms'
-import { CtaBand } from './Layout'
+import { CallButton, CtaBand } from './Layout'
 import { PhoneJobVisual, ProductVisual } from './ProductVisual'
 import {
   ArrowRight,
@@ -285,9 +285,7 @@ function Hero() {
             )}
           </Lead>
           <div className="hero-actions">
-            <ButtonLink to={ROUTES[locale].bookDemo}>
-              {t('Bliv ringet op', 'Get a call')} <ArrowRight size={17} />
-            </ButtonLink>
+            <CallButton className="call-button-hero" />
             <a className="button button-outline" href="#saadan-virker-det">
               {t('Se hvordan det virker', 'See how it works')}
             </a>

@@ -46,7 +46,7 @@ export default function DataPortability() {
                 </li>
                 <li>
                   Vi går i gang senest 2 måneder efter anmodningen og gennemfører skiftet inden for
-                  højst 30 kalenderdage. I kan selv forlænge perioden en gang.
+                  højst 30 kalenderdage. I kan selv forlænge perioden én gang.
                 </li>
                 <li>
                   Kan skiftet teknisk ikke gennemføres inden for 30 dage, giver vi jer besked inden
@@ -85,7 +85,7 @@ export default function DataPortability() {
               <Table
                 headers={['Data', 'Format']}
                 rows={[
-                  ['Alle tabeller', 'En JSON-fil pr. tabel (RFC 8259)'],
+                  ['Alle tabeller', 'Én JSON-fil pr. tabel (RFC 8259)'],
                   ['Leads, fakturaer og tidsregistreringer', 'Derudover som CSV'],
                   ['Uploadede filer', 'Originalformat, som de blev uploadet'],
                   [

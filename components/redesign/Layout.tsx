@@ -27,6 +27,7 @@ import {
   CreditCard,
   FileCheck2,
   Menu,
+  Phone,
   Smartphone,
   UsersRound,
   Workflow,
@@ -75,6 +76,19 @@ function navFeatures(locale: Locale): NavFeature[] {
     description: item.blurb,
     icon: LEGACY_ICONS[item.key],
   }))
+}
+
+// The phone number as the main call to action (header and front-page hero).
+// Danish shows the local number, English the international one; both dial
+// +45 50 28 28 56.
+export function CallButton({ className }: { className?: string }) {
+  const { t } = useT()
+  return (
+    <a className={cx('button button-primary call-button', className)} href={PHONE_HREF} aria-label={t(`Ring til os på ${PHONE_DISPLAY}`, `Call us on ${PHONE_DISPLAY}`)}>
+      <Phone aria-hidden="true" />
+      <span>{t('50 28 28 56', PHONE_DISPLAY)}</span>
+    </a>
+  )
 }
 
 /** Every redesigned page renders inside this, like the design's RootLayout. */
@@ -160,9 +174,7 @@ export function SiteHeader() {
           <a className="login-link" href={LOGIN_HREF}>
             {t('Log ind', 'Log in')}
           </a>
-          <ButtonLink to={r.bookDemo} size="small">
-            {t('Bliv ringet op', 'Get a call')}
-          </ButtonLink>
+          <CallButton className="call-button-header" />
           <Button
             variant="ghost"
             size="small"
@@ -231,21 +243,21 @@ function MobileMenu({ hrefFor }: { hrefFor: (code: Locale) => string }) {
       <Link href={r.about}>{t('Om os', 'About')}</Link>
       <Link href={`/${locale}/contact`}>{t('Kontakt', 'Contact')}</Link>
       <a href={LOGIN_HREF}>{t('Log ind', 'Log in')}</a>
-      <Link href={r.bookDemo}>{t('Bliv ringet op', 'Get a call')}</Link>
+      <Link href={r.bookDemo}>{t('Book en demo', 'Book a demo')}</Link>
       <LanguageSwitch hrefFor={hrefFor} className="lang-inline-mobile" />
     </nav>
   )
 }
 
-// The design's footer without the Funktioner column and without "Vilkår":
-// brand, Virksomhed and Kontakt. Feature pages and the calculator are not
-// linked during launch step 1. Data portability and cookie settings sit in
-// the bottom bar after the CVR.
+// The design's footer without the Funktioner column and without "Vilkår".
+// The legal details are word for word as before the redesign (ae7319c): the
+// "Jeres data" group (Dataportabilitet, Privatlivspolitik,
+// Cookieindstillinger) and "Movena ApS · CVR 46764129 · Rådhuspladsen 16,
+// København". Feature pages and the calculator are not linked.
 export function SiteFooter() {
   const { t, locale } = useT()
   const r = ROUTES[locale]
   const openCookieSettings = () => window.dispatchEvent(new Event(COOKIE_SETTINGS_EVENT))
-  const privacy = <Link href={privacyPath(locale)}>{t('Privatliv', 'Privacy')}</Link>
   return (
     <footer className="site-footer">
       <div className="footer-inner">
@@ -274,17 +286,20 @@ export function SiteFooter() {
           <Link href={`/${locale}/contact`}>{t('Kontakt', 'Contact')}</Link>
           <a href={PHONE_HREF}>{PHONE_DISPLAY}</a>
           <a href={`mailto:${EMAIL}`}>{EMAIL}</a>
-          {privacy}
         </div>
-      </div>
-      <div className="footer-bottom">
-        <span className="footer-bottom-legal">
-          © 2026 Movena ApS · CVR 46764129 ·{' '}
+        <div className="footer-column">
+          <span className="footer-title">{t('Jeres data', 'Your data')}</span>
           {/* Unprefixed on purpose: middleware serves it from the Danish tree. */}
-          <a href={DATA_PORTABILITY_PATH}>{t('Dataportabilitet', 'Data portability')}</a> ·{' '}
+          <a href={DATA_PORTABILITY_PATH}>{t('Dataportabilitet', 'Data portability')}</a>
+          <Link href={privacyPath(locale)}>{t('Privatlivspolitik', 'Privacy policy')}</Link>
           <button type="button" className="footer-link-button" onClick={openCookieSettings}>
             {t('Cookieindstillinger', 'Cookie settings')}
           </button>
+        </div>
+      </div>
+      <div className="footer-bottom">
+        <span>
+          Movena ApS · CVR 46764129 · {t('Rådhuspladsen 16, København', 'Rådhuspladsen 16, Copenhagen')}
         </span>
         <span>{t('Bygget til danske flyttevirksomheder', 'Built for Danish moving companies')}</span>
       </div>
